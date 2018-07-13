@@ -13,13 +13,67 @@ class UsersController extends AppController {
  *
  * @var array
  */
-	public $components = array('Paginator');
+	//public $components = array('Paginator');
+	public $components = array(
+		'Auth' => array(
+			'loginRedirect' => array('controller' => 'users', 'action' => 'index'),
+			'logoutRedirect' => array('controller' => 'users', 'action' => 'login'),
+		)
+	);
 
-/**
- * index method
- *
- * @return void
- */
+	public function beforeFilter() {
+		parent::beforeFilter();
+		$this->Auth->allow('login','register');
+		$this->Auth->deny('index');
+	}
+
+	public function register() {
+	    if(!empty($this->request->data)) {
+			pr($this->request->data);die;
+			$this->request->data['User']['status'] = 1;
+			$this->request->data['User']['role_id'] = 1;
+			$username = $this->data['User']['user_name'];
+			$password = $this->data['User']['new_password'];
+			$confirmPassword = $this->data['User']['confirm_passowrd'];
+			$isUserExist = $this->User->find('first',array('conditions'=>array('User.username'=>$username),'contain'=>false));
+			if(!empty($isUserExist)){
+				$this->Session->SetFlash('User already exists!!', 'error');
+				$this->redirect(array('controller'=>'users','action'=>'login'));
+			}
+			if(!empty($password)) {
+				if($password != $confirmPassword){
+					$this->Session->SetFlash('Password does not match', 'error');
+					$this->redirect(array('controller'=>'users','action'=>'login'));
+				}
+			} else {
+				$this->Session->SetFlash('Please enter password', 'error');
+				$this->redirect(array('controller'=>'users','action'=>'login'));
+			}
+            unset($this->request->data['User']['re-password']);
+			if($this->User->save($this->request->data)) {
+					$this->Session->setFlash('You have been registered','/Notifications/success');
+					$this->redirect(array('controller'=>'users','action'=>'login'));
+
+			}
+		}
+	}
+	
+	public function login() {
+		if ($this->request->is('post')) {
+			if ($this->Auth->login()) {
+				$this->redirect($this->Auth->redirect());
+				//$this->Session->setFlash(__('success login in.'), 'success');
+			} else {
+				$this->Session->SetFlash('Invalid username or password, please try again!!', 'error');
+				$this->request->data = array();
+			}
+		}
+	}
+	  
+	public function logout() {
+		$this->redirect($this->Auth->logout());
+	}
+
 	public function index() {
 		$this->layout = "my_layout";
 		$this->User->recursive = 0;

@@ -11,7 +11,7 @@
               <?php echo $this->Form->create('User',array('url'=> array('controller' => 'Users', 'action' => 'Register'),'method'=>'POST')); ?>
                 <span class="splash-title xs-pb-20">Sign Up</span>
                   <div class="form-group">
-                    <?php echo $this->Form->input("User.user_name",array('placeholder'=>'Username','autocomplete'=>'off','required'=>'required','class'=>'form-control','label'=>false));?>
+                    <?php echo $this->Form->input("User.username",array('placeholder'=>'Username','autocomplete'=>'off','required'=>'required','class'=>'form-control','label'=>false));?>
                   </div>
                   <div class="form-group">
                     <?php echo $this->Form->input("User.email",array('placeholder'=>'Email','type'=>'email','autocomplete'=>'off','required'=>'required','class'=>'form-control','label'=>false));?>

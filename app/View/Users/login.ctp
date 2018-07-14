@@ -10,7 +10,7 @@
               <div class="panel-body">
               <?php echo $this->Form->create('User',array('url'=> array('controller' => 'Users', 'action' => 'login'),'method'=>'POST')); ?>
                 <div class="form-group">
-                  <?php echo $this->Form->input("User.user_name",array('placeholder'=>'Username','autocomplete'=>'off','required'=>'required','class'=>'form-control','label'=>false));?>
+                  <?php echo $this->Form->input("User.username",array('placeholder'=>'Username','autocomplete'=>'off','required'=>'required','class'=>'form-control','label'=>false));?>
                 </div>
                 <div class="form-group">
                   <?php echo $this->Form->input("User.password",array('placeholder'=>'password','autocomplete'=>'off','required'=>'required','class'=>'form-control','label'=>false));?>

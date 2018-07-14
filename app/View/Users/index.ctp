@@ -1,54 +1,52 @@
-<div class="users index">
-	<h2><?php echo __('Users'); ?></h2>
-	<table cellpadding="0" cellspacing="0">
-	<thead>
-	<tr>
-			<th><?php echo $this->Paginator->sort('id'); ?></th>
-			<th><?php echo $this->Paginator->sort('user_name'); ?></th>
-			<th><?php echo $this->Paginator->sort('password'); ?></th>
-			<th><?php echo $this->Paginator->sort('email'); ?></th>
-			<th><?php echo $this->Paginator->sort('status'); ?></th>
-			<th><?php echo $this->Paginator->sort('role'); ?></th>
-			<th><?php echo $this->Paginator->sort('created'); ?></th>
-			<th class="actions"><?php echo __('Actions'); ?></th>
-	</tr>
-	</thead>
-	<tbody>
-	<?php foreach ($users as $user): ?>
-	<tr>
-		<td><?php echo h($user['User']['id']); ?>&nbsp;</td>
-		<td><?php echo h($user['User']['user_name']); ?>&nbsp;</td>
-		<td><?php echo h($user['User']['password']); ?>&nbsp;</td>
-		<td><?php echo h($user['User']['email']); ?>&nbsp;</td>
-		<td><?php echo h($user['User']['status']); ?>&nbsp;</td>
-		<td><?php echo h($user['User']['role']); ?>&nbsp;</td>
-		<td><?php echo h($user['User']['created']); ?>&nbsp;</td>
-		<td class="actions">
-			<?php echo $this->Html->link(__('View'), array('action' => 'view', $user['User']['id'])); ?>
-			<?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $user['User']['id'])); ?>
-			<?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $user['User']['id']), array('confirm' => __('Are you sure you want to delete # %s?', $user['User']['id']))); ?>
-		</td>
-	</tr>
-<?php endforeach; ?>
-	</tbody>
-	</table>
-	<p>
-	<?php
-	echo $this->Paginator->counter(array(
-		'format' => __('Page {:page} of {:pages}, showing {:current} records out of {:count} total, starting on record {:start}, ending on {:end}')
-	));
-	?>	</p>
-	<div class="paging">
-	<?php
-		echo $this->Paginator->prev('< ' . __('previous'), array(), null, array('class' => 'prev disabled'));
-		echo $this->Paginator->numbers(array('separator' => ''));
-		echo $this->Paginator->next(__('next') . ' >', array(), null, array('class' => 'next disabled'));
-	?>
-	</div>
-</div>
-<div class="actions">
-	<h3><?php echo __('Actions'); ?></h3>
-	<ul>
-		<li><?php echo $this->Html->link(__('New User'), array('action' => 'add')); ?></li>
-	</ul>
-</div>
+<div class="be-content">
+        <div class="page-head">
+          <h2 class="page-head-title">Users</h2>
+        </div>
+        <div class="main-content container-fluid">
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="panel panel-default panel-table">
+                <div class="panel-heading">Default
+                    <div class="tools">
+                        <span class="icon mdi mdi-download"></span>
+                        <span class="icon mdi mdi-more-vert"></span>
+                        
+                        
+                    </div>
+                </div>
+                <div class="panel-body">
+                  <table id="table1" class="table table-striped table-hover table-fw-widget">
+                    <thead>
+                      <tr>
+                        <th>Name</th>
+						<th>User Name</th>
+                        <th>Email</th>
+                        <th>Mobile</th>
+                        <th>Address</th>
+                        <th>Role</th>
+						<th>Created</th>
+						<th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+					<?php foreach ($userLists as $userList) { ?>
+                      <tr class="odd gradeX">
+                        <td><?php echo $userList['User']['name']; ?></td>
+                        <td><?php echo $userList['User']['username']; ?></td>
+                        <td><?php echo $userList['User']['email']; ?></td>
+                        <td><?php echo $userList['User']['mobile']; ?></td>
+						<td><?php echo $userList['User']['address']; ?></td>
+                        <td class="center"><?php echo $userList['User']['role']; ?></td>
+						<td class="center"><?php echo $userList['User']['created']; ?></td>
+						<td class="center"><?php echo $this->Html->link('<span class="mdi mdi-edit"></span>',array('controller'=>'users','action'=>'edit',$userList['User']['id']),array('escape'=>false)); ?></td>
+                      </tr>
+					<?php } ?>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          
+      </div>

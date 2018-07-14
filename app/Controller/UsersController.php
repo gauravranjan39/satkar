@@ -8,12 +8,6 @@ App::uses('AppController', 'Controller');
  */
 class UsersController extends AppController {
 
-/**
- * Components
- *
- * @var array
- */
-	//public $components = array('Paginator');
 	public $components = array(
 		'Auth' => array(
 			'loginRedirect' => array('controller' => 'users', 'action' => 'index'),
@@ -51,11 +45,16 @@ class UsersController extends AppController {
 	
 	public function login() {
 		if ($this->request->is('post')) {
-			if ($this->Auth->login()) {
-				$this->redirect($this->Auth->redirect());
+			$userStatus = $this->User->find('first',array('conditions'=>array('User.username'=>$this->request->data['User']['username']),'fields'=>array('status')));
+			if ($userStatus['User']['status'] == 0) {
+				$this->Session->SetFlash('Account Deactivated!!', 'error');
 			} else {
-				$this->Session->SetFlash('Invalid username or password, please try again!!', 'error');
-				$this->request->data = array();
+				if ($this->Auth->login()) {
+					$this->redirect($this->Auth->redirect());
+				} else {
+					$this->Session->SetFlash('Invalid username or password, please try again!!', 'error');
+					$this->request->data = array();
+				}
 			}
 		}
 	}
@@ -66,8 +65,8 @@ class UsersController extends AppController {
 
 	public function index() {
 		$this->layout = "my_layout";
-		// $this->User->recursive = 0;
-		// $this->set('users', $this->Paginator->paginate());
+		$userLists = $this->User->find('all');
+		$this->set('userLists',$userLists);
 	}
 
 /**

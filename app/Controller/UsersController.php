@@ -29,32 +29,30 @@ class UsersController extends AppController {
 
 	public function register() {
 	    if(!empty($this->request->data)) {
-			pr($this->request->data);die;
+			//pr($this->request->data);die;
 			$this->request->data['User']['status'] = 1;
-			$this->request->data['User']['role_id'] = 1;
+			$this->request->data['User']['role'] = 1;
 			$username = $this->data['User']['user_name'];
-			$password = $this->data['User']['new_password'];
+			$password = $this->data['User']['password'];
 			$confirmPassword = $this->data['User']['confirm_passowrd'];
-			$isUserExist = $this->User->find('first',array('conditions'=>array('User.username'=>$username),'contain'=>false));
-			if(!empty($isUserExist)){
+			$isUserExist = $this->User->find('first',array('conditions'=>array('User.user_name'=>$username)));
+			//pr($isUserExist);die;
+			if(!empty($isUserExist)) {
 				$this->Session->SetFlash('User already exists!!', 'error');
-				$this->redirect(array('controller'=>'users','action'=>'login'));
+				//$this->redirect(array('controller'=>'users','action'=>'register'));
 			}
-			if(!empty($password)) {
-				if($password != $confirmPassword){
-					$this->Session->SetFlash('Password does not match', 'error');
+			else if($password != $confirmPassword){
+				$this->Session->SetFlash('Password does not match', 'error');
+				//$this->redirect(array('controller'=>'users','action'=>'register'));
+			} else {
+				unset($this->request->data['User']['confirm_passowrd']);
+				$this->request->data['User']['password'] = AuthComponent::password($password);
+				if($this->User->save($this->request->data)) {
 					$this->redirect(array('controller'=>'users','action'=>'login'));
 				}
-			} else {
-				$this->Session->SetFlash('Please enter password', 'error');
-				$this->redirect(array('controller'=>'users','action'=>'login'));
 			}
-            unset($this->request->data['User']['re-password']);
-			if($this->User->save($this->request->data)) {
-					$this->Session->setFlash('You have been registered','/Notifications/success');
-					$this->redirect(array('controller'=>'users','action'=>'login'));
-
-			}
+			
+            
 		}
 	}
 	

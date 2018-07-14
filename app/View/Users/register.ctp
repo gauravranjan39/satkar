@@ -18,7 +18,7 @@
                   </div>
                   <div class="form-group row signup-password">
                     <div class="col-xs-6">
-                        <?php echo $this->Form->input("User.new_password",array('placeholder'=>'Password','type'=>'password','autocomplete'=>'off','required'=>'required','class'=>'form-control','label'=>false));?>
+                        <?php echo $this->Form->input("User.password",array('placeholder'=>'Password','type'=>'password','autocomplete'=>'off','required'=>'required','class'=>'form-control','label'=>false));?>
                     </div>
                     <div class="col-xs-6">
                         <?php echo $this->Form->input("User.confirm_passowrd",array('placeholder'=>'Confirm Password','type'=>'password','autocomplete'=>'off','required'=>'required','class'=>'form-control','label'=>false));?>

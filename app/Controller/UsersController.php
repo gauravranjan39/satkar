@@ -19,9 +19,12 @@ class UsersController extends AppController {
 		parent::beforeFilter();
 		$this->Auth->allow('login','register');
 	}
+	function beforeRender(){
+		$this->set('base_url', 'http://'.$_SERVER['SERVER_NAME'].Router::url('/'));
+	}
 
 	public function register() {
-	    if(!empty($this->request->data)) {
+	    if (!empty($this->request->data)) {
 			$this->request->data['User']['status'] = 1;
 			$this->request->data['User']['role'] = 1;
 			$username = $this->data['User']['username'];
@@ -84,20 +87,32 @@ class UsersController extends AppController {
 		$this->set('user', $this->User->find('first', $options));
 	}
 
-/**
- * add method
- *
- * @return void
- */
 	public function add() {
+		$this->layout = "my_layout";
 		if ($this->request->is('post')) {
+			$this->request->data['User']['status'] = 1;
+			$this->request->data['User']['role'] = 1;
+			$this->request->data['User']['hash_token'] = time();
+			$userPassword = time();
+			$this->request->data['User']['password'] = AuthComponent::password($userPassword);
 			$this->User->create();
 			if ($this->User->save($this->request->data)) {
-				$this->Flash->success(__('The user has been saved.'));
+				$this->Session->SetFlash('The user has been saved', 'success');
 				return $this->redirect(array('action' => 'index'));
 			} else {
-				$this->Flash->error(__('The user could not be saved. Please, try again.'));
+				$this->Session->SetFlash('The user could not be saved. Please, try again.', 'error');
 			}
+		}
+	}
+
+	public function check_email_unique() {
+		$this->autoRender = false;
+		$user_email = $_POST['data'];
+		$chk_email = $this->User->find('first',array('conditions'=>array('email LIKE'=>$user_email)));
+		if ($chk_email) {
+		  echo 0;
+		} else {
+	   		echo 1;
 		}
 	}
 
@@ -109,15 +124,23 @@ class UsersController extends AppController {
  * @return void
  */
 	public function edit($id = null) {
+		//$id = base64_decode($id);
+		$this->layout = "my_layout";
 		if (!$this->User->exists($id)) {
 			throw new NotFoundException(__('Invalid user'));
 		}
 		if ($this->request->is(array('post', 'put'))) {
+				// $this->request->data['User']['hash_token'] = time();
+				// $userPassword = time();
+				$this->request->data['User']['password'] = AuthComponent::password($this->request->data['User']['hash_token']);
+			
+			
+			//pr($this->request->data);die;
 			if ($this->User->save($this->request->data)) {
-				$this->Flash->success(__('The user has been saved.'));
+				//$this->Flash->success(__('The user has been saved.'));
 				return $this->redirect(array('action' => 'index'));
 			} else {
-				$this->Flash->error(__('The user could not be saved. Please, try again.'));
+				//$this->Flash->error(__('The user could not be saved. Please, try again.'));
 			}
 		} else {
 			$options = array('conditions' => array('User.' . $this->User->primaryKey => $id));
@@ -144,5 +167,20 @@ class UsersController extends AppController {
 			$this->Flash->error(__('The user could not be deleted. Please, try again.'));
 		}
 		return $this->redirect(array('action' => 'index'));
+	}
+
+	public function change_status ($id) {
+		$this->autoRender = false;
+		$status = $this->User->find('first',array('recursive'=>-1,'conditions'=>array('User.id'=>$id),'fields'=>array('User.id','User.status')));
+		
+		if($status['User']['status'] == 1){
+			$status['User']['status'] = 0;
+			$data = 0;
+	        }else{
+			$status['User']['status'] = 1;
+			$data = 1;
+	        }
+		$this->User->save($status);
+		return $data;
 	}
 }

@@ -6,7 +6,7 @@
           <ul class="sidebar-elements">
             <li class="divider">Menu</li>
             <li class="active">
-				<?php echo $this->Html->link('<i class="icon mdi mdi-home"></i><span>Dashboard</span>',array('controller'=>'users','action'=>'listing'),array('escape'=>false)); ?>
+				<?php echo $this->Html->link('<i class="icon mdi mdi-home"></i><span>Dashboard</span>',array('controller'=>'users','action'=>'index'),array('escape'=>false)); ?>
 			</li>
             <li class="parent"><a href="#"><i class="icon mdi mdi-face"></i><span>UI Elements</span></a>
               <ul class="sub-menu">

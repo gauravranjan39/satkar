@@ -63,14 +63,14 @@
 				success:function(data){
 					if(data == 0){
 						ref.attr({
-							src: '../satkar/img/circle_red.png',
+							src: '/satkar/img/circle_red.png',
 							value: val,
 							alt:'inactive',
 							title:'Inactive'
 							});
 					}else{
 						ref.attr({
-							src: '../satkar/img/circle_green.png',
+							src: '/satkar/img/circle_green.png',
 							value: val,
 							alt:'active',
 							title:'Active'

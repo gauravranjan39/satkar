@@ -8,21 +8,11 @@ App::uses('AppController', 'Controller');
  */
 class SuppliersController extends AppController {
 
-/**
- * Components
- *
- * @var array
- */
-	public $components = array('Paginator');
 
-/**
- * index method
- *
- * @return void
- */
 	public function index() {
-		$this->Supplier->recursive = 0;
-		$this->set('suppliers', $this->Paginator->paginate());
+		$this->layout = "my_layout";
+		$supplierLists = $this->Supplier->find('all');
+		$this->set('supplierLists',$supplierLists);
 	}
 
 /**
@@ -46,13 +36,13 @@ class SuppliersController extends AppController {
  * @return void
  */
 	public function add() {
+		$this->layout = "my_layout";
 		if ($this->request->is('post')) {
 			$this->Supplier->create();
 			if ($this->Supplier->save($this->request->data)) {
-				$this->Flash->success(__('The supplier has been saved.'));
 				return $this->redirect(array('action' => 'index'));
 			} else {
-				$this->Flash->error(__('The supplier could not be saved. Please, try again.'));
+				$this->Session->SetFlash('The supplier could not be saved. Please, try again.', 'error');
 			}
 		}
 	}
@@ -65,19 +55,32 @@ class SuppliersController extends AppController {
  * @return void
  */
 	public function edit($id = null) {
+		//$id = base64_decode($id);
+		$this->layout = "my_layout";
 		if (!$this->Supplier->exists($id)) {
-			throw new NotFoundException(__('Invalid supplier'));
+			throw new NotFoundException(__('Invalid Supplier'));
 		}
 		if ($this->request->is(array('post', 'put'))) {
+				//$this->request->data['User']['password'] = AuthComponent::password($this->request->data['User']['hash_token']);
 			if ($this->Supplier->save($this->request->data)) {
-				$this->Flash->success(__('The supplier has been saved.'));
 				return $this->redirect(array('action' => 'index'));
 			} else {
-				$this->Flash->error(__('The supplier could not be saved. Please, try again.'));
+				$this->Session->SetFlash('The Supplier could not be saved. Please, try again.', 'error');
 			}
 		} else {
 			$options = array('conditions' => array('Supplier.' . $this->Supplier->primaryKey => $id));
 			$this->request->data = $this->Supplier->find('first', $options);
+		}
+	}
+
+	public function check_email_unique() {
+		$this->autoRender = false;
+		$user_email = $_POST['data'];
+		$chk_email = $this->Supplier->find('first',array('conditions'=>array('email LIKE'=>$user_email)));
+		if ($chk_email) {
+		  echo 0;
+		} else {
+	   		echo 1;
 		}
 	}
 
@@ -151,22 +154,22 @@ class SuppliersController extends AppController {
  * @param string $id
  * @return void
  */
-	public function admin_edit($id = null) {
-		if (!$this->Supplier->exists($id)) {
-			throw new NotFoundException(__('Invalid supplier'));
-		}
-		if ($this->request->is(array('post', 'put'))) {
-			if ($this->Supplier->save($this->request->data)) {
-				$this->Flash->success(__('The supplier has been saved.'));
-				return $this->redirect(array('action' => 'index'));
-			} else {
-				$this->Flash->error(__('The supplier could not be saved. Please, try again.'));
-			}
-		} else {
-			$options = array('conditions' => array('Supplier.' . $this->Supplier->primaryKey => $id));
-			$this->request->data = $this->Supplier->find('first', $options);
-		}
-	}
+	// public function admin_edit($id = null) {
+	// 	if (!$this->Supplier->exists($id)) {
+	// 		throw new NotFoundException(__('Invalid supplier'));
+	// 	}
+	// 	if ($this->request->is(array('post', 'put'))) {
+	// 		if ($this->Supplier->save($this->request->data)) {
+	// 			$this->Flash->success(__('The supplier has been saved.'));
+	// 			return $this->redirect(array('action' => 'index'));
+	// 		} else {
+	// 			$this->Flash->error(__('The supplier could not be saved. Please, try again.'));
+	// 		}
+	// 	} else {
+	// 		$options = array('conditions' => array('Supplier.' . $this->Supplier->primaryKey => $id));
+	// 		$this->request->data = $this->Supplier->find('first', $options);
+	// 	}
+	// }
 
 /**
  * admin_delete method

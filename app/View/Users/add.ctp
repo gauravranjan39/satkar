@@ -1,9 +1,9 @@
 <div class="be-content">
     <div class="main-content container-fluid">
+    <?php echo $this->Session->flash(); ?>
         <div class="row">
         <div class="col-sm-12">
             <div class="panel panel-default panel-border-color panel-border-color-primary">
-            
             <div class="panel-body">
             <?php echo $this->Form->create('User',array('url'=> array('controller' => 'Users', 'action' => 'add'),'method'=>'POST')); ?>
                 <div class="form-group xs-pt-10">

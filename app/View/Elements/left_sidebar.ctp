@@ -8,32 +8,9 @@
             <li class="active">
 				<?php echo $this->Html->link('<i class="icon mdi mdi-home"></i><span>Dashboard</span>',array('controller'=>'users','action'=>'index'),array('escape'=>false)); ?>
 			</li>
-            <li class="parent"><a href="#"><i class="icon mdi mdi-face"></i><span>UI Elements</span></a>
-              <ul class="sub-menu">
-                <li><a href="ui-alerts.html">Alerts</a>
-                </li>
-                <li><a href="ui-buttons.html">Buttons</a>
-                </li>
-                <li><a href="ui-panels.html">Panels</a>
-                </li>
-                <li><a href="ui-general.html">General</a>
-                </li>
-                <li><a href="ui-modals.html">Modals</a>
-                </li>
-                <li><a href="ui-notifications.html">Notifications</a>
-                </li>
-                <li><a href="ui-icons.html">Icons</a>
-                </li>
-                <li><a href="ui-grid.html">Grid</a>
-                </li>
-                <li><a href="ui-tabs-accordions.html">Tabs &amp; Accordions</a>
-                </li>
-                <li><a href="ui-nestable-lists.html">Nestable Lists</a>
-                </li>
-                <li><a href="ui-typography.html"><span class="label label-primary pull-right">New</span>Typography</a>
-                </li>
-              </ul>
-            </li>
+            <li class="">
+				<?php echo $this->Html->link('<i class="icon mdi mdi-face"></i><span>Suppliers</span>',array('controller'=>'suppliers','action'=>'index'),array('escape'=>false)); ?>
+			</li>
             <li class="parent"><a href="charts.html"><i class="icon mdi mdi-chart-donut"></i><span>Charts</span></a>
               <ul class="sub-menu">
                 <li><a href="charts-flot.html">Flot</a>

@@ -1,16 +1,13 @@
 <div class="be-content">
-        <div class="page-head">
-          <h2 class="page-head-title">Users</h2>
-        </div>
         <div class="main-content container-fluid">
           <div class="row">
             <div class="col-sm-12">
               <div class="panel panel-default panel-table">
-                <div class="panel-heading">Default
+                <div class="panel-heading">Users
                     <div class="tools">
-                        <span class="icon mdi mdi-download"></span>
-                        <span class="icon mdi mdi-more-vert"></span>
-						<?php echo $this->Html->link('<span class="icon mdi mdi-plus-circle"></span>',array('controller'=>'users','action'=>'add'),array('escape'=>false)); ?>
+                        <!-- <span class="icon mdi mdi-download"></span>
+                        <span class="icon mdi mdi-more-vert"></span> -->
+						<?php echo $this->Html->link('<div class="icon"><span class="mdi mdi-account-add"></span></div>',array('controller'=>'users','action'=>'add'),array('escape'=>false)); ?>
                         
                     </div>
                 </div>

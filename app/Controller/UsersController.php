@@ -19,9 +19,6 @@ class UsersController extends AppController {
 		parent::beforeFilter();
 		$this->Auth->allow('login','register');
 	}
-	function beforeRender(){
-		$this->set('base_url', 'http://'.$_SERVER['SERVER_NAME'].Router::url('/'));
-	}
 
 	public function register() {
 	    if (!empty($this->request->data)) {
@@ -130,17 +127,11 @@ class UsersController extends AppController {
 			throw new NotFoundException(__('Invalid user'));
 		}
 		if ($this->request->is(array('post', 'put'))) {
-				// $this->request->data['User']['hash_token'] = time();
-				// $userPassword = time();
 				$this->request->data['User']['password'] = AuthComponent::password($this->request->data['User']['hash_token']);
-			
-			
-			//pr($this->request->data);die;
 			if ($this->User->save($this->request->data)) {
-				//$this->Flash->success(__('The user has been saved.'));
 				return $this->redirect(array('action' => 'index'));
 			} else {
-				//$this->Flash->error(__('The user could not be saved. Please, try again.'));
+				$this->Session->SetFlash('The user could not be saved. Please, try again.', 'error');
 			}
 		} else {
 			$options = array('conditions' => array('User.' . $this->User->primaryKey => $id));

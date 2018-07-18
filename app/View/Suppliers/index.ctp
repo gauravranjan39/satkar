@@ -1,54 +1,81 @@
-<div class="suppliers index">
-	<h2><?php echo __('Suppliers'); ?></h2>
-	<table cellpadding="0" cellspacing="0">
-	<thead>
-	<tr>
-			<th><?php echo $this->Paginator->sort('id'); ?></th>
-			<th><?php echo $this->Paginator->sort('name'); ?></th>
-			<th><?php echo $this->Paginator->sort('mobile'); ?></th>
-			<th><?php echo $this->Paginator->sort('email'); ?></th>
-			<th><?php echo $this->Paginator->sort('trade_name'); ?></th>
-			<th><?php echo $this->Paginator->sort('image'); ?></th>
-			<th><?php echo $this->Paginator->sort('created'); ?></th>
-			<th class="actions"><?php echo __('Actions'); ?></th>
-	</tr>
-	</thead>
-	<tbody>
-	<?php foreach ($suppliers as $supplier): ?>
-	<tr>
-		<td><?php echo h($supplier['Supplier']['id']); ?>&nbsp;</td>
-		<td><?php echo h($supplier['Supplier']['name']); ?>&nbsp;</td>
-		<td><?php echo h($supplier['Supplier']['mobile']); ?>&nbsp;</td>
-		<td><?php echo h($supplier['Supplier']['email']); ?>&nbsp;</td>
-		<td><?php echo h($supplier['Supplier']['trade_name']); ?>&nbsp;</td>
-		<td><?php echo h($supplier['Supplier']['image']); ?>&nbsp;</td>
-		<td><?php echo h($supplier['Supplier']['created']); ?>&nbsp;</td>
-		<td class="actions">
-			<?php echo $this->Html->link(__('View'), array('action' => 'view', $supplier['Supplier']['id'])); ?>
-			<?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $supplier['Supplier']['id'])); ?>
-			<?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $supplier['Supplier']['id']), array('confirm' => __('Are you sure you want to delete # %s?', $supplier['Supplier']['id']))); ?>
-		</td>
-	</tr>
-<?php endforeach; ?>
-	</tbody>
-	</table>
-	<p>
-	<?php
-	echo $this->Paginator->counter(array(
-		'format' => __('Page {:page} of {:pages}, showing {:current} records out of {:count} total, starting on record {:start}, ending on {:end}')
-	));
-	?>	</p>
-	<div class="paging">
-	<?php
-		echo $this->Paginator->prev('< ' . __('previous'), array(), null, array('class' => 'prev disabled'));
-		echo $this->Paginator->numbers(array('separator' => ''));
-		echo $this->Paginator->next(__('next') . ' >', array(), null, array('class' => 'next disabled'));
-	?>
-	</div>
-</div>
-<div class="actions">
-	<h3><?php echo __('Actions'); ?></h3>
-	<ul>
-		<li><?php echo $this->Html->link(__('New Supplier'), array('action' => 'add')); ?></li>
-	</ul>
-</div>
+<div class="be-content">
+        <div class="main-content container-fluid">
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="panel panel-default panel-table">
+                <div class="panel-heading">Suppliers
+                    <div class="tools">
+                        <!-- <span class="icon mdi mdi-download"></span>
+                        <span class="icon mdi mdi-more-vert"></span> -->
+						<?php echo $this->Html->link('<div class="icon"><span class="mdi mdi-account-add"></span></div>',array('controller'=>'Suppliers','action'=>'add'),array('escape'=>false)); ?>
+                        
+                    </div>
+                </div>
+                <div class="panel-body">
+                  <table id="table1" class="table table-striped table-hover table-fw-widget">
+                    <thead>
+                      <tr>
+                        <th>Name</th>
+						<th>Address</th>
+                        <th>Email</th>
+                        <th>Mobile</th>
+                        <th>Trade Name</th>
+						<th>Status</th>
+						<th>Created</th>
+						<th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+					
+					<?php foreach ($supplierLists as $supplierList) { ?>
+                      <tr class="odd gradeX">
+                        <td><?php echo $supplierList['Supplier']['name']; ?></td>
+                        <td><?php echo $supplierList['Supplier']['address']; ?></td>
+                        <td><?php echo $supplierList['Supplier']['email']; ?></td>
+                        <td><?php echo $supplierList['Supplier']['mobile']; ?></td>
+                        <td><?php echo $supplierList['Supplier']['trade_name']; ?></td>
+						<td class="center"><?php if($supplierList['Supplier']['status'] == 1) {
+							echo $this->Html->link($this->Html->image('circle_green.png',array('alt'=>'active', 'class'=>'status','value'=>$supplierList['Supplier']['id'] )),'javascript:void(0)', array('escape' => false));
+						} else {
+							echo $this->Html->link($this->Html->image('circle_red.png',array('alt'=>'deactive','class'=>'status','value'=>$supplierList['Supplier']['id'])),'javascript:void(0)', array('escape' => false));
+						} ?></td>
+						<td class="center"><?php echo $supplierList['Supplier']['created']; ?></td>
+						<td class="center"><?php echo $this->Html->link('<span class="mdi mdi-edit"></span>',array('controller'=>'suppliers','action'=>'edit',$supplierList['Supplier']['id']),array('escape'=>false)); ?></td>
+                      </tr>
+					<?php } ?>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$(".status").click(function(){
+			var val = $(this).attr('value');
+			var ref = $(this);
+			$.ajax({
+				url:"<?php echo Router::url(array('controller'=>'Users','action'=>'change_status'));?>/"+val,
+				success:function(data){
+					if(data == 0){
+						ref.attr({
+							src: '/satkar/img/circle_red.png',
+							value: val,
+							alt:'inactive',
+							title:'Inactive'
+							});
+					}else{
+						ref.attr({
+							src: '/satkar/img/circle_green.png',
+							value: val,
+							alt:'active',
+							title:'Active'
+						});
+					}
+				}
+			});
+		});
+	});	
+      
+</script>

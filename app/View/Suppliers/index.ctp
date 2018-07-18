@@ -1,39 +1,37 @@
 <div class="be-content">
-        <div class="main-content container-fluid">
-          <div class="row">
-            <div class="col-sm-12">
-              <div class="panel panel-default panel-table">
-                <div class="panel-heading">Suppliers
-                    <div class="tools">
-                        <!-- <span class="icon mdi mdi-download"></span>
-                        <span class="icon mdi mdi-more-vert"></span> -->
-						<?php echo $this->Html->link('<div class="icon"><span class="mdi mdi-account-add"></span></div>',array('controller'=>'Suppliers','action'=>'add'),array('escape'=>false)); ?>
-                        
-                    </div>
-                </div>
-                <div class="panel-body">
-                  <table id="table1" class="table table-striped table-hover table-fw-widget">
-                    <thead>
-                      <tr>
-                        <th>Name</th>
+	<div class="main-content container-fluid">
+		<div class="row">
+		<div class="col-sm-12">
+			<div class="panel panel-default panel-table">
+			<div class="panel-heading">Suppliers
+				<div class="tools">
+					<!-- <span class="icon mdi mdi-download"></span>
+					<span class="icon mdi mdi-more-vert"></span> -->
+					<?php echo $this->Html->link('<div class="icon"><span class="mdi mdi-account-add"></span></div>',array('controller'=>'Suppliers','action'=>'add'),array('escape'=>false)); ?>
+				</div>
+			</div>
+			<div class="panel-body">
+				<table id="table1" class="table table-striped table-hover table-fw-widget">
+					<thead>
+						<tr>
+						<th>Name</th>
 						<th>Address</th>
-                        <th>Email</th>
-                        <th>Mobile</th>
-                        <th>Trade Name</th>
+						<th>Email</th>
+						<th>Mobile</th>
+						<th>Trade Name</th>
 						<th>Status</th>
 						<th>Created</th>
 						<th>Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-					
+						</tr>
+					</thead>
+					<tbody>
 					<?php foreach ($supplierLists as $supplierList) { ?>
-                      <tr class="odd gradeX">
-                        <td><?php echo $supplierList['Supplier']['name']; ?></td>
-                        <td><?php echo $supplierList['Supplier']['address']; ?></td>
-                        <td><?php echo $supplierList['Supplier']['email']; ?></td>
-                        <td><?php echo $supplierList['Supplier']['mobile']; ?></td>
-                        <td><?php echo $supplierList['Supplier']['trade_name']; ?></td>
+						<tr class="odd gradeX">
+						<td><?php echo $supplierList['Supplier']['name']; ?></td>
+						<td><?php echo $supplierList['Supplier']['address']; ?></td>
+						<td><?php echo $supplierList['Supplier']['email']; ?></td>
+						<td><?php echo $supplierList['Supplier']['mobile']; ?></td>
+						<td><?php echo $supplierList['Supplier']['trade_name']; ?></td>
 						<td class="center"><?php if($supplierList['Supplier']['status'] == 1) {
 							echo $this->Html->link($this->Html->image('circle_green.png',array('alt'=>'active', 'class'=>'status','value'=>$supplierList['Supplier']['id'] )),'javascript:void(0)', array('escape' => false));
 						} else {
@@ -41,15 +39,15 @@
 						} ?></td>
 						<td class="center"><?php echo $supplierList['Supplier']['created']; ?></td>
 						<td class="center"><?php echo $this->Html->link('<span class="mdi mdi-edit"></span>',array('controller'=>'suppliers','action'=>'edit',$supplierList['Supplier']['id']),array('escape'=>false)); ?></td>
-                      </tr>
+						</tr>
 					<?php } ?>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-          </div>
-      </div>
+					</tbody>
+				</table>
+			</div>
+			</div>
+		</div>
+		</div>
+	</div>
 <script type="text/javascript">
 	$(document).ready(function() {
 		$(".status").click(function(){

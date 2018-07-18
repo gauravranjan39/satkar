@@ -4,7 +4,6 @@
         <div class="row">
         <div class="col-sm-12">
             <div class="panel panel-default panel-border-color panel-border-color-primary">
-            
             <div class="panel-body">
             <?php echo $this->Form->create('Supplier',array('url'=> array('controller' => 'Suppliers', 'action' => 'add'),'method'=>'POST')); ?>
                 <div class="form-group xs-pt-10">

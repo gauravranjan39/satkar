@@ -69,21 +69,6 @@ class UsersController extends AppController {
 		$this->set('userLists',$userLists);
 	}
 
-/**
- * view method
- *
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
-	public function view($id = null) {
-		if (!$this->User->exists($id)) {
-			throw new NotFoundException(__('Invalid user'));
-		}
-		$options = array('conditions' => array('User.' . $this->User->primaryKey => $id));
-		$this->set('user', $this->User->find('first', $options));
-	}
-
 	public function add() {
 		$this->layout = "my_layout";
 		if ($this->request->is('post')) {
@@ -102,24 +87,6 @@ class UsersController extends AppController {
 		}
 	}
 
-	public function check_email_unique() {
-		$this->autoRender = false;
-		$user_email = $_POST['data'];
-		$chk_email = $this->User->find('first',array('conditions'=>array('email LIKE'=>$user_email)));
-		if ($chk_email) {
-		  echo 0;
-		} else {
-	   		echo 1;
-		}
-	}
-
-/**
- * edit method
- *
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
 	public function edit($id = null) {
 		//$id = base64_decode($id);
 		$this->layout = "my_layout";
@@ -139,39 +106,36 @@ class UsersController extends AppController {
 		}
 	}
 
-/**
- * delete method
- *
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
-	public function delete($id = null) {
-		$this->User->id = $id;
-		if (!$this->User->exists()) {
-			throw new NotFoundException(__('Invalid user'));
-		}
-		$this->request->allowMethod('post', 'delete');
-		if ($this->User->delete()) {
-			$this->Flash->success(__('The user has been deleted.'));
+	public function check_email_unique() {
+		$this->autoRender = false;
+		$user_email = $_POST['data'];
+		$chk_email = $this->User->find('first',array('conditions'=>array('email LIKE'=>$user_email)));
+		if ($chk_email) {
+		  echo 0;
 		} else {
-			$this->Flash->error(__('The user could not be deleted. Please, try again.'));
+	   		echo 1;
 		}
-		return $this->redirect(array('action' => 'index'));
 	}
 
 	public function change_status ($id) {
 		$this->autoRender = false;
 		$status = $this->User->find('first',array('recursive'=>-1,'conditions'=>array('User.id'=>$id),'fields'=>array('User.id','User.status')));
-		
-		if($status['User']['status'] == 1){
+		if ($status['User']['status'] == 1) {
 			$status['User']['status'] = 0;
 			$data = 0;
-	        }else{
+	    } else {
 			$status['User']['status'] = 1;
 			$data = 1;
-	        }
+	    }
 		$this->User->save($status);
 		return $data;
+	}
+
+	public function view($id = null) {
+		if (!$this->User->exists($id)) {
+			throw new NotFoundException(__('Invalid user'));
+		}
+		$options = array('conditions' => array('User.' . $this->User->primaryKey => $id));
+		$this->set('user', $this->User->find('first', $options));
 	}
 }

@@ -19,7 +19,8 @@
 				<div class="form-group">
 					<label>Mobile</label>
 					<?php echo $this->Form->input("Supplier.mobile",array('type'=>'text','max'=>10,'placeholder'=>'Enter Mobile Number','required'=>'required','class'=>'form-control','label'=>false));?>
-				</div>
+                    <span style="color:red;" id="supplierMobileAjaxMsg"></span>
+                </div>
 				<div class="form-group">
 					<label>Email</label>
 					<?php echo $this->Form->input("Supplier.email",array('type'=>'email','placeholder'=>'Enter Email','class'=>'form-control','label'=>false));?>
@@ -78,6 +79,17 @@
             e.preventDefault();
             return false;
         });
+
+        $('#SupplierMobile').blur(function(e) {
+            if($(this).val().length < 10) {
+                $("#supplierMobileAjaxMsg").text("Mobile Number must be of 10 digit");
+                $("#registerSupplier").attr('disabled','disabled');
+            } else {
+                $("#supplierMobileAjaxMsg").hide();
+                $("#registerSupplier").removeAttr('disabled');
+            }
+        });
+
       });
       
 </script>

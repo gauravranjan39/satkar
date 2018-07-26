@@ -3,11 +3,11 @@
 		<div class="row">
 		<div class="col-sm-12">
 			<div class="panel panel-default panel-table">
-			<div class="panel-heading">Suppliers
+			<div class="panel-heading">Customers
 				<div class="tools">
 					<!-- <span class="icon mdi mdi-download"></span>
 					<span class="icon mdi mdi-more-vert"></span> -->
-					<?php echo $this->Html->link('<div class="icon"><span class="mdi mdi-account-add"></span></div>',array('controller'=>'Suppliers','action'=>'add'),array('escape'=>false)); ?>
+					<?php echo $this->Html->link('<div class="icon"><span class="mdi mdi-account-add"></span></div>',array('controller'=>'Customers','action'=>'add'),array('escape'=>false)); ?>
 				</div>
 			</div>
 			<div class="panel-body">
@@ -18,27 +18,27 @@
 						<th>Address</th>
 						<th>Email</th>
 						<th>Mobile</th>
-						<th>Trade Name</th>
+						<th>Reference</th>
 						<th>Status</th>
 						<th>Created</th>
 						<th>Action</th>
 						</tr>
 					</thead>
 					<tbody>
-					<?php foreach ($supplierLists as $supplierList) { ?>
+					<?php foreach ($customerLists as $customerList) { ?>
 						<tr class="odd gradeX">
-						<td><?php echo $supplierList['Supplier']['name']; ?></td>
-						<td><?php echo $supplierList['Supplier']['address']; ?></td>
-						<td><?php echo $supplierList['Supplier']['email']; ?></td>
-						<td><?php echo $supplierList['Supplier']['mobile']; ?></td>
-						<td><?php echo $supplierList['Supplier']['trade_name']; ?></td>
-						<td class="center"><?php if($supplierList['Supplier']['status'] == 1) {
-							echo $this->Html->link($this->Html->image('circle_green.png',array('alt'=>'active', 'class'=>'status','value'=>$supplierList['Supplier']['id'] )),'javascript:void(0)', array('escape' => false));
+						<td><?php echo $customerList['Customer']['name']; ?></td>
+						<td><?php echo $customerList['Customer']['address']; ?></td>
+						<td><?php echo $customerList['Customer']['email']; ?></td>
+						<td><?php echo $customerList['Customer']['mobile']; ?></td>
+						<td><?php echo $customerList['Customer']['reference_id']; ?></td>
+						<td class="center"><?php if($customerList['Customer']['status'] == 1) {
+							echo $this->Html->link($this->Html->image('circle_green.png',array('alt'=>'active', 'class'=>'status','value'=>$customerList['Customer']['id'] )),'javascript:void(0)', array('escape' => false));
 						} else {
-							echo $this->Html->link($this->Html->image('circle_red.png',array('alt'=>'deactive','class'=>'status','value'=>$supplierList['Supplier']['id'])),'javascript:void(0)', array('escape' => false));
+							echo $this->Html->link($this->Html->image('circle_red.png',array('alt'=>'deactive','class'=>'status','value'=>$customerList['Customer']['id'])),'javascript:void(0)', array('escape' => false));
 						} ?></td>
-						<td class="center"><?php echo $supplierList['Supplier']['created']; ?></td>
-						<td class="center"><?php echo $this->Html->link('<span class="mdi mdi-edit"></span>',array('controller'=>'suppliers','action'=>'edit',$supplierList['Supplier']['id']),array('escape'=>false)); ?></td>
+						<td class="center"><?php echo $customerList['Customer']['created']; ?></td>
+						<td class="center"><?php echo $this->Html->link('<span class="mdi mdi-edit"></span>',array('controller'=>'Customers','action'=>'edit',$customerList['Customer']['id']),array('escape'=>false)); ?></td>
 						</tr>
 					<?php } ?>
 					</tbody>

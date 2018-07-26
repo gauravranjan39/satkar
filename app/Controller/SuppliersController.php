@@ -84,6 +84,20 @@ class SuppliersController extends AppController {
 		}
 	}
 
+	public function change_status ($id) {
+		$this->autoRender = false;
+		$status = $this->Supplier->find('first',array('recursive'=>-1,'conditions'=>array('Supplier.id'=>$id),'fields'=>array('Supplier.id','Supplier.status')));
+		if ($status['Supplier']['status'] == 1) {
+			$status['Supplier']['status'] = 0;
+			$data = 0;
+	    } else {
+			$status['Supplier']['status'] = 1;
+			$data = 1;
+	    }
+		$this->Supplier->save($status);
+		return $data;
+	}
+
 /**
  * delete method
  *

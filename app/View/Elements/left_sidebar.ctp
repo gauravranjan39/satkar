@@ -11,6 +11,9 @@
             <li class="">
 				<?php echo $this->Html->link('<i class="icon mdi mdi-face"></i><span>Suppliers</span>',array('controller'=>'suppliers','action'=>'index'),array('escape'=>false)); ?>
 			</li>
+			<li class="">
+				<?php echo $this->Html->link('<i class="icon mdi mdi-face"></i><span>Customers</span>',array('controller'=>'customers','action'=>'index'),array('escape'=>false)); ?>
+			</li>
             <li class="parent"><a href="charts.html"><i class="icon mdi mdi-chart-donut"></i><span>Charts</span></a>
               <ul class="sub-menu">
                 <li><a href="charts-flot.html">Flot</a>

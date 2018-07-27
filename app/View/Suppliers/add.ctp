@@ -31,8 +31,7 @@
                 <div class="row xs-pt-15">
                     <div class="col-xs-6">
                     <?php echo $this->Form->button('Submit',array('class'=>'btn btn-space btn-primary','id'=>'registerSupplier','type'=>'submit'));?>
-					<?php echo $this->Form->button('cancel', array('class'=>'btn btn-space btn-default','div'=>false,'label'=>false,'onclick'=>"window.location.href = '../users/index'"));?> 
-                    </div>
+					<?php echo $this->Html->link('cancel', array('controller' => 'suppliers','action' => 'index'),array('class'=>'btn btn-space btn-default'));?>                    </div>
                 </div>
                 <?php echo $this->Form->end();?>
             </div>
@@ -45,21 +44,26 @@
       $(document).ready(function() {
       	$('#SupplierEmail').blur(function() {
             var userEmail = $(this).val();
-            $.ajax({
-                type: "POST",
-                url:"<?php echo Router::url(array('controller'=>'Suppliers','action'=>'check_email_unique'));?>",
-                data:({data:userEmail}),
-                success: function(data) {
-                    if(data==0) {
-                        $("#supplierEmailAjaxMsg").text(userEmail+" already exists");
-                        $("#supplierEmailAjaxMsg").show();
-                        $("#registerSupplier").attr('disabled','disabled');
-                    } else {
-                        $("#supplierEmailAjaxMsg").hide();
-                        $("#registerSupplier").removeAttr('disabled');
+            if (userEmail != '') {
+                $.ajax({
+                    type: "POST",
+                    url:"<?php echo Router::url(array('controller'=>'Suppliers','action'=>'check_email_unique'));?>",
+                    data:({data:userEmail}),
+                    success: function(data) {
+                        if(data==0) {
+                            $("#supplierEmailAjaxMsg").text(userEmail+" already exists");
+                            $("#supplierEmailAjaxMsg").show();
+                            $("#registerSupplier").attr('disabled','disabled');
+                        } else {
+                            $("#supplierEmailAjaxMsg").hide();
+                            $("#registerSupplier").removeAttr('disabled');
+                        }
                     }
-                }
-            });
+                });
+            } else{
+                $("#supplierEmailAjaxMsg").hide();
+                $("#registerSupplier").removeAttr('disabled');
+            }
         });
 
         $('#SupplierMobile').keydown(function(e) {
@@ -83,8 +87,22 @@
                 $("#supplierMobileAjaxMsg").text("Mobile Number must be of 10 digit");
                 $("#registerSupplier").attr('disabled','disabled');
             } else {
-                $("#supplierMobileAjaxMsg").hide();
-                $("#registerSupplier").removeAttr('disabled');
+                var supplierMobile = $(this).val();
+				$.ajax({
+                    type: "POST",
+                    url:"<?php echo Router::url(array('controller'=>'suppliers','action'=>'check_unique_mobile'));?>",
+                    data:({data:supplierMobile}),
+                    success: function(data) {
+                        if(data==0) {
+                            $("#supplierMobileAjaxMsg").text("This number is already registerd!");
+                            $("#supplierMobileAjaxMsg").show();
+                            $("#registerSupplier").attr('disabled','disabled');
+                        } else {
+                            $("#supplierMobileAjaxMsg").hide();
+                            $("#registerSupplier").removeAttr('disabled');
+                        }
+                    }
+                });
             }
         });
         

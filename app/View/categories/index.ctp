@@ -1,5 +1,6 @@
 <div class="be-content">
 	<div class="main-content container-fluid">
+    <?php echo $this->Session->flash(); ?>
 		<div class="row">
 		<div class="col-sm-12">
 			<div class="panel panel-default panel-table">
@@ -22,8 +23,9 @@
 					<?php foreach ($categoryLists as $categoryId=>$categoryList) { ?>
 						<tr class="odd gradeX">
 						<td><?php echo $categoryList; ?></td>
-						
-						<td class="center"><?php echo $this->Html->link('<span class="mdi mdi-edit"></span>',array('controller'=>'categories','action'=>'edit',$categoryId),array('escape'=>false)); ?></td>
+						<td class=""><?php echo $this->Html->link('<span class="mdi mdi-edit"></span>',array('controller'=>'categories','action'=>'edit',$categoryId),array('escape'=>false)); ?>
+                        <?php echo $this->Html->link('<i class="mdi mdi-delete"></i>',array('controller'=>'categories','action'=>'delete',$categoryId),array('class'=>'icon','escape'=>false)); ?>
+                        </td>
 						</tr>
 					<?php } ?>
 					</tbody>
@@ -39,7 +41,7 @@
 			var val = $(this).attr('value');
 			var ref = $(this);
 			$.ajax({
-				url:"<?php echo Router::url(array('controller'=>'Suppliers','action'=>'change_status'));?>/"+val,
+				url:"<?php echo Router::url(array('controller'=>'Categories','action'=>'change_status'));?>/"+val,
 				success:function(data){
 					if(data == 0){
 						ref.attr({

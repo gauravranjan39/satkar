@@ -39,20 +39,20 @@
 </div>
 <script type="text/javascript">
       $(document).ready(function() {
-      	$('#SupplierEmail').blur(function() {
-            var userEmail = $(this).val();
+      	$('#CustomerEmail').blur(function() {
+            var customerEmail = $(this).val();
             $.ajax({
                 type: "POST",
-                url:"<?php echo Router::url(array('controller'=>'Suppliers','action'=>'check_email_unique'));?>",
-                data:({data:userEmail}),
+                url:"<?php echo Router::url(array('controller'=>'customers','action'=>'check_email_unique'));?>",
+                data:({data:customerEmail}),
                 success: function(data) {
                     if(data==0) {
-                        $("#supplierEmailAjaxMsg").text(userEmail+" already exists");
-                        $("#supplierEmailAjaxMsg").show();
-                        $("#registerSupplier").attr('disabled','disabled');
+                        $("#customerEmailAjaxMsg").text(customerEmail+" already exists");
+                        $("#customerEmailAjaxMsg").show();
+                        $("#registerCustomer").attr('disabled','disabled');
                     } else {
-                        $("#supplierEmailAjaxMsg").hide();
-                        $("#registerSupplier").removeAttr('disabled');
+                        $("#customerEmailAjaxMsg").hide();
+                        $("#registerCustomer").removeAttr('disabled');
                     }
                 }
             });

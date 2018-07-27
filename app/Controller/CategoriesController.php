@@ -4,8 +4,57 @@
 
     
     public function index() {
-        $categories = $this->Category->generateTreeList(null,null,null," - ");
-        $this->set('categories', $categories);
+        $this->layout = "my_layout";
+        //$categories = $this->Category->generateTreeList(null,null,null," - ");
+        //$this->set('categories', $categories);
+
+        // echo '<select name="cat_id">';
+        // echo '<option value="">-- Select -- </option>';
+        //$options = '';
+        $categoryLists = $this->get_cat_selectlist(0, 0);
+        //pr($categoryLists);die;
+        $this->set('categoryLists',$categoryLists);
+        // $this->set(compact('get_options'));
+        // if (count($get_options) > 0){
+        //     //$categories = $_POST['cat_id'];
+        //     foreach ($get_options as $key => $value) {
+        //         $options .="<option value=\"$key\"";
+        //         // show the selected items as selected in the listbox
+        //         // if ($_POST['cat_id'] == "$key") {
+        //         //     $options .=" selected=\"selected\"";
+        //         // }
+        //         $options .=">$value</option>\n";
+        //     }
+        // }
+        // echo $options;
+        // echo '</select>';  
+        //$this->render('index');
+    }
+    function get_cat_selectlist($current_cat_id, $count, $lastname='') {
+        
+        static $option_results;
+        $this->loadModel('Category');
+        if ($current_cat_id == 0) {
+            $current_cat_id=Null;
+        }
+        $count = $count+1;
+        $get_options = $this->Category->find('all',array('conditions'=>array('Category.parent_id'=>$current_cat_id),'fields'=>array('id','name'),'order'=>'name ASC'));
+        $num_options =  count($get_options);
+        $categoryLists = $this->Category->find('list',array('conditions'=>array('Category.parent_id'=>$current_cat_id),'fields'=>array('id','name'),'order'=>'name ASC'));
+        
+        if ($num_options > 0) {
+            foreach ($categoryLists as $key=>$value) {
+                $indent_flag = '';
+                if ($current_cat_id!=0) {
+                    $indent_flag =  $lastname . '--';
+                        $indent_flag .=  '>';
+                }
+                $value = $indent_flag.$value;
+                $option_results[$key] = $value;
+                $this->get_cat_selectlist($key, $count, $value);
+            }
+        }
+        return $option_results;
     }
 
     public function add() {

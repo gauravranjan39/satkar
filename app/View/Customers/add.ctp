@@ -39,23 +39,35 @@
 </div>
 <script type="text/javascript">
       $(document).ready(function() {
-      	$('#CustomerEmail').blur(function() {
+        $('#CustomerEmail').blur(function() {
             var customerEmail = $(this).val();
-            $.ajax({
-                type: "POST",
-                url:"<?php echo Router::url(array('controller'=>'customers','action'=>'check_email_unique'));?>",
-                data:({data:customerEmail}),
-                success: function(data) {
-                    if(data==0) {
-                        $("#customerEmailAjaxMsg").text(customerEmail+" already exists");
-                        $("#customerEmailAjaxMsg").show();
-                        $("#registerCustomer").attr('disabled','disabled');
-                    } else {
-                        $("#customerEmailAjaxMsg").hide();
-                        $("#registerCustomer").removeAttr('disabled');
-                    }
+            var pattern = new RegExp(/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i);
+            if (customerEmail != '') {
+                if(pattern.test(customerEmail)) {
+                    $.ajax({
+                        type: "POST",
+                        url:"<?php echo Router::url(array('controller'=>'customers','action'=>'check_email_unique'));?>",
+                        data:({data:customerEmail}),
+                        success: function(data) {
+                            if(data==0) {
+                                $("#customerEmailAjaxMsg").text(customerEmail+" already exists");
+                                $("#customerEmailAjaxMsg").show();
+                                $("#registerCustomer").attr('disabled','disabled');
+                            } else {
+                                $("#customerEmailAjaxMsg").hide();
+                                $("#registerCustomer").removeAttr('disabled');
+                            }
+                        }
+                    });
+                } else {
+                    $("#customerEmailAjaxMsg").show();
+                    $("#customerEmailAjaxMsg").text("Please enter valid email address!");
+                    $("#registerCustomer").removeAttr('disabled');
                 }
-            });
+            } else {
+                $("#customerEmailAjaxMsg").hide();
+                $("#registerCustomer").removeAttr('disabled');
+            }
         });
 
         $('#CustomerMobile').keydown(function(e) {

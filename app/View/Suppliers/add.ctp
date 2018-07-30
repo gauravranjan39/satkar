@@ -41,29 +41,37 @@
     </div>
 </div>
 <script type="text/javascript">
+
       $(document).ready(function() {
       	$('#SupplierEmail').blur(function() {
-            var userEmail = $(this).val();
-            if (userEmail != '') {
-                $.ajax({
-                    type: "POST",
-                    url:"<?php echo Router::url(array('controller'=>'Suppliers','action'=>'check_email_unique'));?>",
-                    data:({data:userEmail}),
-                    success: function(data) {
-                        if(data==0) {
-                            $("#supplierEmailAjaxMsg").text(userEmail+" already exists");
-                            $("#supplierEmailAjaxMsg").show();
-                            $("#registerSupplier").attr('disabled','disabled');
-                        } else {
-                            $("#supplierEmailAjaxMsg").hide();
-                            $("#registerSupplier").removeAttr('disabled');
+            var supplierEmail = $(this).val();
+            var pattern = new RegExp(/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i);
+            if (supplierEmail != '') {
+                if(pattern.test(supplierEmail)) {
+                    $.ajax({
+                        type: "POST",
+                        url:"<?php echo Router::url(array('controller'=>'Suppliers','action'=>'check_email_unique'));?>",
+                        data:({data:supplierEmail}),
+                        success: function(data) {
+                            if(data==0) {
+                                $("#supplierEmailAjaxMsg").text(supplierEmail+" already exists");
+                                $("#supplierEmailAjaxMsg").show();
+                                $("#registerSupplier").attr('disabled','disabled');
+                            } else {
+                                $("#supplierEmailAjaxMsg").hide();
+                                $("#registerSupplier").removeAttr('disabled');
+                            }
                         }
-                    }
-                });
-            } else{
-                $("#supplierEmailAjaxMsg").hide();
-                $("#registerSupplier").removeAttr('disabled');
-            }
+                    });
+                } else {
+                    $("#supplierEmailAjaxMsg").show();
+                    $("#supplierEmailAjaxMsg").text("Please enter valid email address!");
+                    $("#registerSupplier").removeAttr('disabled');
+                }
+        } else {
+            $("#supplierEmailAjaxMsg").hide();
+            $("#registerSupplier").removeAttr('disabled');
+        }
         });
 
         $('#SupplierMobile').keydown(function(e) {

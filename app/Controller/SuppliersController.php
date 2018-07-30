@@ -76,12 +76,17 @@ class SuppliersController extends AppController {
 	public function check_email_unique() {
 		$this->autoRender = false;
 		if ($this->request->is('post')) {
-			$supplier_email = trim($this->request->data);
-			$chk_email = $this->Supplier->find('first',array('conditions'=>array('email LIKE'=>$supplier_email)));
+			if (isset($this->request->data['get_supplierId']) && $this->request->data['get_supplierId'] !='' ) {
+				$supplier_email = trim($this->request->data['get_supplierEmail']);
+				$chk_email = $this->Supplier->find('first',array('conditions'=>array('email LIKE'=>$supplier_email,'id !='=>$this->request->data['get_supplierId'])));
+			}  else {
+				$supplier_email = trim($this->request->data);
+				$chk_email = $this->Supplier->find('first',array('conditions'=>array('email LIKE'=>$supplier_email)));
+			}
 			if ($chk_email) {
-			  echo 0;
+			  	echo 0;
 			} else {
-				   echo 1;
+				echo 1;
 			}
 		}
 	}

@@ -76,6 +76,7 @@
 
         $('#CustomerMobile').blur(function(e) {
             if($(this).val().length < 10) {
+                $("#customerMobileAjaxMsg").show();
                 $("#customerMobileAjaxMsg").text("Mobile Number must be of 10 digit");
                 $("#registerCustomer").attr('disabled','disabled');
             } else {

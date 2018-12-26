@@ -42,7 +42,8 @@
 							echo $this->Html->link($this->Html->image('circle_red.png',array('alt'=>'deactive','class'=>'status','value'=>$customerList['c1']['id'])),'javascript:void(0)', array('escape' => false));
 						} ?></td>
 						<td class="center"><?php echo $customerList['c1']['created']; ?></td>
-						<td class="center"><?php echo $this->Html->link('<span class="mdi mdi-edit"></span>',array('controller'=>'Customers','action'=>'edit',$customerList['c1']['id']),array('escape'=>false)); ?></td>
+						<td class="center"><?php echo $this->Html->link('<span class="mdi mdi-edit"></span>',array('controller'=>'Customers','action'=>'edit',$customerList['c1']['id']),array('escape'=>false)); ?>
+						<?php echo $this->Html->link('<span class="mdi mdi-hospital"></span>',array('controller'=>'OrderItems','action'=>'add',$customerList['c1']['id']),array('escape'=>false)); ?></td>
 						</tr>
 					<?php } ?>
 					</tbody>

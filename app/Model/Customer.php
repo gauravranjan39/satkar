@@ -3,6 +3,7 @@ App::uses('AppModel', 'Model');
 /**
  * Customer Model
  *
+ * @property Order $Order
  */
 class Customer extends AppModel {
 
@@ -13,11 +14,30 @@ class Customer extends AppModel {
  */
 	public $displayField = 'name';
 
+
+	// The Associations below have been created with all possible keys, those that are not needed can be removed
+
 /**
- * Validation rules
+ * hasMany associations
  *
  * @var array
  */
+	public $hasMany = array(
+		'Order' => array(
+			'className' => 'Order',
+			'foreignKey' => 'customer_id',
+			'dependent' => false,
+			'conditions' => '',
+			'fields' => '',
+			'order' => '',
+			'limit' => '',
+			'offset' => '',
+			'exclusive' => '',
+			'finderQuery' => '',
+			'counterQuery' => ''
+		)
+	);
+	
 	public $validate = array(
 		'name' => array(
 			'notBlank' => array(
@@ -64,4 +84,5 @@ class Customer extends AppModel {
 			),
 		),
 	);
+
 }

@@ -27,18 +27,22 @@
 					<tbody>
 					<?php foreach ($customerLists as $customerList) { ?>
 						<tr class="odd gradeX">
-						<td><?php echo $customerList['Customer']['name']; ?></td>
-						<td><?php echo $customerList['Customer']['address']; ?></td>
-						<td><?php echo $customerList['Customer']['email']; ?></td>
-						<td><?php echo $customerList['Customer']['mobile']; ?></td>
-						<td><?php echo $customerList['Customer']['reference_id']; ?></td>
-						<td class="center"><?php if($customerList['Customer']['status'] == 1) {
-							echo $this->Html->link($this->Html->image('circle_green.png',array('alt'=>'active', 'class'=>'status','value'=>$customerList['Customer']['id'] )),'javascript:void(0)', array('escape' => false));
+						<td><?php echo $customerList['c1']['name']; ?></td>
+						<td><?php echo $customerList['c1']['address']; ?></td>
+						<td><?php echo $customerList['c1']['email']; ?></td>
+						<td><?php echo $customerList['c1']['mobile']; ?></td>
+						<?php if(isset($customerList['c1']['reference_id']) && !empty($customerList['c1']['reference_id'])) { ?>
+							<td><?php echo $customerList['c2']['name']; ?></td>
+						<?php } else { ?>
+							<td>NA</td>
+						<?php } ?>
+						<td class="center"><?php if($customerList['c1']['status'] == 1) {
+							echo $this->Html->link($this->Html->image('circle_green.png',array('alt'=>'active', 'class'=>'status','value'=>$customerList['c1']['id'] )),'javascript:void(0)', array('escape' => false));
 						} else {
-							echo $this->Html->link($this->Html->image('circle_red.png',array('alt'=>'deactive','class'=>'status','value'=>$customerList['Customer']['id'])),'javascript:void(0)', array('escape' => false));
+							echo $this->Html->link($this->Html->image('circle_red.png',array('alt'=>'deactive','class'=>'status','value'=>$customerList['c1']['id'])),'javascript:void(0)', array('escape' => false));
 						} ?></td>
-						<td class="center"><?php echo $customerList['Customer']['created']; ?></td>
-						<td class="center"><?php echo $this->Html->link('<span class="mdi mdi-edit"></span>',array('controller'=>'Customers','action'=>'edit',$customerList['Customer']['id']),array('escape'=>false)); ?></td>
+						<td class="center"><?php echo $customerList['c1']['created']; ?></td>
+						<td class="center"><?php echo $this->Html->link('<span class="mdi mdi-edit"></span>',array('controller'=>'Customers','action'=>'edit',$customerList['c1']['id']),array('escape'=>false)); ?></td>
 						</tr>
 					<?php } ?>
 					</tbody>

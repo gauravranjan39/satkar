@@ -9,20 +9,14 @@ App::uses('AppController', 'Controller');
 class CustomersController extends AppController {
 
 /**
- * Components
- *
- * @var array
- */
-	public $components = array('Paginator');
-
-/**
  * index method
  *
  * @return void
  */
 	public function index() {
 		$this->layout = "my_layout";
-		$customerLists = $this->Customer->find('all');
+		$customerLists = $this->Customer->query('SELECT c1.*,c2.id,c2.name,c2.mobile FROM
+		customers c1 LEFT JOIN customers c2 ON c2.id = c1.reference_id');
 		$this->set('customerLists',$customerLists);
 	}
 
@@ -48,6 +42,8 @@ class CustomersController extends AppController {
  */
 	public function add() {
 		$this->layout = "my_layout";
+		$customerLists = $this->Customer->find('all',array('fields'=>array('id','name','mobile')));
+		pr($customerLists);die;
 		if ($this->request->is('post')) {
 			$this->Customer->create();
 			if ($this->Customer->save($this->request->data)) {
@@ -131,6 +127,10 @@ class CustomersController extends AppController {
 				echo 1;
 			}
 		}
+	}
+
+	public function test() {
+		$this->layout = "my_layout";
 	}
 	
 	

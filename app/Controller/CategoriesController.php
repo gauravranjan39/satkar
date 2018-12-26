@@ -13,9 +13,6 @@
 
     function get_cat_selectlist($current_cat_id, $count, $name='') {
         static $option_results;
-        // if ($current_cat_id == 0) {
-        //     $current_cat_id=Null;
-        // }
         $count = $count+1;
         $get_options = $this->Category->find('all',array('conditions'=>array('Category.parent_id'=>$current_cat_id),'fields'=>array('id','name'),'order'=>'name ASC'));
         $num_options =  count($get_options);

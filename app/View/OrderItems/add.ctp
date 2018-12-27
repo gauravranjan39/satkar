@@ -1,3 +1,64 @@
+<style>
+.switch {
+    display: inline-block;
+    height: 22px;
+    position: relative;
+    width: 52px;
+	float:right;
+}
+
+.switch input { 
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider::before {
+    background-color: white;
+    bottom: 4px;
+    content: "";
+    height: 16px;
+    left: 4px;
+    position: absolute;
+    transition: all 0.4s ease 0s;
+    width: 16px;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+</style>
 <div class="be-content">
     <div class="main-content container-fluid">
 	    <?php echo $this->Session->flash(); ?>
@@ -7,12 +68,13 @@
                     <div class="panel-body">
                         <?php echo $this->Form->create('Order',array('url'=> array('controller' => 'OrderItems', 'action' => 'add'),'method'=>'POST')); ?>
                             <div class="clone-div clonedInput" id="clonedInput">
-								<!-- <div class="col-md-12">
-									<div class="switch-button switch-button-xs pull-right">
-										<input checked="" name="swt1" id="swt1" type="checkbox"><span>
-										<label for="swt1"></label></span>
-									</div>
-								</div> -->
+							
+								<div class="col-md-12">
+									<label class="switch">
+										<input type="checkbox" class="hideSomeField" checked>
+										<span class="slider round"></span>
+									</label>
+								</div>
 								<?php $i=1; ?>
 								<div class="row xs-pt-12">
 									<div class="form-group col-sm-6">
@@ -73,11 +135,13 @@
 								</div>
 								<br/>
 
-								<div class="clone-remove">
+								<div class="clone-remove" style="padding: 5px;">
 									<button type="button" class="btn btn-warning btn-xs remove pull-right" style="display: none;">Remove</button>
 								</div>
+								
+								<hr style="border-color:black;">
 							</div> 
-							<hr>
+							
 
 							<button type="button" class="btn btn-primary btn-xs add-more">Add More</button>
 							<div class="row xs-pt-15">
@@ -98,36 +162,44 @@
 
 <script>
     $(document).ready(function(){
+
+		$('body').on('change','.hideSomeField',function(){
+			if ($(this).prop("checked") == true) {
+				$(this).parents("div").next("div .extra_fields").show();
+			} else {
+				$(this).parents("div").next("div .extra_fields").hide();
+			}
+		});
 		
 
 	    $('.add-more').click(function (e) {
             e.preventDefault();
 
-			var regex = /^(.+?)(\d+)$/i;
-			var cloneIndex = $(".clonedInput").length;
+			// var regex = /^(.+?)(\d+)$/i;
+			// var cloneIndex = $(".clonedInput").length;
 			
 		
 
-			$('.clone-div:last').clone()
-			.insertAfter(".clonedInput:last")
-			.attr("id", "clonedInput" +  cloneIndex)
-			.find("*")
-			.each(function() {
-				var id = this.id || "";
-				var match = id.match(regex) || [];
-				if (match.length == 3) {
-					this.id = match[1] + (cloneIndex);
-				}
-        	})
+			// $('.clone-div:last').clone()
+			// .insertAfter(".clonedInput:last")
+			// .attr("id", "clonedInput" +  cloneIndex)
+			// .find("*")
+			// .each(function() {
+			// 	var id = this.id || "";
+			// 	var match = id.match(regex) || [];
+			// 	if (match.length == 3) {
+			// 		this.id = match[1] + (cloneIndex);
+			// 	}
+        	// })
 
 
 
-            // var cloneDiv = $('.clone-div:last').clone().insertAfter(".clone-div:last");
-            // cloneDiv.find('input').val("");
+            var cloneDiv = $('.clone-div:last').clone().insertAfter(".clone-div:last");
+            cloneDiv.find('input').val("");
 			
-			// var cloneVal = $('.clone-div').length;
+			var cloneVal = $('.clone-div').length;
 	
-            //cloneDiv.find('div.clone-remove button.remove').css("display","block");
+            cloneDiv.find('div.clone-remove button.remove').css("display","block");
         });
 
         $('body').on('click', '.remove', function() {

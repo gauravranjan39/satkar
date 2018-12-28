@@ -91,24 +91,24 @@ input:checked + .slider:before {
 								<div class="row xs-pt-12 extra_fields">
 									<div class="form-group col-sm-6">
 										<label>Rate</label>
-										<?php echo $this->Form->input("OrderItem.rate",array('name'=>'data[OrderItem][rate][]','placeholder'=>'Enter Rate','required'=>'required','class'=>'form-control input-sm','label'=>false));?>
+										<?php echo $this->Form->input("OrderItem.rate",array('name'=>'data[OrderItem][rate][]','placeholder'=>'Enter Rate','required'=>'required','class'=>'form-control input-sm per-weight-field','label'=>false));?>
 									</div>
 
 									<div class="form-group col-sm-6">
 										<label>Weight</label>
-										<?php echo $this->Form->input("OrderItem.weight",array('name'=>'data[OrderItem][weight][]','placeholder'=>'Enter Weight','required'=>'required','class'=>'form-control input-sm','label'=>false));?>
+										<?php echo $this->Form->input("OrderItem.weight",array('name'=>'data[OrderItem][weight][]','placeholder'=>'Enter Weight','required'=>'required','class'=>'form-control input-sm per-weight-field','label'=>false));?>
 									</div>
 								</div>
 
 								<div class="row xs-pt-12 extra_fields">
 									<div class="form-group col-sm-6">
 										<label>Making Charge</label>
-										<?php echo $this->Form->input("OrderItem.making_charge",array('name'=>'data[OrderItem][making_charge][]','placeholder'=>'Enter Making Charge','required'=>'required','class'=>'form-control input-sm','label'=>false));?>
+										<?php echo $this->Form->input("OrderItem.making_charge",array('name'=>'data[OrderItem][making_charge][]','placeholder'=>'Enter Making Charge','required'=>'required','class'=>'form-control input-sm per-weight-field','label'=>false));?>
 									</div>
 
 									<div class="form-group col-sm-6">
 										<label>Purity</label>
-										<?php echo $this->Form->input("OrderItem.purity",array('name'=>'data[OrderItem][purity][]','placeholder'=>'Enter Purity','required'=>'required','class'=>'form-control input-sm','label'=>false));?>
+										<?php echo $this->Form->input("OrderItem.purity",array('name'=>'data[OrderItem][purity][]','placeholder'=>'Enter Purity','required'=>'required','class'=>'form-control input-sm per-weight-field','label'=>false));?>
 									</div>
 								</div>
 
@@ -141,6 +141,39 @@ input:checked + .slider:before {
 								
 								<hr style="border-color:black;">
 							</div> 
+
+
+							<div class="row xs-pt-12">
+								<div class="form-group col-sm-6"></div>
+								<div class="form-group col-sm-6">
+									<label>Total</label>
+									<?php echo $this->Form->input("Order.total",array('placeholder'=>'Total','required'=>'required','class'=>'form-control input-sm','label'=>false));?>
+								</div>
+							</div>
+
+							<div class="row xs-pt-12">
+								<div class="form-group col-sm-6"></div>
+								<div class="form-group col-sm-6">
+									<label>Discount</label>
+									<?php echo $this->Form->input("Order.discount",array('placeholder'=>'Discount','required'=>'required','class'=>'form-control input-sm','label'=>false));?>
+								</div>
+							</div>
+
+							<div class="row xs-pt-12">
+								<div class="form-group col-sm-6"></div>
+								<div class="form-group col-sm-6">
+									<label>Grand Total</label>
+									<?php echo $this->Form->input("Order.grand_total",array('placeholder'=>'Grand Total','required'=>'required','class'=>'form-control input-sm','label'=>false));?>
+								</div>
+							</div>
+
+							<div class="row xs-pt-12">
+								<div class="form-group col-sm-6"></div>
+								<div class="form-group col-sm-6">
+									<label>Payment</label>
+									<?php echo $this->Form->input("OrderTransaction.amount_paid",array('placeholder'=>'Payment','required'=>'required','class'=>'form-control input-sm','label'=>false));?>
+								</div>
+							</div>
 							
 
 							<button type="button" class="btn btn-primary btn-xs add-more">Add More</button>
@@ -166,8 +199,11 @@ input:checked + .slider:before {
 		$('body').on('change','.hideSomeField',function(){
 			if ($(this).prop("checked") == true) {
 				$(this).parent().parent().parent("div.clone-div").find("div.extra_fields").show();
+				$(this).parent().parent().parent("div.clone-div").find("div.extra_fields").find('input').attr('required', 'required');
 			} else {
 				$(this).parent().parent().parent("div.clone-div").find("div.extra_fields").hide();
+				$(this).parent().parent().parent("div.clone-div").find("div.extra_fields").find('input').removeAttr('required');
+				$(this).parent().parent().parent("div.clone-div").find("div.extra_fields").find('input').val('');
 			}
 		});
 		

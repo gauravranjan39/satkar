@@ -67,7 +67,7 @@ input:checked + .slider:before {
                 <div class="panel panel-default panel-border-color panel-border-color-primary">
                     <div class="panel-body">
                         <?php echo $this->Form->create('Order',array('url'=> array('controller' => 'OrderItems', 'action' => 'add'),'method'=>'POST')); ?>
-                            <div class="clone-div clonedInput" id="clonedInput">
+                            <div class="clone-div">
 							
 								<div class="col-md-12">
 									<label class="switch">
@@ -75,62 +75,62 @@ input:checked + .slider:before {
 										<span class="slider round"></span>
 									</label>
 								</div>
-								<?php $i=1; ?>
+								<?php //$i=1; ?>
 								<div class="row xs-pt-12">
 									<div class="form-group col-sm-6">
 										<label>Category</label>
-										<?php echo $this->Form->input("OrderItem.category_id",array('name'=>'data[OrderItem]['.$i.'][category_id]','type'=>'select','options'=>$categoryLists,'empty'=>'---Select---','placeholder'=>'Enter category','required'=>'required','class'=>'form-control input-sm','label'=>false));?>
+										<?php echo $this->Form->input("OrderItem.category_id",array('name'=>'data[OrderItem][category_id][]','type'=>'select','options'=>$categoryLists,'empty'=>'---Select---','placeholder'=>'Enter category','required'=>'required','class'=>'form-control input-sm','label'=>false));?>
 									</div>
 
 									<div class="form-group col-sm-6">
 										<label>Item</label>
-										<?php echo $this->Form->input("OrderItem.name",array('name'=>'data[OrderItem][][name]','placeholder'=>'Enter Item','required'=>'required','class'=>'form-control input-sm','label'=>false));?>
+										<?php echo $this->Form->input("OrderItem.name",array('name'=>'data[OrderItem][name][]','placeholder'=>'Enter Item','required'=>'required','class'=>'form-control input-sm','label'=>false));?>
 									</div>
 								</div>
 
-								<div class="row xs-pt-12">
+								<div class="row xs-pt-12 extra_fields">
 									<div class="form-group col-sm-6">
 										<label>Rate</label>
-										<?php echo $this->Form->input("OrderItem.rate",array('name'=>'data[OrderItem][][rate]','placeholder'=>'Enter Rate','required'=>'required','class'=>'form-control input-sm','label'=>false));?>
+										<?php echo $this->Form->input("OrderItem.rate",array('name'=>'data[OrderItem][rate][]','placeholder'=>'Enter Rate','required'=>'required','class'=>'form-control input-sm','label'=>false));?>
 									</div>
 
 									<div class="form-group col-sm-6">
 										<label>Weight</label>
-										<?php echo $this->Form->input("OrderItem.weight",array('name'=>'data[OrderItem][][weight]','placeholder'=>'Enter Weight','required'=>'required','class'=>'form-control input-sm','label'=>false));?>
+										<?php echo $this->Form->input("OrderItem.weight",array('name'=>'data[OrderItem][weight][]','placeholder'=>'Enter Weight','required'=>'required','class'=>'form-control input-sm','label'=>false));?>
 									</div>
 								</div>
 
-								<div class="row xs-pt-12">
+								<div class="row xs-pt-12 extra_fields">
 									<div class="form-group col-sm-6">
 										<label>Making Charge</label>
-										<?php echo $this->Form->input("OrderItem.making_charge",array('name'=>'data[OrderItem][][making_charge]','placeholder'=>'Enter Making Charge','required'=>'required','class'=>'form-control input-sm','label'=>false));?>
+										<?php echo $this->Form->input("OrderItem.making_charge",array('name'=>'data[OrderItem][making_charge][]','placeholder'=>'Enter Making Charge','required'=>'required','class'=>'form-control input-sm','label'=>false));?>
 									</div>
 
 									<div class="form-group col-sm-6">
 										<label>Purity</label>
-										<?php echo $this->Form->input("OrderItem.purity",array('name'=>'data[OrderItem][][purity]','placeholder'=>'Enter Purity','required'=>'required','class'=>'form-control input-sm','label'=>false));?>
+										<?php echo $this->Form->input("OrderItem.purity",array('name'=>'data[OrderItem][purity][]','placeholder'=>'Enter Purity','required'=>'required','class'=>'form-control input-sm','label'=>false));?>
 									</div>
 								</div>
 
 								<div class="row xs-pt-12">
 									<div class="form-group col-sm-6">
 										<label>Total</label>
-										<?php echo $this->Form->input("OrderItem.total",array('name'=>'data[OrderItem][][total]','placeholder'=>'Total','required'=>'required','class'=>'form-control input-sm','label'=>false));?>
+										<?php echo $this->Form->input("OrderItem.total",array('name'=>'data[OrderItem][total][]','placeholder'=>'Total','required'=>'required','class'=>'form-control input-sm','label'=>false));?>
 									</div>
 									<div class="form-group col-sm-6">
 										<label>Discount</label>
-										<?php echo $this->Form->input("OrderItem.discount",array('name'=>'data[OrderItem][][discount]','placeholder'=>'Enter Discount','required'=>'required','class'=>'form-control input-sm','label'=>false));?>
+										<?php echo $this->Form->input("OrderItem.discount",array('name'=>'data[OrderItem][discount][]','placeholder'=>'Enter Discount','required'=>'required','class'=>'form-control input-sm','label'=>false));?>
 									</div>
 								</div>
 
 								<div class="row xs-pt-12">
 									<div class="form-group col-sm-6">
 										<label>Comments</label>
-										<?php echo $this->Form->input("OrderItem.comments",array('name'=>'data[OrderItem][][comments]','type'=>'text','placeholder'=>'Enter Comments','required'=>'required','class'=>'form-control input-sm','label'=>false));?>
+										<?php echo $this->Form->input("OrderItem.comments",array('name'=>'data[OrderItem][comments][]','type'=>'text','placeholder'=>'Enter Comments','required'=>'required','class'=>'form-control input-sm','label'=>false));?>
 									</div>
 									<div class="form-group col-sm-6">
 										<label>Grand Total</label>
-										<?php echo $this->Form->input("OrderItem.grand_total",array('name'=>'data[OrderItem][][grand_total]','placeholder'=>'Grand Total','required'=>'required','class'=>'form-control input-sm','label'=>false));?>
+										<?php echo $this->Form->input("OrderItem.grand_total",array('name'=>'data[OrderItem][grand_total][]','placeholder'=>'Grand Total','required'=>'required','class'=>'form-control input-sm','label'=>false));?>
 									</div>
 								</div>
 								<br/>
@@ -165,9 +165,9 @@ input:checked + .slider:before {
 
 		$('body').on('change','.hideSomeField',function(){
 			if ($(this).prop("checked") == true) {
-				$(this).parents("div").next("div .extra_fields").show();
+				$(this).parent().parent().parent("div.clone-div").find("div.extra_fields").show();
 			} else {
-				$(this).parents("div").next("div .extra_fields").hide();
+				$(this).parent().parent().parent("div.clone-div").find("div.extra_fields").hide();
 			}
 		});
 		
@@ -197,8 +197,7 @@ input:checked + .slider:before {
             var cloneDiv = $('.clone-div:last').clone().insertAfter(".clone-div:last");
             cloneDiv.find('input').val("");
 			
-			var cloneVal = $('.clone-div').length;
-	
+			// var cloneVal = $('.clone-div').length;
             cloneDiv.find('div.clone-remove button.remove').css("display","block");
         });
 

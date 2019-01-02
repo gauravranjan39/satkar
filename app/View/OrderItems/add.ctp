@@ -95,20 +95,20 @@ input:checked + .slider:before {
 									</div>
 
 									<div class="form-group col-sm-6">
-										<label>Weight</label>
-										<?php echo $this->Form->input("OrderItem.weight",array('name'=>'data[OrderItem][weight][]','placeholder'=>'Enter Weight','required'=>'required','class'=>'form-control input-sm per-weight-field','label'=>false));?>
+										<label>Making Charge</label>
+										<?php echo $this->Form->input("OrderItem.making_charge",array('name'=>'data[OrderItem][making_charge][]','placeholder'=>'Enter Making Charge','required'=>'required','class'=>'form-control input-sm per-weight-field','label'=>false));?>
 									</div>
 								</div>
 
 								<div class="row xs-pt-12 extra_fields">
 									<div class="form-group col-sm-6">
-										<label>Making Charge</label>
-										<?php echo $this->Form->input("OrderItem.making_charge",array('name'=>'data[OrderItem][making_charge][]','placeholder'=>'Enter Making Charge','required'=>'required','class'=>'form-control input-sm per-weight-field','label'=>false));?>
+										<label>Weight</label>
+										<?php echo $this->Form->input("OrderItem.weight",array('name'=>'data[OrderItem][weight][]','placeholder'=>'Enter Weight','required'=>'required','class'=>'form-control input-sm per-weight-field item-weight','label'=>false));?>
 									</div>
 
 									<div class="form-group col-sm-6">
 										<label>Purity</label>
-										<?php echo $this->Form->input("OrderItem.purity",array('name'=>'data[OrderItem][purity][]','placeholder'=>'Enter Purity','required'=>'required','class'=>'form-control input-sm per-weight-field','label'=>false));?>
+										<?php echo $this->Form->input("OrderItem.purity",array('name'=>'data[OrderItem][purity][]','placeholder'=>'Enter Purity','class'=>'form-control input-sm per-weight-field','label'=>false));?>
 									</div>
 								</div>
 
@@ -119,14 +119,14 @@ input:checked + .slider:before {
 									</div>
 									<div class="form-group col-sm-6">
 										<label>Discount</label>
-										<?php echo $this->Form->input("OrderItem.discount",array('name'=>'data[OrderItem][discount][]','placeholder'=>'Enter Discount','required'=>'required','class'=>'form-control input-sm','label'=>false));?>
+										<?php echo $this->Form->input("OrderItem.discount",array('name'=>'data[OrderItem][discount][]','placeholder'=>'Enter Discount','class'=>'form-control input-sm','label'=>false));?>
 									</div>
 								</div>
 
 								<div class="row xs-pt-12">
 									<div class="form-group col-sm-6">
 										<label>Comments</label>
-										<?php echo $this->Form->input("OrderItem.comments",array('name'=>'data[OrderItem][comments][]','type'=>'text','placeholder'=>'Enter Comments','required'=>'required','class'=>'form-control input-sm','label'=>false));?>
+										<?php echo $this->Form->input("OrderItem.comments",array('name'=>'data[OrderItem][comments][]','type'=>'text','placeholder'=>'Enter Comments','class'=>'form-control input-sm','label'=>false));?>
 									</div>
 									<div class="form-group col-sm-6">
 										<label>Grand Total</label>
@@ -139,7 +139,7 @@ input:checked + .slider:before {
 									<button type="button" class="btn btn-warning btn-xs remove pull-right" style="display: none;">Remove</button>
 								</div>
 								
-								<hr style="border-color:black;">
+								<hr style="border-color:#4285f4;border-width:2px;">
 							</div> 
 
 
@@ -206,6 +206,27 @@ input:checked + .slider:before {
 				$(this).parent().parent().parent("div.clone-div").find("div.extra_fields").find('input').val('');
 			}
 		});
+
+		$('body').on('keyup','.item-weight',function(){
+			alert($(this).parent().parent().html());
+			var ref = $(this);
+			var rate = ref.parent().parent().parent().parent().find("input.rate").val();
+			var mkCharge = ref.parent().parent().parent().parent().find("input.mkCharge").val();
+			//var weight = ref.parent().parent().parent().parent().find("input.weight").val();
+			var weight = ref.val();
+			var refAmount = ref.parent().parent().parent().parent().find("input.amount");
+			if ((weight != '' || weight != null)) {
+				$.ajax({
+					url:'<?php echo configure::read('BASE_URL')?>customers/calculate_item_amount',
+					data:{'rate':rate,'mkCharge':mkCharge,'weight':weight},
+					success:function(data){
+						if (data) {
+							refAmount.val(data);
+						}
+					}
+				});
+			}
+	    });
 		
 
 	    $('.add-more').click(function (e) {
@@ -234,6 +255,9 @@ input:checked + .slider:before {
             cloneDiv.find('input').val("");
 			
 			// var cloneVal = $('.clone-div').length;
+			// alert(cloneVal);
+			// var t = '<div id="clonedInput' + cloneVal + '">';
+			// alert(t);return false;
             cloneDiv.find('div.clone-remove button.remove').css("display","block");
         });
 

@@ -8,11 +8,7 @@ App::uses('AppController', 'Controller');
  */
 class CustomersController extends AppController {
 
-/**
- * index method
- *
- * @return void
- */
+
 	public function index() {
 		$this->layout = "my_layout";
 		$customerLists = $this->Customer->query('SELECT c1.*,c2.id,c2.name,c2.mobile FROM
@@ -20,13 +16,7 @@ class CustomersController extends AppController {
 		$this->set('customerLists',$customerLists);
 	}
 
-/**
- * view method
- *
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
+
 	public function view($id = null) {
 		if (!$this->Customer->exists($id)) {
 			throw new NotFoundException(__('Invalid customer'));
@@ -35,11 +25,7 @@ class CustomersController extends AppController {
 		$this->set('customer', $this->Customer->find('first', $options));
 	}
 
-/**
- * add method
- *
- * @return void
- */
+
 	public function add() {
 		$this->layout = "my_layout";
 		$customerLists = $this->Customer->find('all',array('fields'=>array('id','name','mobile')));
@@ -65,13 +51,7 @@ class CustomersController extends AppController {
 		} die;
 	}
 
-/**
- * edit method
- *
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
+
 	public function edit($id = null) {
 		$this->layout = "my_layout";
 		if (!$this->Customer->exists($id)) {
@@ -90,13 +70,7 @@ class CustomersController extends AppController {
 		}
 	}
 
-/**
- * delete method
- *
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
+
 	public function delete($id = null) {
 		$this->Customer->id = $id;
 		if (!$this->Customer->exists()) {
@@ -110,6 +84,7 @@ class CustomersController extends AppController {
 		}
 		return $this->redirect(array('action' => 'index'));
 	}
+
 
 	public function check_email_unique() {
 		$this->autoRender = false;
@@ -128,6 +103,7 @@ class CustomersController extends AppController {
 			}
 		}
 	}
+
 
 	public function test() {
 		$this->layout = "my_layout";

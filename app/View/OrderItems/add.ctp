@@ -67,7 +67,7 @@ input:checked + .slider:before {
                 <div class="panel panel-default panel-border-color panel-border-color-primary">
                     <div class="panel-body">
                         <?php echo $this->Form->create('Order',array('url'=> array('controller' => 'OrderItems', 'action' => 'add'),'method'=>'POST')); ?>
-                            <div class="clone-div">
+                            <div class="clone-div" id="clonedInput_0">
 							
 								<div class="col-md-12">
 									<label class="switch">
@@ -79,58 +79,58 @@ input:checked + .slider:before {
 								<div class="row xs-pt-12">
 									<div class="form-group col-sm-6">
 										<label>Category</label>
-										<?php echo $this->Form->input("OrderItem.category_id",array('name'=>'data[OrderItem][category_id][]','type'=>'select','options'=>$categoryLists,'empty'=>'---Select---','placeholder'=>'Enter category','required'=>'required','class'=>'form-control input-sm','label'=>false));?>
+										<?php echo $this->Form->input("OrderItem.category_id",array('name'=>'data[OrderItem][0][category_id]','type'=>'select','options'=>$categoryLists,'empty'=>'---Select---','placeholder'=>'Enter category','required'=>'required','class'=>'form-control input-sm','label'=>false));?>
 									</div>
 
 									<div class="form-group col-sm-6">
 										<label>Item</label>
-										<?php echo $this->Form->input("OrderItem.name",array('name'=>'data[OrderItem][name][]','placeholder'=>'Enter Item','required'=>'required','class'=>'form-control input-sm','label'=>false));?>
+										<?php echo $this->Form->input("OrderItem.name",array('name'=>'data[OrderItem][0][name]','placeholder'=>'Enter Item','required'=>'required','class'=>'form-control input-sm','label'=>false));?>
 									</div>
 								</div>
 
 								<div class="row xs-pt-12 extra_fields">
 									<div class="form-group col-sm-6">
 										<label>Rate</label>
-										<?php echo $this->Form->input("OrderItem.rate",array('name'=>'data[OrderItem][rate][]','placeholder'=>'Enter Rate','required'=>'required','class'=>'form-control input-sm per-weight-field','label'=>false));?>
+										<?php echo $this->Form->input("OrderItem.rate",array('name'=>'data[OrderItem][0][rate]','placeholder'=>'Enter Rate','required'=>'required','class'=>'form-control input-sm per-weight-field','label'=>false));?>
 									</div>
 
 									<div class="form-group col-sm-6">
 										<label>Making Charge</label>
-										<?php echo $this->Form->input("OrderItem.making_charge",array('name'=>'data[OrderItem][making_charge][]','placeholder'=>'Enter Making Charge','required'=>'required','class'=>'form-control input-sm per-weight-field','label'=>false));?>
+										<?php echo $this->Form->input("OrderItem.making_charge",array('name'=>'data[OrderItem][0][making_charge]','placeholder'=>'Enter Making Charge','required'=>'required','class'=>'form-control input-sm per-weight-field','label'=>false));?>
 									</div>
 								</div>
 
 								<div class="row xs-pt-12 extra_fields">
 									<div class="form-group col-sm-6">
 										<label>Weight</label>
-										<?php echo $this->Form->input("OrderItem.weight",array('name'=>'data[OrderItem][weight][]','placeholder'=>'Enter Weight','required'=>'required','class'=>'form-control input-sm per-weight-field item-weight','label'=>false));?>
+										<?php echo $this->Form->input("OrderItem.weight",array('name'=>'data[OrderItem][0][weight]','placeholder'=>'Enter Weight','required'=>'required','class'=>'form-control input-sm per-weight-field item-weight','label'=>false));?>
 									</div>
 
 									<div class="form-group col-sm-6">
 										<label>Purity</label>
-										<?php echo $this->Form->input("OrderItem.purity",array('name'=>'data[OrderItem][purity][]','placeholder'=>'Enter Purity','class'=>'form-control input-sm per-weight-field','label'=>false));?>
+										<?php echo $this->Form->input("OrderItem.purity",array('name'=>'data[OrderItem][0][purity]','placeholder'=>'Enter Purity','class'=>'form-control input-sm per-weight-field','label'=>false));?>
 									</div>
 								</div>
 
 								<div class="row xs-pt-12">
 									<div class="form-group col-sm-6">
 										<label>Total</label>
-										<?php echo $this->Form->input("OrderItem.total",array('name'=>'data[OrderItem][total][]','placeholder'=>'Total','required'=>'required','class'=>'form-control input-sm','label'=>false));?>
+										<?php echo $this->Form->input("OrderItem.total",array('name'=>'data[OrderItem][0][total]','placeholder'=>'Total','required'=>'required','class'=>'form-control input-sm','label'=>false));?>
 									</div>
 									<div class="form-group col-sm-6">
 										<label>Discount</label>
-										<?php echo $this->Form->input("OrderItem.discount",array('name'=>'data[OrderItem][discount][]','placeholder'=>'Enter Discount','class'=>'form-control input-sm','label'=>false));?>
+										<?php echo $this->Form->input("OrderItem.discount",array('name'=>'data[OrderItem][0][discount]','placeholder'=>'Enter Discount','class'=>'form-control input-sm','label'=>false));?>
 									</div>
 								</div>
 
 								<div class="row xs-pt-12">
 									<div class="form-group col-sm-6">
 										<label>Comments</label>
-										<?php echo $this->Form->input("OrderItem.comments",array('name'=>'data[OrderItem][comments][]','type'=>'text','placeholder'=>'Enter Comments','class'=>'form-control input-sm','label'=>false));?>
+										<?php echo $this->Form->input("OrderItem.comments",array('name'=>'data[OrderItem][0][comments]','type'=>'text','placeholder'=>'Enter Comments','class'=>'form-control input-sm','label'=>false));?>
 									</div>
 									<div class="form-group col-sm-6">
 										<label>Grand Total</label>
-										<?php echo $this->Form->input("OrderItem.grand_total",array('name'=>'data[OrderItem][grand_total][]','placeholder'=>'Grand Total','required'=>'required','class'=>'form-control input-sm','label'=>false));?>
+										<?php echo $this->Form->input("OrderItem.grand_total",array('name'=>'data[OrderItem][0][grand_total]','placeholder'=>'Grand Total','required'=>'required','class'=>'form-control input-sm','label'=>false));?>
 									</div>
 								</div>
 								<br/>
@@ -208,7 +208,7 @@ input:checked + .slider:before {
 		});
 
 		$('body').on('keyup','.item-weight',function(){
-			alert($(this).parent().parent().html());
+			//alert($(this).parent().parent().html());
 			var ref = $(this);
 			var rate = ref.parent().parent().parent().parent().find("input.rate").val();
 			var mkCharge = ref.parent().parent().parent().parent().find("input.mkCharge").val();
@@ -231,34 +231,14 @@ input:checked + .slider:before {
 
 	    $('.add-more').click(function (e) {
             e.preventDefault();
-
-			// var regex = /^(.+?)(\d+)$/i;
-			// var cloneIndex = $(".clonedInput").length;
-			
-		
-
-			// $('.clone-div:last').clone()
-			// .insertAfter(".clonedInput:last")
-			// .attr("id", "clonedInput" +  cloneIndex)
-			// .find("*")
-			// .each(function() {
-			// 	var id = this.id || "";
-			// 	var match = id.match(regex) || [];
-			// 	if (match.length == 3) {
-			// 		this.id = match[1] + (cloneIndex);
-			// 	}
-        	// })
-
-
-
-            var cloneDiv = $('.clone-div:last').clone().insertAfter(".clone-div:last");
-            cloneDiv.find('input').val("");
-			
-			// var cloneVal = $('.clone-div').length;
-			// alert(cloneVal);
-			// var t = '<div id="clonedInput' + cloneVal + '">';
-			// alert(t);return false;
-            cloneDiv.find('div.clone-remove button.remove').css("display","block");
+			var cloneVal = $('.clone-div').length;
+            // var cloneDiv = $('.clone-div:last').clone().insertAfter(".clone-div:last");
+            // cloneDiv.find('input').val("")
+			var t = '<div class="clone-div" id="clonedInput_' + cloneVal + '">';
+			t += '<div class="col-md-12"><label class="switch"><input class="hideSomeField" id="switch_' + cloneVal + '" checked="" type="checkbox"><span class="slider round"></span></label></div>',t += '<div class="row xs-pt-12"><div class="form-group col-sm-6"><label>Category</label><div class="input select"><select name="data[OrderItem]['+ cloneVal +'][category_id]" placeholder="Enter category" required="required" class="form-control input-sm" id="OrderItemCategoryId_' + cloneVal + '"><option value="">---Select---</option><option value="2">Gold</option><option value="14">silver</option></select></div></div>',t += '<div class="form-group col-sm-6"><label>Item</label><div class="input text required"><input name="data[OrderItem]['+ cloneVal +'][name]" placeholder="Enter Item" required="required" class="form-control input-sm" maxlength="100" id="OrderItemName_' + cloneVal + '" type="text"></div></div></div>',t += '<div id="rateMakingFields_' + cloneVal + '" class="row xs-pt-12 extra_fields"><div class="form-group col-sm-6"><label>Rate</label><div class="input text"><input name="data[OrderItem]['+ cloneVal +'][rate]" placeholder="Enter Rate" required="required" class="form-control input-sm per-weight-field" maxlength="100" id="OrderItemRate_' + cloneVal + '" type="text"></div></div><div class="form-group col-sm-6"><label>Making Charge</label><div class="input text"><input name="data[OrderItem]['+ cloneVal +'][making_charge]" placeholder="Enter Making Charge" required="required" class="form-control input-sm per-weight-field" maxlength="5" id="OrderItemMakingCharge_' + cloneVal + '" type="text"></div></div></div>',t += '<div id="weightPurityFields_' + cloneVal + '" class="row xs-pt-12 extra_fields"><div class="form-group col-sm-6"><label>Weight</label><div class="input text required"><input name="data[OrderItem]['+ cloneVal +'][weight]" placeholder="Enter Weight" required="required" class="form-control input-sm per-weight-field item-weight" maxlength="250" id="OrderItemWeight_' + cloneVal + '" type="text"></div>		</div><div class="form-group col-sm-6"><label>Purity</label><div class="input text"><input name="data[OrderItem]['+ cloneVal +'][purity]" placeholder="Enter Purity" class="form-control input-sm per-weight-field" maxlength="20" id="OrderItemPurity_' + cloneVal + '" type="text"></div></div></div>',t += '<div class="row xs-pt-12"><div class="form-group col-sm-6"><label>Total</label><div class="input text"><input name="data[OrderItem]['+ cloneVal +'][total]" placeholder="Total" required="required" class="form-control input-sm" maxlength="200" id="OrderItemTotal_' + cloneVal + '" type="text"></div>						</div><div class="form-group col-sm-6"><label>Discount</label><div class="input text"><input name="data[OrderItem]['+ cloneVal +'][discount]" placeholder="Enter Discount" class="form-control input-sm" maxlength="200" id="OrderItemDiscount_' + cloneVal + '" type="text"></div></div></div>',t += '<div class="row xs-pt-12"><div class="form-group col-sm-6"><label>Comments</label><div class="input text"><input name="data[OrderItem]['+ cloneVal +'][comments]" placeholder="Enter Comments" class="form-control input-sm" id="OrderItemComments_' + cloneVal + '" type="text"></div>								</div><div class="form-group col-sm-6"><label>Grand Total</label><div class="input text"><input name="data[OrderItem]['+ cloneVal +'][grand_total]" placeholder="Grand Total" required="required" class="form-control input-sm" maxlength="200" id="OrderItemGrandTotal_' + cloneVal + '" type="text"></div></div></div><br>',t += '<div class="clone-remove" style="padding: 5px;"><button type="button" id="removeDiv' + cloneVal + '" class="btn btn-warning btn-xs remove pull-right">Remove</button></div><hr style="border-color:#4285f4;border-width:2px;">',t += '</div>',
+			$("div#clonedInput_0").append(t);
+			//alert(t);return false;
+            //cloneDiv.find('div.clone-remove button.remove').css("display","block");
         });
 
         $('body').on('click', '.remove', function() {

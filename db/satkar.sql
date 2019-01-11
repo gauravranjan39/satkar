@@ -1,13 +1,15 @@
 -- phpMyAdmin SQL Dump
--- version 4.5.1
--- http://www.phpmyadmin.net
+-- version 4.8.2
+-- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 27, 2018 at 01:53 PM
--- Server version: 10.1.13-MariaDB
--- PHP Version: 5.6.20
+-- Generation Time: Jan 11, 2019 at 08:52 PM
+-- Server version: 10.1.34-MariaDB
+-- PHP Version: 5.6.37
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -75,6 +77,65 @@ INSERT INTO `customers` (`id`, `name`, `mobile`, `email`, `address`, `reference_
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `orders`
+--
+
+CREATE TABLE `orders` (
+  `id` int(11) NOT NULL,
+  `customer_id` int(11) NOT NULL,
+  `order_number` varchar(255) NOT NULL,
+  `total` varchar(50) NOT NULL,
+  `discount` varchar(50) DEFAULT NULL,
+  `grand_total` varchar(50) NOT NULL,
+  `status` tinyint(1) NOT NULL,
+  `payment_status` tinyint(1) NOT NULL,
+  `comments` text,
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `order_items`
+--
+
+CREATE TABLE `order_items` (
+  `id` int(11) NOT NULL,
+  `order_id` int(11) NOT NULL,
+  `category_id` int(11) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `weight` varchar(250) DEFAULT NULL,
+  `rate` varchar(100) DEFAULT NULL,
+  `making_charge` varchar(20) DEFAULT NULL,
+  `purity` varchar(20) DEFAULT NULL,
+  `total` varchar(200) NOT NULL,
+  `discount` varchar(200) DEFAULT NULL,
+  `grand_total` varchar(200) NOT NULL,
+  `comments` text,
+  `status` tinyint(1) NOT NULL,
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `order_transactions`
+--
+
+CREATE TABLE `order_transactions` (
+  `id` int(11) NOT NULL,
+  `order_id` int(11) NOT NULL,
+  `amount_paid` varchar(200) NOT NULL,
+  `invoice_number` varchar(200) DEFAULT NULL,
+  `comments` text,
+  `status` tinyint(1) NOT NULL,
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `suppliers`
 --
 
@@ -128,7 +189,7 @@ INSERT INTO `users` (`id`, `name`, `mobile`, `address`, `username`, `password`, 
 (3, 'gaurav ranjan', '7277568289', 'purani bazar', NULL, '2a0143b5f42b00035a430b57d37d035ac3295a6c', 'gauravr39@gmail.com', 1, NULL, '1', '2018-07-14 21:45:59'),
 (4, 'testing', '9898989888', 'purani bazar', NULL, '2a0143b5f42b00035a430b57d37d035ac3295a6c', 'test@gmail.com', 1, 'ranjan', '1', '2018-07-14 21:52:57'),
 (5, 'final test', '9876543210', 'final ', NULL, '2e2a5ed8775931f4c4811675013af8c7155b5092', 'finaltest@satkar.com', 1, '1531761415', '1', '2018-07-14 22:00:07'),
-(6, 'token', '9817262322', 'patna', NULL, 'c507d31b18711594052eef43de328db537426479', 'token@gmail.com', 0, '1531598513', '1', '2018-07-14 22:01:53'),
+(6, 'token', '9817262322', 'patna', NULL, 'c507d31b18711594052eef43de328db537426479', 'token@gmail.com', 1, '1531598513', '1', '2018-07-14 22:01:53'),
 (7, 'Satkar', '9898989888', 'delhi', NULL, '518d937c68432fa867261f2591d3cd7f3dcde629', 'finaltest@satkar.com', 1, '1531761446', '1', '2018-07-16 18:54:43'),
 (8, 'final test', '9898989888', 'final address', NULL, '4fa23b586d814ca413dc9f2185aecd4621f63a54', 'finaltest@satkar.com', 1, '1531761458', '1', '2018-07-16 18:56:34');
 
@@ -146,6 +207,24 @@ ALTER TABLE `categories`
 -- Indexes for table `customers`
 --
 ALTER TABLE `customers`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `orders`
+--
+ALTER TABLE `orders`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `order_items`
+--
+ALTER TABLE `order_items`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `order_transactions`
+--
+ALTER TABLE `order_transactions`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -170,21 +249,44 @@ ALTER TABLE `users`
 --
 ALTER TABLE `categories`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+
 --
 -- AUTO_INCREMENT for table `customers`
 --
 ALTER TABLE `customers`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `orders`
+--
+ALTER TABLE `orders`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `order_items`
+--
+ALTER TABLE `order_items`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `order_transactions`
+--
+ALTER TABLE `order_transactions`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `suppliers`
 --
 ALTER TABLE `suppliers`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+COMMIT;
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

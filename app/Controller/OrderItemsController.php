@@ -5,9 +5,8 @@ App::uses('AppController', 'Controller');
  */
 class OrderItemsController extends AppController {
 
-
-
 	public function add($customerId=null) {
+		echo $customerId;
 		$this->layout = "my_layout";
 		$this->loadModel('Category');
 		$categoryLists = $this->Category->find('list',array('conditions'=>array('Category.parent_id'=>0)));

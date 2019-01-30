@@ -144,7 +144,7 @@ input:checked + .slider:before {
 								
 								<hr style="border-color:#4285f4;border-width:2px;">
 							</div> 
-
+							<button type="button" class="btn btn-primary btn-xs add-more">Add More</button>
 
 							<div class="row xs-pt-12">
 								<div class="form-group col-sm-6"></div>
@@ -178,8 +178,6 @@ input:checked + .slider:before {
 								</div>
 							</div>
 							
-
-							<button type="button" class="btn btn-primary btn-xs add-more">Add More</button>
 							<div class="row xs-pt-15">
 								<div class="col-xs-6">
 									<?php echo $this->Form->button('Submit',array('class'=>'btn btn-space btn-primary','id'=>'orderItems','type'=>'submit'));?>

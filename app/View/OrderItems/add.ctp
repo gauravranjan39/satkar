@@ -70,6 +70,24 @@ input:checked + .slider:before {
                             <div class="clone-div" id="clonedInput_0">
 							
 								<div class="col-md-12">
+									<div class="form-group">
+                      
+										<div class="col-sm-6">
+											<div class="be-radio inline">
+												<input type="radio" checked="" name="rad3" id="rad6">
+												<label for="rad6">Option 1</label>
+											</div>
+											<div class="be-radio inline">
+												<input type="radio" checked="" name="rad3" id="rad7">
+												<label for="rad7">Option 2</label>
+											</div>
+											<div class="be-radio inline">
+												<input type="radio" checked="" name="rad3" id="rad8">
+												<label for="rad8">Option 3</label>
+											</div>
+										</div>
+									</div>
+
 									<label class="switch">
 										<input type="checkbox" id="switch_0" data-count-val="0" class="hideSomeField" checked>
 										<span class="slider round"></span>
@@ -205,7 +223,7 @@ input:checked + .slider:before {
 		});
 
 		$('body').on('change','.hideSomeField',function(){
-			alert($(this).attr('id'));return false;
+			//alert($(this).attr('data-count-val'));return false;
 			if ($(this).prop("checked") == true) {
 				$(this).parent().parent().parent("div.clone-div").find("div.extra_fields").show();
 				$(this).parent().parent().parent("div.clone-div").find("div.extra_fields").find('input').attr('required', 'required');

@@ -1,3 +1,6 @@
+<?php $controller = strtolower($this->params['controller']);
+$activeClass = 'class="active"';
+?>
 <div class="be-left-sidebar">
   <div class="left-sidebar-wrapper"><a href="#" class="left-sidebar-toggle">Dashboard</a>
     <div class="left-sidebar-spacer">
@@ -5,16 +8,16 @@
         <div class="left-sidebar-content">
           <ul class="sidebar-elements">
             <li class="divider">Menu</li>
-            <li class="active">
+            <li <?=($controller == 'users')?$activeClass:null?>>
 				<?php echo $this->Html->link('<i class="icon mdi mdi-home"></i><span>Dashboard</span>',array('controller'=>'users','action'=>'index'),array('escape'=>false)); ?>
 			</li>
-            <li class="">
+            <li <?=($controller == 'suppliers')?$activeClass:null?>>
 				<?php echo $this->Html->link('<i class="icon mdi mdi-face"></i><span>Suppliers</span>',array('controller'=>'suppliers','action'=>'index'),array('escape'=>false)); ?>
 			</li>
-			<li class="">
+			<li <?=($controller == 'customers')?$activeClass:null?>>
 				<?php echo $this->Html->link('<i class="icon mdi mdi-face"></i><span>Customers</span>',array('controller'=>'customers','action'=>'index'),array('escape'=>false)); ?>
 			</li>
-			<li class="">
+			<li <?=($controller == 'categories')?$activeClass:null?>>
 				<?php echo $this->Html->link('<i class="icon mdi mdi-layers"></i><span>Category</span>',array('controller'=>'categories','action'=>'index'),array('escape'=>false)); ?>
 			</li>
             <li class="parent"><a href="charts.html"><i class="icon mdi mdi-chart-donut"></i><span>Charts</span></a>

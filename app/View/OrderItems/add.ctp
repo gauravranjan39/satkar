@@ -74,16 +74,16 @@ input:checked + .slider:before {
                       
 										<div class="col-sm-6">
 											<div class="be-radio inline">
-												<input type="radio" checked="" name="rad3" id="rad6">
-												<label for="rad6">By Weight</label>
+												<input type="radio" checked="" class="saleType" sale-type="weight" name="type0" data-count-val="0" id="weight_0">
+												<label for="weight_0">By Weight</label>
 											</div>
 											<div class="be-radio inline">
-												<input type="radio" name="rad3" id="rad7">
-												<label for="rad7">By Piece</label>
+												<input type="radio" class="saleType" sale-type="piece" name="type0" data-count-val="0" id="piece_0">
+												<label for="piece_0">By Piece</label>
 											</div>
 											<div class="be-radio inline">
-												<input type="radio"  name="rad3" id="rad8">
-												<label for="rad8">Gems</label>
+												<input type="radio" class="saleType" sale-type="gems" name="type0" data-count-val="0" id="gems_0">
+												<label for="gems_0">Gems</label>
 											</div>
 										</div>
 									</div>
@@ -211,6 +211,11 @@ input:checked + .slider:before {
 
 <script>
     $(document).ready(function(){
+
+		$('.saleType').click(function(){
+			var test = $(this).attr('sale-type');
+			alert(test);
+		});
 
 		$(".allowOnlyNumber").keypress(function(evt){
 			var charCode = (evt.which) ? evt.which : evt.keyCode;

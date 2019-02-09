@@ -71,8 +71,7 @@ input:checked + .slider:before {
 							
 								<div class="col-md-12">
 									<div class="form-group">
-                      
-										<div class="col-sm-6">
+										<div class="col-sm-4" style="float:right;">
 											<div class="be-radio inline">
 												<input type="radio" checked="" class="saleType" sale-type="weight" name="type0" data-count-val="0" id="weight_0">
 												<label for="weight_0">By Weight</label>
@@ -87,12 +86,9 @@ input:checked + .slider:before {
 											</div>
 										</div>
 									</div>
-
-									<label class="switch">
-										<input type="checkbox" id="switch_0" data-count-val="0" class="hideSomeField" checked>
-										<span class="slider round"></span>
-									</label>
 								</div>
+								<hr style="border: 1px dotted gainsboro;">
+
 								<?php $categoryJson =  json_encode($categoryLists); ?>
 								<div class="row xs-pt-12">
 									<div class="form-group col-sm-6">
@@ -128,6 +124,27 @@ input:checked + .slider:before {
 										<label>Purity</label>
 										<?php echo $this->Form->input("OrderItem.purity",array('name'=>'data[OrderItem][0][purity]','id'=>'OrderItemPurity_0','placeholder'=>'Enter Purity','class'=>'form-control input-sm per-weight-field allowOnlyNumber','label'=>false));?>
 									</div>
+								</div>
+
+								<div class="row xs-pt-12 gems_fields" style="display:none;">
+									<div class="form-group col-sm-3">
+										<label>Gems Name</label>
+										<?php echo $this->Form->input("OrderItem.weight",array('name'=>'data[OrderItem][0][weight]','id'=>'OrderItemWeight_0','placeholder'=>'Enter Gems Name','required'=>'required','class'=>'form-control input-sm per-weight-field item-weight','label'=>false));?>
+									</div>
+
+									<div class="form-group col-sm-3">
+										<label>Gems Rate</label>
+										<?php echo $this->Form->input("OrderItem.purity",array('name'=>'data[OrderItem][0][purity]','id'=>'OrderItemPurity_0','placeholder'=>'Gems Rate','class'=>'form-control input-sm per-weight-field allowOnlyNumber','label'=>false));?>
+									</div>
+									<div class="form-group col-sm-3">
+										<label>Gems Weight</label>
+										<?php echo $this->Form->input("OrderItem.purity",array('name'=>'data[OrderItem][0][purity]','id'=>'OrderItemPurity_0','placeholder'=>'Gems Weight','class'=>'form-control input-sm per-weight-field allowOnlyNumber','label'=>false));?>
+									</div>
+									<div class="form-group col-sm-3">
+										<label>Gems Price</label>
+										<?php echo $this->Form->input("OrderItem.purity",array('name'=>'data[OrderItem][0][purity]','id'=>'OrderItemPurity_0','placeholder'=>'Gems Price','class'=>'form-control input-sm per-weight-field allowOnlyNumber','label'=>false));?>
+									</div>
+
 								</div>
 
 								<div class="row xs-pt-12">
@@ -213,8 +230,17 @@ input:checked + .slider:before {
     $(document).ready(function(){
 
 		$('.saleType').click(function(){
-			var test = $(this).attr('sale-type');
-			alert(test);
+			var saleType = $(this).attr('sale-type');
+			if (saleType == 'gems') {
+				$('.gems_fields').show();
+				$('.extra_fields').show();
+			} else if(saleType == 'piece') {
+				$('.gems_fields').hide();
+				$('.extra_fields').hide();
+			} else if(saleType == 'weight') { 
+				$('.extra_fields').show();
+				$('.gems_fields').hide();
+			}
 		});
 
 		$(".allowOnlyNumber").keypress(function(evt){

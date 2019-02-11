@@ -133,15 +133,15 @@ input:checked + .slider:before {
 									</div>
 									<div class="form-group col-sm-3">
 										<label>Gems Rate</label>
-										<?php echo $this->Form->input("OrderItem.gems_rate",array('name'=>'data[OrderItem][0][gems_rate]','id'=>'GemsRate_0','placeholder'=>'Gems Rate','class'=>'form-control input-sm allowOnlyNumber','label'=>false));?>
+										<?php echo $this->Form->input("OrderItem.gems_rate",array('name'=>'data[OrderItem][0][gems_rate]','id'=>'GemsRate_0','placeholder'=>'Enter Gems Rate','class'=>'form-control input-sm allowOnlyNumber','label'=>false));?>
 									</div>
 									<div class="form-group col-sm-3">
 										<label>Gems Weight</label>
-										<?php echo $this->Form->input("OrderItem.gems_weight",array('name'=>'data[OrderItem][0][gems_weight]','id'=>'GemsWeight_0','placeholder'=>'Gems Weight','class'=>'form-control input-sm allowOnlyNumber','label'=>false));?>
+										<?php echo $this->Form->input("OrderItem.gems_weight",array('name'=>'data[OrderItem][0][gems_weight]','id'=>'GemsWeight_0','placeholder'=>'Enter Gems Weight','class'=>'form-control input-sm allowOnlyNumber','label'=>false));?>
 									</div>
 									<div class="form-group col-sm-3">
 										<label>Gems Price</label>
-										<?php echo $this->Form->input("OrderItem.gems_price",array('name'=>'data[OrderItem][0][gems_weight]','id'=>'GemsPrice_0','placeholder'=>'Gems Price','class'=>'form-control input-sm allowOnlyNumber','label'=>false));?>
+										<?php echo $this->Form->input("OrderItem.gems_price",array('name'=>'data[OrderItem][0][gems_weight]','id'=>'GemsPrice_0','placeholder'=>'Enter Gems Price','class'=>'form-control input-sm allowOnlyNumber','label'=>false));?>
 									</div>
 								</div>
 

@@ -87,7 +87,7 @@
 								<div class="row xs-pt-12">
 									<div class="form-group col-sm-6">
 										<label>Total</label>
-										<?php echo $this->Form->input("OrderItem.total",array('name'=>'data[OrderItem][0][total]','id'=>'OrderItemTotal_0','placeholder'=>'Total','required'=>'required','class'=>'form-control input-sm allowOnlyNumber','label'=>false));?>
+										<?php echo $this->Form->input("OrderItem.total",array('name'=>'data[OrderItem][0][total]','id'=>'OrderItemTotal_0','placeholder'=>'Total','required'=>'required','readonly'=>true,'class'=>'form-control input-sm allowOnlyNumber','label'=>false));?>
 									</div>
 									<div class="form-group col-sm-6">
 										<label>Discount</label>
@@ -174,6 +174,8 @@
 				$('.extra_fields_'+countVal).show();
 				$('.extra_fields_'+countVal).find('input').attr('required', 'required');
 				$('.gems_fields_'+countVal).find('input').attr('required', 'required');
+				$('#OrderItemTotal_'+countVal).attr('readonly',true);
+				$('#OrderItemTotal_'+countVal).val('');
 			} else if(saleType == 'piece') {
 				$('.gems_fields_'+countVal).hide();
 				$('.extra_fields_'+countVal).hide();
@@ -181,12 +183,16 @@
 				$('.extra_fields_'+countVal).find('input').val('');
 				$('.extra_fields_'+countVal).find('input').removeAttr('required');
 				$('.gems_fields_'+countVal).find('input').removeAttr('required');
-			} else if(saleType == 'weight') { 
+				$('#OrderItemTotal_'+countVal).removeAttr('readonly',false);
+				$('#OrderItemTotal_'+countVal).val('');
+			} else if(saleType == 'weight') {
 				$('.extra_fields_'+countVal).show();
 				$('.gems_fields_'+countVal).hide();
 				$('.gems_fields_'+countVal).find('input').val('');
 				$('.gems_fields_'+countVal).find('input').removeAttr('required');
 				$('.extra_fields_'+countVal).find('input').attr('required', 'required');
+				$('#OrderItemTotal_'+countVal).attr('readonly',true);
+				$('#OrderItemTotal_'+countVal).val('');
 			}
 		});
 

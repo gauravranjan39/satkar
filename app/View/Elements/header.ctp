@@ -2,6 +2,11 @@
   <div class="container-fluid">
     <div class="navbar-header"><a href="index.html" class="navbar-brand"></a></div>
     <div class="be-right-navbar">
+	<?php if(strpos($_SERVER['HTTP_USER_AGENT'], 'Chrome') !== FALSE) { ?>
+		<div class="icon-container" style="float:left;padding:4px;">
+			<div class="icon"><span class="mdi mdi-mic helbutton"></span></div>
+		</div>
+	<?php } ?>
       <ul class="nav navbar-nav navbar-right be-user-nav">
         <li class="dropdown"><a href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="dropdown-toggle">
 		<?php echo $this->Html->image('avatar.png',array('escape'=>false)); ?>
@@ -21,7 +26,7 @@
           </ul>
         </li>
       </ul>
-      <div class="page-title"><span>Dashboard</span></div>
+      <!-- <div class="page-title"><span>Dashboard</span></div> -->
       <!-- <ul class="nav navbar-nav navbar-right be-icons-nav">
         <li class="dropdown"><a href="#" role="button" aria-expanded="false" class="be-toggle-right-sidebar"><span class="icon mdi mdi-settings"></span></a></li>
         <li class="dropdown"><a href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="dropdown-toggle"><span class="icon mdi mdi-notifications"></span><span class="indicator"></span></a>

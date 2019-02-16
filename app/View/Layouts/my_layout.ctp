@@ -30,7 +30,7 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 		echo $this->Html->meta('icon');
 
 		echo $this->Html->css('perfect-scrollbar.min');
-		echo $this->Html->css('material-design-icons/css/material-design-iconic-font.min');
+		echo $this->Html->css('material-design-icons/css/material-design-iconic-font');
 		echo $this->Html->css('dataTables.bootstrap.min');
 		echo $this->Html->css('style');
 		echo $this->Html->script('jquery.min');
@@ -46,6 +46,7 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 		echo $this->Html->script('buttons.colVis');
 		echo $this->Html->script('buttons.bootstrap');
 		echo $this->Html->script('app-tables-datatables');
+		echo $this->Html->script('speechToText');
 
 		echo $this->fetch('meta');
 		echo $this->fetch('css');
@@ -58,7 +59,35 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
         App.init();
         //App.dashboard();
 		App.dataTables();
-    });
+		
+		$('.helbutton').click(function(){
+			allowMicrophone();
+		});
+	});
+	
+	
+
+		
+	if(navigator.userAgent.indexOf("Chrome") != -1 ) {
+		/** Initialise the speech Recognization*/
+		var speech2text = new speech2text();
+
+		// Start Interacting with SPEECH by allowing your microphone
+		speech2text.start(callBackCalledAfterUpdate);
+
+		/** Allow access to microphone on click*/
+		function allowMicrophone() {
+			speech2text.start(callBackCalledAfterUpdate);
+		}
+
+		/**  Callback to be called after starting SPEECH RECOGNIZATION*/
+		function callBackCalledAfterUpdate(voice) {
+			// What you say, will be console here
+			console.log(voice);
+			// If let the robot to speak what you say
+			speech2text.onReadLoud(voice);
+		}
+	}
       
 </script>
 <body>	

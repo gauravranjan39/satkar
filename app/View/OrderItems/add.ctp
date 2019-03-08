@@ -195,8 +195,10 @@
 				$('#OrderItemTotal_'+countVal).val('');
 			}
 		});
+		
+		$('.clone-div').on('keypress','.allowOnlyNumber',function(evt){
 
-		$(".allowOnlyNumber").keypress(function(evt){
+		// $(".allowOnlyNumber").keypress(function(evt){
 			var charCode = (evt.which) ? evt.which : evt.keyCode;
 			if (charCode != 46 && charCode > 31 
 			&& (charCode < 48 || charCode > 57))
@@ -217,39 +219,15 @@
 
 		$(document).on("focus change keyup", "input.per-weight-field", function(){
 			
-			var parentDiv = $(this).parents('.altOptionsAddGroup');
-			var netprice = parentDiv.find('.netPriceEle').val();
-			var productPercentage = parentDiv.find('.percentageEle').val();
-			
-			var tempPrice = (netprice/100)*productPercentage;
-			var price = parseFloat(netprice) + parseFloat(tempPrice);
-			if ($.isNumeric(price)) {
-				parentDiv.find('.priceEle').val(price.toFixed(2));
-			} else {
-				parentDiv.find('.priceEle').val('');
-			}
-		});
+			var parentDiv = $(this).parents('.clone-div').attr('data-count-val');
+			var curentElemRate = $('#OrderItemRate_'+parentDiv).val();
+			var curentElemMaking = $('#OrderItemMakingCharge_'+parentDiv).val();
+			var curentElemWeight = $('#OrderItemWeight_'+parentDiv).val();
+			var calculatePrice = (parseFloat(curentElemRate) + parseFloat(curentElemMaking)) * parseFloat(curentElemWeight);
+			$('#OrderItemTotal_'+parentDiv).val(calculatePrice.toFixed(2));
 
-		$('body').on('keyup','.item-weight',function(){
-			//alert($(this).parent().parent().html());
-			var ref = $(this);
-			var rate = ref.parent().parent().parent().parent().find("input.rate").val();
-			var mkCharge = ref.parent().parent().parent().parent().find("input.mkCharge").val();
-			//var weight = ref.parent().parent().parent().parent().find("input.weight").val();
-			var weight = ref.val();
-			var refAmount = ref.parent().parent().parent().parent().find("input.amount");
-			if ((weight != '' || weight != null)) {
-				$.ajax({
-					url:'<?php echo configure::read('BASE_URL')?>customers/calculate_item_amount',
-					data:{'rate':rate,'mkCharge':mkCharge,'weight':weight},
-					success:function(data){
-						if (data) {
-							refAmount.val(data);
-						}
-					}
-				});
-			}
-	    });
+			
+		});
 		
 		var category = JSON.parse('<?php echo $categoryJson; ?>');
 

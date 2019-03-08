@@ -29,7 +29,7 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 	<?php
 		echo $this->Html->meta('icon');
 
-		// echo $this->Html->css('perfect-scrollbar.min');
+		echo $this->Html->css('perfect-scrollbar.min');
 		echo $this->Html->css('material-design-icons/css/material-design-iconic-font');
 		echo $this->Html->css('dataTables.bootstrap.min');
 		echo $this->Html->css('style');
@@ -39,12 +39,12 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 		echo $this->Html->script('bootstrap.min');
 		echo $this->Html->script('jquery.dataTables.min');
 		echo $this->Html->script('dataTables.bootstrap.min');
-		// echo $this->Html->script('dataTables.buttons');
-		// echo $this->Html->script('buttons.html5');
-		// echo $this->Html->script('buttons.flash');
-		// echo $this->Html->script('buttons.print');
-		// echo $this->Html->script('buttons.colVis');
-		// echo $this->Html->script('buttons.bootstrap');
+		echo $this->Html->script('dataTables.buttons');
+		echo $this->Html->script('buttons.html5');
+		echo $this->Html->script('buttons.flash');
+		echo $this->Html->script('buttons.print');
+		echo $this->Html->script('buttons.colVis');
+		echo $this->Html->script('buttons.bootstrap');
 		echo $this->Html->script('app-tables-datatables');
 		echo $this->Html->script('speechToText');
 
@@ -63,6 +63,10 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 		$('.helbutton').click(function(){
 			allowMicrophone();
 		});
+
+		
+
+
 	});
 	
 	
@@ -84,6 +88,13 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 		function callBackCalledAfterUpdate(voice) {
 			// What you say, will be console here
 			console.log(voice);
+			if (voice == 'go back') {
+				window.history.back();
+			} else if (voice == 'kill you' || voice == 'logout') {
+				// $this->redirect(array('controller'=>'Users','action' => 'logout'));
+				// $this->Session->delete('Auth');
+				// window.location.href = '<?php //echo $base_url ?>/Users/logout' ;
+			}
 			// If let the robot to speak what you say
 			speech2text.onReadLoud(voice);
 		}

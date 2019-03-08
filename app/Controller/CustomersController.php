@@ -29,7 +29,7 @@ class CustomersController extends AppController {
 	public function add() {
 		$this->layout = "my_layout";
 		$customerLists = $this->Customer->find('all',array('fields'=>array('id','name','mobile')));
-		pr($customerLists);die;
+		// pr($customerLists);die;
 		if ($this->request->is('post')) {
 			$this->Customer->create();
 			if ($this->Customer->save($this->request->data)) {

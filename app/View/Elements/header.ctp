@@ -7,6 +7,7 @@
 			<div class="icon"><span class="mdi mdi-mic helbutton"></span></div>
 		</div>
 	<?php } ?>
+	
       <ul class="nav navbar-nav navbar-right be-user-nav">
         <li class="dropdown"><a href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="dropdown-toggle">
 		<?php echo $this->Html->image('avatar.png',array('escape'=>false)); ?>

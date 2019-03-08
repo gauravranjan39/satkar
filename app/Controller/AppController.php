@@ -42,4 +42,7 @@ class AppController extends Controller {
         'logoutRedirect' => array('controller' => 'users', 'action' => 'login'),
         )
 	);
+	function beforeRender(){
+		$this->set('base_url', 'http://'.$_SERVER['SERVER_NAME'].Router::url('/'));
+	}
 }

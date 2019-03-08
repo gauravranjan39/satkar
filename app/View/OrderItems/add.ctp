@@ -215,6 +215,21 @@
 			}
 		});
 
+		$(document).on("focus change keyup", "input.per-weight-field", function(){
+			
+			var parentDiv = $(this).parents('.altOptionsAddGroup');
+			var netprice = parentDiv.find('.netPriceEle').val();
+			var productPercentage = parentDiv.find('.percentageEle').val();
+			
+			var tempPrice = (netprice/100)*productPercentage;
+			var price = parseFloat(netprice) + parseFloat(tempPrice);
+			if ($.isNumeric(price)) {
+				parentDiv.find('.priceEle').val(price.toFixed(2));
+			} else {
+				parentDiv.find('.priceEle').val('');
+			}
+		});
+
 		$('body').on('keyup','.item-weight',function(){
 			//alert($(this).parent().parent().html());
 			var ref = $(this);

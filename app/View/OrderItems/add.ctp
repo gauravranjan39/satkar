@@ -72,22 +72,22 @@
 									</div>
 									<div class="form-group col-sm-3">
 										<label>Gems Rate</label>
-										<?php echo $this->Form->input("OrderItem.gems_rate",array('name'=>'data[OrderItem][0][gems_rate]','id'=>'GemsRate_0','placeholder'=>'Enter Gems Rate','class'=>'form-control input-sm allowOnlyNumber','label'=>false));?>
+										<?php echo $this->Form->input("OrderItem.gems_rate",array('name'=>'data[OrderItem][0][gems_rate]','id'=>'GemsRate_0','placeholder'=>'Enter Gems Rate','class'=>'form-control input-sm allowOnlyNumber per-weight-field','label'=>false));?>
 									</div>
 									<div class="form-group col-sm-3">
 										<label>Gems Weight</label>
-										<?php echo $this->Form->input("OrderItem.gems_weight",array('name'=>'data[OrderItem][0][gems_weight]','id'=>'GemsWeight_0','placeholder'=>'Enter Gems Weight','class'=>'form-control input-sm allowOnlyNumber','label'=>false));?>
+										<?php echo $this->Form->input("OrderItem.gems_weight",array('name'=>'data[OrderItem][0][gems_weight]','id'=>'GemsWeight_0','placeholder'=>'Enter Gems Weight','class'=>'form-control input-sm allowOnlyNumber per-weight-field','label'=>false));?>
 									</div>
 									<div class="form-group col-sm-3">
 										<label>Gems Price</label>
-										<?php echo $this->Form->input("OrderItem.gems_price",array('name'=>'data[OrderItem][0][gems_weight]','id'=>'GemsPrice_0','placeholder'=>'Enter Gems Price','class'=>'form-control input-sm allowOnlyNumber','label'=>false));?>
+										<?php echo $this->Form->input("OrderItem.gems_price",array('name'=>'data[OrderItem][0][gems_weight]','id'=>'GemsPrice_0','placeholder'=>'Enter Gems Price','class'=>'form-control input-sm allowOnlyNumber per-weight-field','readonly'=>true, 'label'=>false));?>
 									</div>
 								</div>
 
 								<div class="row xs-pt-12">
 									<div class="form-group col-sm-6">
 										<label>Total</label>
-										<?php echo $this->Form->input("OrderItem.total",array('name'=>'data[OrderItem][0][total]','id'=>'OrderItemTotal_0','placeholder'=>'Total','required'=>'required','readonly'=>true,'class'=>'form-control input-sm allowOnlyNumber','label'=>false));?>
+										<?php echo $this->Form->input("OrderItem.total",array('name'=>'data[OrderItem][0][total]','id'=>'OrderItemTotal_0','placeholder'=>'Total','required'=>'required','readonly'=>true,'class'=>'form-control input-sm allowOnlyNumber itemTotal','label'=>false));?>
 									</div>
 									<div class="form-group col-sm-6">
 										<label>Discount</label>
@@ -102,7 +102,7 @@
 									</div>
 									<div class="form-group col-sm-6">
 										<label>Grand Total</label>
-										<?php echo $this->Form->input("OrderItem.grand_total",array('name'=>'data[OrderItem][0][grand_total]','id'=>'OrderItemGrandTotal_0','placeholder'=>'Grand Total','required'=>'required','readonly'=>true,'class'=>'form-control input-sm allowOnlyNumber','label'=>false));?>
+										<?php echo $this->Form->input("OrderItem.grand_total",array('name'=>'data[OrderItem][0][grand_total]','id'=>'OrderItemGrandTotal_0','placeholder'=>'Grand Total','required'=>'required','readonly'=>true,'class'=>'form-control input-sm allowOnlyNumber grand_total','label'=>false));?>
 									</div>
 								</div>
 								<br/>
@@ -119,7 +119,7 @@
 								<div class="form-group col-sm-6"></div>
 								<div class="form-group col-sm-6">
 									<label>Total</label>
-									<?php echo $this->Form->input("Order.total",array('placeholder'=>'Total','autocomplete'=>'off','required'=>'required','class'=>'form-control input-sm allowOnlyNumber','label'=>false));?>
+									<?php echo $this->Form->input("Order.total",array('placeholder'=>'Total','autocomplete'=>'off','required'=>'required','class'=>'form-control input-sm orderAllowOnlyNumber','readonly'=>true,'label'=>false));?>
 								</div>
 							</div>
 
@@ -127,7 +127,7 @@
 								<div class="form-group col-sm-6"></div>
 								<div class="form-group col-sm-6">
 									<label>Discount</label>
-									<?php echo $this->Form->input("Order.discount",array('placeholder'=>'Discount','autocomplete'=>'off','required'=>'required','class'=>'form-control input-sm allowOnlyNumber','label'=>false));?>
+									<?php echo $this->Form->input("Order.discount",array('placeholder'=>'Discount','autocomplete'=>'off','class'=>'form-control input-sm orderAllowOnlyNumber','label'=>false));?>
 								</div>
 							</div>
 
@@ -135,7 +135,7 @@
 								<div class="form-group col-sm-6"></div>
 								<div class="form-group col-sm-6">
 									<label>Grand Total</label>
-									<?php echo $this->Form->input("Order.grand_total",array('placeholder'=>'Grand Total','autocomplete'=>'off','required'=>'required','class'=>'form-control input-sm allowOnlyNumber','label'=>false));?>
+									<?php echo $this->Form->input("Order.grand_total",array('placeholder'=>'Grand Total','autocomplete'=>'off','required'=>'required','class'=>'form-control input-sm orderAllowOnlyNumber','readonly'=>true,'label'=>false));?>
 								</div>
 							</div>
 
@@ -143,7 +143,15 @@
 								<div class="form-group col-sm-6"></div>
 								<div class="form-group col-sm-6">
 									<label>Payment</label>
-									<?php echo $this->Form->input("OrderTransaction.amount_paid",array('placeholder'=>'Payment','required'=>'required','autocomplete'=>'off','class'=>'form-control input-sm allowOnlyNumber','label'=>false));?>
+									<?php echo $this->Form->input("OrderTransaction.amount_paid",array('placeholder'=>'Payment','required'=>'required','autocomplete'=>'off','class'=>'form-control input-sm orderAllowOnlyNumber','label'=>false));?>
+								</div>
+							</div>
+
+							<div class="row xs-pt-12">
+								<div class="form-group col-sm-6"></div>
+								<div class="form-group col-sm-6">
+									<label>Dues</label>
+									<?php echo $this->Form->input("OrderTransaction.dues",array('placeholder'=>'Dues','autocomplete'=>'off','class'=>'form-control input-sm orderAllowOnlyNumber','readonly'=>true,'label'=>false));?>
 								</div>
 							</div>
 							
@@ -173,12 +181,14 @@
 				$('.gems_fields_'+countVal).show();
 				$('.extra_fields_'+countVal).show();
 				$('.extra_fields_'+countVal).find('input').attr('required', 'required');
+				$('.extra_fields_'+countVal).find('input').val('');
 				$('.gems_fields_'+countVal).find('input').attr('required', 'required');
 				$('#OrderItemTotal_'+countVal).attr('readonly',true);
 				$('#OrderItemTotal_'+countVal).val('');
 				$('#OrderItemGrandTotal_'+countVal).val('');
 				$('#OrderItemName_'+countVal).val('');
 				$('#OrderItemCategoryId_'+countVal).val('');
+				$('#OrderItemDiscount_'+countVal).val('');
 			} else if(saleType == 'piece') {
 				$('.gems_fields_'+countVal).hide();
 				$('.extra_fields_'+countVal).hide();
@@ -191,6 +201,7 @@
 				$('#OrderItemGrandTotal_'+countVal).val('');
 				$('#OrderItemName_'+countVal).val('');
 				$('#OrderItemCategoryId_'+countVal).val('');
+				$('#OrderItemDiscount_'+countVal).val('');
 			} else if(saleType == 'weight') {
 				$('.extra_fields_'+countVal).show();
 				$('.gems_fields_'+countVal).hide();
@@ -202,11 +213,19 @@
 				$('#OrderItemGrandTotal_'+countVal).val('');
 				$('#OrderItemName_'+countVal).val('');
 				$('#OrderItemCategoryId_'+countVal).val('');
+				$('#OrderItemDiscount_'+countVal).val('');
 			}
 		});
 		
 		$('.clone-div').off("keypress", ".allowOnlyNumber");
 		$('.clone-div').on('keypress','.allowOnlyNumber',function(evt){
+			var charCode = (evt.which) ? evt.which : evt.keyCode;
+			if (charCode != 46 && charCode > 31 
+			&& (charCode < 48 || charCode > 57))
+			return false;
+		});
+
+		$('.orderAllowOnlyNumber').keypress(function(evt){
 			var charCode = (evt.which) ? evt.which : evt.keyCode;
 			if (charCode != 46 && charCode > 31 
 			&& (charCode < 48 || charCode > 57))
@@ -225,10 +244,10 @@
 			}
 		});
 
-		//$(document).off("focus change keyup", "input.per-weight-field");
-		$(document).on("focus change keyup", "input.per-weight-field", function(){
+		$(document).off("focus change keyup", "input.per-weight-field");
+
+		$(document).on("focus change keyup", "input.per-weight-field,input.itemTotal", function(){
 			var parentDiv = $(this).parents('.clone-div').attr('data-count-val');
-			console.log(parentDiv);
 			var saleType = $("input[name='type"+parentDiv+"']:checked").attr('sale-type');
 
 			if (saleType == 'weight') {
@@ -244,7 +263,7 @@
 					$('#OrderItemTotal_'+parentDiv).val('');
 					$('#OrderItemGrandTotal_'+parentDiv).val('');
 				}
-				console.log(curentElemDiscount);
+				
 				var calculatePrice = (parseFloat(curentElemRate) + parseFloat(curentElemMaking)) * parseFloat(curentElemWeight);
 				if ($.isNumeric(calculatePrice)) {
 					$('#OrderItemTotal_'+parentDiv).val(calculatePrice.toFixed(2));
@@ -258,12 +277,87 @@
 					$('#OrderItemGrandTotal_'+parentDiv).val(currentElemGrandTotal.toFixed(2));
 				}
 			} else if (saleType == 'piece') {
-				console.log('piece');
+				var currentElemTotal = $('#OrderItemTotal_'+parentDiv).val();
+				if ($.isNumeric(currentElemTotal)) {
+					$('#OrderItemGrandTotal_'+parentDiv).val(currentElemTotal);
+				}
+				var curentElemDiscount = $('#OrderItemDiscount_'+parentDiv).val();
+				if (curentElemDiscount == '') {
+					curentElemDiscount = '0.00';
+				}
+
+				if (currentElemTotal == '' ) {
+					$('#OrderItemTotal_'+parentDiv).val('');
+					$('#OrderItemGrandTotal_'+parentDiv).val('');
+					$('#OrderItemDiscount_'+parentDiv).val('');
+					curentElemDiscount = '0.00';
+				}
+
+				if (parseFloat(curentElemDiscount) > parseFloat(currentElemTotal)) {
+					alert('Discount amount must be less than total amount');
+					$('#OrderItemDiscount_'+parentDiv).val('');
+					curentElemDiscount = '0.00';
+				}
+				var currentElemGrandTotal =  (parseFloat(currentElemTotal) - parseFloat(curentElemDiscount));
+				if ($.isNumeric(currentElemGrandTotal)) {
+					$('#OrderItemGrandTotal_'+parentDiv).val(currentElemGrandTotal.toFixed(2));
+				}
 			} else if (saleType == 'gems') {
-				console.log('gems');
+				var curentElemRate = $('#OrderItemRate_'+parentDiv).val();
+				var curentElemMaking = $('#OrderItemMakingCharge_'+parentDiv).val();
+				var curentElemWeight = $('#OrderItemWeight_'+parentDiv).val();
+				var curentElemGemsDiscount = $('#OrderItemDiscount_'+parentDiv).val();
+
+				if (curentElemGemsDiscount == '') {
+					curentElemGemsDiscount = '0.00';
+				}
+				if (curentElemRate == '' || curentElemMaking == '' || curentElemWeight == '' ) {
+					$('#OrderItemTotal_'+parentDiv).val('');
+					$('#OrderItemGrandTotal_'+parentDiv).val('');
+				}
+
+				var metalPrice = (parseFloat(curentElemRate) + parseFloat(curentElemMaking)) * parseFloat(curentElemWeight);
+				
+				var curentElemGemsRate = $('#GemsRate_'+parentDiv).val();
+				var curentElemGemsWeight = $('#GemsWeight_'+parentDiv).val();
+				var curentElemGemsWeight = (curentElemGemsWeight * 5.5);
+				if (curentElemGemsWeight != '') {
+					var curentElemGemsTotal = (parseFloat(curentElemGemsRate)) * parseFloat(curentElemGemsWeight);
+				} else {
+					$('#OrderItemTotal_'+parentDiv).val('');
+					$('#OrderItemGrandTotal_'+parentDiv).val('');
+				}
+				
+				if ($.isNumeric(curentElemGemsTotal)) { 
+					$('#GemsPrice_'+parentDiv).val(curentElemGemsTotal.toFixed(2));
+				}
+				var gemsItemTotalAmt = (parseFloat(curentElemGemsTotal) + parseFloat(metalPrice));
+				if ($.isNumeric(gemsItemTotalAmt)) { 
+					$('#OrderItemTotal_'+parentDiv).val(gemsItemTotalAmt.toFixed(2));
+					$('#OrderItemGrandTotal_'+parentDiv).val(gemsItemTotalAmt.toFixed(2));
+					var currentElemGemsTotal = $('#OrderItemTotal_'+parentDiv).val();
+					if (parseFloat(curentElemGemsDiscount) > parseFloat(currentElemGemsTotal)) {
+						alert('Discount amount must be less than total amount');
+						$('#OrderItemDiscount_'+parentDiv).val('');
+						curentElemGemsDiscount = '0.00';
+					}
+					var currentElemGemsGrandTotal =  (parseFloat(gemsItemTotalAmt) - parseFloat(curentElemGemsDiscount));
+					$('#OrderItemGrandTotal_'+parentDiv).val(currentElemGemsGrandTotal.toFixed(2));
+				}
 			}
-			
+			var orderTotalAmt = 0;
+			$('.clone-div .grand_total').each(function() { 
+				var grandTotal = $(this).val();
+				if ($.isNumeric(grandTotal)) { 
+					orderTotalAmt += parseFloat(grandTotal);
+				}
+				
+			});
+			$('#OrderTotal').val(orderTotalAmt);
+			$('#OrderGrandTotal').val(orderTotalAmt);
 		});
+
+		
 		
 		var category = JSON.parse('<?php echo $categoryJson; ?>');
 
@@ -275,7 +369,7 @@
 				allOptions+= '<option value="'+ key +'">'+ value +'</option>';
 			});
 
-			var t = '<div class="clone-div" id="clonedInput_' + cloneVal + '" data-count-val="'+cloneVal+'">';t +='<div class="col-md-12"><div class="form-group"><div class="col-sm-4" style="float:right;"><div class="be-radio inline"><input type="radio" checked="" class="saleType" sale-type="weight" name="type'+ cloneVal +'" data-count-val="'+ cloneVal +'" id="weight_'+ cloneVal +'"><label for="weight_'+ cloneVal +'">By Weight</label></div><div class="be-radio inline"><input type="radio" class="saleType" sale-type="piece" name="type'+ cloneVal +'" data-count-val="'+ cloneVal +'" id="piece_'+ cloneVal +'"><label for="piece_'+ cloneVal +'">By Piece</label></div><div class="be-radio inline"><input type="radio" class="saleType" sale-type="gems" name="type'+ cloneVal +'" data-count-val="'+ cloneVal +'" id="gems_'+ cloneVal +'"><label for="gems_'+ cloneVal +'">Gems</label></div></div></div></div>',t +='<hr style="border: 1px dotted gainsboro;">',t += '<div class="row xs-pt-12"><div class="form-group col-sm-6"><label>Category</label><div class="input select"><select name="data[OrderItem]['+ cloneVal +'][category_id]" placeholder="Enter category" required="required" class="form-control input-sm" id="OrderItemCategoryId_' + cloneVal + '"><option value="">---Select---</option>'+allOptions+'</select></div></div>',t += '<div class="form-group col-sm-6"><label>Item</label><div class="input text required"><input name="data[OrderItem]['+ cloneVal +'][name]" placeholder="Enter Item" required="required" class="form-control input-sm itemName" maxlength="100" id="OrderItemName_' + cloneVal + '" type="text"></div></div></div>',t += '<div id="rateMakingFields_' + cloneVal + '" class="row xs-pt-12 extra_fields_'+ cloneVal +'"><div class="form-group col-sm-6"><label>Rate</label><div class="input text"><input name="data[OrderItem]['+ cloneVal +'][rate]" placeholder="Enter Rate" required="required" class="form-control input-sm per-weight-field allowOnlyNumber" maxlength="100" id="OrderItemRate_' + cloneVal + '" type="text"></div></div><div class="form-group col-sm-6"><label>Making Charge</label><div class="input text"><input name="data[OrderItem]['+ cloneVal +'][making_charge]" placeholder="Enter Making Charge" required="required" class="form-control input-sm per-weight-field allowOnlyNumber" maxlength="5" id="OrderItemMakingCharge_' + cloneVal + '" type="text"></div></div></div>',t += '<div id="weightPurityFields_' + cloneVal + '" class="row xs-pt-12 extra_fields_'+ cloneVal +'"><div class="form-group col-sm-6"><label>Weight</label><div class="input text required"><input name="data[OrderItem]['+ cloneVal +'][weight]" placeholder="Enter Weight" required="required" class="form-control input-sm per-weight-field item-weight allowOnlyNumber" maxlength="250" id="OrderItemWeight_' + cloneVal + '" type="text"></div></div><div class="form-group col-sm-6"><label>Purity</label><div class="input text"><input name="data[OrderItem]['+ cloneVal +'][purity]" placeholder="Enter Purity" class="form-control input-sm per-weight-field allowOnlyNumber" maxlength="20" id="OrderItemPurity_' + cloneVal + '" type="text"></div></div></div>',t +='<div class="row xs-pt-12 gems_fields_'+cloneVal+'" id="gemsField_'+cloneVal+'" style="display:none;"><div class="form-group col-sm-3"><label>Gems Name</label><div class="input text"><input name="data[OrderItem]['+ cloneVal +'][gems_name]" id="GemsName_'+ cloneVal +'" placeholder="Enter Gems Name" class="form-control input-sm" type="text"></div></div><div class="form-group col-sm-3"><label>Gems Rate</label><div class="input text"><input name="data[OrderItem]['+ cloneVal +'][gems_rate]" id="GemsRate_'+ cloneVal +'" placeholder="Enter Gems Rate" class="form-control input-sm allowOnlyNumber" type="text"></div></div><div class="form-group col-sm-3"><label>Gems Weight</label><div class="input text"><input name="data[OrderItem]['+ cloneVal +'][gems_weight]" id="GemsWeight_'+ cloneVal +'" placeholder="Enter Gems Weight" class="form-control input-sm allowOnlyNumber" type="text"></div></div><div class="form-group col-sm-3"><label>Gems Price</label><div class="input text"><input name="data[OrderItem]['+ cloneVal +'][gems_weight]" id="GemsPrice_'+ cloneVal +'" placeholder="Enter Gems Price" class="form-control input-sm allowOnlyNumber" type="text"></div></div></div>',t += '<div class="row xs-pt-12"><div class="form-group col-sm-6"><label>Total</label><div class="input text"><input name="data[OrderItem]['+ cloneVal +'][total]" placeholder="Total" required="required" readonly="readonly" class="form-control input-sm allowOnlyNumber" maxlength="200" id="OrderItemTotal_' + cloneVal + '" type="text"></div></div><div class="form-group col-sm-6"><label>Discount</label><div class="input text"><input name="data[OrderItem]['+ cloneVal +'][discount]" placeholder="Enter Discount" class="form-control input-sm allowOnlyNumber per-weight-field" maxlength="4" id="OrderItemDiscount_' + cloneVal + '" type="text"></div></div></div>',t += '<div class="row xs-pt-12"><div class="form-group col-sm-6"><label>Comments</label><div class="input text"><input name="data[OrderItem]['+ cloneVal +'][comments]" placeholder="Enter Comments" class="form-control input-sm" id="OrderItemComments_' + cloneVal + '" type="text"></div></div><div class="form-group col-sm-6"><label>Grand Total</label><div class="input text"><input name="data[OrderItem]['+ cloneVal +'][grand_total]" placeholder="Grand Total" readonly="readonly" required="required" class="form-control input-sm allowOnlyNumber" maxlength="200" id="OrderItemGrandTotal_' + cloneVal + '" type="text"></div></div></div><br>',t += '<div class="clone-remove" style="padding: 5px;"><button type="button" id="removeDiv' + cloneVal + '" class="btn btn-warning btn-xs remove pull-right">Remove</button></div><hr style="border-color:#4285f4;border-width:2px;">',t += '</div>',
+			var t = '<div class="clone-div" id="clonedInput_' + cloneVal + '" data-count-val="'+cloneVal+'">';t +='<div class="col-md-12"><div class="form-group"><div class="col-sm-4" style="float:right;"><div class="be-radio inline"><input type="radio" checked="" class="saleType" sale-type="weight" name="type'+ cloneVal +'" data-count-val="'+ cloneVal +'" id="weight_'+ cloneVal +'"><label for="weight_'+ cloneVal +'">By Weight</label></div><div class="be-radio inline"><input type="radio" class="saleType" sale-type="piece" name="type'+ cloneVal +'" data-count-val="'+ cloneVal +'" id="piece_'+ cloneVal +'"><label for="piece_'+ cloneVal +'">By Piece</label></div><div class="be-radio inline"><input type="radio" class="saleType" sale-type="gems" name="type'+ cloneVal +'" data-count-val="'+ cloneVal +'" id="gems_'+ cloneVal +'"><label for="gems_'+ cloneVal +'">Gems</label></div></div></div></div>',t +='<hr style="border: 1px dotted gainsboro;">',t += '<div class="row xs-pt-12"><div class="form-group col-sm-6"><label>Category</label><div class="input select"><select name="data[OrderItem]['+ cloneVal +'][category_id]" placeholder="Enter category" required="required" class="form-control input-sm" id="OrderItemCategoryId_' + cloneVal + '"><option value="">---Select---</option>'+allOptions+'</select></div></div>',t += '<div class="form-group col-sm-6"><label>Item</label><div class="input text required"><input name="data[OrderItem]['+ cloneVal +'][name]" placeholder="Enter Item" required="required" class="form-control input-sm itemName" maxlength="100" id="OrderItemName_' + cloneVal + '" type="text"></div></div></div>',t += '<div id="rateMakingFields_' + cloneVal + '" class="row xs-pt-12 extra_fields_'+ cloneVal +'"><div class="form-group col-sm-6"><label>Rate</label><div class="input text"><input name="data[OrderItem]['+ cloneVal +'][rate]" placeholder="Enter Rate" required="required" class="form-control input-sm per-weight-field allowOnlyNumber" maxlength="100" id="OrderItemRate_' + cloneVal + '" type="text"></div></div><div class="form-group col-sm-6"><label>Making Charge</label><div class="input text"><input name="data[OrderItem]['+ cloneVal +'][making_charge]" placeholder="Enter Making Charge" required="required" class="form-control input-sm per-weight-field allowOnlyNumber" maxlength="5" id="OrderItemMakingCharge_' + cloneVal + '" type="text"></div></div></div>',t += '<div id="weightPurityFields_' + cloneVal + '" class="row xs-pt-12 extra_fields_'+ cloneVal +'"><div class="form-group col-sm-6"><label>Weight</label><div class="input text required"><input name="data[OrderItem]['+ cloneVal +'][weight]" placeholder="Enter Weight" required="required" class="form-control input-sm per-weight-field item-weight allowOnlyNumber" maxlength="250" id="OrderItemWeight_' + cloneVal + '" type="text"></div></div><div class="form-group col-sm-6"><label>Purity</label><div class="input text"><input name="data[OrderItem]['+ cloneVal +'][purity]" placeholder="Enter Purity" class="form-control input-sm per-weight-field allowOnlyNumber" maxlength="20" id="OrderItemPurity_' + cloneVal + '" type="text"></div></div></div>',t +='<div class="row xs-pt-12 gems_fields_'+cloneVal+'" id="gemsField_'+cloneVal+'" style="display:none;"><div class="form-group col-sm-3"><label>Gems Name</label><div class="input text"><input name="data[OrderItem]['+ cloneVal +'][gems_name]" id="GemsName_'+ cloneVal +'" placeholder="Enter Gems Name" class="form-control input-sm" type="text"></div></div><div class="form-group col-sm-3"><label>Gems Rate</label><div class="input text"><input name="data[OrderItem]['+ cloneVal +'][gems_rate]" id="GemsRate_'+ cloneVal +'" placeholder="Enter Gems Rate" class="form-control input-sm allowOnlyNumber per-weight-field" type="text"></div></div><div class="form-group col-sm-3"><label>Gems Weight</label><div class="input text"><input name="data[OrderItem]['+ cloneVal +'][gems_weight]" id="GemsWeight_'+ cloneVal +'" placeholder="Enter Gems Weight" class="form-control input-sm allowOnlyNumber per-weight-field" type="text"></div></div><div class="form-group col-sm-3"><label>Gems Price</label><div class="input text"><input name="data[OrderItem]['+ cloneVal +'][gems_weight]" id="GemsPrice_'+ cloneVal +'" placeholder="Enter Gems Price" readonly="readonly" class="form-control input-sm allowOnlyNumber per-weight-field" type="text"></div></div></div>',t += '<div class="row xs-pt-12"><div class="form-group col-sm-6"><label>Total</label><div class="input text"><input name="data[OrderItem]['+ cloneVal +'][total]" placeholder="Total" required="required" readonly="readonly" class="form-control input-sm allowOnlyNumber itemTotal" maxlength="200" id="OrderItemTotal_' + cloneVal + '" type="text"></div></div><div class="form-group col-sm-6"><label>Discount</label><div class="input text"><input name="data[OrderItem]['+ cloneVal +'][discount]" placeholder="Enter Discount" class="form-control input-sm allowOnlyNumber per-weight-field" maxlength="4" id="OrderItemDiscount_' + cloneVal + '" type="text"></div></div></div>',t += '<div class="row xs-pt-12"><div class="form-group col-sm-6"><label>Comments</label><div class="input text"><input name="data[OrderItem]['+ cloneVal +'][comments]" placeholder="Enter Comments" class="form-control input-sm" id="OrderItemComments_' + cloneVal + '" type="text"></div></div><div class="form-group col-sm-6"><label>Grand Total</label><div class="input text"><input name="data[OrderItem]['+ cloneVal +'][grand_total]" placeholder="Grand Total" readonly="readonly" required="required" class="form-control input-sm allowOnlyNumber grand_total" maxlength="200" id="OrderItemGrandTotal_' + cloneVal + '" type="text"></div></div></div><br>',t += '<div class="clone-remove" style="padding: 5px;"><button type="button" id="removeDiv' + cloneVal + '" class="btn btn-warning btn-xs remove pull-right">Remove</button></div><hr style="border-color:#4285f4;border-width:2px;">',t += '</div>',
 			$("div#clonedInput_0").append(t);
         });
 

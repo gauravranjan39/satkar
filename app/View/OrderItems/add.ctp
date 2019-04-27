@@ -351,10 +351,27 @@
 				if ($.isNumeric(grandTotal)) { 
 					orderTotalAmt += parseFloat(grandTotal);
 				}
-				
 			});
 			$('#OrderTotal').val(orderTotalAmt);
 			$('#OrderGrandTotal').val(orderTotalAmt);
+		});
+		
+		//calculate the grand total after discount amount
+		$('#OrderDiscount').keyup(function(){
+			var orderTotalAmount = $('#OrderTotal').val();
+			var orderDiscount = $(this).val();
+			if (orderDiscount == '') {
+				orderDiscount = '0.00';
+			}
+			if (parseFloat(orderDiscount) > parseFloat(orderTotalAmount)) {
+				alert('Order discount amount must be less than order total amount');
+				$('#OrderDiscount').val('');
+				orderDiscount = '0.00';
+			}
+			var orderGrandTotal =  (parseFloat(orderTotalAmount) - parseFloat(orderDiscount));
+			if ($.isNumeric(orderGrandTotal)) { 
+				$('#OrderGrandTotal').val(orderGrandTotal.toFixed(2));
+			}
 		});
 
 		

@@ -349,7 +349,7 @@
 				}
 			}
 			var orderTotalAmt = 0;
-			$('.clone-div .grand_total').each(function() { 
+			$('.clone-div .grand_total').each(function() {
 				var grandTotal = $(this).val();
 				if ($.isNumeric(grandTotal)) { 
 					orderTotalAmt += parseFloat(grandTotal);

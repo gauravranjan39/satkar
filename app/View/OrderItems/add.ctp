@@ -355,8 +355,9 @@
 					orderTotalAmt += parseFloat(grandTotal);
 				}
 			});
-			$('#OrderTotal').val(orderTotalAmt);
+			$('#OrderTotal').val(Math.round(orderTotalAmt));
 			$('#OrderGrandTotal').val(Math.round(orderTotalAmt));
+			$('#OrderTransactionDues').val(Math.round(orderTotalAmt));
 		});
 		
 		//calculate the grand total after discount amount
@@ -374,10 +375,27 @@
 			var orderGrandTotal =  (parseFloat(orderTotalAmount) - parseFloat(orderDiscount));
 			if ($.isNumeric(orderGrandTotal)) { 
 				$('#OrderGrandTotal').val(orderGrandTotal.toFixed(2));
+				$('#OrderTransactionDues').val(orderGrandTotal.toFixed(2));
 			}
 		});
-
 		
+		//payment for the order
+		$('#OrderTransactionAmountPaid').keyup(function(){
+			var orderGrandTotal = $('#OrderGrandTotal').val();
+			var orderPayment = $(this).val();
+			if (orderPayment == '') {
+				orderPayment = '0.00';
+			}
+			if (parseFloat(orderPayment) > parseFloat(orderGrandTotal)) {
+				alert('Order payment amount must be less than order grand total');
+				$('#OrderTransactionAmountPaid').val('');
+				orderPayment = '0.00';
+			}
+			var orderDues =  (parseFloat(orderGrandTotal) - parseFloat(orderPayment));
+			if ($.isNumeric(orderDues)) { 
+				$('#OrderTransactionDues').val(orderDues.toFixed(2));
+			}
+		});
 		
 		var category = JSON.parse('<?php echo $categoryJson; ?>');
 

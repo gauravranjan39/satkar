@@ -356,7 +356,7 @@
 				}
 			});
 			$('#OrderTotal').val(orderTotalAmt);
-			$('#OrderGrandTotal').val(orderTotalAmt);
+			$('#OrderGrandTotal').val(Math.round(orderTotalAmt));
 		});
 		
 		//calculate the grand total after discount amount

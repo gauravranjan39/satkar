@@ -1,6 +1,9 @@
 <nav class="navbar navbar-default navbar-fixed-top be-top-header">
   <div class="container-fluid">
-    <div class="navbar-header"><a href="index.html" class="navbar-brand"></a></div>
+    <div class="navbar-header">
+	<?php echo $this->Html->link('',array('controller'=>'Customers','action'=>'index'),array('escape'=>false,'class'=>'navbar-brand')); ?>
+		<!-- <a href="index.html" class="navbar-brand"></a> -->
+	</div>
     <div class="be-right-navbar">
 	<?php if(strpos($_SERVER['HTTP_USER_AGENT'], 'Chrome') !== FALSE) { ?>
 		<div class="icon-container" style="float:left;padding:4px;">

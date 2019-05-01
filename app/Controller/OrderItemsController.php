@@ -16,7 +16,9 @@ class OrderItemsController extends AppController {
 		$this->set('categoryLists',$categoryLists);
 		
 		if ($this->request->is('post')) {
-			pr($this->request->data);die;
+			pr($this->request->data);
+			pr($this->request->data['OrderItem']);die;
+			// foreach ()
 		}
 		
 		

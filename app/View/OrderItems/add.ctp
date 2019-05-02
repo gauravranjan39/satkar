@@ -276,6 +276,7 @@
 					var currentElemGrandTotal =  (parseFloat(currentElemTotal) - parseFloat(curentElemDiscount));
 					$('#OrderItemGrandTotal_'+parentDiv).val(currentElemGrandTotal.toFixed(2));
 					$('#OrderDiscount').val('');
+					$('#OrderTransactionAmountPaid').val('');
 				}
 			} else if (saleType == 'piece') {
 				var currentElemTotal = $('#OrderItemTotal_'+parentDiv).val();
@@ -303,6 +304,7 @@
 				if ($.isNumeric(currentElemGrandTotal)) {
 					$('#OrderItemGrandTotal_'+parentDiv).val(currentElemGrandTotal.toFixed(2));
 					$('#OrderDiscount').val('');
+					$('#OrderTransactionAmountPaid').val('');
 				}
 			} else if (saleType == 'gems') {
 				var curentElemRate = $('#OrderItemRate_'+parentDiv).val();
@@ -346,6 +348,7 @@
 					var currentElemGemsGrandTotal =  (parseFloat(gemsItemTotalAmt) - parseFloat(curentElemGemsDiscount));
 					$('#OrderItemGrandTotal_'+parentDiv).val(currentElemGemsGrandTotal.toFixed(2));
 					$('#OrderDiscount').val('');
+					$('#OrderTransactionAmountPaid').val('');
 				}
 			}
 			var orderTotalAmt = 0;
@@ -363,6 +366,11 @@
 		//calculate the grand total after discount amount
 		$('#OrderDiscount').keyup(function(){
 			var orderTotalAmount = $('#OrderTotal').val();
+			var orderPayment = $('#OrderTransactionAmountPaid').val();
+			if (orderPayment == '') {
+				orderPayment = '0.00';
+			}
+
 			var orderDiscount = $(this).val();
 			if (orderDiscount == '') {
 				orderDiscount = '0.00';
@@ -375,7 +383,8 @@
 			var orderGrandTotal =  (parseFloat(orderTotalAmount) - parseFloat(orderDiscount));
 			if ($.isNumeric(orderGrandTotal)) { 
 				$('#OrderGrandTotal').val(orderGrandTotal.toFixed(2));
-				$('#OrderTransactionDues').val(orderGrandTotal.toFixed(2));
+				var orderDues = (parseFloat(orderGrandTotal) - parseFloat(orderPayment));
+				$('#OrderTransactionDues').val(orderDues.toFixed(2));
 			}
 		});
 		

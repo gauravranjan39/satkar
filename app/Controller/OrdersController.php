@@ -11,8 +11,6 @@ class OrdersController extends AppController {
 		// 	$this->redirect(array('controller'=>'customers','action'=>'index'));
         // }
         
-
-        die;
 		$this->set('customerId',$customerId);
 		$this->loadModel('Category');
 		$categoryLists = $this->Category->find('list',array('conditions'=>array('Category.parent_id'=>0)));
@@ -20,9 +18,22 @@ class OrdersController extends AppController {
 		
 		if ($this->request->is('post')) {
             $orderNumber = 'OD' .$customerId. rand() . time();
-			pr($this->request->data);
+			
+            $this->loadModel('Order');
+            $this->loadModel('OrderItem');
+            $this->loadModel('OrderTransaction');
+            $this->Order->create();
+            $this->request->data['Order']['customer_id'] = $customerId;
+            $this->request->data['Order']['order_number'] = $orderNumber;
+            
+            if (empty(floatval($this->request->data['OrderTransaction']['dues']))) {
+                $this->request->data['Order']['payment_status'] = 0;
+            } else {
+                $this->request->data['Order']['payment_status'] = 1;
+            }
+
+            pr($this->request->data);
 			pr($this->request->data['OrderItem']);die;
-			// foreach ()
 		}
 		
 		

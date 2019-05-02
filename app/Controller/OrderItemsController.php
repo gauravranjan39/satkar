@@ -7,9 +7,9 @@ class OrderItemsController extends AppController {
 
 	public function add($customerId=null) {
 		$this->layout = "my_layout";
-		// if (empty($customerId)) {
-		// 	$this->redirect(array('controller'=>'customers','action'=>'index'));
-		// }
+		if (empty($customerId)) {
+			$this->redirect(array('controller'=>'customers','action'=>'index'));
+		}
 		$this->set('customerId',$customerId);
 		$this->loadModel('Category');
 		$categoryLists = $this->Category->find('list',array('conditions'=>array('Category.parent_id'=>0)));

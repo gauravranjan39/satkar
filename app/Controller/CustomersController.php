@@ -104,11 +104,4 @@ class CustomersController extends AppController {
 		}
 	}
 
-
-	public function test() {
-		$this->layout = "my_layout";
-	}
-	
-	
-
 }

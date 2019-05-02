@@ -80,7 +80,7 @@
 									</div>
 									<div class="form-group col-sm-3">
 										<label>Gems Price</label>
-										<?php echo $this->Form->input("OrderItem.gems_price",array('name'=>'data[OrderItem][0][gems_weight]','id'=>'GemsPrice_0','placeholder'=>'Enter Gems Price','class'=>'form-control input-sm allowOnlyNumber per-weight-field','readonly'=>true, 'label'=>false));?>
+										<?php echo $this->Form->input("OrderItem.gems_price",array('name'=>'data[OrderItem][0][gems_price]','id'=>'GemsPrice_0','placeholder'=>'Enter Gems Price','class'=>'form-control input-sm allowOnlyNumber per-weight-field','readonly'=>true, 'label'=>false));?>
 									</div>
 								</div>
 
@@ -189,6 +189,7 @@
 				$('#OrderItemName_'+countVal).val('');
 				$('#OrderItemCategoryId_'+countVal).val('');
 				$('#OrderItemDiscount_'+countVal).val('');
+				$('#OrderItemPurity_'+countVal).removeAttr('required');
 			} else if(saleType == 'piece') {
 				$('.gems_fields_'+countVal).hide();
 				$('.extra_fields_'+countVal).hide();

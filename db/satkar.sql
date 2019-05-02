@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 11, 2019 at 08:52 PM
+-- Generation Time: May 02, 2019 at 08:27 PM
 -- Server version: 10.1.34-MariaDB
 -- PHP Version: 5.6.37
 
@@ -46,7 +46,12 @@ INSERT INTO `categories` (`id`, `parent_id`, `lft`, `rght`, `name`) VALUES
 (4, 3, 3, 6, 'Mens'),
 (5, 3, 7, 8, 'Womens'),
 (7, 4, 4, 5, 'Jarkan'),
-(14, 0, 11, 12, 'silver');
+(14, 0, 11, 12, 'silver'),
+(16, 0, 13, 14, 'Artificial'),
+(17, 0, 15, 16, 'Platinum'),
+(18, 0, 17, 18, 'Gold + Gems'),
+(19, 0, 19, 20, 'Silver + Gems'),
+(20, 0, 21, 22, 'Bronze + Gems');
 
 -- --------------------------------------------------------
 
@@ -109,6 +114,10 @@ CREATE TABLE `order_items` (
   `rate` varchar(100) DEFAULT NULL,
   `making_charge` varchar(20) DEFAULT NULL,
   `purity` varchar(20) DEFAULT NULL,
+  `gems_name` varchar(255) DEFAULT NULL,
+  `gems_rate` varchar(255) DEFAULT NULL,
+  `gems_weight` double DEFAULT NULL,
+  `gems_price` double DEFAULT NULL,
   `total` varchar(200) NOT NULL,
   `discount` varchar(200) DEFAULT NULL,
   `grand_total` varchar(200) NOT NULL,
@@ -248,7 +257,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `customers`

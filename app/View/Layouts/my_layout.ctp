@@ -27,7 +27,8 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 		<?php echo $this->fetch('title'); ?>
 	</title>
 	<?php
-		echo $this->Html->meta('icon');
+		// echo $this->Html->meta('icon');
+		echo $this->Html->meta('favicon.ico','img/favicon.ico',array('type' => 'icon'));
 
 		echo $this->Html->css('perfect-scrollbar.min');
 		echo $this->Html->css('material-design-icons/css/material-design-iconic-font');
@@ -64,12 +65,7 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 			allowMicrophone();
 		});
 
-		
-
-
 	});
-	
-	
 
 		
 	if(navigator.userAgent.indexOf("Chrome") != -1 ) {

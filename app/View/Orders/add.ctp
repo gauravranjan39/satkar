@@ -215,6 +215,7 @@
 				$('#OrderItemName_'+countVal).val('');
 				$('#OrderItemCategoryId_'+countVal).val('');
 				$('#OrderItemDiscount_'+countVal).val('');
+				$('#OrderItemPurity_'+countVal).removeAttr('required');
 			}
 		});
 		

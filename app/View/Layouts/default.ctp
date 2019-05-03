@@ -30,7 +30,7 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 		echo $this->Html->meta('favicon.ico','img/favicon.ico',array('type' => 'icon'));
 		// echo $this->Html->css('perfect-scrollbar.min');
 		// echo $this->Html->css('material-design-icons/css/material-design-iconic-font.min');
-		echo $this->Html->css('style');
+		echo $this->Html->css('login');
 		//echo $this->Html->script('jquery.min');
 		//echo $this->Html->script('perfect-scrollbar.jquery.min');
 		// echo $this->Html->script('main');

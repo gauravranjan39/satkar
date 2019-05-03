@@ -10,7 +10,7 @@ class UsersController extends AppController {
 
 	public $components = array(
 		'Auth' => array(
-			'loginRedirect' => array('controller' => 'users', 'action' => 'index'),
+			'loginRedirect' => array('controller' => 'Customers', 'action' => 'index'),
 			'logoutRedirect' => array('controller' => 'users', 'action' => 'login'),
 		)
 	);

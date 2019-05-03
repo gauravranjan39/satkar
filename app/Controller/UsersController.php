@@ -46,7 +46,9 @@ class UsersController extends AppController {
 	public function login() {
 		if ($this->request->is('post')) {
 			$userStatus = $this->User->find('first',array('conditions'=>array('User.username'=>$this->request->data['User']['username']),'fields'=>array('status')));
-			if ($userStatus['User']['status'] == 0) {
+			if (empty($userStatus)) {
+				$this->Session->SetFlash('No accocunt found!!', 'error');
+			} else if ($userStatus['User']['status'] == 0) {
 				$this->Session->SetFlash('Account Deactivated!!', 'error');
 			} else {
 				if ($this->Auth->login()) {

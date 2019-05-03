@@ -26,15 +26,15 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 		<?php echo $this->fetch('title'); ?>
 	</title>
 	<?php
-		echo $this->Html->meta('icon');
-
-		echo $this->Html->css('perfect-scrollbar.min');
-		echo $this->Html->css('material-design-icons/css/material-design-iconic-font.min');
+		// echo $this->Html->meta('icon');
+		echo $this->Html->meta('favicon.ico','img/favicon.ico',array('type' => 'icon'));
+		// echo $this->Html->css('perfect-scrollbar.min');
+		// echo $this->Html->css('material-design-icons/css/material-design-iconic-font.min');
 		echo $this->Html->css('style');
-		echo $this->Html->script('jquery.min');
-		echo $this->Html->script('perfect-scrollbar.jquery.min');
-		echo $this->Html->script('main');
-		echo $this->Html->script('bootstrap.min');
+		//echo $this->Html->script('jquery.min');
+		//echo $this->Html->script('perfect-scrollbar.jquery.min');
+		// echo $this->Html->script('main');
+		// echo $this->Html->script('bootstrap.min');
 
 		echo $this->fetch('meta');
 		echo $this->fetch('css');
@@ -42,10 +42,10 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 	?>
 </head>
 <script type="text/javascript">
-      $(document).ready(function(){
-      	//initialize the javascript
-      	App.init();
-      });
+    //   $(document).ready(function(){
+    //   	//initialize the javascript
+    //   	App.init();
+    //   });
       
 </script>
 <body class="be-splash-screen">	

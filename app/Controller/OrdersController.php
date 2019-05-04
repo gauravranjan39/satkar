@@ -24,15 +24,32 @@ class OrdersController extends AppController {
             $this->Order->create();
             $this->request->data['Order']['customer_id'] = $customerId;
             $this->request->data['Order']['order_number'] = $orderNumber;
-            
-            if (empty(floatval($this->request->data['OrderTransaction']['dues']))) {
+
+            $grandTotal = floatval($this->request->data['Order']['grand_total']);
+            $orderPayment = floatval($this->request->data['OrderTransaction']['amount_paid']);
+            $dues = ($grandTotal - $orderPayment);
+            if (empty($dues)) {
                 $this->request->data['Order']['payment_status'] = 0;
             } else {
                 $this->request->data['Order']['payment_status'] = 1;
             }
 
-            pr($this->request->data);
-			pr($this->request->data['OrderItem']);die;
+            $this->Order->save($this->request->data['Order']);
+            $orderId = $this->Order->getLastInsertID();
+            
+            $orderItems = $this->request->data['OrderItem'];
+            foreach ($orderItems as $orderItem) {
+                $orderItem['order_id'] = $orderId;
+                $this->OrderItem->create();
+                $this->OrderItem->save($orderItem);
+            }
+
+            $this->OrderTransaction->create();
+            $this->request->data['OrderTransaction']['order_id'] = $orderId;
+            $invoiceNumber =  rand() .$customerId . time();
+            $this->request->data['OrderTransaction']['invoice_number'] = $invoiceNumber;
+            $this->OrderTransaction->save($this->request->data['OrderTransaction']);
+            
 		}
 		
 		

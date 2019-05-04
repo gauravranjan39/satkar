@@ -53,11 +53,11 @@
                     </tbody>
                   </table>
                   <br/><br/><br/><br/>
-
-                  
+                <hr>
+                <div class="col-md-12">
                   <div class="row xs-pt-12">
                     <div class="form-group col-sm-10">
-                        <!-- <label>Comments:&nbsp;&nbsp;</label> -->
+                        <label>Comments:&nbsp;&nbsp;</label>
                         <?php echo $orderDetails['Order']['comments']; ?>
                     </div>
                     <div class="form-group col-sm-2">
@@ -112,6 +112,15 @@
                     </div>
                 </div>
 
+                </div>
+                <div class="col-md-12">
+                    <p class="xs-mt-10 xs-mb-10">
+                        <button class="btn btn-rounded btn-space btn-success" id="order_invoice">Generate Order Invoice</button>
+                        <button class="btn btn-rounded btn-space btn-primary" id="confirm_order">Confirm Order</button>
+                        <button class="btn btn-rounded btn-space btn-danger" id="delete_order">Delete Order</button>
+                        <button class="btn btn-rounded btn-space btn-default" id="payment_receipt">Generate Payment Receipt</button>
+                    </p>
+                </div>
 
                 <?php //pr($orderDetails); ?>
                 </div>

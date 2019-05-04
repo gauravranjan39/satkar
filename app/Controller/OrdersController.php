@@ -5,6 +5,16 @@ App::uses('AppController', 'Controller');
  */
 class OrdersController extends AppController {
 
+
+    public function index() {
+        $this->layout = "my_layout";
+        $this->loadModel('Order');
+        $this->Order->recursive = 0;
+        $orderLists = $this->Order->find('all', array('order'=>array('Order.id'=>'desc')));
+        // pr($orderLists);die;
+        $this->set('orderLists',$orderLists);
+    }
+
 	public function add($customerId=null) {
 		$this->layout = "my_layout";
 		if (empty($customerId)) {

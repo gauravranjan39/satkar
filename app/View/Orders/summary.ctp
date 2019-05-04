@@ -61,8 +61,10 @@
                 <div class="col-md-12">
                   <div class="row xs-pt-12">
                     <div class="form-group col-sm-10">
-                        <label>Comments:&nbsp;&nbsp;</label>
-                        <?php echo $orderDetails['Order']['comments']; ?>
+                        <?php if (isset($orderDetails['Order']['comments']) && !empty($orderDetails['Order']['comments'])) { ?>
+                            <label>Comments:&nbsp;&nbsp;</label>
+                            <?php echo $orderDetails['Order']['comments']; ?>
+                        <?php } ?>
                     </div>
                     <div class="form-group col-sm-2">
                         <label>Total:</label>
@@ -75,7 +77,11 @@
                     </div>
                     <div class="form-group col-sm-2">
                         <label>Discount:</label>
+                        <?php if (isset($orderDetails['Order']['discount']) && !empty($orderDetails['Order']['discount'])) { ?>
                         &#8377;<?php echo " ". number_format($orderDetails['Order']['discount'],2); ?>
+                        <?php } else { ?>
+                            &#8377; 0.0
+                        <?php } ?>
                     </div>
                 </div>
 
@@ -150,6 +156,13 @@
 			    });
             }
 		});
+
+        $("#confirm_order").click(function(){
+            if (confirm('Are you sure to confirm this order ?')) {
+                window.location.href='<?php echo $this->webroot?>Customers/index';
+            }
+		});
+
 	});	
       
 </script>

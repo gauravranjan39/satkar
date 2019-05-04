@@ -64,8 +64,17 @@ class OrdersController extends AppController {
         $this->OrderTransaction->unbindModel(array('belongsTo' => array('Order')),true);
         $this->OrderItem->unbindModel(array('belongsTo' => array('Order')),true);
         $orderDetails = $this->Order->find('first',array('conditions'=>array('Order.id'=>$orderId)));
-        
         $this->set('orderDetails',$orderDetails);
+    }
+
+
+    public function delete_order($orderId=null) {
+        $this->layout = false;
+        $this->autoRender = false;
+        //echo "order ID-->>" .$orderId;die;
+        $this->loadModel('Order');
+        $this->Order->deleteAll(array('Order.id'=>$orderId));
+        echo '1';
     }
 
 

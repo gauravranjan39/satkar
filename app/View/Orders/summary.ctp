@@ -46,7 +46,11 @@
                         <td><?php echo $orderDetail['gems_weight']; ?></td>
                         <td><?php echo $orderDetail['gems_price']; ?></td>
                         <td>&#8377;<?php echo " ". number_format($orderDetail['total'],2); ?></td>
-                        <td>&#8377;<?php echo " ". number_format($orderDetail['discount'],2); ?></td>
+                        <?php if(isset($orderDetail['discount']) && !empty($orderDetail['discount'])) { ?>
+                            <td>&#8377;<?php echo " ". number_format($orderDetail['discount'],2); ?></td>
+                        <?php } else { ?>
+                            <td></td>
+                        <?php } ?>
                         <td>&#8377;<?php echo " ". number_format($orderDetail['grand_total'],2); ?></td>
                     </tr>
 					<?php } ?>
@@ -122,9 +126,30 @@
                     </p>
                 </div>
 
-                <?php //pr($orderDetails); ?>
+                <?php //pr($orderDetails);die; ?>
                 </div>
               </div>
             </div>
           </div>
       </div>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		$("#delete_order").click(function(){
+            var orderId = '<?php echo $orderDetails['Order']['id'];?>';
+            if (confirm('Are you sure to delete this order ?')) {
+                $.ajax({
+                    url:"<?php echo Router::url(array('controller'=>'Orders','action'=>'delete_order'));?>/"+orderId,
+                    success:function(data){
+                        if (data == 1) {
+                            window.location.href='<?php echo $this->webroot?>Customers/index';
+                        } else {
+                            alert('Error Occured!!');
+                        }
+                    }
+			    });
+            }
+		});
+	});	
+      
+</script>

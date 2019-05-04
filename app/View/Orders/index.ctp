@@ -56,7 +56,7 @@
                         <th>Total</th>
                         <th>Dues</th>
                         <th>Date</th>
-                        <th >Status</th>
+                        <th >Payment Status</th>
                         <th class="actions">Action</th>
                       </tr>
                     </thead>
@@ -64,11 +64,8 @@
                         <?php foreach ($orderLists as $orderList) { ?>
                             <tr>
                                 <td><?php echo $orderList['Order']['order_number']; ?></td>
-                                <td>
-                                    <?php echo $this->Html->link($orderList['Customer']['name'], 'javascript:void(0);',  array("class" => "customer_details", "escape" => false,"mobile"=>$orderList['Customer']['mobile'],"email"=>$orderList['Customer']['email'],"address"=>$orderList['Customer']['address'])); ?>
-                                </td>
+                                <td><?php echo $this->Html->link($orderList['Customer']['name'], 'javascript:void(0);',  array("class" => "customer_details", "escape" => false,"mobile"=>$orderList['Customer']['mobile'],"email"=>$orderList['Customer']['email'],"address"=>$orderList['Customer']['address'])); ?></td>
                                 <td>&#8377;<?php echo " " . $orderList['Order']['grand_total']; ?></td>
-
                                 <?php 
                                     $sum = 0;
                                     foreach ($orderList['OrderTransaction'] as $orderTransaction) {
@@ -79,14 +76,21 @@
                                 <td>&#8377;<?php echo " " . number_format($dues,2); ?></td>
                                 <td><?php echo date('d-M-Y h:i A', strtotime($orderList['Order']['created'])); ?></td>
                                 <?php if ($orderList['Order']['payment_status'] == 1) { ?>
-                                    <td class="text-danger">Pending</td>
+                                    <td><?php echo $this->Html->link('Pending', 'javascript:void(0);',  array("class" => "text-danger payment_pending", "escape" => false,'order_id'=>$orderList['Order']['id'])); ?></td>
                                 <?php } else { ?>
                                     <td class="text-success">Completed</td>
                                 <?php } ?>
-                                <td class="actions"><a href="#" class="icon"><i class="mdi mdi-plus-circle-o"></i></a></td>
+                                <td>
+                                    <div class="btn-group btn-hspace">
+                                        <button type="button" data-toggle="dropdown" class="btn btn-default dropdown-toggle" aria-expanded="false">Open <span class="icon-dropdown mdi mdi-chevron-down"></span></button>
+                                        <ul role="menu" class="dropdown-menu pull-right">
+                                            <li><a href="#">Payment</a></li>
+                                            <li><a href="#">Order Details</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
                             </tr>
                         <?php } ?>
-                     
                     </tbody>
                   </table>
                 </div>
@@ -98,23 +102,35 @@
 
 <script type="text/javascript">
 	$(document).ready(function() {
-
         $(".customer_details").click(function(){
             var customerName = $(this).text();
             var customerAddress = $(this).attr('address');
             var customerMobile = $(this).attr('mobile');
             var customerEmail = $(this).attr('email');
-            // alert(customerName);
-            // alert(customerAddress);
-            // alert(customerMobile);
-            // alert(customerEmail);return false;
-            
             $('#myModalForCustomer').modal('show');
             $('#myModalForCustomer').find('.customer-name').text(customerName);
             $('#myModalForCustomer').find('.customer-address').text(customerAddress);
             $('#myModalForCustomer').find('.customer-mobile').text(customerMobile);
             $('#myModalForCustomer').find('.customer-email').text(customerEmail);
 		});
+
+        $('.payment_pending').click(function(){
+            var orderID = $(this).attr('order_id');
+            var ref = $(this);
+            if (confirm('Are you sure to change the payment status ?')) {
+                $.ajax({
+                    url:"<?php echo Router::url(array('controller'=>'Orders','action'=>'change_payment_status'));?>/"+orderID,
+                    success:function(data){
+                        if (data == 1) {
+                            ref.parent().addClass('text-success');
+                            ref.parent().html('Completed');
+                        } else {
+                            alert('Error Occured!!');
+                        }
+                    }
+			    });
+            }
+        });
 
 	});	
       

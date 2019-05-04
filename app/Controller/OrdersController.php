@@ -87,6 +87,15 @@ class OrdersController extends AppController {
         echo '1';
     }
 
+    public function change_payment_status($orderId=null) {
+        $this->layout = false;
+        $this->autoRender = false;
+        // echo "order ID-->>" .$orderId;die;
+        $this->loadModel('Order');
+        $this->Order->updateAll(array('Order.payment_status' =>0),array('Order.id'=>$orderId));
+        echo '1';
+    }
+
 
 
 }

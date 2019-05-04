@@ -25,9 +25,6 @@
                     <div class="col-md-3"><b>Email:</b></div>
                     <div class="col-md-9 customer-email"></div>
                 </div>
-
-
-                
                 <div class="">
                     <div class="">
                         <div class="col-md-12">
@@ -35,7 +32,6 @@
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
@@ -57,7 +53,8 @@
                       <tr>
                         <th >Order ID</th>
                         <th >Customer Name</th>
-                        <th class="">Amount</th>
+                        <th>Total</th>
+                        <th>Dues</th>
                         <th>Date</th>
                         <th >Status</th>
                         <th class="actions">Action</th>
@@ -68,12 +65,20 @@
                             <tr>
                                 <td><?php echo $orderList['Order']['order_number']; ?></td>
                                 <td>
-                                <?php echo $this->Html->link($orderList['Customer']['name'], 'javascript:void(0);',  array("class" => "customer_details","data-toggle"=>"modal",  "escape" => false, "alt" => "Customer Details", "title" => "Customer Details","mobile"=>$orderList['Customer']['mobile'],"email"=>$orderList['Customer']['email'],"address"=>$orderList['Customer']['address'])); ?>
-                                <?php //echo $orderList['Customer']['name']; ?>
+                                    <?php echo $this->Html->link($orderList['Customer']['name'], 'javascript:void(0);',  array("class" => "customer_details", "escape" => false,"mobile"=>$orderList['Customer']['mobile'],"email"=>$orderList['Customer']['email'],"address"=>$orderList['Customer']['address'])); ?>
                                 </td>
-                                <td class="">&#8377;<?php echo " " . $orderList['Order']['grand_total']; ?></td>
+                                <td>&#8377;<?php echo " " . $orderList['Order']['grand_total']; ?></td>
+
+                                <?php 
+                                    $sum = 0;
+                                    foreach ($orderList['OrderTransaction'] as $orderTransaction) {
+                                        $sum+= $orderTransaction['amount_paid'];
+                                    }
+                                    $dues = ($orderList['Order']['grand_total'] - $sum);
+                                ?>
+                                <td>&#8377;<?php echo " " . number_format($dues,2); ?></td>
                                 <td><?php echo date('d-M-Y h:i A', strtotime($orderList['Order']['created'])); ?></td>
-                                <?php if (empty($orderList['Order']['payment_status'])) { ?>
+                                <?php if ($orderList['Order']['payment_status'] == 1) { ?>
                                     <td class="text-danger">Pending</td>
                                 <?php } else { ?>
                                     <td class="text-success">Completed</td>

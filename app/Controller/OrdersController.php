@@ -9,7 +9,7 @@ class OrdersController extends AppController {
     public function index() {
         $this->layout = "my_layout";
         $this->loadModel('Order');
-        $this->Order->recursive = 0;
+        $this->Order->unbindModel(array('hasMany' => array('OrderItem')),true);
         $orderLists = $this->Order->find('all', array('order'=>array('Order.id'=>'desc')));
         // pr($orderLists);die;
         $this->set('orderLists',$orderLists);

@@ -96,6 +96,20 @@ class OrdersController extends AppController {
         echo '1';
     }
 
+    public function details($orderId=null) {
+        $this->layout = "my_layout";
+        $this->loadModel('Order');
+        $this->loadModel('OrderItem');
+        $this->loadModel('Customer');
+        $this->loadModel('OrderTransaction');
+        $this->Order->recursive = 2;
+        $this->Order->unbindModel(array('belongsTo' => array('Customer')),true);
+        $this->OrderTransaction->unbindModel(array('belongsTo' => array('Order')),true);
+        $this->OrderItem->unbindModel(array('belongsTo' => array('Order')),true);
+        $orderDetails = $this->Order->find('first',array('conditions'=>array('Order.id'=>$orderId)));
+        $this->set('orderDetails',$orderDetails);
+    }
+
 
 
 }

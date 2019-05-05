@@ -54,6 +54,7 @@
                         <th >Order ID</th>
                         <th >Customer Name</th>
                         <th>Total</th>
+                        <th>Payment</th>
                         <th>Dues</th>
                         <th>Date</th>
                         <th >Payment Status</th>
@@ -65,7 +66,7 @@
                             <tr>
                                 <td><?php echo $orderList['Order']['order_number']; ?></td>
                                 <td><?php echo $this->Html->link($orderList['Customer']['name'], 'javascript:void(0);',  array("class" => "customer_details", "escape" => false,"mobile"=>$orderList['Customer']['mobile'],"email"=>$orderList['Customer']['email'],"address"=>$orderList['Customer']['address'])); ?></td>
-                                <td>&#8377;<?php echo " " . $orderList['Order']['grand_total']; ?></td>
+                                <td>&#8377;<?php echo $orderList['Order']['grand_total']; ?></td>
                                 <?php 
                                     $sum = 0;
                                     foreach ($orderList['OrderTransaction'] as $orderTransaction) {
@@ -73,10 +74,11 @@
                                     }
                                     $dues = ($orderList['Order']['grand_total'] - $sum);
                                 ?>
-                                <td>&#8377;<?php echo " " . number_format($dues,2); ?></td>
+                                <td>&#8377;<?php echo number_format($sum,2); ?></td>
+                                <td>&#8377;<?php echo number_format($dues,2); ?></td>
                                 <td><?php echo date('d-M-Y h:i A', strtotime($orderList['Order']['created'])); ?></td>
                                 <?php if ($orderList['Order']['payment_status'] == 1) { ?>
-                                    <td><?php echo $this->Html->link('Pending', 'javascript:void(0);',  array("class" => "text-danger payment_pending", "escape" => false,'order_id'=>$orderList['Order']['id'])); ?></td>
+                                    <td><?php echo $this->Html->link('Pending', 'javascript:void(0);',  array("class" => "text-danger payment_pending", "escape" => false,'order_id'=>$orderList['Order']['id'],'title'=>'Change to Completed')); ?></td>
                                 <?php } else { ?>
                                     <td class="text-success">Completed</td>
                                 <?php } ?>
@@ -85,7 +87,8 @@
                                         <button type="button" data-toggle="dropdown" class="btn btn-default dropdown-toggle" aria-expanded="false">Open <span class="icon-dropdown mdi mdi-chevron-down"></span></button>
                                         <ul role="menu" class="dropdown-menu pull-right">
                                             <li><a href="#">Payment</a></li>
-                                            <li><a href="#">Order Details</a></li>
+                                            
+                                            <li><?php echo $this->Html->link('Order Details', array('controller' => 'Orders','action' => 'details',$orderList['Order']['id']),array('class'=>''));?></li>
                                         </ul>
                                     </div>
                                 </td>

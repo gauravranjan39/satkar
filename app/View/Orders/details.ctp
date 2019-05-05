@@ -114,8 +114,14 @@
                         <label>Dues:</label>
                         <?php 
                             $grandTotal = $orderDetails['Order']['grand_total'];
-                            $payment = $orderDetails['OrderTransaction'][0]['amount_paid'];
-                            $dues = ($orderDetails['Order']['grand_total'] - $orderDetails['OrderTransaction'][0]['amount_paid']);
+                            $sum = 0;
+                            foreach ($orderDetails['OrderTransaction'] as $orderTransaction) {
+                                $sum+= $orderTransaction['amount_paid'];
+                            }
+                            //$dues = ($orderList['Order']['grand_total'] - $sum);
+
+                            // $payment = $orderDetails['OrderTransaction'][0]['amount_paid'];
+                            $dues = ($orderDetails['Order']['grand_total'] - $sum);
                         ?>
                         <span class="text-danger">&#8377;<?php echo number_format($dues,2); ?></span>
                     </div>
@@ -184,7 +190,7 @@
                 <div class="">
                     <div class="">
                         <div class="col-md-12">
-                            <?php echo $this->Form->button('Make Payment',array('type'=>'button','data-dismiss'=>'modal','class'=>'btn btn-rounded btn-primary','style'=>'margin-top: 26px;margin-bottom: 18px;','escape'=>false));?>
+                            <?php echo $this->Form->button('Make Payment',array('type'=>'button','id'=>'pay_dues','class'=>'btn btn-rounded btn-primary','style'=>'margin-top: 26px;margin-bottom: 18px;','escape'=>false));?>
                         </div>
                     </div>
                 </div>
@@ -202,25 +208,36 @@
             $('#dues_payment').val('');
             $('#orderPayment').modal('show');
             $('#dues_payment').focus();
-            return false;
-            var orderId = '<?php echo $orderDetails['Order']['id'];?>';
-            if (confirm('Are you sure to delete this order ?')) {
+		});
+
+        $('#dues_payment').keyup(function(){
+			var payment = $(this).val();
+            var dues = '<?php echo $dues ?>';
+            if (parseFloat(payment) > parseFloat(dues)) {
+                alert('Amount should be less than dues.');
+                $(this).val('');
+            }
+		});
+
+        $("#pay_dues").click(function(){
+            var orderId = '<?php echo $orderDetails['Order']['id']; ?>';
+            var dues = '<?php echo $dues ?>';
+            var payment = $('#dues_payment').val();
+            if (payment == '') {
+                alert('Please enter amount');
+                return false;
+            } else {
+                $('#orderPayment').modal('hide');
                 $.ajax({
-                    url:"<?php echo Router::url(array('controller'=>'Orders','action'=>'delete_order'));?>/"+orderId,
+                    url:"<?php echo Router::url(array('controller'=>'Orders','action'=>'pay_dues'));?>/"+ orderId + '/' + payment + '/' + dues,
                     success:function(data){
                         if (data == 1) {
-                            window.location.href='<?php echo $this->webroot?>Customers/index';
+                            location.reload();
                         } else {
                             alert('Error Occured!!');
                         }
                     }
 			    });
-            }
-		});
-
-        $("#confirm_order").click(function(){
-            if (confirm('Are you sure to confirm this order ?')) {
-                window.location.href='<?php echo $this->webroot?>Customers/index';
             }
 		});
 

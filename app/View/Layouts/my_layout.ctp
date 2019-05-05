@@ -71,8 +71,7 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 			&& (charCode < 48 || charCode > 57))
 			return false;
 		});
-
-
+		
 	});
 
 		

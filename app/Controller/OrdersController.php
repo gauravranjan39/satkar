@@ -110,6 +110,24 @@ class OrdersController extends AppController {
         $this->set('orderDetails',$orderDetails);
     }
 
+    public function pay_dues($orderId=null,$payment=null,$dues=null) {
+        $this->layout = false;
+        $this->autoRender = false;
+        $this->loadModel('OrderTransaction');
+        $invoiceNumber =  rand() .$orderId . time();
+        $duesPayment['OrderTransaction']['order_id'] = $orderId;
+        $duesPayment['OrderTransaction']['amount_paid'] = $payment;
+        $duesPayment['OrderTransaction']['invoice_number'] = $invoiceNumber;
+        $this->OrderTransaction->create();
+        if ($this->OrderTransaction->save($duesPayment)) {
+            if ($payment == $dues) {
+                $this->loadModel('Order');
+                $this->Order->updateAll(array('Order.payment_status' =>0),array('Order.id'=>$orderId));
+            }
+            echo '1';
+        }
+    }
+
 
 
 }

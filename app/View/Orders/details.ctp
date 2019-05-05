@@ -149,7 +149,7 @@
 
 
 
-      <div class="modal animated fadeIn" id="orderPayment" tabindex="-1" role="dialog" aria-labelledby="smallModalHead" aria-hidden="true">
+<div class="modal animated fadeIn" id="orderPayment" tabindex="-1" role="dialog" aria-labelledby="smallModalHead" aria-hidden="true">
     <div class="modal-dialog modal-lg" style=" margin: 0  auto;top:10%;width: 40%;">
         <!-- Modal content-->
         <div class="modal-content">
@@ -200,6 +200,47 @@
 </div>
 
 
+<div class="modal animated fadeIn" id="paymentHistory" tabindex="-1" role="dialog" aria-labelledby="smallModalHead" aria-hidden="true">
+    <div class="modal-dialog modal-lg" style=" margin: 0  auto;top:10%;width: 40%;">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header" style="text-align: center;">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h3 class="modal-title" style="line-height:1;">Payment History</h3><hr>
+            </div>
+            <div class="modal-body">
+            <!-- <div class="panel-body table-responsive"> -->
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th >Invoice ID</th>
+                            <th >Amount</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody class="no-border-x">
+                        <?php foreach ($orderDetails['OrderTransaction'] as $orderTransaction) {?>
+                        <tr>
+                            <td><?php echo $orderTransaction['invoice_number']; ?></td>
+                            <td>&#8377;<?php echo number_format($orderTransaction['amount_paid'],2); ?></td>
+                            <td><?php echo date('d-M-Y h:i A', strtotime($orderTransaction['created'])); ?></td>
+                        </tr>
+                        <?php } ?>
+                    </tbody>
+                </table>
+            <!-- </div> -->
+                <div class="">
+                    <div class="">
+                        <div class="col-md-12">
+                            <?php echo $this->Form->button('Cancel',array('type'=>'button','data-dismiss'=>'modal','class'=>'btn btn-rounded btn-default','style'=>'margin-top: 26px;margin-bottom: 18px;','escape'=>false));?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 
 <script type="text/javascript">
@@ -241,6 +282,11 @@
             }
 		});
 
+        $('#payment_history').click(function(){
+            $('#paymentHistory').modal('show');
+        });
+
 	});	
       
 </script>
+

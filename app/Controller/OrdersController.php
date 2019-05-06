@@ -126,21 +126,26 @@ class OrdersController extends AppController {
         }
     }
 
-    public function generateBill() {
+    public function generatePaymentHistory($orderId=null,$customerId=null,$grandTotal=null) {
         $this->layout = "ajax";
         $this->autoRender = false;
         error_reporting(0);
-        $this->loadModel('Order');
+        $this->loadModel('OrderTransaction');
         $view = new View($this, false);
-        $orderLists = $this->Order->find('all', array('order'=>array('Order.id'=>'desc')));
-        // pr($orderLists);die;
+        $this->OrderTransaction->unbindModel(array('belongsTo' => array('Order')),true);
+        $paymentLists = $this->OrderTransaction->find('all',array('conditions'=>array('OrderTransaction.order_id'=>$orderId)) ,array('order'=>array('OrderTransaction.id'=>'desc')));
+        // pr($paymentLists);die;
         $filename =  "order". '-'. date("m-d-y");
-        $view->set(compact('orderLists'));
-        $html = $view->render('payout_summary');
+        $view->set(compact('paymentLists'));
+        $html = $view->render('payment_history_pdf');
         $pdf= new mPDF('', 'Legal');
         $pdf->WriteHTML($html);
         // $pdf->Output($filename.".pdf", "D");
         $pdf->Output($filename.".pdf", "I");
+    }
+
+    public function test() {
+
     }
 
 

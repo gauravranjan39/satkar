@@ -140,7 +140,7 @@
                     </p>
                 </div>
 
-                <?php //pr($dues);die; ?>
+                <?php //pr($orderDetails);die; ?>
                 </div>
               </div>
             </div>
@@ -221,7 +221,8 @@
                     <tbody class="no-border-x">
                         <?php foreach ($orderDetails['OrderTransaction'] as $orderTransaction) {?>
                         <tr>
-                            <td><?php echo $orderTransaction['invoice_number']; ?></td>
+                            <td><?=$orderTransaction['invoice_number']?></td>
+                            
                             <td>&#8377;<?php echo number_format($orderTransaction['amount_paid'],2); ?></td>
                             <td><?php echo date('d-M-Y h:i A', strtotime($orderTransaction['created'])); ?></td>
                         </tr>
@@ -285,14 +286,13 @@
         });
 
         $('#payment_receipt').click(function(){
-            alert('2222');
-            if (confirm('Are you sure to generate receipt ?')) {
-                var base_url = "<?php echo Router::url(array('controller'=>'Orders','action'=>'generateBill'));?>";
-                //window.location.href=base_url;
-                window.open(base_url,'_blank');
-
-            }
-            
+            var orderId = '<?php echo $orderDetails['Order']['id']; ?>';
+            var customerId = '<?php echo $orderDetails['Order']['customer_id']; ?>';
+            var grandTotal = '<?php echo $orderDetails['Order']['grand_total']; ?>';
+            //alert(grandTotal);return false;
+            var base_url = "<?php echo Router::url(array('controller'=>'Orders','action'=>'generatePaymentHistory'));?>/" + orderId + '/' + customerId + '/' + grandTotal;
+            //window.location.href=base_url;
+            window.open(base_url,'_blank');
         });
 
 	});	

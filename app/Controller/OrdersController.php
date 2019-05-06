@@ -1,10 +1,8 @@
 <?php
 App::uses('AppController', 'Controller');
-/**
- * OrderItems Controller
- */
-class OrdersController extends AppController {
+App::import('Vendor', 'PDF', array('file' => 'mpdf/vendor/autoload.php'));
 
+class OrdersController extends AppController {
 
     public function index() {
         $this->layout = "my_layout";
@@ -126,6 +124,22 @@ class OrdersController extends AppController {
             }
             echo '1';
         }
+    }
+
+    public function generateBill() {
+        $this->layout = "ajax";
+        $this->autoRender = false;
+        error_reporting(0);
+        $this->loadModel('Order');
+        $view = new View($this, false);
+        $orderLists = $this->Order->find('all', array('order'=>array('Order.id'=>'desc')));
+        // pr($orderLists);die;
+        $filename =  "order". '-'. date("m-d-y");
+        $view->set(compact('orderLists'));
+        $html = $view->render('payout_summary');
+        $pdf= new mPDF('', 'Legal');
+        $pdf->WriteHTML($html);
+        $pdf->Output($filename.".pdf", "D");
     }
 
 

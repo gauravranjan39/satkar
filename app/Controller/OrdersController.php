@@ -139,7 +139,8 @@ class OrdersController extends AppController {
         $html = $view->render('payout_summary');
         $pdf= new mPDF('', 'Legal');
         $pdf->WriteHTML($html);
-        $pdf->Output($filename.".pdf", "D");
+        // $pdf->Output($filename.".pdf", "D");
+        $pdf->Output($filename.".pdf", "I");
     }
 
 

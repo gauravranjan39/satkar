@@ -288,7 +288,9 @@
             alert('2222');
             if (confirm('Are you sure to generate receipt ?')) {
                 var base_url = "<?php echo Router::url(array('controller'=>'Orders','action'=>'generateBill'));?>";
-                window.location.href=base_url;
+                //window.location.href=base_url;
+                window.open(base_url,'_blank');
+
             }
             
         });

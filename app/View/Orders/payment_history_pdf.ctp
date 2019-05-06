@@ -40,7 +40,7 @@ th, td {
 
 </head>
 <body>
-<div class ="col-md-12"><?php echo $this->Html->image('logo-xx.png',array('height'=>'60','width'=>'70','class'=>'logo-img','style'=>'margin-left:45%;')) ?></div>
+<div class ="col-md-12"><?php echo $this->Html->image('logo-xx.png',array('height'=>'60','width'=>'70','class'=>'logo-img','style'=>'margin-left:42%;')) ?></div>
 <br/><br/>
 
 	<div style="overflow:auto">
@@ -51,8 +51,10 @@ th, td {
 		</div>
 
 		<div class="right">
-			<h2>Lorum Ipsum</h2>
-			<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>
+		Customer Details:
+			<h2>JAWAHAR LAL NEHRU</h2>
+			<p>Purani bazar, sabji mandi, opp. of central bank of india</p>
+			Mb: +91-862188272
 		</div>
 	</div>
 
@@ -67,7 +69,7 @@ th, td {
                         </tr>
                     </thead>
                         <tbody class="no-border-x">
-                            <?php pr($paymentLists);die;  foreach ($paymentLists as $orderTransaction) { ?>
+                            <?php foreach ($paymentLists as $orderTransaction) { ?>
                             <tr>
                                 <td><?php echo $orderTransaction['OrderTransaction']['invoice_number']; ?></td>
                                 <td>&#8377;<?php echo number_format($orderTransaction['OrderTransaction']['amount_paid'],2); ?></td>

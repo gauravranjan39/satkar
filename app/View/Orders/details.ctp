@@ -289,7 +289,6 @@
             var orderId = '<?php echo $orderDetails['Order']['id']; ?>';
             var customerId = '<?php echo $orderDetails['Order']['customer_id']; ?>';
             var grandTotal = '<?php echo $orderDetails['Order']['grand_total']; ?>';
-            //alert(grandTotal);return false;
             var base_url = "<?php echo Router::url(array('controller'=>'Orders','action'=>'generatePaymentHistory'));?>/" + orderId + '/' + customerId + '/' + grandTotal;
             //window.location.href=base_url;
             window.open(base_url,'_blank');

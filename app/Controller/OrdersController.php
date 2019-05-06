@@ -138,14 +138,13 @@ class OrdersController extends AppController {
         $filename =  "order". '-'. date("m-d-y");
         $view->set(compact('paymentLists'));
         $html = $view->render('payment_history_pdf');
-        $pdf= new mPDF('', 'Legal');
+        $pdf= new mPDF('utf-8', 'A4-L');
+        // Define a Landscape page size/format by name
+        //$mpdf=new mPDF('utf-8', 'A4-L');
+
         $pdf->WriteHTML($html);
         // $pdf->Output($filename.".pdf", "D");
         $pdf->Output($filename.".pdf", "I");
-    }
-
-    public function test() {
-
     }
 
 

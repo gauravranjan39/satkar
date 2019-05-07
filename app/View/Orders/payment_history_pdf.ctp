@@ -28,7 +28,7 @@ th, td {
   
   float:left;
   width:50%;
-  padding:0 6px;
+  padding:0 16px;
   /* padding:15px; */
   margin-left:17px;
   /* text-align:center; */
@@ -40,9 +40,9 @@ th, td {
    left: 0;
    bottom: 0;
    width: 100%;
-   background-color: goldenrod;
-   color: white;
-   text-align: center;
+   /* background-color: goldenrod; */
+   color: black;
+   /* text-align: center; */
 }
 </style>
 
@@ -55,42 +55,67 @@ th, td {
 		<div class="main">
 			<h2>SATKAR JEWELLERS</h2>
 			<p>Purani bazar, sabji mandi, opp. of central bank of india</p>
-			Mb: +91-9934669155<br/><br/>
+			Mb: +91-9934669155
 		</div>
 
 		<div class="right">
-		Customer Details:
-			<h2>JAWAHAR LAL NEHRU</h2>
-			<p>Purani bazar, sabji mandi, opp. of central bank of india</p>
-			Mb: +91-862188272
+			<h2><?php echo $customerDetails['Customer']['name']; ?></h2>
+			<p><?php echo $customerDetails['Customer']['address']; ?></p>
+			Mb: +91-<?php echo $customerDetails['Customer']['mobile']; ?>
 		</div>
 	</div>
 
 	<br/><br/>
 
-                        <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Invoice ID</th>
-                            <th>Amount</th>
-                            <th>Date</th>
-                        </tr>
-                    </thead>
-                        <tbody class="no-border-x">
-                            <?php foreach ($paymentLists as $orderTransaction) { ?>
-                            <tr>
-                                <td><?php echo $orderTransaction['OrderTransaction']['invoice_number']; ?></td>
-                                <td>&#8377;<?php echo number_format($orderTransaction['OrderTransaction']['amount_paid'],2); ?></td>
-                                <td><?php echo date('d-M-Y h:i A', strtotime($orderTransaction['OrderTransaction']['created'])); ?></td>
-                            </tr>
-                            <?php } ?>
-                        </tbody>
-                    </table>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Invoice ID</th>
+                <th>Amount</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody class="no-border-x">
+            <?php foreach ($paymentLists as $orderTransaction) { ?>
+            <tr>
+                <td><?php echo $orderTransaction['OrderTransaction']['invoice_number']; ?></td>
+                <td>&#8377;<?php echo number_format($orderTransaction['OrderTransaction']['amount_paid'],2); ?></td>
+                <td><?php echo date('d-M-Y h:i A', strtotime($orderTransaction['OrderTransaction']['created'])); ?></td>
+            </tr>
+            <?php } ?>
+        </tbody>
+    </table>
 
-                        
+    <br/><br/>
 
-<div class="footer">
-  <p>Footer</p>
-</div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Order ID</th>
+                <th>Grand Total</th>
+                <th>Payment</th>
+                <th>Dues</th>
+            </tr>
+        </thead>
+        <tbody class="no-border-x">
+            <?php 
+                $sum = 0;
+                foreach ($paymentLists as $orderTransaction) {
+                    $sum+= $orderTransaction['OrderTransaction']['amount_paid'];
+                }
+                $dues = ($grandTotal - $sum);
+            ?>
+            <tr>
+                <td><?php echo $orderNumber; ?></td>
+                <td>&#8377;<?php echo number_format($grandTotal,2); ?></td>
+                <td>&#8377;<?php echo number_format($sum,2); ?></td>
+                <td style="color:red;">&#8377;<?php echo number_format($dues,2); ?></td>
+            </tr>
+        </tbody>
+    </table>            
+
+    <div class="footer">
+        <p>This is not the original bill.</p>
+    </div>
 </body>
 </html>

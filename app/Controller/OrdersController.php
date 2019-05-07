@@ -105,6 +105,7 @@ class OrdersController extends AppController {
         $this->OrderTransaction->unbindModel(array('belongsTo' => array('Order')),true);
         $this->OrderItem->unbindModel(array('belongsTo' => array('Order')),true);
         $orderDetails = $this->Order->find('first',array('conditions'=>array('Order.id'=>$orderId)));
+        // pr($orderDetails);die;
         $this->set('orderDetails',$orderDetails);
     }
 
@@ -126,17 +127,21 @@ class OrdersController extends AppController {
         }
     }
 
-    public function generatePaymentHistory($orderId=null,$customerId=null,$grandTotal=null) {
+    public function generatePaymentHistory($orderId=null,$customerId=null,$grandTotal=null,$orderNumber=null) {
         $this->layout = "ajax";
         $this->autoRender = false;
+        $this->set('title_for_layout','payment History');
         error_reporting(0);
         $this->loadModel('OrderTransaction');
+        $this->loadModel('Customer');
         $view = new View($this, false);
+        $this->Customer->unbindModel(array('hasMany' => array('Order')),true);
+        $customerDetails = $this->Customer->find('first',array('conditions'=>array('Customer.id'=>$customerId),'fields'=>array('name','address','mobile')));
+
         $this->OrderTransaction->unbindModel(array('belongsTo' => array('Order')),true);
         $paymentLists = $this->OrderTransaction->find('all',array('conditions'=>array('OrderTransaction.order_id'=>$orderId)) ,array('order'=>array('OrderTransaction.id'=>'desc')));
-        // pr($paymentLists);die;
         $filename =  "order". '-'. date("m-d-y");
-        $view->set(compact('paymentLists'));
+        $view->set(compact('paymentLists','customerDetails','grandTotal','orderNumber'));
         $html = $view->render('payment_history_pdf');
         $pdf= new mPDF('utf-8', 'A4-L');
         // Define a Landscape page size/format by name
@@ -145,6 +150,16 @@ class OrdersController extends AppController {
         $pdf->WriteHTML($html);
         // $pdf->Output($filename.".pdf", "D");
         $pdf->Output($filename.".pdf", "I");
+    }
+
+    public function cancel_order($orderId=null) {
+        $this->autoRender = false;
+        $this->layout = false;
+        $this->loadModel('Order');
+        $this->loadModel('OrderItem');
+        $this->OrderItem->updateAll(array('OrderItem.status' =>1),array('OrderItem.order_id'=>$orderId));
+        $this->Order->updateAll(array('Order.status' =>2),array('Order.id'=>$orderId));
+        echo "1";
     }
 
 

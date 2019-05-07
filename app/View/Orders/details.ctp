@@ -5,9 +5,32 @@
               <div class="panel panel-default panel-table">
                 <div class="panel-heading">Order Details
                 <br/>
+                <?php 
+                    if ($orderDetails['Order']['status'] == 0 ) {
+                        $status = 'Draft';
+                        $orderStatusClass = 'text-warning';
+                    } else if ($orderDetails['Order']['status'] == 1 ) {
+                        $status = 'Confirm';
+                        $orderStatusClass = 'text-success';
+                    } else if ($orderDetails['Order']['status'] == 2) {
+                        $status = 'Cancelled';
+                        $orderStatusClass = 'text-danger';
+                    } else if ($orderDetails['Order']['status'] == 3) {
+                        $status = 'Partial Cancelled';
+                        $orderStatusClass = 'text-warning';
+                    }
+                ?>
                     <div class="tools" style="font-size:18px;">
                         <?php echo "Order ID: " .$orderDetails['Order']['order_number']; ?>
-                    </div><br/><br/>
+                    </div><br/>
+                    <div class="tools" style="font-size:15px;">
+                    <span style="font-size:18px;">Date: </span><?php echo date('d-M-Y', strtotime($orderDetails['Order']['created'])); ?>
+                    </div><br/>
+                    <div class="tools" style="font-size:15px;">
+                    <span style="font-size:18px;">Status: </span><span class="<?php echo $orderStatusClass ?>"><?php echo $status; ?></span>
+                    </div>
+                    
+                    <br/><br/>
                 </div>
                 <div class="panel-body">
                   <table id="" class="table table-striped table-hover table-fw-widget">
@@ -21,36 +44,48 @@
                         <th>Gems</th>
                         <th>Gems Rate</th>
                         <th>Gems Weight</th>
-                        <th>Gems Amount</th>
+                        <!-- <th>Gems Amount</th> -->
 						<th>Total</th>
 						<th>Discount</th>
 						<th>Grand Total</th>
+                        <th>Status</th>
                       </tr>
                     </thead>
                     <tbody>
 					
-					<?php foreach ($orderDetails['OrderItem'] as $orderDetail) { ?>
+					<?php foreach ($orderDetails['OrderItem'] as $orderDetail) {
+                        if($orderDetail['status'] == 1) {
+                            $statusClass = 'text-danger';
+                        } else {
+                            $statusClass = '';
+                        }
+                        ?>
                     <tr class="odd gradeX">
-                        <td><?php echo $orderDetail['Category']['name']; ?></td>
-                        <td><?php echo $orderDetail['name']; ?></td>
-                        <td><?php echo $orderDetail['rate']; ?></td>
-                        <td><?php echo $orderDetail['weight']; ?></td>
+                        <td><span class="<?php echo $statusClass ?>"><?php echo $orderDetail['Category']['name']; ?></span></td>
+                        <td><span class="<?php echo $statusClass ?>"><?php echo $orderDetail['name']; ?></span></td>
+                        <td><span class="<?php echo $statusClass ?>"><?php echo $orderDetail['rate']; ?></span></td>
+                        <td><span class="<?php echo $statusClass ?>"><?php echo $orderDetail['weight']; ?></span></td>
                         <?php if(isset($orderDetail['making_charge']) && !empty($orderDetail['making_charge'])) { ?>
-                            <td>&#8377;<?php echo $orderDetail['making_charge']; ?></td>
+                            <td><span class="<?php echo $statusClass ?>">&#8377;<?php echo $orderDetail['making_charge']; ?></span></td>
                         <?php } else { ?>
                             <td></td>
                         <?php } ?>
-                        <td><?php echo $orderDetail['gems_name']; ?></td>
-                        <td><?php echo $orderDetail['gems_rate']; ?></td>
-                        <td><?php echo $orderDetail['gems_weight']; ?></td>
-                        <td><?php echo $orderDetail['gems_price']; ?></td>
-                        <td>&#8377;<?php echo number_format($orderDetail['total'],2); ?></td>
+                        <td><span class="<?php echo $statusClass ?>"><?php echo $orderDetail['gems_name']; ?></span></td>
+                        <td><span class="<?php echo $statusClass ?>"><?php echo $orderDetail['gems_rate']; ?></span></td>
+                        <td><span class="<?php echo $statusClass ?>"><?php echo $orderDetail['gems_weight']; ?></span></td>
+                        <!-- <td><?php //echo $orderDetail['gems_price']; ?></td> -->
+                        <td><span class="<?php echo $statusClass ?>">&#8377;<?php echo number_format($orderDetail['total'],2); ?></span></td>
                         <?php if(isset($orderDetail['discount']) && !empty($orderDetail['discount'])) { ?>
-                            <td>&#8377;<?php echo number_format($orderDetail['discount'],2); ?></td>
+                            <td><span class="<?php echo $statusClass ?>">&#8377;<?php echo number_format($orderDetail['discount'],2); ?></span></td>
                         <?php } else { ?>
                             <td></td>
                         <?php } ?>
-                        <td>&#8377;<?php echo number_format($orderDetail['grand_total'],2); ?></td>
+                        <td><span class="<?php echo $statusClass ?>">&#8377;<?php echo number_format($orderDetail['grand_total'],2); ?></span></td>
+                        <?php if($orderDetail['status'] == 1) { ?>
+                            <td><span class="text-danger">Cancel</span></td>
+                        <?php } else { ?>
+                            <td><span class="text-success"><?php echo $this->Html->link('Confirm', 'javascript:void(0);',  array("class" => "text-success return_item", "escape" => false,'order_item_id'=>$orderDetail['id'],'title'=>'Return this item')); ?></span></td>
+                        <?php } ?>
                     </tr>
 					<?php } ?>
                     </tbody>
@@ -133,8 +168,10 @@
                         <button class="btn btn-rounded btn-space btn-success" id="order_invoice">Generate Order Invoice</button>
                         <?php if ($orderDetails['Order']['payment_status'] == 1) { ?>
                             <button class="btn btn-rounded btn-space btn-primary" id="make_payment">Make Payment</button>
-                        <?php } ?>
+                        <?php }
+                        if ($orderDetails['Order']['status'] != 2) { ?>
                         <button class="btn btn-rounded btn-space btn-danger" id="cancel_order">Cancel Order</button>
+                        <?php } ?>
                         <button class="btn btn-rounded btn-space btn-warning" id="payment_history">Payment History</button>
                         <button class="btn btn-rounded btn-space btn-default" id="payment_receipt">Generate Payment Receipt</button>
                     </p>
@@ -287,11 +324,33 @@
 
         $('#payment_receipt').click(function(){
             var orderId = '<?php echo $orderDetails['Order']['id']; ?>';
+            var orderNumber = '<?php echo $orderDetails['Order']['order_number']; ?>';
             var customerId = '<?php echo $orderDetails['Order']['customer_id']; ?>';
             var grandTotal = '<?php echo $orderDetails['Order']['grand_total']; ?>';
-            var base_url = "<?php echo Router::url(array('controller'=>'Orders','action'=>'generatePaymentHistory'));?>/" + orderId + '/' + customerId + '/' + grandTotal;
+            var base_url = "<?php echo Router::url(array('controller'=>'Orders','action'=>'generatePaymentHistory'));?>/" + orderId + '/' + customerId + '/' + grandTotal + '/' + orderNumber;
             //window.location.href=base_url;
             window.open(base_url,'_blank');
+        });
+
+        $('#cancel_order').click(function(){
+            var orderId = '<?php echo $orderDetails['Order']['id']; ?>';
+            if (confirm('Are you sure to cancel this order ?')) {
+                $.ajax({
+                    url:"<?php echo Router::url(array('controller'=>'Orders','action'=>'cancel_order'));?>/" + orderId,
+                    success:function(data){
+                        if (data == 1) {
+                            location.reload();
+                        } else {
+                            alert('Error Occured!!');
+                        }
+                    }
+			    });
+            }
+        });
+
+        $('.return_item').click(function(){
+            var itemId = $(this).attr('order_item_id');
+            alert(itemId);
         });
 
 	});	

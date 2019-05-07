@@ -35,6 +35,14 @@ th, td {
   border: 1px solid goldenrod;
 }
 
+.footer {
+   position: fixed;
+   left: 0;
+   bottom: 0;
+   width: 100%;
+   background-color: goldenrod;
+   color: white;
+   text-align: center;
 }
 </style>
 
@@ -79,8 +87,10 @@ th, td {
                         </tbody>
                     </table>
 
-                           
+                        
 
-</section><!-- #content end -->
+<div class="footer">
+  <p>Footer</p>
+</div>
 </body>
 </html>

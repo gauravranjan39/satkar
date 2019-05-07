@@ -162,6 +162,18 @@ class OrdersController extends AppController {
         echo "1";
     }
 
+    public function cancel_order_item($orderId=null,$orderItemId=null,$confirmItemCount=null) {
+        $this->autoRender = false;
+        $this->layout = false;
+        $this->loadModel('OrderItem');
+        $this->OrderItem->updateAll(array('OrderItem.status' =>1),array('OrderItem.id'=>$orderItemId));
+        if ($confirmItemCount == 1) {
+            $this->loadModel('Order');
+            $this->Order->updateAll(array('Order.status' =>2),array('Order.id'=>$orderId));
+        }
+        echo "1";
+    }
+
 
 
 }

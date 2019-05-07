@@ -53,12 +53,15 @@
                     </thead>
                     <tbody>
 					
-					<?php foreach ($orderDetails['OrderItem'] as $orderDetail) {
-                        if($orderDetail['status'] == 1) {
-                            $statusClass = 'text-danger';
-                        } else {
-                            $statusClass = '';
-                        }
+                    <?php
+                        $confirmItem = array();
+                        foreach ($orderDetails['OrderItem'] as $orderDetail) {
+                            if($orderDetail['status'] == 1) {
+                                $statusClass = 'text-danger';
+                            } else {
+                                array_push($confirmItem,$orderDetail['id']);
+                                $statusClass = '';
+                            }
                         ?>
                     <tr class="odd gradeX">
                         <td><span class="<?php echo $statusClass ?>"><?php echo $orderDetail['Category']['name']; ?></span></td>
@@ -87,7 +90,9 @@
                             <td><span class="text-success"><?php echo $this->Html->link('Confirm', 'javascript:void(0);',  array("class" => "text-success return_item", "escape" => false,'order_item_id'=>$orderDetail['id'],'title'=>'Return this item')); ?></span></td>
                         <?php } ?>
                     </tr>
-					<?php } ?>
+                    <?php } 
+                    $confirmItemCount = count($confirmItem);
+                    ?>
                     </tbody>
                   </table>
                   <br/><br/><br/><br/>
@@ -349,8 +354,21 @@
         });
 
         $('.return_item').click(function(){
+            var orderId = '<?php echo $orderDetails['Order']['id']; ?>';
             var itemId = $(this).attr('order_item_id');
-            alert(itemId);
+            var confirmItemCount = '<?php echo $confirmItemCount; ?>';
+            if (confirm('Are you sure to cancel this item ?')) {
+                $.ajax({
+                    url:"<?php echo Router::url(array('controller'=>'Orders','action'=>'cancel_order_item'));?>/" + orderId + '/' + itemId + '/' + confirmItemCount,
+                    success:function(data){
+                        if (data == 1) {
+                            location.reload();
+                        } else {
+                            alert('Error Occured!!');
+                        }
+                    }
+			    });
+            }
         });
 
 	});	

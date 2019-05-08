@@ -9,7 +9,6 @@ class OrdersController extends AppController {
         $this->loadModel('Order');
         $this->Order->unbindModel(array('hasMany' => array('OrderItem')),true);
         $orderLists = $this->Order->find('all', array('order'=>array('Order.id'=>'desc')));
-        // pr($orderLists);die;
         $this->set('orderLists',$orderLists);
     }
 
@@ -79,7 +78,6 @@ class OrdersController extends AppController {
     public function delete_order($orderId=null) {
         $this->layout = false;
         $this->autoRender = false;
-        //echo "order ID-->>" .$orderId;die;
         $this->loadModel('Order');
         $this->Order->deleteAll(array('Order.id'=>$orderId));
         echo '1';
@@ -88,7 +86,6 @@ class OrdersController extends AppController {
     public function change_payment_status($orderId=null) {
         $this->layout = false;
         $this->autoRender = false;
-        // echo "order ID-->>" .$orderId;die;
         $this->loadModel('Order');
         $this->Order->updateAll(array('Order.payment_status' =>0),array('Order.id'=>$orderId));
         echo '1';
@@ -105,7 +102,6 @@ class OrdersController extends AppController {
         $this->OrderTransaction->unbindModel(array('belongsTo' => array('Order')),true);
         $this->OrderItem->unbindModel(array('belongsTo' => array('Order')),true);
         $orderDetails = $this->Order->find('first',array('conditions'=>array('Order.id'=>$orderId)));
-        // pr($orderDetails);die;
         $this->set('orderDetails',$orderDetails);
     }
 
@@ -137,7 +133,6 @@ class OrdersController extends AppController {
         $view = new View($this, false);
         $this->Customer->unbindModel(array('hasMany' => array('Order')),true);
         $customerDetails = $this->Customer->find('first',array('conditions'=>array('Customer.id'=>$customerId),'fields'=>array('name','address','mobile')));
-
         $this->OrderTransaction->unbindModel(array('belongsTo' => array('Order')),true);
         $paymentLists = $this->OrderTransaction->find('all',array('conditions'=>array('OrderTransaction.order_id'=>$orderId)) ,array('order'=>array('OrderTransaction.id'=>'desc')));
         $filename =  "order". '-'. date("m-d-y");

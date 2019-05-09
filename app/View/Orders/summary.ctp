@@ -7,7 +7,10 @@
                 <br/>
                     <div class="tools" style="font-size:18px;">
                         <?php echo "Order ID: " .$orderDetails['Order']['order_number']; ?>
-                    </div><br/><br/>
+                    </div><br/>
+                    <div class="tools" style="font-size:15px;">
+                    <span style="font-size:18px;">Status: </span><span class="text-warning">Draft</span>
+                    </div>
                 </div>
                 <div class="panel-body">
                   <table id="" class="table table-striped table-hover table-fw-widget">
@@ -66,29 +69,29 @@
                             <?php echo $orderDetails['Order']['comments']; ?>
                         <?php } ?>
                     </div>
-                    <div class="form-group col-sm-2">
+                    <!-- <div class="form-group col-sm-2">
                         <label>Total:</label>
-                        &#8377;<?php echo " ". number_format($orderDetails['Order']['total'],2); ?>
-                    </div>
+                        &#8377;<?php //echo " ". number_format($orderDetails['Order']['total'],2); ?>
+                    </div> -->
                 </div>
 
-                <div class="row xs-pt-12">
+                <!-- <div class="row xs-pt-12">
                     <div class="form-group col-sm-10">
                     </div>
                     <div class="form-group col-sm-2">
                         <label>Discount:</label>
-                        <?php if (isset($orderDetails['Order']['discount']) && !empty($orderDetails['Order']['discount'])) { ?>
-                        &#8377;<?php echo " ". number_format($orderDetails['Order']['discount'],2); ?>
-                        <?php } else { ?>
+                        <?php //if (isset($orderDetails['Order']['discount']) && !empty($orderDetails['Order']['discount'])) { ?>
+                        &#8377;<?php //echo " ". number_format($orderDetails['Order']['discount'],2); ?>
+                        <?php //} else { ?>
                             &#8377; 0.0
-                        <?php } ?>
+                        <?php //} ?>
                     </div>
-                </div>
+                </div> -->
 
                 <div class="row xs-pt-12">
-                    <div class="form-group col-sm-10">
+                    <div class="form-group col-sm-9">
                     </div>
-                    <div class="form-group col-sm-2">
+                    <div class="form-group col-sm-3">
                         <label>Grand Total:</label>
                         &#8377;<?php echo " ". number_format($orderDetails['Order']['grand_total'],2); ?>
                     </div>
@@ -158,8 +161,19 @@
 		});
 
         $("#confirm_order").click(function(){
+            var orderId = '<?php echo $orderDetails['Order']['id'];?>';
             if (confirm('Are you sure to confirm this order ?')) {
-                window.location.href='<?php echo $this->webroot?>Customers/index';
+                $.ajax({
+                    url:"<?php echo Router::url(array('controller'=>'Orders','action'=>'confirm_order'));?>/"+orderId,
+                    success:function(data){
+                        if (data == 1) {
+                            window.location.href='<?php echo $this->webroot?>Orders/index';
+                        } else {
+                            alert('Error Occured!!');
+                        }
+                    }
+			    });
+                //window.location.href='<?php echo $this->webroot?>Customers/index';
             }
 		});
 

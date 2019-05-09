@@ -110,3 +110,6 @@ CakeLog::config('error', array(
 	'file' => 'error',
 ));
 App::import('Vendor', array('file' => 'autoload'));
+
+date_default_timezone_set('Asia/Calcutta');
+Configure::write('TimeZone', 'Asia/Calcutta');

@@ -5,6 +5,7 @@ App::import('Vendor', 'PDF', array('file' => 'mpdf/vendor/autoload.php'));
 class OrdersController extends AppController {
 
     public function index() {
+        // $Latest = $this->OrderTransaction->find('first',array('conditions' => array('OrderTransaction.order_id' => '3'),'order' => array('OrderTransaction.id' => 'DESC')));
         $this->layout = "my_layout";
         $this->loadModel('Order');
         $this->Order->unbindModel(array('hasMany' => array('OrderItem')),true);
@@ -165,7 +166,18 @@ class OrdersController extends AppController {
         if ($confirmItemCount == 1) {
             $this->loadModel('Order');
             $this->Order->updateAll(array('Order.status' =>2),array('Order.id'=>$orderId));
-        }
+        } else {
+            $this->loadModel('Order');
+            $this->Order->updateAll(array('Order.status' =>3),array('Order.id'=>$orderId));
+        }   
+        echo "1";
+    }
+
+    public function confirm_order($orderId=null) {
+        $this->autoRender = false;
+        $this->layout = false;
+        $this->loadModel('Order');
+        $this->Order->updateAll(array('Order.status' =>1),array('Order.id'=>$orderId));
         echo "1";
     }
 

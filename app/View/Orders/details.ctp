@@ -24,7 +24,7 @@
                         <?php echo "Order ID: " .$orderDetails['Order']['order_number']; ?>
                     </div><br/>
                     <div class="tools" style="font-size:15px;">
-                    <span style="font-size:18px;">Date: </span><?php echo date('d-M-Y', strtotime($orderDetails['Order']['created'])); ?>
+                    <span style="font-size:18px;">Date: </span><?php echo date('d-M-Y h:i A', strtotime($orderDetails['Order']['created'])); ?>
                     </div><br/>
                     <div class="tools" style="font-size:15px;">
                     <span style="font-size:18px;">Status: </span><span class="<?php echo $orderStatusClass ?>"><?php echo $status; ?></span>
@@ -55,10 +55,12 @@
 					
                     <?php
                         $confirmItem = array();
+                        // $activeItemTotal = 0;
                         foreach ($orderDetails['OrderItem'] as $orderDetail) {
                             if($orderDetail['status'] == 1) {
                                 $statusClass = 'text-danger';
                             } else {
+                                // $activeItemTotal+= $orderDetail['grand_total'];
                                 array_push($confirmItem,$orderDetail['id']);
                                 $statusClass = '';
                             }
@@ -90,7 +92,8 @@
                             <td><span class="text-success"><?php echo $this->Html->link('Confirm', 'javascript:void(0);',  array("class" => "text-success return_item", "escape" => false,'order_item_id'=>$orderDetail['id'],'title'=>'Return this item')); ?></span></td>
                         <?php } ?>
                     </tr>
-                    <?php } 
+                    <?php }
+                    // pr($activeItemTotal);die;
                     $confirmItemCount = count($confirmItem);
                     ?>
                     </tbody>
@@ -105,24 +108,24 @@
                             <?php echo $orderDetails['Order']['comments']; ?>
                         <?php } ?>
                     </div>
-                    <div class="form-group col-sm-2">
+                    <!-- <div class="form-group col-sm-2">
                         <label>Total:</label>
-                        &#8377;<?php echo number_format($orderDetails['Order']['total'],2); ?>
-                    </div>
+                        &#8377;<?php //echo number_format($orderDetails['Order']['total'],2); ?>
+                    </div> -->
                 </div>
 
-                <div class="row xs-pt-12">
+                <!-- <div class="row xs-pt-12">
                     <div class="form-group col-sm-10">
                     </div>
                     <div class="form-group col-sm-2">
                         <label>Discount:</label>
-                        <?php if (isset($orderDetails['Order']['discount']) && !empty($orderDetails['Order']['discount'])) { ?>
-                        &#8377;<?php echo number_format($orderDetails['Order']['discount'],2); ?>
-                        <?php } else { ?>
+                        <?php //if (isset($orderDetails['Order']['discount']) && !empty($orderDetails['Order']['discount'])) { ?>
+                        &#8377;<?php //echo number_format($orderDetails['Order']['discount'],2); ?>
+                        <?php// } else { ?>
                             &#8377; 0.0
-                        <?php } ?>
+                        <?php //} ?>
                     </div>
-                </div>
+                </div> -->
 
                 <div class="row xs-pt-12">
                     <div class="form-group col-sm-10">
@@ -182,7 +185,7 @@
                     </p>
                 </div>
 
-                <?php //pr($orderDetails);die; ?>
+                <?php //pr($confirmItemCount);die; ?>
                 </div>
               </div>
             </div>

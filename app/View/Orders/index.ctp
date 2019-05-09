@@ -52,21 +52,36 @@
                     <thead>
                       <tr>
                         <th >Order ID</th>
-                        <th >Customer Name</th>
+                        <th >Customer</th>
                         <th>Total</th>
-                        <th>Payment</th>
+                        <th>Paid</th>
                         <th>Dues</th>
+                        <th>Status</th>
                         <th>Date</th>
-                        <th >Payment Status</th>
+                        <th>Payment</th>
                         <th class="actions">Action</th>
                       </tr>
                     </thead>
                     <tbody class="no-border-x">
-                        <?php foreach ($orderLists as $orderList) { ?>
+                        <?php foreach ($orderLists as $orderList) {
+                            if ($orderList['Order']['status'] == 0 ) {
+                                $status = 'Draft';
+                                $orderStatusClass = 'text-warning';
+                            } else if ($orderList['Order']['status'] == 1 ) {
+                                $status = 'Confirm';
+                                $orderStatusClass = 'text-success';
+                            } else if ($orderList['Order']['status'] == 2) {
+                                $status = 'Cancelled';
+                                $orderStatusClass = 'text-danger';
+                            } else if ($orderList['Order']['status'] == 3) {
+                                $status = 'Partial Cancelled';
+                                $orderStatusClass = 'text-warning';
+                            }
+                            ?>
                             <tr>
                                 <td><?php echo $orderList['Order']['order_number']; ?></td>
                                 <td><?php echo $this->Html->link($orderList['Customer']['name'], 'javascript:void(0);',  array("class" => "customer_details", "escape" => false,"mobile"=>$orderList['Customer']['mobile'],"email"=>$orderList['Customer']['email'],"address"=>$orderList['Customer']['address'])); ?></td>
-                                <td>&#8377;<?php echo $orderList['Order']['grand_total']; ?></td>
+                                <td>&#8377;<?php echo number_format($orderList['Order']['grand_total'],2); ?></td>
                                 <?php 
                                     $sum = 0;
                                     foreach ($orderList['OrderTransaction'] as $orderTransaction) {
@@ -76,7 +91,8 @@
                                 ?>
                                 <td>&#8377;<?php echo number_format($sum,2); ?></td>
                                 <td>&#8377;<?php echo number_format($dues,2); ?></td>
-                                <td><?php echo date('d-M-Y h:i A', strtotime($orderList['Order']['created'])); ?></td>
+                                <td class="<?php echo $orderStatusClass ?>"><?php echo $status; ?></td>
+                                <td><?php echo date('d-M-Y', strtotime($orderList['Order']['created'])); ?></td>
                                 <?php if ($orderList['Order']['payment_status'] == 1) { ?>
                                     <td><?php echo $this->Html->link('Pending', 'javascript:void(0);',  array("class" => "text-danger payment_pending", "escape" => false,'order_id'=>$orderList['Order']['id'],'title'=>'Change to Completed')); ?></td>
                                 <?php } else { ?>

@@ -6,18 +6,13 @@ App::uses('AppModel', 'Model');
  * @property Customer $Customer
  * @property OrderItem $OrderItem
  * @property OrderTransaction $OrderTransaction
+ * @property Wallet $Wallet
  */
 class Order extends AppModel {
 
-/**
- * Display field
- *
- * @var string
- */
-	public $displayField = 'order_number';
-
 
 	// The Associations below have been created with all possible keys, those that are not needed can be removed
+	public $displayField = 'order_number';
 
 /**
  * belongsTo associations
@@ -43,7 +38,7 @@ class Order extends AppModel {
 		'OrderItem' => array(
 			'className' => 'OrderItem',
 			'foreignKey' => 'order_id',
-			'dependent' => true,
+			'dependent' => false,
 			'conditions' => '',
 			'fields' => '',
 			'order' => '',
@@ -56,7 +51,20 @@ class Order extends AppModel {
 		'OrderTransaction' => array(
 			'className' => 'OrderTransaction',
 			'foreignKey' => 'order_id',
-			'dependent' => true,
+			'dependent' => false,
+			'conditions' => '',
+			'fields' => '',
+			'order' => '',
+			'limit' => '',
+			'offset' => '',
+			'exclusive' => '',
+			'finderQuery' => '',
+			'counterQuery' => ''
+		),
+		'Wallet' => array(
+			'className' => 'Wallet',
+			'foreignKey' => 'order_id',
+			'dependent' => false,
 			'conditions' => '',
 			'fields' => '',
 			'order' => '',

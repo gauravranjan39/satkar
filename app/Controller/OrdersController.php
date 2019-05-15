@@ -99,11 +99,14 @@ class OrdersController extends AppController {
         $this->loadModel('Customer');
         $this->loadModel('OrderTransaction');
         $this->Order->recursive = 2;
-        $this->Order->unbindModel(array('belongsTo' => array('Customer')),true);
+        $this->Customer->recursive = -1;
+        $this->Order->unbindModel(array('belongsTo' => array('Customer'),'hasMany'=>array('Wallet')),true);
         $this->OrderTransaction->unbindModel(array('belongsTo' => array('Order')),true);
-        $this->OrderItem->unbindModel(array('belongsTo' => array('Order')),true);
+        $this->OrderItem->unbindModel(array('belongsTo' => array('Order'),'hasMany'=>array('Wallet')),true);
         $orderDetails = $this->Order->find('first',array('conditions'=>array('Order.id'=>$orderId)));
-        $this->set('orderDetails',$orderDetails);
+        $customerId = $orderDetails['Order']['customer_id'];
+        $customerDetails = $this->Customer->find('first',array('conditions'=>array('Customer.id'=>$customerId),'fields'=>array('name','address','mobile')));
+        $this->set(compact('orderDetails','customerDetails'));
     }
 
     public function pay_dues($orderId=null,$payment=null,$dues=null) {
@@ -158,18 +161,43 @@ class OrdersController extends AppController {
         echo "1";
     }
 
-    public function cancel_order_item($orderId=null,$orderItemId=null,$confirmItemCount=null) {
+    public function cancel_order_item($orderId=null,$orderItemId=null,$confirmItemCount=null,$customerId=null,$itemGrandTotal=null,$orderGrandTotal=null,$orderPayment=null) {
         $this->autoRender = false;
         $this->layout = false;
+        $this->loadModel('Wallet');
+        $this->Wallet->unbindModel(array('belongsTo' => array('Order','OrderItem','Customer')),true);
+        $Latest = $this->Wallet->find('first',array('conditions' => array('Wallet.customer_id' => $customerId),'order' => array('Wallet.id' => 'DESC')));
+        // pr($orderPayment);die;
+        $newGrandTotal = ($orderGrandTotal - $itemGrandTotal);
+        $newGrandTotal = round($newGrandTotal);
         $this->loadModel('OrderItem');
-        $this->OrderItem->updateAll(array('OrderItem.status' =>1),array('OrderItem.id'=>$orderItemId));
+        $this->OrderItem->updateAll(array('OrderItem.status' =>1,'Order.grand_total'=>$newGrandTotal),array('OrderItem.id'=>$orderItemId));
         if ($confirmItemCount == 1) {
             $this->loadModel('Order');
             $this->Order->updateAll(array('Order.status' =>2),array('Order.id'=>$orderId));
         } else {
             $this->loadModel('Order');
             $this->Order->updateAll(array('Order.status' =>3),array('Order.id'=>$orderId));
-        }   
+        }
+
+        if ($orderPayment > $newGrandTotal) {
+            $customerAdvance = ($orderPayment - $newGrandTotal);
+            $this->loadModel('Wallet');
+            $this->Wallet->create();
+            $walletData['Wallet']['customer_id'] = $customerId;
+            $walletData['Wallet']['order_id'] = $orderId;
+            $walletData['Wallet']['order_item_id'] = $orderItemId;
+            $walletData['Wallet']['credit'] = $customerAdvance;
+            if (empty($Latest)) {
+                $walletData['Wallet']['balance'] = $customerAdvance;
+            } else {
+                $walletData['Wallet']['balance'] = $Latest['Wallet']['balance'] + $customerAdvance;
+            }
+            $this->Wallet->save($walletData);
+
+        }
+
+
         echo "1";
     }
 

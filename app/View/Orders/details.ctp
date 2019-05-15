@@ -3,9 +3,15 @@
           <div class="row">
             <div class="col-sm-12">
               <div class="panel panel-default panel-table">
-                <div class="panel-heading">Order Details
-                <br/>
-                <?php 
+                <div class="panel-heading">
+                <div class="col-md-12">
+                    <div class="col-md-6">
+                    <div style="font-size:15px;"><b>Customer Name:</b>
+                            <?php echo $customerDetails['Customer']['name']; ?></div>
+                            <div style="font-size:15px;"><b>Address:  </b><?php echo $customerDetails['Customer']['address']; ?></div>
+                            <div style="font-size:15px;"><b>Mb:  </b><?php echo $customerDetails['Customer']['mobile']; ?></div>
+                    </div>
+                <?php //pr($orderDetails);die;
                     if ($orderDetails['Order']['status'] == 0 ) {
                         $status = 'Draft';
                         $orderStatusClass = 'text-warning';
@@ -20,18 +26,23 @@
                         $orderStatusClass = 'text-warning';
                     }
                 ?>
-                    <div class="tools" style="font-size:18px;">
-                        <?php echo "Order ID: " .$orderDetails['Order']['order_number']; ?>
-                    </div><br/>
-                    <div class="tools" style="font-size:15px;">
-                    <span style="font-size:18px;">Date: </span><?php echo date('d-M-Y h:i A', strtotime($orderDetails['Order']['created'])); ?>
-                    </div><br/>
-                    <div class="tools" style="font-size:15px;">
-                    <span style="font-size:18px;">Status: </span><span class="<?php echo $orderStatusClass ?>"><?php echo $status; ?></span>
-                    </div>
-                    
-                    <br/><br/>
+                        <div class="col-md-6">
+                            <div class="tools" style="font-size:18px;">
+                                <?php echo "Order ID: " .$orderDetails['Order']['order_number']; ?>
+                            </div><br/>
+                            <div class="tools" style="font-size:15px;">
+                                <span style="font-size:18px;">Date: </span><?php echo date('d-M-Y h:i A', strtotime($orderDetails['Order']['created'])); ?>
+                            </div><br/>
+                            <div class="tools" style="font-size:15px;">
+                                <span style="font-size:18px;">Status: </span><span class="<?php echo $orderStatusClass ?>"><?php echo $status; ?></span>
+                            </div>
+                        </div>
+                    </div><br/><br/>
+                    <br/>
                 </div>
+
+                <hr>
+                
                 <div class="panel-body">
                   <table id="" class="table table-striped table-hover table-fw-widget">
                     <thead>
@@ -67,7 +78,7 @@
                         ?>
                     <tr class="odd gradeX">
                         <td><span class="<?php echo $statusClass ?>"><?php echo $orderDetail['Category']['name']; ?></span></td>
-                        <td><span class="<?php echo $statusClass ?>"><?php echo $orderDetail['name']; ?></span></td>
+                        <td  data-container="body" data-toggle="popover" data-placement="top" data-content="<?php echo $orderDetail['comments']; ?>" data-original-title="Comments"><span class="<?php echo $statusClass ?>"><?php echo $orderDetail['name']; ?></span></td>
                         <td><span class="<?php echo $statusClass ?>"><?php echo $orderDetail['rate']; ?></span></td>
                         <td><span class="<?php echo $statusClass ?>"><?php echo $orderDetail['weight']; ?></span></td>
                         <?php if(isset($orderDetail['making_charge']) && !empty($orderDetail['making_charge'])) { ?>
@@ -85,11 +96,11 @@
                         <?php } else { ?>
                             <td></td>
                         <?php } ?>
-                        <td><span class="<?php echo $statusClass ?>">&#8377;<?php echo number_format($orderDetail['grand_total'],2); ?></span></td>
+                        <td><span class="<?php echo $statusClass ?>">&#8377;<?php echo  number_format($orderDetail['grand_total'],2); ?></span></td>
                         <?php if($orderDetail['status'] == 1) { ?>
                             <td><span class="text-danger">Cancel</span></td>
                         <?php } else { ?>
-                            <td><span class="text-success"><?php echo $this->Html->link('Confirm', 'javascript:void(0);',  array("class" => "text-success return_item", "escape" => false,'order_item_id'=>$orderDetail['id'],'title'=>'Return this item')); ?></span></td>
+                            <td><span class="text-success"><?php echo $this->Html->link('Confirm', 'javascript:void(0);',  array("class" => "text-success return_item", "escape" => false,'order_item_id'=>$orderDetail['id'],'item_grand_total'=>$orderDetail['grand_total'],'title'=>'Return this item')); ?></span></td>
                         <?php } ?>
                     </tr>
                     <?php }
@@ -142,11 +153,11 @@
                     <div class="form-group col-sm-2">
                         <label>Payment:</label>
                         &#8377;<?php 
-                            $sum = 0;
+                            $payment = 0;
                             foreach ($orderDetails['OrderTransaction'] as $orderTransaction) {
-                                $sum+= $orderTransaction['amount_paid'];
+                                $payment+= $orderTransaction['amount_paid'];
                             }
-                        echo number_format($sum,2); ?>
+                        echo number_format($payment,2); ?>
                     </div>
                 </div>
 
@@ -155,20 +166,44 @@
                     </div>
                     <div class="form-group col-sm-2">
                         <label>Dues:</label>
-                        <?php 
-                            $grandTotal = $orderDetails['Order']['grand_total'];
-                            $sum = 0;
-                            foreach ($orderDetails['OrderTransaction'] as $orderTransaction) {
-                                $sum+= $orderTransaction['amount_paid'];
+                        <?php
+                            if ($payment > $orderDetails['Order']['grand_total']) {
+                                $dues = '0.00';
+                            } else {
+                                $sum = 0;
+                                foreach ($orderDetails['OrderTransaction'] as $orderTransaction) {
+                                    $sum+= $orderTransaction['amount_paid'];
+                                }
+                                $dues = ($orderDetails['Order']['grand_total'] - $sum);
                             }
-                            //$dues = ($orderList['Order']['grand_total'] - $sum);
-
-                            // $payment = $orderDetails['OrderTransaction'][0]['amount_paid'];
-                            $dues = ($orderDetails['Order']['grand_total'] - $sum);
+                            
+                            // echo (int)($dues);die;
+                            
                         ?>
                         <span class="text-danger">&#8377;<?php echo number_format($dues,2); ?></span>
                     </div>
                 </div>
+
+                <?php
+                    // echo '---->>>';
+                    // echo round(159410.80);die;
+                    // $advanve = (int)($dues);
+                    // echo $advanve;die;
+                    if ($payment > $orderDetails['Order']['grand_total']) { 
+                        $advance = ($payment - $orderDetails['Order']['grand_total']);
+                        ?>
+                        <div class="row xs-pt-12">
+                            <div class="form-group col-sm-10">
+                            </div>
+                            <div class="form-group col-sm-2">
+                                <label>Wallet:</label>
+                                
+                                <span class="text-success">&#8377;<?php echo number_format($advance,2); ?></span>
+                            </div>
+                        </div>
+                <?php } ?>
+                        
+                
 
                 </div>
                 <div class="col-md-12">
@@ -218,7 +253,7 @@
 
                 <div class="col-md-12">
                     <div class="col-md-3"><b>Paid:</b></div>
-                    <div class="col-md-9">&#8377;<?php echo number_format($sum,2); ?></div>
+                    <div class="col-md-9">&#8377;<?php echo number_format($payment,2); ?></div>
                 </div><br/><br/>
 
                 <div class="col-md-12">
@@ -360,9 +395,13 @@
             var orderId = '<?php echo $orderDetails['Order']['id']; ?>';
             var itemId = $(this).attr('order_item_id');
             var confirmItemCount = '<?php echo $confirmItemCount; ?>';
+            var customerId = '<?php echo $orderDetails['Order']['customer_id']; ?>';
+            var itemGrandTotal = $(this).attr('item_grand_total');
+            var orderGrandTotal = '<?php echo $orderDetails['Order']['grand_total']; ?>';
+            var orderPayment = '<?php echo $payment; ?>';
             if (confirm('Are you sure to cancel this item ?')) {
                 $.ajax({
-                    url:"<?php echo Router::url(array('controller'=>'Orders','action'=>'cancel_order_item'));?>/" + orderId + '/' + itemId + '/' + confirmItemCount,
+                    url:"<?php echo Router::url(array('controller'=>'Orders','action'=>'cancel_order_item'));?>/" + orderId + '/' + itemId + '/' + confirmItemCount + '/' + customerId + '/' + itemGrandTotal + '/' + orderGrandTotal + '/' + orderPayment,
                     success:function(data){
                         if (data == 1) {
                             location.reload();

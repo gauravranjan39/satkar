@@ -143,6 +143,8 @@ class OrdersController extends AppController {
         $view->set(compact('paymentLists','customerDetails','grandTotal','orderNumber'));
         $html = $view->render('payment_history_pdf');
         $pdf= new mPDF('utf-8', 'A4-L');
+        //A4-P is for portrait view
+        // $pdf= new mPDF('utf-8', 'A4-P');
         // Define a Landscape page size/format by name
         //$mpdf=new mPDF('utf-8', 'A4-L');
 
@@ -161,7 +163,7 @@ class OrdersController extends AppController {
         echo "1";
     }
 
-    public function cancel_order_item($orderId=null,$orderItemId=null,$confirmItemCount=null,$customerId=null,$itemGrandTotal=null,$orderGrandTotal=null,$orderPayment=null) {
+    public function cancel_order_item($orderId=null,$orderItemId=null,$confirmItemCount=null,$customerId=null,$itemGrandTotal=null,$orderGrandTotal=null,$orderPayment=null,$dues=null) {
         $this->autoRender = false;
         $this->layout = false;
         $this->loadModel('Wallet');
@@ -180,24 +182,42 @@ class OrdersController extends AppController {
             $this->Order->updateAll(array('Order.status' =>3),array('Order.id'=>$orderId));
         }
 
-        if ($orderPayment > $newGrandTotal) {
-            $customerAdvance = ($orderPayment - $newGrandTotal);
-            $this->loadModel('Wallet');
+        if ($orderPayment > $newGrandTotal) { 
+            $this->Order->updateAll(array('Order.payment_status' =>0),array('Order.id'=>$orderId));
+        }
+
+        $dues = round($dues);
+        $dues = (int)($dues);
+
+        if (empty($dues)) {
             $this->Wallet->create();
             $walletData['Wallet']['customer_id'] = $customerId;
             $walletData['Wallet']['order_id'] = $orderId;
             $walletData['Wallet']['order_item_id'] = $orderItemId;
-            $walletData['Wallet']['credit'] = $customerAdvance;
+            $walletData['Wallet']['credit'] = $itemGrandTotal;
             if (empty($Latest)) {
-                $walletData['Wallet']['balance'] = $customerAdvance;
+                $walletData['Wallet']['balance'] = $itemGrandTotal;
             } else {
-                $walletData['Wallet']['balance'] = $Latest['Wallet']['balance'] + $customerAdvance;
+                $walletData['Wallet']['balance'] = $Latest['Wallet']['balance'] + $itemGrandTotal;
             }
             $this->Wallet->save($walletData);
-
+        } else {
+            if ($orderPayment > $newGrandTotal) {
+                $customerAdvance = ($orderPayment - $newGrandTotal);
+                $this->Wallet->create();
+                $walletData['Wallet']['customer_id'] = $customerId;
+                $walletData['Wallet']['order_id'] = $orderId;
+                $walletData['Wallet']['order_item_id'] = $orderItemId;
+                $walletData['Wallet']['credit'] = $customerAdvance;
+                if (empty($Latest)) {
+                    $walletData['Wallet']['balance'] = $customerAdvance;
+                } else {
+                    $walletData['Wallet']['balance'] = $Latest['Wallet']['balance'] + $customerAdvance;
+                }
+                $this->Wallet->save($walletData);
+    
+            }
         }
-
-
         echo "1";
     }
 

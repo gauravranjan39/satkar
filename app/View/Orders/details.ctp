@@ -80,7 +80,11 @@
                         <td><span class="<?php echo $statusClass ?>"><?php echo $orderDetail['Category']['name']; ?></span></td>
                         <td  data-container="body" data-toggle="popover" data-placement="top" data-content="<?php echo $orderDetail['comments']; ?>" data-original-title="Comments"><span class="<?php echo $statusClass ?>"><?php echo $orderDetail['name']; ?></span></td>
                         <td><span class="<?php echo $statusClass ?>"><?php echo $orderDetail['rate']; ?></span></td>
-                        <td><span class="<?php echo $statusClass ?>"><?php echo $orderDetail['weight']; ?></span></td>
+                        <?php if(isset($orderDetail['weight']) && !empty($orderDetail['weight'])) { ?>
+                            <td><span class="<?php echo $statusClass ?>"><?php echo $orderDetail['weight']; ?> gm</span></td>
+                        <?php } else { ?>
+                            <td></td>
+                        <?php } ?>
                         <?php if(isset($orderDetail['making_charge']) && !empty($orderDetail['making_charge'])) { ?>
                             <td><span class="<?php echo $statusClass ?>">&#8377;<?php echo $orderDetail['making_charge']; ?></span></td>
                         <?php } else { ?>
@@ -185,10 +189,7 @@
                 </div>
 
                 <?php
-                    // echo '---->>>';
-                    // echo round(159410.80);die;
-                    // $advanve = (int)($dues);
-                    // echo $advanve;die;
+                    
                     if ($payment > $orderDetails['Order']['grand_total']) { 
                         $advance = ($payment - $orderDetails['Order']['grand_total']);
                         ?>
@@ -203,6 +204,7 @@
                         </div>
                 <?php } ?>
                         
+                <?php //$dues = (int)($dues); ?>
                 
 
                 </div>
@@ -399,9 +401,11 @@
             var itemGrandTotal = $(this).attr('item_grand_total');
             var orderGrandTotal = '<?php echo $orderDetails['Order']['grand_total']; ?>';
             var orderPayment = '<?php echo $payment; ?>';
+            var dues = '<?php echo $dues; ?>';
+            // alert(dues);return false;
             if (confirm('Are you sure to cancel this item ?')) {
                 $.ajax({
-                    url:"<?php echo Router::url(array('controller'=>'Orders','action'=>'cancel_order_item'));?>/" + orderId + '/' + itemId + '/' + confirmItemCount + '/' + customerId + '/' + itemGrandTotal + '/' + orderGrandTotal + '/' + orderPayment,
+                    url:"<?php echo Router::url(array('controller'=>'Orders','action'=>'cancel_order_item'));?>/" + orderId + '/' + itemId + '/' + confirmItemCount + '/' + customerId + '/' + itemGrandTotal + '/' + orderGrandTotal + '/' + orderPayment + '/' + dues,
                     success:function(data){
                         if (data == 1) {
                             location.reload();

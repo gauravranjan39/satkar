@@ -87,11 +87,11 @@
 								<div class="row xs-pt-12">
 									<div class="form-group col-sm-6">
 										<label>Total</label>
-										<?php echo $this->Form->input("OrderItem.total",array('name'=>'data[OrderItem][0][total]','id'=>'OrderItemTotal_0','placeholder'=>'Total','required'=>'required','readonly'=>true,'class'=>'form-control input-sm allowOnlyNumber itemTotal','label'=>false));?>
+										<?php echo $this->Form->input("OrderItem.total",array('name'=>'data[OrderItem][0][total]','id'=>'OrderItemTotal_0','placeholder'=>'Total','type'=>'text','required'=>'required','readonly'=>true,'class'=>'form-control input-sm allowOnlyNumber itemTotal','label'=>false));?>
 									</div>
 									<div class="form-group col-sm-6">
 										<label>Discount</label>
-										<?php echo $this->Form->input("OrderItem.discount",array('name'=>'data[OrderItem][0][discount]','id'=>'OrderItemDiscount_0','placeholder'=>'Enter Discount','class'=>'form-control input-sm allowOnlyNumber per-weight-field','label'=>false,'maxLength'=>4));?>
+										<?php echo $this->Form->input("OrderItem.discount",array('name'=>'data[OrderItem][0][discount]','id'=>'OrderItemDiscount_0','placeholder'=>'Enter Discount','type'=>'text','class'=>'form-control input-sm allowOnlyNumber per-weight-field','label'=>false,'maxLength'=>4));?>
 									</div>
 								</div>
 
@@ -143,7 +143,7 @@
 								<div class="form-group col-sm-6"></div>
 								<div class="form-group col-sm-6">
 									<label>Payment</label>
-									<?php echo $this->Form->input("OrderTransaction.amount_paid",array('placeholder'=>'Payment','required'=>'required','autocomplete'=>'off','class'=>'form-control input-sm orderAllowOnlyNumber','label'=>false));?>
+									<?php echo $this->Form->input("OrderTransaction.amount_paid",array('placeholder'=>'Payment','type'=>'text','required'=>'required','autocomplete'=>'off','class'=>'form-control input-sm orderAllowOnlyNumber','label'=>false));?>
 								</div>
 							</div>
 

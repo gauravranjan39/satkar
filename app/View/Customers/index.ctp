@@ -42,8 +42,20 @@
 							echo $this->Html->link($this->Html->image('circle_red.png',array('alt'=>'deactive','class'=>'status','value'=>$customerList['c1']['id'])),'javascript:void(0)', array('escape' => false));
 						} ?></td>
 						<td class="center"><?php echo $customerList['c1']['created']; ?></td>
-						<td class="center"><?php echo $this->Html->link('<span class="mdi mdi-edit"></span>',array('controller'=>'Customers','action'=>'edit',$customerList['c1']['id']),array('escape'=>false)); ?>
-						<?php echo $this->Html->link('<span class="mdi mdi-hospital"></span>',array('controller'=>'Orders','action'=>'add',base64_encode($customerList['c1']['id'])),array('escape'=>false)); ?></td>
+						<td class="center">
+							<div class="btn-group btn-hspace">
+								<button type="button" data-toggle="dropdown" class="btn btn-default dropdown-toggle" aria-expanded="false">Open <span class="icon-dropdown mdi mdi-chevron-down"></span></button>
+								<ul role="menu" class="dropdown-menu pull-right">
+								<li><?php echo $this->Html->link('Edit', array('controller' => 'Customers','action' => 'edit',$customerList['c1']['id']),array('class'=>''));?></li>
+									
+									<li><?php echo $this->Html->link('Add Ledger', array('controller' => 'Orders','action' => 'add',base64_encode($customerList['c1']['id'])),array('class'=>''));?></li>
+								</ul>
+							</div>
+						
+						
+							<?php //echo $this->Html->link('<span class="mdi mdi-edit"></span>',array('controller'=>'Customers','action'=>'edit',$customerList['c1']['id']),array('escape'=>false)); ?>
+							<?php //echo $this->Html->link('<span class="mdi mdi-hospital"></span>',array('controller'=>'Orders','action'=>'add',base64_encode($customerList['c1']['id'])),array('escape'=>false)); ?>
+						</td>
 						</tr>
 					<?php } ?>
 					</tbody>

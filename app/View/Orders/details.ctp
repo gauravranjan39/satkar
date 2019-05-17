@@ -79,7 +79,11 @@
                     <tr class="odd gradeX">
                         <td><span class="<?php echo $statusClass ?>"><?php echo $orderDetail['Category']['name']; ?></span></td>
                         <td  data-container="body" data-toggle="popover" data-placement="top" data-content="<?php echo $orderDetail['comments']; ?>" data-original-title="Comments"><span class="<?php echo $statusClass ?>"><?php echo $orderDetail['name']; ?></span></td>
-                        <td><span class="<?php echo $statusClass ?>"><?php echo $orderDetail['rate']; ?></span></td>
+                        <?php if(isset($orderDetail['rate']) && !empty($orderDetail['rate'])) { ?>
+                            <td><span class="<?php echo $statusClass ?>">&#8377;<?php echo $orderDetail['rate']; ?></span></td>
+                        <?php } else { ?>
+                            <td></td>
+                        <?php } ?>
                         <?php if(isset($orderDetail['weight']) && !empty($orderDetail['weight'])) { ?>
                             <td><span class="<?php echo $statusClass ?>"><?php echo $orderDetail['weight']; ?> gm</span></td>
                         <?php } else { ?>
@@ -265,7 +269,7 @@
 
                 <div class="col-md-12">
                     <div class="col-md-3"><b>Payment:</b></div>
-                    <div class="col-md-9"><?php echo $this->Form->input("OrderTransaction.amount_paid",array('id'=>'dues_payment','placeholder'=>'Enter amount','required'=>'required','class'=>'form-control input-sm allowOnlyNumber','maxlength'=>'7','label'=>false));?></div>
+                    <div class="col-md-9"><?php echo $this->Form->input("OrderTransaction.amount_paid",array('id'=>'dues_payment','placeholder'=>'Enter amount','type'=>'text','autocomplete'=>'off','required'=>'required','class'=>'form-control input-sm allowOnlyNumber','maxlength'=>'7','label'=>false));?></div>
                 </div>
                 
                 

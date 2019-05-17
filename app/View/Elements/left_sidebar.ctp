@@ -24,7 +24,11 @@ $activeClass = 'class="active"';
 				<?php echo $this->Html->link('<i class="icon mdi mdi-chart-donut"></i><span>Orders</span>',array('controller'=>'Orders','action'=>'index'),array('escape'=>false)); ?>
 			</li>
 
-            <li class="parent"><a href="charts.html"><i class="icon mdi mdi-chart-donut"></i><span>Charts</span></a>
+			<li>
+				<?php echo $this->Html->link('<i class="icon mdi mdi-card-membership"></i><span>Coupon Code</span>',array('controller'=>'','action'=>''),array('escape'=>false)); ?>
+			</li>
+
+            <li class="parent"><a href="charts.html"><i class="zmdi zmdi-hc-fw"></i><span>Charts</span></a>
               <ul class="sub-menu">
                 <li><a href="charts-flot.html">Flot</a>
                 </li>

@@ -39,31 +39,31 @@
 
 <div class="be-content">
         <div class="main-content container-fluid">
-            <div class="row">
+          <div class="row">
             <div class="col-sm-12">
+            <div class="col-md-12">
               <div class="panel panel-default panel-table">
-                <div class="panel-heading">Orders
+                <div class="panel-heading"> 
                   <div class="tools"><span class="icon mdi mdi-download"></span><span class="icon mdi mdi-more-vert"></span></div>
+                  <div class="title">Orders</div>
                 </div>
-                <div class="panel-body">
-                  <table class="table table-striped table-hover">
+                <div class="panel-body table-responsive">
+                  <table class="table table-striped table-borderless">
                     <thead>
                       <tr>
-                        
-                        <th style="width:19%;">Order ID</th>
-                        <th style="width:17%;">Customer</th>
-                        <th style="width:11%;">Total</th>
-                        <th style="width:10%;">Paid</th>
-                        <th style="width:10%;">Dues</th>
-                        <th style="width:10%;">Status</th>
-                        <th style="width:15%;">Date</th>
-                        <th style="width:10%;">Payment</th>
-                        <th style="width:10%;">Action</th>
+                        <th >Order ID</th>
+                        <th >Customer</th>
+                        <th>Total</th>
+                        <th>Paid</th>
+                        <th>Dues</th>
+                        <th>Status</th>
+                        <th>Date</th>
+                        <th>Payment</th>
+                        <th class="actions">Action</th>
                       </tr>
                     </thead>
-                    <tbody>
-                    <?php 
-                        foreach ($orderLists as $orderList) {
+                    <tbody class="no-border-x">
+                        <?php foreach ($orderLists as $orderList) {
                             if ($orderList['Order']['status'] == 0 ) {
                                 $status = 'Draft';
                                 $orderStatusClass = 'text-warning';
@@ -77,46 +77,45 @@
                                 $status = 'Partial Cancelled';
                                 $orderStatusClass = 'text-warning';
                             }
-                    ?>
-                      <tr>
-                        
-                      <td><?php echo $orderList['Order']['order_number']; ?></td>
-                        <td class="cell-detail"> <span><?php echo $this->Html->link($orderList['Customer']['name'], 'javascript:void(0);',  array("class" => "customer_details", "escape" => false,"mobile"=>$orderList['Customer']['mobile'],"email"=>$orderList['Customer']['email'],"address"=>$orderList['Customer']['address'])); ?></span></td>
-                        <td class="milestone">&#8377;<?php echo number_format($orderList['Order']['grand_total'],2); ?></td>
-                        <?php 
-                            $sum = 0;
-                            foreach ($orderList['OrderTransaction'] as $orderTransaction) {
-                                $sum+= $orderTransaction['amount_paid'];
-                            }
-                            $dues = ($orderList['Order']['grand_total'] - $sum);
-                        ?>
-                        <td class="cell-detail"><span>&#8377;<?php echo number_format($sum,2); ?></span></td>
-                        <td class="cell-detail"><span>&#8377;<?php echo number_format($dues,2); ?></span></td>
-                        <td class="<?php echo $orderStatusClass ?>"><?php echo $status; ?></td>
-                        <td><?php echo date('d-M-Y', strtotime($orderList['Order']['created'])); ?></td>
-                        <?php if ($orderList['Order']['payment_status'] == 1) { ?>
-                            <td><?php echo $this->Html->link('Pending', 'javascript:void(0);',  array("class" => "text-danger payment_pending", "escape" => false,'order_id'=>$orderList['Order']['id'],'title'=>'Change to Completed')); ?></td>
-                        <?php } else { ?>
-                            <td class="text-success">Completed</td>
+                            ?>
+                            <tr>
+                                <td><?php echo $orderList['Order']['order_number']; ?></td>
+                                <td><?php echo $this->Html->link($orderList['Customer']['name'], 'javascript:void(0);',  array("class" => "customer_details", "escape" => false,"mobile"=>$orderList['Customer']['mobile'],"email"=>$orderList['Customer']['email'],"address"=>$orderList['Customer']['address'])); ?></td>
+                                <td>&#8377;<?php echo number_format($orderList['Order']['grand_total'],2); ?></td>
+                                <?php 
+                                    $sum = 0;
+                                    foreach ($orderList['OrderTransaction'] as $orderTransaction) {
+                                        $sum+= $orderTransaction['amount_paid'];
+                                    }
+                                    $dues = ($orderList['Order']['grand_total'] - $sum);
+                                ?>
+                                <td>&#8377;<?php echo number_format($sum,2); ?></td>
+                                <td>&#8377;<?php echo number_format($dues,2); ?></td>
+                                <td class="<?php echo $orderStatusClass ?>"><?php echo $status; ?></td>
+                                <td><?php echo date('d-M-Y', strtotime($orderList['Order']['created'])); ?></td>
+                                <?php if ($orderList['Order']['payment_status'] == 1) { ?>
+                                    <td><?php echo $this->Html->link('Pending', 'javascript:void(0);',  array("class" => "text-danger payment_pending", "escape" => false,'order_id'=>$orderList['Order']['id'],'title'=>'Change to Completed')); ?></td>
+                                <?php } else { ?>
+                                    <td class="text-success">Completed</td>
+                                <?php } ?>
+                                <td>
+                                    <div class="btn-group btn-hspace">
+                                        <button type="button" data-toggle="dropdown" class="btn btn-default dropdown-toggle" aria-expanded="false">Open <span class="icon-dropdown mdi mdi-chevron-down"></span></button>
+                                        <ul role="menu" class="dropdown-menu pull-right">
+                                            <li><a href="#">Payment</a></li>
+                                            
+                                            <li><?php echo $this->Html->link('Order Details', array('controller' => 'Orders','action' => 'details',$orderList['Order']['id']),array('class'=>''));?></li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
                         <?php } ?>
-
-                        <td class="text-right">
-                            <div class="btn-group btn-hspace">
-                                <button type="button" data-toggle="dropdown" class="btn btn-default dropdown-toggle" aria-expanded="false">Open <span class="icon-dropdown mdi mdi-chevron-down"></span></button>
-                                <ul role="menu" class="dropdown-menu pull-right">
-                                    <li><a href="#">Payment</a></li>
-                                    <li><?php echo $this->Html->link('Order Details', array('controller' => 'Orders','action' => 'details',$orderList['Order']['id']),array('class'=>''));?></li>
-                                </ul>
-                            </div>                        
-                        </td>
-                      </tr>
-                      <?php } ?>
                     </tbody>
                   </table>
                 </div>
               </div>
             </div>
-            </div>
+        </div>
     </div>
 </div>
 

@@ -24,6 +24,13 @@ class OrdersController extends AppController {
 		$this->set('categoryLists',$categoryLists);
 		
 		if ($this->request->is('post')) {
+            // pr($this->request->data);
+            // if (empty($this->request->data['OrderTransaction']['amount_paid'])){
+            //     echo 'No payment';
+            // } else {
+            //     echo 'Payment';
+            // }
+            // die;
             $customerId = base64_decode($customerId);
             $orderNumber = 'OD' .$customerId. rand() . time();
             $this->loadModel('Order');
@@ -51,12 +58,14 @@ class OrdersController extends AppController {
                 $this->OrderItem->create();
                 $this->OrderItem->save($orderItem);
             }
-
-            $this->OrderTransaction->create();
-            $this->request->data['OrderTransaction']['order_id'] = $orderId;
-            $invoiceNumber =  rand() .$orderId . time();
-            $this->request->data['OrderTransaction']['invoice_number'] = $invoiceNumber;
-            $this->OrderTransaction->save($this->request->data['OrderTransaction']);
+            if (!empty($this->request->data['OrderTransaction']['amount_paid'])) { 
+                $this->OrderTransaction->create();
+                $this->request->data['OrderTransaction']['order_id'] = $orderId;
+                $invoiceNumber =  rand() .$orderId . time();
+                $this->request->data['OrderTransaction']['invoice_number'] = $invoiceNumber;
+                $this->OrderTransaction->save($this->request->data['OrderTransaction']);
+            }
+            
             $this->redirect(array('controller'=>'Orders','action'=>'summary',$orderId));
 		}
     }

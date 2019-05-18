@@ -117,9 +117,14 @@
                     <div class="form-group col-sm-2">
                         <label>Dues:</label>
                         <?php 
+                            if (empty($orderDetails['OrderTransaction'])) {
+                                $amtPaid = '0.00';
+                            } else {
+                                $amtPaid = $orderDetails['OrderTransaction'][0]['amount_paid'];
+                            }
                             $grandTotal = $orderDetails['Order']['grand_total'];
-                            $payment = $orderDetails['OrderTransaction'][0]['amount_paid'];
-                            $dues = ($orderDetails['Order']['grand_total'] - $orderDetails['OrderTransaction'][0]['amount_paid']);
+                            $payment = $amtPaid;
+                            $dues = ($orderDetails['Order']['grand_total'] - $amtPaid);
                         ?>
                         &#8377;<?php echo " ". number_format($dues,2); ?>
                     </div>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 09, 2019 at 09:58 PM
+-- Generation Time: May 18, 2019 at 09:14 PM
 -- Server version: 10.1.34-MariaDB
 -- PHP Version: 5.6.37
 
@@ -93,9 +93,9 @@ CREATE TABLE `orders` (
   `id` int(11) NOT NULL,
   `customer_id` int(11) NOT NULL,
   `order_number` varchar(255) NOT NULL,
-  `total` varchar(50) DEFAULT NULL,
-  `discount` varchar(50) DEFAULT NULL,
-  `grand_total` varchar(50) NOT NULL,
+  `total` decimal(10,2) DEFAULT NULL,
+  `discount` decimal(10,2) DEFAULT NULL,
+  `grand_total` decimal(10,2) NOT NULL,
   `status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '0=draft,1=confirm, 2=cancelled, 3=partial cancelled',
   `payment_status` tinyint(1) NOT NULL COMMENT '0=completed,1=pending',
   `comments` text,
@@ -108,8 +108,12 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`id`, `customer_id`, `order_number`, `total`, `discount`, `grand_total`, `status`, `payment_status`, `comments`, `created`, `modified`) VALUES
-(1, 1, 'OD1234781557429721', NULL, NULL, '132601', 1, 1, '', '2019-05-09 15:52:01', '0000-00-00 00:00:00'),
-(2, 5, 'OD5153561557430818', NULL, NULL, '9000', 1, 1, '', '2019-05-09 19:40:18', '0000-00-00 00:00:00');
+(1, 1, 'OD1264621557947014', NULL, NULL, '165423.00', 1, 1, '', '2019-05-15 19:03:34', '0000-00-00 00:00:00'),
+(2, 7, 'OD7317211558009161', NULL, NULL, '150236.00', 1, 1, '', '2019-05-16 12:19:21', '0000-00-00 00:00:00'),
+(3, 5, 'OD5136021558204269', NULL, NULL, '19300.00', 1, 1, '', '2019-05-18 18:31:09', '0000-00-00 00:00:00'),
+(4, 2, 'OD2231011558204881', NULL, NULL, '2736.00', 1, 1, '', '2019-05-18 18:41:21', '0000-00-00 00:00:00'),
+(5, 1, 'OD1218721558205144', NULL, NULL, '7920.00', 1, 1, '', '2019-05-18 18:45:44', '0000-00-00 00:00:00'),
+(6, 6, 'OD6253881558205415', NULL, NULL, '9000.00', 1, 1, '', '2019-05-18 18:50:15', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -129,10 +133,10 @@ CREATE TABLE `order_items` (
   `gems_name` varchar(255) DEFAULT NULL,
   `gems_rate` varchar(255) DEFAULT NULL,
   `gems_weight` varchar(200) DEFAULT NULL,
-  `gems_price` varchar(200) DEFAULT NULL,
-  `total` varchar(200) NOT NULL,
-  `discount` varchar(200) DEFAULT NULL,
-  `grand_total` varchar(200) NOT NULL,
+  `gems_price` decimal(10,2) DEFAULT NULL,
+  `total` decimal(10,2) NOT NULL,
+  `discount` decimal(10,2) DEFAULT NULL,
+  `grand_total` decimal(10,2) NOT NULL,
   `comments` text,
   `status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0=confirm,1=cancelled',
   `created` timestamp NULL DEFAULT CURRENT_TIMESTAMP
@@ -143,9 +147,17 @@ CREATE TABLE `order_items` (
 --
 
 INSERT INTO `order_items` (`id`, `order_id`, `category_id`, `name`, `weight`, `rate`, `making_charge`, `purity`, `gems_name`, `gems_rate`, `gems_weight`, `gems_price`, `total`, `discount`, `grand_total`, `comments`, `status`, `created`) VALUES
-(1, 1, 2, 'necklace', '32.672', '3200', '450', '750', '', '', '', '', '119252.80', '252', '119000.80', '', 0, '2019-05-09 15:52:01'),
-(2, 1, 2, 'ring', '3.760', '3200', '450', '', '', '', '', '', '13724.00', '124', '13600.00', '', 0, '2019-05-09 15:52:01'),
-(3, 2, 2, 'Ring', '2.500', '3200', '400', '', '', '', '', '', '9000.00', '', '9000.00', '', 0, '2019-05-09 19:40:19');
+(1, 1, 2, 'necklace', '43.674', '3200', '450', '', '', '', '', NULL, '159410.10', NULL, '159410.10', '', 0, '2019-05-15 19:03:34'),
+(2, 1, 16, 'necklace', '', '', '', '', '', '', '', NULL, '6012.78', NULL, '6012.78', '', 0, '2019-05-15 19:03:34'),
+(3, 2, 2, 'necklace', '22.500', '3200', '400', '', '', '', '', NULL, '81000.00', NULL, '81000.00', '', 0, '2019-05-16 12:19:21'),
+(4, 2, 2, 'ring', '3.760', '3200', '400', '', '', '', '', NULL, '13536.00', NULL, '13536.00', '', 0, '2019-05-16 12:19:21'),
+(5, 2, 2, 'Chain', '14.630', '3200', '450', '', '', '', '', NULL, '53399.50', NULL, '53399.50', '', 0, '2019-05-16 12:19:21'),
+(6, 2, 16, 'necklace', '', '', '', '', '', '', '', NULL, '2300.00', NULL, '2300.00', '', 0, '2019-05-16 12:19:22'),
+(7, 3, 2, 'Ring', '4.570', '3200', '450', '', '', '', '', NULL, '16680.50', '80.50', '16600.00', '', 0, '2019-05-18 18:31:09'),
+(8, 3, 16, 'necklace', '', '', '', '', '', '', '', NULL, '2700.00', NULL, '2700.00', '', 0, '2019-05-18 18:31:09'),
+(9, 4, 14, 'payal', '57', '40', '8', '', '', '', '', NULL, '2736.00', NULL, '2736.00', '', 0, '2019-05-18 18:41:21'),
+(10, 5, 14, 'payal', '165', '40', '8', '', '', '', '', NULL, '7920.00', NULL, '7920.00', '', 0, '2019-05-18 18:45:44'),
+(11, 6, 2, 'Ring', '2.500', '3200', '400', '', '', '', '', NULL, '9000.00', NULL, '9000.00', '', 0, '2019-05-18 18:50:15');
 
 -- --------------------------------------------------------
 
@@ -156,8 +168,17 @@ INSERT INTO `order_items` (`id`, `order_id`, `category_id`, `name`, `weight`, `r
 CREATE TABLE `order_transactions` (
   `id` int(11) NOT NULL,
   `order_id` int(11) NOT NULL,
-  `amount_paid` varchar(200) NOT NULL,
+  `amount_paid` decimal(10,2) NOT NULL,
   `invoice_number` varchar(200) DEFAULT NULL,
+  `type` enum('cash','metal','wallet','cheque','net-banking','card') NOT NULL DEFAULT 'cash',
+  `item` varchar(200) DEFAULT NULL,
+  `weight` varchar(200) DEFAULT NULL,
+  `return_percentage` decimal(10,0) DEFAULT NULL,
+  `rate` varchar(200) DEFAULT NULL,
+  `cheque_number` varchar(250) DEFAULT NULL,
+  `bank_name` varchar(250) DEFAULT NULL,
+  `transaction_date` date DEFAULT NULL,
+  `payment_transaction_id` varchar(250) DEFAULT NULL,
   `comments` text,
   `status` tinyint(1) DEFAULT NULL,
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
@@ -167,9 +188,15 @@ CREATE TABLE `order_transactions` (
 -- Dumping data for table `order_transactions`
 --
 
-INSERT INTO `order_transactions` (`id`, `order_id`, `amount_paid`, `invoice_number`, `comments`, `status`, `created`) VALUES
-(1, 1, '35000', '1247111557429721', NULL, NULL, '2019-05-09 15:52:01'),
-(2, 2, '5000', '64521557430819', NULL, NULL, '2019-05-09 19:40:19');
+INSERT INTO `order_transactions` (`id`, `order_id`, `amount_paid`, `invoice_number`, `type`, `item`, `weight`, `return_percentage`, `rate`, `cheque_number`, `bank_name`, `transaction_date`, `payment_transaction_id`, `comments`, `status`, `created`) VALUES
+(1, 1, '44000.00', '2233511557947014', 'cash', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-05-15 19:03:34'),
+(2, 2, '35000.00', '2878221558009162', 'cash', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-05-16 12:19:22'),
+(3, 2, '37000.00', '1171421558009473', 'cash', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-05-16 12:24:33'),
+(4, 2, '25000.00', '1838721558009505', 'cash', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-05-16 12:25:05'),
+(5, 2, '15000.00', '2806921558118657', 'cash', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-05-17 18:44:17'),
+(6, 3, '17000.00', '1118731558204270', 'cash', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-05-18 18:31:10'),
+(8, 5, '1920.00', '1184851558205372', 'cash', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-05-18 18:49:32'),
+(9, 6, '5000.00', '2794861558205439', 'cash', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-05-18 18:50:39');
 
 -- --------------------------------------------------------
 
@@ -242,11 +269,11 @@ CREATE TABLE `wallets` (
   `customer_id` int(11) NOT NULL,
   `order_id` int(11) NOT NULL,
   `order_item_id` int(11) NOT NULL,
-  `credit` decimal(7,2) NOT NULL,
-  `debit` decimal(7,2) NOT NULL,
-  `balance` decimal(7,2) NOT NULL,
+  `credit` decimal(10,2) DEFAULT NULL,
+  `debit` decimal(10,2) DEFAULT NULL,
+  `balance` decimal(10,2) DEFAULT NULL,
   `refund` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0=not refunded,1=refunded',
-  `status` tinyint(1) NOT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT '1',
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -323,19 +350,19 @@ ALTER TABLE `customers`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `order_transactions`
 --
 ALTER TABLE `order_transactions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `suppliers`

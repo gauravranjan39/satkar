@@ -278,9 +278,9 @@
                     <div class="form-group col-md-12">
                         <div class="col-md-4"><?php echo $this->Form->input("OrderTransaction.item",array('placeholder'=>'Enter items','type'=>'text','autocomplete'=>'off','required'=>'required','class'=>'form-control input-sm','label'=>false));?></div>
                         <div class="col-md-2"><?php echo $this->Form->input("OrderTransaction.metal_type",array('type'=>'select','options'=>array('gold'=>'Gold','silver'=>'Silver','others'=>'Others'),'class'=>'form-control input-sm','label'=>false));?></div>
-                        <div class="col-md-2"><?php echo $this->Form->input("OrderTransaction.weight",array('placeholder'=>'Enter weight','type'=>'text','autocomplete'=>'off','required'=>'required','class'=>'form-control input-sm','label'=>false));?></div>
-                        <div class="col-md-2"><?php echo $this->Form->input("OrderTransaction.return_percentage",array('placeholder'=>'Enter percentage','type'=>'text','autocomplete'=>'off','required'=>'required','class'=>'form-control input-sm','label'=>false));?></div>
-                        <div class="col-md-2"><?php echo $this->Form->input("OrderTransaction.rate",array('placeholder'=>'Enter Rate','type'=>'text','autocomplete'=>'off','required'=>'required','class'=>'form-control input-sm','label'=>false));?></div>
+                        <div class="col-md-2"><?php echo $this->Form->input("OrderTransaction.weight",array('placeholder'=>'Enter weight','type'=>'text','autocomplete'=>'off','required'=>'required','class'=>'form-control input-sm allowOnlyNumber','label'=>false));?></div>
+                        <div class="col-md-2"><?php echo $this->Form->input("OrderTransaction.return_percentage",array('placeholder'=>'Enter percentage','type'=>'text','autocomplete'=>'off','required'=>'required','class'=>'form-control input-sm allowOnlyNumber','label'=>false));?></div>
+                        <div class="col-md-2"><?php echo $this->Form->input("OrderTransaction.rate",array('placeholder'=>'Enter Rate','type'=>'text','autocomplete'=>'off','required'=>'required','class'=>'form-control input-sm allowOnlyNumber','label'=>false));?></div>
                     </div>
                 </div>
 
@@ -386,6 +386,11 @@
             $('#dues_payment').focus();
             $('.input-sm').val('');
             $('#OrderTransactionType').val('cash');
+            $('.metal_payment').hide();
+            $('.cheque_payment').hide();
+            $('.net_banking_payment').hide();
+            $('.credit_card_payment').hide();
+            $('.debit_card_payment').hide();
 		});
 
         $('#OrderTransactionType').change(function(){

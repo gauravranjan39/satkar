@@ -236,7 +236,7 @@
 
 
 <div class="modal animated fadeIn" id="orderPayment" tabindex="-1" role="dialog" aria-labelledby="smallModalHead" aria-hidden="true">
-    <div class="modal-dialog modal-lg" style=" margin: 0  auto;top:10%;">
+    <div class="modal-dialog modal-lg" style="top:10%;">
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header" style="text-align: center;">
@@ -266,37 +266,62 @@
                 </div>
                 
                 
-                    <div class="form-group col-md-12">
-                        <div class="col-md-3"><b>Payment:</b></div>
-                        <div class="col-md-9">
-                            <?php echo $this->Form->input("OrderTransaction.type",array('type'=>'select','options'=>array('cash'=>'Cash','metal'=>'Metal','wallet'=>'Wallet','cheque'=>'Cheque','net-banking'=>'Net-Bannking','credit-card'=>'Credit Card','debit-card'=>'Debit Card'),'placeholder'=>'Enter category','required'=>'required','class'=>'form-control input-sm','label'=>false));?>
-                            <?php //echo $this->Form->input("OrderTransaction.amount_paid",array('id'=>'dues_payment','placeholder'=>'Enter amount','type'=>'text','autocomplete'=>'off','required'=>'required','class'=>'form-control input-sm allowOnlyNumber','maxlength'=>'7','label'=>false));?>
-                        </div>
+                <div class="form-group col-md-12">
+                    <div class="col-md-3"><b>Payment:</b></div>
+                    <div class="col-md-9">
+                        <?php echo $this->Form->input("OrderTransaction.type",array('type'=>'select','options'=>array('cash'=>'Cash','metal'=>'Metal','wallet'=>'Wallet','cheque'=>'Cheque','net-banking'=>'Net-Bannking','credit-card'=>'Credit Card','debit-card'=>'Debit Card'),'placeholder'=>'Enter category','required'=>'required','class'=>'form-control input-sm','label'=>false));?>
+                        <?php //echo $this->Form->input("OrderTransaction.amount_paid",array('id'=>'dues_payment','placeholder'=>'Enter amount','type'=>'text','autocomplete'=>'off','required'=>'required','class'=>'form-control input-sm allowOnlyNumber','maxlength'=>'7','label'=>false));?>
                     </div>
+                </div>
 
-                <div class="row">
+                <div class="row metal_payment" style="display:none;">
+                    <div class="form-group col-md-12">
+                        <div class="col-md-4"><?php echo $this->Form->input("OrderTransaction.item",array('placeholder'=>'Enter items','type'=>'text','autocomplete'=>'off','required'=>'required','class'=>'form-control input-sm','label'=>false));?></div>
+                        <div class="col-md-2"><?php echo $this->Form->input("OrderTransaction.metal_type",array('type'=>'select','options'=>array('gold'=>'Gold','silver'=>'Silver','others'=>'Others'),'class'=>'form-control input-sm','label'=>false));?></div>
+                        <div class="col-md-2"><?php echo $this->Form->input("OrderTransaction.weight",array('placeholder'=>'Enter weight','type'=>'text','autocomplete'=>'off','required'=>'required','class'=>'form-control input-sm','label'=>false));?></div>
+                        <div class="col-md-2"><?php echo $this->Form->input("OrderTransaction.return_percentage",array('placeholder'=>'Enter percentage','type'=>'text','autocomplete'=>'off','required'=>'required','class'=>'form-control input-sm','label'=>false));?></div>
+                        <div class="col-md-2"><?php echo $this->Form->input("OrderTransaction.rate",array('placeholder'=>'Enter Rate','type'=>'text','autocomplete'=>'off','required'=>'required','class'=>'form-control input-sm','label'=>false));?></div>
+                    </div>
+                </div>
+
+                <div class="row cheque_payment" style="display:none;">
+                    <div class="form-group col-md-12">
+                        <div class="col-md-4"><?php echo $this->Form->input("OrderTransaction.cheque_number",array('placeholder'=>'Enter cheque number','type'=>'text','autocomplete'=>'off','required'=>'required','class'=>'form-control input-sm','label'=>false));?></div>
+                        <div class="col-md-4"><?php echo $this->Form->input("OrderTransaction.bank_name",array('placeholder'=>'Enter Bank Name','type'=>'text','autocomplete'=>'off','required'=>'required','class'=>'form-control input-sm','label'=>false));?></div>
+                        <div class="col-md-4"><?php echo $this->Form->input("OrderTransaction.transaction_date",array('placeholder'=>'Select transaction date','type'=>'text','autocomplete'=>'off','required'=>'required','class'=>'form-control input-sm','label'=>false));?></div>
+                    </div>
+                </div>
+
+                <div class="row net_banking_payment" style="display:none;">
+                    <div class="form-group col-md-12">
+                        <div class="col-md-4"><?php echo $this->Form->input("OrderTransaction.bank_name",array('placeholder'=>'Enter Bank Name','type'=>'text','autocomplete'=>'off','required'=>'required','class'=>'form-control input-sm','label'=>false));?></div>
+                        <div class="col-md-4"><?php echo $this->Form->input("OrderTransaction.payment_transaction_id",array('placeholder'=>'Enter transaction id','type'=>'text','autocomplete'=>'off','required'=>'required','class'=>'form-control input-sm','label'=>false));?></div>
+                        <div class="col-md-4"><?php echo $this->Form->input("OrderTransaction.transaction_date",array('placeholder'=>'Select transaction date','type'=>'text','autocomplete'=>'off','required'=>'required','class'=>'form-control input-sm','label'=>false));?></div>
+                    </div>
+                </div>
+
+                <div class="row credit_card_payment" style="display:none;">
+                    <div class="form-group col-md-12">
+                        <div class="col-md-4"><?php echo $this->Form->input("OrderTransaction.payment_transaction_id",array('placeholder'=>'Enter transaction id','type'=>'text','autocomplete'=>'off','required'=>'required','class'=>'form-control input-sm','label'=>false));?></div>
+                        <div class="col-md-4"><?php echo $this->Form->input("OrderTransaction.bank_name",array('placeholder'=>'Enter Bank Name','type'=>'text','autocomplete'=>'off','required'=>'required','class'=>'form-control input-sm','label'=>false));?></div>
+                        <div class="col-md-4"><?php echo $this->Form->input("OrderTransaction.transaction_date",array('placeholder'=>'Select transaction date','type'=>'text','autocomplete'=>'off','required'=>'required','class'=>'form-control input-sm','label'=>false));?></div>
+                    </div>
+                </div>
+
+                <div class="row debit_card_payment" style="display:none;">
+                    <div class="form-group col-md-12">
+                        <div class="col-md-4"><?php echo $this->Form->input("OrderTransaction.payment_transaction_id",array('placeholder'=>'Enter transaction id','type'=>'text','autocomplete'=>'off','required'=>'required','class'=>'form-control input-sm','label'=>false));?></div>
+                        <div class="col-md-4"><?php echo $this->Form->input("OrderTransaction.bank_name",array('placeholder'=>'Enter Bank Name','type'=>'text','autocomplete'=>'off','required'=>'required','class'=>'form-control input-sm','label'=>false));?></div>
+                        <div class="col-md-4"><?php echo $this->Form->input("OrderTransaction.transaction_date",array('placeholder'=>'Select transaction date','type'=>'text','autocomplete'=>'off','required'=>'required','class'=>'form-control input-sm','label'=>false));?></div>
+                    </div>
+                </div>
+
+                <div class="row cash_payment">
                     <div class="form-group col-md-12">
                         <div class="col-md-4"><?php echo $this->Form->input("OrderTransaction.amount_paid",array('id'=>'dues_payment','placeholder'=>'Enter amount','type'=>'text','autocomplete'=>'off','required'=>'required','class'=>'form-control input-sm allowOnlyNumber','maxlength'=>'7','label'=>false));?></div>
                         <div class="col-md-8"><?php echo $this->Form->input("OrderTransaction.comments",array('placeholder'=>'Enter comments','type'=>'text','autocomplete'=>'off','class'=>'form-control input-sm','label'=>false));?></div>
                     </div>
                 </div>
-
-                <div class="row">
-                    <div class="form-group col-md-12">
-                        <div class="col-md-4"><?php echo $this->Form->input("OrderTransaction.amount_paid",array('id'=>'dues_payment','placeholder'=>'Enter amount','type'=>'text','autocomplete'=>'off','required'=>'required','class'=>'form-control input-sm allowOnlyNumber','maxlength'=>'7','label'=>false));?></div>
-                        <div class="col-md-8"><?php echo $this->Form->input("OrderTransaction.comments",array('placeholder'=>'Enter comments','type'=>'text','autocomplete'=>'off','class'=>'form-control input-sm','label'=>false));?></div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="form-group col-md-12">
-                        <div class="col-md-4"><?php echo $this->Form->input("OrderTransaction.amount_paid",array('id'=>'dues_payment','placeholder'=>'Enter amount','type'=>'text','autocomplete'=>'off','required'=>'required','class'=>'form-control input-sm allowOnlyNumber','maxlength'=>'7','label'=>false));?></div>
-                        <div class="col-md-8"><?php echo $this->Form->input("OrderTransaction.comments",array('placeholder'=>'Enter comments','type'=>'text','autocomplete'=>'off','class'=>'form-control input-sm','label'=>false));?></div>
-                    </div>
-                </div>
-
-                        
-                
                 
                 <div class="">
                     <div class="">
@@ -359,6 +384,8 @@
             $('#dues_payment').val('');
             $('#orderPayment').modal('show');
             $('#dues_payment').focus();
+            $('.input-sm').val('');
+            $('#OrderTransactionType').val('cash');
 		});
 
         $('#dues_payment').keyup(function(){

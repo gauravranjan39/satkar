@@ -388,6 +388,50 @@
             $('#OrderTransactionType').val('cash');
 		});
 
+        $('#OrderTransactionType').change(function(){
+            var transactionType = $(this).val();
+            if (transactionType == 'cash') {
+                $('.metal_payment').hide();
+                $('.cheque_payment').hide();
+                $('.net_banking_payment').hide();
+                $('.credit_card_payment').hide();
+                $('.debit_card_payment').hide();
+            } else if (transactionType == 'metal') {
+                $('.metal_payment').show();
+                $('.cheque_payment').hide();
+                $('.net_banking_payment').hide();
+                $('.credit_card_payment').hide();
+                $('.debit_card_payment').hide();
+                $('#OrderTransactionMetalType').val('gold');
+            } else if (transactionType == 'Wallet') {
+                
+            } else if (transactionType == 'cheque') {
+                $('.metal_payment').hide();
+                $('.cheque_payment').show();
+                $('.net_banking_payment').hide();
+                $('.credit_card_payment').hide();
+                $('.debit_card_payment').hide();
+            } else if (transactionType == 'net-banking') {
+                $('.metal_payment').hide();
+                $('.cheque_payment').hide();
+                $('.net_banking_payment').show();
+                $('.credit_card_payment').hide();
+                $('.debit_card_payment').hide();
+            } else if (transactionType == 'credit-card') {
+                $('.metal_payment').hide();
+                $('.cheque_payment').hide();
+                $('.net_banking_payment').hide();
+                $('.credit_card_payment').show();
+                $('.debit_card_payment').hide();
+            } else if (transactionType == 'debit-card') {
+                $('.metal_payment').hide();
+                $('.cheque_payment').hide();
+                $('.net_banking_payment').hide();
+                $('.credit_card_payment').hide();
+                $('.debit_card_payment').show();
+            }
+        });
+
         $('#dues_payment').keyup(function(){
 			var payment = $(this).val();
             var dues = '<?php echo $dues ?>';

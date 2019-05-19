@@ -245,57 +245,40 @@
             </div>
             
             <div class="modal-body">
-                <div class="form-group col-md-12">
+                <div class="col-md-12">
                     <div class="col-md-3"><b>Order ID:</b></div>
                     <div class="col-md-9"><?php echo $orderDetails['Order']['order_number']; ?></div>
                 </div>
+                <br/><br/>
+
                 
-                <div class="form-group col-md-12">
+                <div class="col-md-12">
                     <div class="col-md-3"><b>Grand Total:</b></div>
                     <div class="col-md-9">&#8377;<?php echo number_format($orderDetails['Order']['grand_total'],2); ?></div>
-                </div>
+                </div><br/><br/>
 
-                <div class="form-group col-md-12">
+                <div class="col-md-12">
                     <div class="col-md-3"><b>Paid:</b></div>
                     <div class="col-md-9">&#8377;<?php echo number_format($payment,2); ?></div>
-                </div>
+                </div><br/><br/>
 
-                <div class="form-group col-md-12">
+                <div class="col-md-12">
                     <div class="col-md-3"><b>Dues:</b></div>
                     <div class="col-md-9"><span class="text-danger">&#8377;<?php echo number_format($dues,2); ?></span></div>
-                </div>
-                
-                
-                    <div class="form-group col-md-12">
-                        <div class="col-md-3"><b>Payment:</b></div>
-                        <div class="col-md-9">
-                            <?php echo $this->Form->input("OrderTransaction.type",array('type'=>'select','options'=>array('cash'=>'Cash','metal'=>'Metal','wallet'=>'Wallet','cheque'=>'Cheque','net-banking'=>'Net-Bannking','credit-card'=>'Credit Card','debit-card'=>'Debit Card'),'placeholder'=>'Enter category','required'=>'required','class'=>'form-control input-sm','label'=>false));?>
-                            <?php //echo $this->Form->input("OrderTransaction.amount_paid",array('id'=>'dues_payment','placeholder'=>'Enter amount','type'=>'text','autocomplete'=>'off','required'=>'required','class'=>'form-control input-sm allowOnlyNumber','maxlength'=>'7','label'=>false));?>
-                        </div>
-                    </div>
+                </div><br/><br/>
 
-                <div class="row">
-                    <div class="form-group col-md-12">
-                        <div class="col-md-4"><?php echo $this->Form->input("OrderTransaction.amount_paid",array('id'=>'dues_payment','placeholder'=>'Enter amount','type'=>'text','autocomplete'=>'off','required'=>'required','class'=>'form-control input-sm allowOnlyNumber','maxlength'=>'7','label'=>false));?></div>
-                        <div class="col-md-8"><?php echo $this->Form->input("OrderTransaction.comments",array('placeholder'=>'Enter comments','type'=>'text','autocomplete'=>'off','class'=>'form-control input-sm','label'=>false));?></div>
+                <div class="col-md-12">
+                    <div class="col-md-4"><b>Payment Mode:</b></div>
+                    <div class="col-md-8">
+                        <?php echo $this->Form->input("OrderTransaction.type",array('type'=>'select','options'=>array('cash'=>'Cash','metal'=>'Metal','wallet'=>'Wallet','cheque'=>'Cheque','net-banking'=>'Net-Bannking','credit-card'=>'Credit Card','debit-card'=>'Debit Card'),'placeholder'=>'Enter category','required'=>'required','class'=>'form-control input-sm','label'=>false));?>
+                        <?php //echo $this->Form->input("OrderTransaction.amount_paid",array('id'=>'dues_payment','placeholder'=>'Enter amount','type'=>'text','autocomplete'=>'off','required'=>'required','class'=>'form-control input-sm allowOnlyNumber','maxlength'=>'7','label'=>false));?>
                     </div>
-                </div>
+                </div><br/><br/><br/><br/>
 
-                <div class="row">
-                    <div class="form-group col-md-12">
-                        <div class="col-md-4"><?php echo $this->Form->input("OrderTransaction.amount_paid",array('id'=>'dues_payment','placeholder'=>'Enter amount','type'=>'text','autocomplete'=>'off','required'=>'required','class'=>'form-control input-sm allowOnlyNumber','maxlength'=>'7','label'=>false));?></div>
-                        <div class="col-md-8"><?php echo $this->Form->input("OrderTransaction.comments",array('placeholder'=>'Enter comments','type'=>'text','autocomplete'=>'off','class'=>'form-control input-sm','label'=>false));?></div>
-                    </div>
+                <div class="col-md-12">
+                    <div class="col-md-4"><?php echo $this->Form->input("OrderTransaction.amount_paid",array('id'=>'dues_payment','placeholder'=>'Enter amount','type'=>'text','autocomplete'=>'off','required'=>'required','class'=>'form-control input-sm allowOnlyNumber','maxlength'=>'7','label'=>false));?></div>
+                    <div class="col-md-8"><?php echo $this->Form->input("OrderTransaction.comments",array('placeholder'=>'Enter comments','type'=>'text','autocomplete'=>'off','class'=>'form-control input-sm','label'=>false));?></div>
                 </div>
-
-                <div class="row">
-                    <div class="form-group col-md-12">
-                        <div class="col-md-4"><?php echo $this->Form->input("OrderTransaction.amount_paid",array('id'=>'dues_payment','placeholder'=>'Enter amount','type'=>'text','autocomplete'=>'off','required'=>'required','class'=>'form-control input-sm allowOnlyNumber','maxlength'=>'7','label'=>false));?></div>
-                        <div class="col-md-8"><?php echo $this->Form->input("OrderTransaction.comments",array('placeholder'=>'Enter comments','type'=>'text','autocomplete'=>'off','class'=>'form-control input-sm','label'=>false));?></div>
-                    </div>
-                </div>
-
-                        
                 
                 
                 <div class="">

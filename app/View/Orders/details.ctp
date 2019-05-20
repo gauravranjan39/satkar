@@ -246,6 +246,8 @@
             
             <div class="modal-body">
                 <?php echo $this->Form->create('OrderTransaction',array('url'=> array('controller' => 'Orders', 'action' => 'pay_dues'),'method'=>'POST')); ?>
+                <?php echo $this->Form->input('OrderTransaction.dues',array('type'=>'hidden','value'=>$dues)); ?>
+                <?php echo $this->Form->input('OrderTransaction.order_id',array('type'=>'hidden','value'=>$orderDetails['Order']['id'])); ?>
                 <div class="form-group col-md-12">
                     <div class="col-md-3"><b>Order ID:</b></div>
                     <div class="col-md-9"><?php echo $orderDetails['Order']['order_number']; ?></div>
@@ -271,8 +273,12 @@
                     <div class="col-md-3"><b>Payment:</b></div>
                     <div class="col-md-9">
                         <?php echo $this->Form->input("OrderTransaction.type",array('type'=>'select','options'=>array('cash'=>'Cash','metal'=>'Metal','wallet'=>'Wallet','cheque'=>'Cheque','net-banking'=>'Net-Banking','credit-card'=>'Credit Card','debit-card'=>'Debit Card'),'placeholder'=>'Enter category','required'=>'required','class'=>'form-control input-sm','label'=>false));?>
-                        <?php //echo $this->Form->input("OrderTransaction.amount_paid",array('id'=>'dues_payment','placeholder'=>'Enter amount','type'=>'text','autocomplete'=>'off','required'=>'required','class'=>'form-control input-sm allowOnlyNumber','maxlength'=>'7','label'=>false));?>
                     </div>
+                </div>
+
+                <div class="form-group col-md-12 wallet_bal" style="display:none;">
+                    <div class="col-md-3"><b>Wallet Money:</b></div>
+                    <div class="col-md-9" id="wallent_money"></div>
                 </div>
 
                 <div class="row metal_payment" style="display:none;">
@@ -399,6 +405,8 @@
             $('#dues_payment').val('');
             $('.input-sm').removeAttr('required');
             $('#dues_payment').attr('required', 'required');
+            $('.wallet_bal').hide();
+            $('#dues_payment').removeAttr('readonly',false);
             var transactionType = $(this).val();
             if (transactionType == 'cash') {
                 $('.metal_payment').hide();
@@ -419,8 +427,30 @@
                 $('#OrderTransactionReturnPercentage').attr('required', 'required');
                 $('#OrderTransactionRate').attr('required', 'required');
                 
-            } else if (transactionType == 'Wallet') {
-                
+            } else if (transactionType == 'wallet') {
+                $('.metal_payment').hide();
+                $('.cheque_payment').hide();
+                $('.net_banking_payment').hide();
+                $('.credit_card_payment').hide();
+                $('.debit_card_payment').hide();
+                var dues = '<?php echo $dues; ?>';
+                var customerId = '<?php echo $orderDetails['Order']['customer_id']; ?>';
+                $.ajax({
+                    url:"<?php echo Router::url(array('controller'=>'Wallets','action'=>'customer_wallet_money'));?>/"+ customerId,
+                    success:function(data){
+                        $('#dues_payment').attr('readonly',true);
+                        $('#wallent_money').html('&#8377;'+data);
+                        $('.wallet_bal').show();
+                        if (data != '0.00') {
+                            if (dues > data) {
+                                $('#dues_payment').val(data);
+                            } else if(data >= dues) {
+                                $('#dues_payment').val(dues);
+                            }
+                        }
+                    }
+                });
+
             } else if (transactionType == 'cheque') {
                 $('.metal_payment').hide();
                 $('.cheque_payment').show();

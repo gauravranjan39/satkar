@@ -48,6 +48,7 @@
 								<ul role="menu" class="dropdown-menu pull-right">
 									<li><?php echo $this->Html->link('Edit', array('controller' => 'Customers','action' => 'edit',$customerList['c1']['id']),array('class'=>''));?></li>
 									<li><?php echo $this->Html->link('Add Ledger', array('controller' => 'Orders','action' => 'add',base64_encode($customerList['c1']['id'])),array('class'=>''));?></li>
+									<li><?php echo $this->Html->link('Orders', array('controller' => 'Orders','action' => 'index'),array('class'=>''));?></li>
 									<li><?php echo $this->Html->link('Passbook', array('controller' => 'Orders','action' => 'add',base64_encode($customerList['c1']['id'])),array('class'=>''));?></li>
 								</ul>
 							</div>

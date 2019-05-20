@@ -394,6 +394,8 @@
 		});
 
         $('#OrderTransactionType').change(function(){
+            $('.input-sm').removeAttr('required');
+            $('#dues_payment').attr('required', 'required');
             var transactionType = $(this).val();
             if (transactionType == 'cash') {
                 $('.metal_payment').hide();
@@ -408,6 +410,11 @@
                 $('.credit_card_payment').hide();
                 $('.debit_card_payment').hide();
                 $('#OrderTransactionMetalType').val('gold');
+                $('#OrderTransactionItem').attr('required', 'required');
+                $('#OrderTransactionWeight').attr('required', 'required');
+                $('#OrderTransactionReturnPercentage').attr('required', 'required');
+                $('#OrderTransactionRate').attr('required', 'required');
+                
             } else if (transactionType == 'Wallet') {
                 
             } else if (transactionType == 'cheque') {
@@ -416,24 +423,36 @@
                 $('.net_banking_payment').hide();
                 $('.credit_card_payment').hide();
                 $('.debit_card_payment').hide();
+                $('#OrderTransactionChequeNumber').attr('required', 'required');
+                $('#cheque_bank_name').attr('required', 'required');
+                $('#cheque_transaction_date').attr('required', 'required');
             } else if (transactionType == 'net-banking') {
                 $('.metal_payment').hide();
                 $('.cheque_payment').hide();
                 $('.net_banking_payment').show();
                 $('.credit_card_payment').hide();
                 $('.debit_card_payment').hide();
+                $('#net_banking_bank_name').attr('required', 'required');
+                $('#net_banking_transaction_id').attr('required', 'required');
+                $('#net_banking_transaction_date').attr('required', 'required');
             } else if (transactionType == 'credit-card') {
                 $('.metal_payment').hide();
                 $('.cheque_payment').hide();
                 $('.net_banking_payment').hide();
                 $('.credit_card_payment').show();
                 $('.debit_card_payment').hide();
+                $('#credit_card_transaction_id').attr('required', 'required');
+                $('#credit_card_bank').attr('required', 'required');
+                $('#credit_card_transaction_date').attr('required', 'required');
             } else if (transactionType == 'debit-card') {
                 $('.metal_payment').hide();
                 $('.cheque_payment').hide();
                 $('.net_banking_payment').hide();
                 $('.credit_card_payment').hide();
                 $('.debit_card_payment').show();
+                $('#debit_card_transaction_id').attr('required', 'required');
+                $('#debit_card_bank').attr('required', 'required');
+                $('#debit_card_transaction_date').attr('required', 'required');
             }
         });
 

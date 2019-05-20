@@ -245,6 +245,7 @@
             </div>
             
             <div class="modal-body">
+                <?php echo $this->Form->create('OrderTransaction',array('url'=> array('controller' => 'Orders', 'action' => 'pay_dues'),'method'=>'POST')); ?>
                 <div class="form-group col-md-12">
                     <div class="col-md-3"><b>Order ID:</b></div>
                     <div class="col-md-9"><?php echo $orderDetails['Order']['order_number']; ?></div>
@@ -326,10 +327,11 @@
                 <div class="">
                     <div class="">
                         <div class="col-md-12">
-                            <?php echo $this->Form->button('Make Payment',array('type'=>'button','id'=>'pay_dues','class'=>'btn btn-rounded btn-primary','style'=>'margin-top: 26px;margin-bottom: 18px;','escape'=>false));?>
+                            <?php echo $this->Form->button('Make Payment',array('type'=>'submit','id'=>'pay_dues','class'=>'btn btn-rounded btn-primary','style'=>'margin-top: 26px;margin-bottom: 18px;','escape'=>false));?>
                         </div>
                     </div>
                 </div>
+                <?php echo $this->Form->end();?>
             </div>
         </div>
     </div>
@@ -394,6 +396,7 @@
 		});
 
         $('#OrderTransactionType').change(function(){
+            $('#dues_payment').val('');
             $('.input-sm').removeAttr('required');
             $('#dues_payment').attr('required', 'required');
             var transactionType = $(this).val();
@@ -403,6 +406,7 @@
                 $('.net_banking_payment').hide();
                 $('.credit_card_payment').hide();
                 $('.debit_card_payment').hide();
+                
             } else if (transactionType == 'metal') {
                 $('.metal_payment').show();
                 $('.cheque_payment').hide();
@@ -457,35 +461,55 @@
         });
 
         $('#dues_payment').keyup(function(){
-			var payment = $(this).val();
-            var dues = '<?php echo $dues ?>';
-            if (parseFloat(payment) > parseFloat(dues)) {
-                alert('Amount should be less than dues.');
-                $(this).val('');
+            var paymentMode = $('#OrderTransactionType').val();
+            if (paymentMode == 'cash') {
+                var payment = $(this).val();
+                var dues = '<?php echo $dues ?>';
+                if (parseFloat(payment) > parseFloat(dues)) {
+                    alert('Amount should be less than dues.');
+                    $(this).val('');
+                }
             }
 		});
 
-        $("#pay_dues").click(function(){
-            var orderId = '<?php echo $orderDetails['Order']['id']; ?>';
-            var dues = '<?php echo $dues ?>';
-            var payment = $('#dues_payment').val();
-            if (payment == '') {
-                alert('Please enter amount');
-                return false;
-            } else {
-                $('#orderPayment').modal('hide');
-                $.ajax({
-                    url:"<?php echo Router::url(array('controller'=>'Orders','action'=>'pay_dues'));?>/"+ orderId + '/' + payment + '/' + dues,
-                    success:function(data){
-                        if (data == 1) {
-                            location.reload();
-                        } else {
-                            alert('Error Occured!!');
-                        }
+        $('#OrderTransactionPayDuesForm').submit(function(event){
+            event.preventDefault();
+            alert('###########');
+            $.ajax({
+                url:"<?php echo Router::url(array('controller'=>'Orders','action'=>'pay_dues'));?>",
+                type: 'POST',
+                data: $('#OrderTransactionPayDuesForm').serialize(),
+                success:function(data){
+                    if (data == 1) {
+                        location.reload();
+                    } else {
+                        alert('Error Occured!!');
                     }
-			    });
-            }
-		});
+                }
+            });
+        });
+
+        // $("#pay_dues").click(function(){
+        //     var orderId = '<?php //echo $orderDetails['Order']['id']; ?>';
+        //     var dues = '<?php //echo $dues ?>';
+        //     var payment = $('#dues_payment').val();
+        //     if (payment == '') {
+        //         alert('Please enter amount');
+        //         return false;
+        //     } else {
+        //         $('#orderPayment').modal('hide');
+        //         $.ajax({
+        //             url:"<?php //echo Router::url(array('controller'=>'Orders','action'=>'pay_dues'));?>/"+ orderId + '/' + payment + '/' + dues,
+        //             success:function(data){
+        //                 if (data == 1) {
+        //                     location.reload();
+        //                 } else {
+        //                     alert('Error Occured!!');
+        //                 }
+        //             }
+		// 	    });
+        //     }
+		// });
 
         $('#payment_history').click(function(){
             $('#paymentHistory').modal('show');

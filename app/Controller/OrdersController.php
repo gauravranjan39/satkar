@@ -122,10 +122,20 @@ class OrdersController extends AppController {
         $this->set(compact('orderDetails','customerDetails'));
     }
 
-    public function pay_dues($orderId=null,$payment=null,$dues=null) {
+    // public function pay_dues($orderId=null,$payment=null,$dues=null) {
+    public function pay_dues() {
         $this->layout = false;
         $this->autoRender = false;
         $this->loadModel('OrderTransaction');
+
+        if ($this->request->is(array('post','put'))) {
+
+            pr($this->request->data);die;
+
+        }
+
+
+
         $invoiceNumber =  rand() .$orderId . time();
         $duesPayment['OrderTransaction']['order_id'] = $orderId;
         $duesPayment['OrderTransaction']['amount_paid'] = $payment;

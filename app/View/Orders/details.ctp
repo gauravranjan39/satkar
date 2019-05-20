@@ -288,31 +288,31 @@
                     <div class="form-group col-md-12">
                         <div class="col-md-4"><?php echo $this->Form->input("OrderTransaction.cheque_number",array('placeholder'=>'Enter cheque number','type'=>'text','autocomplete'=>'off','required'=>'required','class'=>'form-control input-sm','label'=>false));?></div>
                         <div class="col-md-4"><?php echo $this->Form->input("OrderTransaction.bank_name",array('placeholder'=>'Enter Bank Name','type'=>'text','autocomplete'=>'off','required'=>'required','class'=>'form-control input-sm','label'=>false));?></div>
-                        <div class="col-md-4"><?php echo $this->Form->input("OrderTransaction.transaction_date",array('placeholder'=>'Select transaction date','type'=>'text','autocomplete'=>'off','required'=>'required','class'=>'form-control input-sm','label'=>false));?></div>
+                        <div class="col-md-4"><?php echo $this->Form->input("OrderTransaction.transaction_date",array('placeholder'=>'Select Transaction Date','type'=>'text','autocomplete'=>'off','required'=>'required','class'=>'form-control input-sm','label'=>false));?></div>
                     </div>
                 </div>
 
                 <div class="row net_banking_payment" style="display:none;">
                     <div class="form-group col-md-12">
                         <div class="col-md-4"><?php echo $this->Form->input("OrderTransaction.bank_name",array('placeholder'=>'Enter Bank Name','type'=>'text','autocomplete'=>'off','required'=>'required','class'=>'form-control input-sm','label'=>false));?></div>
-                        <div class="col-md-4"><?php echo $this->Form->input("OrderTransaction.payment_transaction_id",array('placeholder'=>'Enter transaction id','type'=>'text','autocomplete'=>'off','required'=>'required','class'=>'form-control input-sm','label'=>false));?></div>
-                        <div class="col-md-4"><?php echo $this->Form->input("OrderTransaction.transaction_date",array('placeholder'=>'Select transaction date','type'=>'text','autocomplete'=>'off','required'=>'required','class'=>'form-control input-sm','label'=>false));?></div>
+                        <div class="col-md-4"><?php echo $this->Form->input("OrderTransaction.payment_transaction_id",array('placeholder'=>'Enter Transaction Id','type'=>'text','autocomplete'=>'off','required'=>'required','class'=>'form-control input-sm','label'=>false));?></div>
+                        <div class="col-md-4"><?php echo $this->Form->input("OrderTransaction.transaction_date",array('placeholder'=>'Select Transaction Date','type'=>'text','autocomplete'=>'off','required'=>'required','class'=>'form-control input-sm','label'=>false));?></div>
                     </div>
                 </div>
 
                 <div class="row credit_card_payment" style="display:none;">
                     <div class="form-group col-md-12">
-                        <div class="col-md-4"><?php echo $this->Form->input("OrderTransaction.payment_transaction_id",array('placeholder'=>'Enter transaction id','type'=>'text','autocomplete'=>'off','required'=>'required','class'=>'form-control input-sm','label'=>false));?></div>
+                        <div class="col-md-4"><?php echo $this->Form->input("OrderTransaction.payment_transaction_id",array('placeholder'=>'Enter Transaction Id','type'=>'text','autocomplete'=>'off','required'=>'required','class'=>'form-control input-sm','label'=>false));?></div>
                         <div class="col-md-4"><?php echo $this->Form->input("OrderTransaction.bank_name",array('placeholder'=>'Enter Bank Name','type'=>'text','autocomplete'=>'off','required'=>'required','class'=>'form-control input-sm','label'=>false));?></div>
-                        <div class="col-md-4"><?php echo $this->Form->input("OrderTransaction.transaction_date",array('placeholder'=>'Select transaction date','type'=>'text','autocomplete'=>'off','required'=>'required','class'=>'form-control input-sm','label'=>false));?></div>
+                        <div class="col-md-4"><?php echo $this->Form->input("OrderTransaction.transaction_date",array('placeholder'=>'Select Transaction Date','type'=>'text','autocomplete'=>'off','required'=>'required','class'=>'form-control input-sm','label'=>false));?></div>
                     </div>
                 </div>
 
                 <div class="row debit_card_payment" style="display:none;">
                     <div class="form-group col-md-12">
-                        <div class="col-md-4"><?php echo $this->Form->input("OrderTransaction.payment_transaction_id",array('placeholder'=>'Enter transaction id','type'=>'text','autocomplete'=>'off','required'=>'required','class'=>'form-control input-sm','label'=>false));?></div>
+                        <div class="col-md-4"><?php echo $this->Form->input("OrderTransaction.payment_transaction_id",array('placeholder'=>'Enter Transaction Id','type'=>'text','autocomplete'=>'off','required'=>'required','class'=>'form-control input-sm','label'=>false));?></div>
                         <div class="col-md-4"><?php echo $this->Form->input("OrderTransaction.bank_name",array('placeholder'=>'Enter Bank Name','type'=>'text','autocomplete'=>'off','required'=>'required','class'=>'form-control input-sm','label'=>false));?></div>
-                        <div class="col-md-4"><?php echo $this->Form->input("OrderTransaction.transaction_date",array('placeholder'=>'Select transaction date','type'=>'text','autocomplete'=>'off','required'=>'required','class'=>'form-control input-sm','label'=>false));?></div>
+                        <div class="col-md-4"><?php echo $this->Form->input("OrderTransaction.transaction_date",array('placeholder'=>'Select Transaction Date','type'=>'text','autocomplete'=>'off','required'=>'required','class'=>'form-control input-sm','label'=>false));?></div>
                     </div>
                 </div>
 

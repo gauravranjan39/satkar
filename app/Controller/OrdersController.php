@@ -4,7 +4,11 @@ App::import('Vendor', 'PDF', array('file' => 'mpdf/vendor/autoload.php'));
 
 class OrdersController extends AppController {
 
+    public $components = array('Paginator','Encryption');
+
     public function index() {
+        // $encodeuserId=$this->Encryption->encode($id);
+        // $decodeuserId=$this->Encryption->decode($encodeuserId);
         // $Latest = $this->OrderTransaction->find('first',array('conditions' => array('OrderTransaction.order_id' => '3'),'order' => array('OrderTransaction.id' => 'DESC')));
         $this->layout = "my_layout";
         $this->loadModel('Order');

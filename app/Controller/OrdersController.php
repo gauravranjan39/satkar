@@ -11,10 +11,12 @@ class OrdersController extends AppController {
         // $decodeuserId=$this->Encryption->decode($encodeuserId);
         // $Latest = $this->OrderTransaction->find('first',array('conditions' => array('OrderTransaction.order_id' => '3'),'order' => array('OrderTransaction.id' => 'DESC')));
         $this->layout = "my_layout";
+        $Encryption=$this->Encryption;
         $this->loadModel('Order');
         $this->Order->unbindModel(array('hasMany' => array('OrderItem')),true);
         $orderLists = $this->Order->find('all', array('order'=>array('Order.id'=>'desc')));
-        $this->set('orderLists',$orderLists);
+        $this->set(compact('orderLists','Encryption'));
+        // $this->set('orderLists',$orderLists);
     }
 
 	public function add($customerId=null) {
@@ -69,8 +71,8 @@ class OrdersController extends AppController {
                 $this->request->data['OrderTransaction']['invoice_number'] = $invoiceNumber;
                 $this->OrderTransaction->save($this->request->data['OrderTransaction']);
             }
-            
-            $this->redirect(array('controller'=>'Orders','action'=>'summary',$orderId));
+            $encodedOrderId=$this->Encryption->encode($orderId);
+            $this->redirect(array('controller'=>'Orders','action'=>'details',$encodedOrderId));
 		}
     }
     
@@ -111,6 +113,7 @@ class OrdersController extends AppController {
         $this->loadModel('OrderItem');
         $this->loadModel('Customer');
         $this->loadModel('OrderTransaction');
+        $orderId=$this->Encryption->decode($orderId);
         $this->Order->recursive = 2;
         $this->Customer->recursive = -1;
         $this->Order->unbindModel(array('belongsTo' => array('Customer'),'hasMany'=>array('Wallet')),true);

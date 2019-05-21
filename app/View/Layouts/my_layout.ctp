@@ -33,6 +33,9 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 		echo $this->Html->css('perfect-scrollbar.min');
 		echo $this->Html->css('material-design-icons/css/material-design-iconic-font');
 		echo $this->Html->css('dataTables.bootstrap.min');
+		// echo $this->Html->css('bootstrap-datetimepicker.min');
+		// echo $this->Html->css('select2.min');
+		// echo $this->Html->css('bootstrap-slider');
 		echo $this->Html->css('style');
 		echo $this->Html->script('jquery.min');
 		echo $this->Html->script('perfect-scrollbar.jquery.min');
@@ -47,6 +50,10 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 		echo $this->Html->script('buttons.colVis');
 		echo $this->Html->script('buttons.bootstrap');
 		echo $this->Html->script('app-tables-datatables');
+		// echo $this->Html->script('bootstrap-datetimepicker.min');
+		// echo $this->Html->script('bootstrap-slider');
+		// echo $this->Html->script('app-form-elements');
+		// echo $this->Html->script('select2.min');
 		echo $this->Html->script('speechToText');
 
 		echo $this->fetch('meta');
@@ -58,8 +65,9 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
      $(document).ready(function(){
         //initialize the javascript
         App.init();
-        //App.dashboard();
+        // App.dashboard();
 		App.dataTables();
+		// App.formElements();
 		
 		$('.helbutton').click(function(){
 			allowMicrophone();

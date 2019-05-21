@@ -1,3 +1,6 @@
+<?php echo $this->Html->css('bootstrap-datetimepicker.min');?>
+<?php echo $this->Html->script('bootstrap-datetimepicker.min');?>
+
 <div class="be-content">
         <div class="main-content container-fluid">
           <div class="row">
@@ -236,18 +239,19 @@
 
 
 <div class="modal animated fadeIn" id="orderPayment" tabindex="-1" role="dialog" aria-labelledby="smallModalHead" aria-hidden="true">
-    <div class="modal-dialog modal-lg" style="top:10%;">
+    <div class="modal-dialog modal-lg" style="top:-6%;">
         <!-- Modal content-->
         <div class="modal-content">
-            <div class="modal-header" style="text-align: center;">
+            <div class="modal-header" style="text-align: center;height:70px !important;">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h3 class="modal-title" style="line-height:1;">Payment</h3><hr>
             </div>
             
-            <div class="modal-body">
+            <div class="modal-body" style="padding-top:0px !important;">
                 <?php echo $this->Form->create('OrderTransaction',array('url'=> array('controller' => 'Orders', 'action' => 'pay_dues'),'method'=>'POST')); ?>
                 <?php echo $this->Form->input('OrderTransaction.dues',array('type'=>'hidden','value'=>$dues)); ?>
                 <?php echo $this->Form->input('OrderTransaction.order_id',array('type'=>'hidden','value'=>$orderDetails['Order']['id'])); ?>
+                <?php echo $this->Form->input('OrderTransaction.customer_id',array('type'=>'hidden','value'=>$orderDetails['Order']['customer_id'])); ?>
                 <div class="form-group col-md-12">
                     <div class="col-md-3"><b>Order ID:</b></div>
                     <div class="col-md-9"><?php echo $orderDetails['Order']['order_number']; ?></div>
@@ -279,54 +283,39 @@
                 <div class="form-group col-md-12 wallet_bal" style="display:none;">
                     <div class="col-md-3"><b>Wallet Money:</b></div>
                     <div class="col-md-9" id="wallent_money"></div>
+                    <?php echo $this->Form->input('OrderTransaction.wallet_balance',array('type'=>'hidden','id'=>'wallet_balance')); ?>
                 </div>
 
                 <div class="row metal_payment" style="display:none;">
                     <div class="form-group col-md-12">
-                        <div class="col-md-4"><?php echo $this->Form->input("OrderTransaction.item",array('placeholder'=>'Enter items','type'=>'text','autocomplete'=>'off','class'=>'form-control input-sm','label'=>false));?></div>
-                        <div class="col-md-2"><?php echo $this->Form->input("OrderTransaction.metal_type",array('type'=>'select','options'=>array('gold'=>'Gold','silver'=>'Silver','others'=>'Others'),'class'=>'form-control input-sm','label'=>false));?></div>
-                        <div class="col-md-2"><?php echo $this->Form->input("OrderTransaction.weight",array('placeholder'=>'Enter weight','type'=>'text','autocomplete'=>'off','class'=>'form-control input-sm allowOnlyNumber','label'=>false));?></div>
-                        <div class="col-md-2"><?php echo $this->Form->input("OrderTransaction.return_percentage",array('placeholder'=>'Enter return %','type'=>'text','autocomplete'=>'off','class'=>'form-control input-sm allowOnlyNumber','label'=>false));?></div>
-                        <div class="col-md-2"><?php echo $this->Form->input("OrderTransaction.rate",array('placeholder'=>'Enter Rate','type'=>'text','autocomplete'=>'off','class'=>'form-control input-sm allowOnlyNumber','label'=>false));?></div>
+                        <div class="col-md-4"><?php echo $this->Form->input("OrderTransaction.item",array('placeholder'=>'Enter items','type'=>'text','autocomplete'=>'off','class'=>'form-control input-sm payment-input','label'=>false));?></div>
+                        <div class="col-md-2"><?php echo $this->Form->input("OrderTransaction.metal_type",array('type'=>'select','options'=>array('gold'=>'Gold','silver'=>'Silver','others'=>'Others'),'empty'=>'--Select--','class'=>'form-control input-sm','label'=>false));?></div>
+                        <div class="col-md-2"><?php echo $this->Form->input("OrderTransaction.weight",array('placeholder'=>'Enter weight','type'=>'text','autocomplete'=>'off','class'=>'form-control input-sm allowOnlyNumber payment-input','label'=>false));?></div>
+                        <div class="col-md-2"><?php echo $this->Form->input("OrderTransaction.return_percentage",array('placeholder'=>'Enter return %','type'=>'text','autocomplete'=>'off','class'=>'form-control input-sm allowOnlyNumber payment-input','label'=>false));?></div>
+                        <div class="col-md-2"><?php echo $this->Form->input("OrderTransaction.rate",array('placeholder'=>'Enter Rate','type'=>'text','autocomplete'=>'off','class'=>'form-control input-sm allowOnlyNumber payment-input','label'=>false));?></div>
                     </div>
                 </div>
 
                 <div class="row cheque_payment" style="display:none;">
                     <div class="form-group col-md-12">
-                        <div class="col-md-4"><?php echo $this->Form->input("OrderTransaction.cheque_number",array('placeholder'=>'Enter cheque number','type'=>'text','autocomplete'=>'off','class'=>'form-control input-sm','label'=>false));?></div>
-                        <div class="col-md-4"><?php echo $this->Form->input("OrderTransaction.bank_name",array('placeholder'=>'Enter Bank Name','id'=>'cheque_bank_name','type'=>'text','autocomplete'=>'off','class'=>'form-control input-sm','label'=>false));?></div>
-                        <div class="col-md-4"><?php echo $this->Form->input("OrderTransaction.transaction_date",array('placeholder'=>'Select Transaction Date','id'=>'cheque_transaction_date','type'=>'text','autocomplete'=>'off','class'=>'form-control input-sm','label'=>false));?></div>
+                        <div class="col-md-4"><?php echo $this->Form->input("OrderTransaction.cheque_number",array('placeholder'=>'Enter cheque number','type'=>'text','autocomplete'=>'off','class'=>'form-control input-sm payment-input','label'=>false));?></div>
+                        <div class="col-md-4"><?php echo $this->Form->input("OrderTransaction.cheque_bank_name",array('placeholder'=>'Enter Bank Name','id'=>'cheque_bank_name','type'=>'text','autocomplete'=>'off','class'=>'form-control input-sm payment-input','label'=>false));?></div>
+                        <div class="col-md-4"><?php echo $this->Form->input("OrderTransaction.cheque_transaction_date",array('placeholder'=>'Select Transaction Date','id'=>'cheque_transaction_date','readonly'=>'readonly','type'=>'text','autocomplete'=>'off','class'=>'form-control input-sm datetimepicker payment-input','label'=>false));?></div>
                     </div>
                 </div>
 
-                <div class="row net_banking_payment" style="display:none;">
+                <div class="row card_net_banking_payment" style="display:none;">
                     <div class="form-group col-md-12">
-                        <div class="col-md-4"><?php echo $this->Form->input("OrderTransaction.bank_name",array('placeholder'=>'Enter Bank Name','id'=>'net_banking_bank_name','type'=>'text','autocomplete'=>'off','class'=>'form-control input-sm','label'=>false));?></div>
-                        <div class="col-md-4"><?php echo $this->Form->input("OrderTransaction.payment_transaction_id",array('placeholder'=>'Enter Transaction Id','id'=>'net_banking_transaction_id','type'=>'text','autocomplete'=>'off','class'=>'form-control input-sm','label'=>false));?></div>
-                        <div class="col-md-4"><?php echo $this->Form->input("OrderTransaction.transaction_date",array('placeholder'=>'Select Transaction Date','id'=>'net_banking_transaction_date','type'=>'text','autocomplete'=>'off','class'=>'form-control input-sm','label'=>false));?></div>
-                    </div>
-                </div>
-
-                <div class="row credit_card_payment" style="display:none;">
-                    <div class="form-group col-md-12">
-                        <div class="col-md-4"><?php echo $this->Form->input("OrderTransaction.payment_transaction_id",array('placeholder'=>'Enter Transaction Id','id'=>'credit_card_transaction_id','type'=>'text','autocomplete'=>'off','class'=>'form-control input-sm','label'=>false));?></div>
-                        <div class="col-md-4"><?php echo $this->Form->input("OrderTransaction.bank_name",array('placeholder'=>'Enter Bank Name','id'=>'credit_card_bank','type'=>'text','autocomplete'=>'off','class'=>'form-control input-sm','label'=>false));?></div>
-                        <div class="col-md-4"><?php echo $this->Form->input("OrderTransaction.transaction_date",array('placeholder'=>'Select Transaction Date','id'=>'credit_card_transaction_date','type'=>'text','autocomplete'=>'off','class'=>'form-control input-sm','label'=>false));?></div>
-                    </div>
-                </div>
-
-                <div class="row debit_card_payment" style="display:none;">
-                    <div class="form-group col-md-12">
-                        <div class="col-md-4"><?php echo $this->Form->input("OrderTransaction.payment_transaction_id",array('placeholder'=>'Enter Transaction Id','id'=>'debit_card_transaction_id','type'=>'text','autocomplete'=>'off','class'=>'form-control input-sm','label'=>false));?></div>
-                        <div class="col-md-4"><?php echo $this->Form->input("OrderTransaction.bank_name",array('placeholder'=>'Enter Bank Name','id'=>'debit_card_bank','type'=>'text','autocomplete'=>'off','class'=>'form-control input-sm','label'=>false));?></div>
-                        <div class="col-md-4"><?php echo $this->Form->input("OrderTransaction.transaction_date",array('placeholder'=>'Select Transaction Date','id'=>'debit_card_transaction_date','type'=>'text','autocomplete'=>'off','class'=>'form-control input-sm','label'=>false));?></div>
+                        <div class="col-md-4"><?php echo $this->Form->input("OrderTransaction.bank_name",array('placeholder'=>'Enter Bank Name','id'=>'card_net_banking_bank_name','type'=>'text','autocomplete'=>'off','class'=>'form-control input-sm payment-input','label'=>false));?></div>
+                        <div class="col-md-4"><?php echo $this->Form->input("OrderTransaction.payment_transaction_id",array('placeholder'=>'Enter Transaction Id','id'=>'card_net_banking_transaction_id','type'=>'text','autocomplete'=>'off','class'=>'form-control input-sm payment-input','label'=>false));?></div>
+                        <div class="col-md-4"><?php echo $this->Form->input("OrderTransaction.transaction_date",array('placeholder'=>'Select Transaction Date','id'=>'card_net_banking_transaction_date','readonly'=>'readonly','type'=>'text','autocomplete'=>'off','class'=>'form-control input-sm datetimepicker payment-input','label'=>false));?></div>
                     </div>
                 </div>
 
                 <div class="row cash_payment">
                     <div class="form-group col-md-12">
                         <div class="col-md-4"><?php echo $this->Form->input("OrderTransaction.amount_paid",array('id'=>'dues_payment','placeholder'=>'Enter amount','type'=>'text','autocomplete'=>'off','required'=>'required','class'=>'form-control input-sm allowOnlyNumber','maxlength'=>'7','label'=>false));?></div>
-                        <div class="col-md-8"><?php echo $this->Form->input("OrderTransaction.comments",array('placeholder'=>'Enter comments','type'=>'text','autocomplete'=>'off','class'=>'form-control input-sm','label'=>false));?></div>
+                        <div class="col-md-8"><?php echo $this->Form->input("OrderTransaction.comments",array('placeholder'=>'Enter comments','type'=>'text','autocomplete'=>'off','class'=>'form-control input-sm payment-input','label'=>false));?></div>
                     </div>
                 </div>
                 
@@ -388,18 +377,26 @@
 
 <script type="text/javascript">
 	$(document).ready(function() {
+        $(".datetimepicker").datetimepicker({
+            autoclose: true,
+            componentIcon: '.mdi.mdi-calendar',
+            navIcons:{
+                rightIcon: 'mdi mdi-chevron-right',
+                leftIcon: 'mdi mdi-chevron-left'
+            }
+        });
+
 		$("#make_payment").click(function(){
             $('#dues_payment').val('');
             $('#orderPayment').modal('show');
             $('#dues_payment').focus();
-            $('.input-sm').val('');
+            $('.payment-input').val('');
             $('#OrderTransactionType').val('cash');
             $('.metal_payment').hide();
             $('.cheque_payment').hide();
-            $('.net_banking_payment').hide();
-            $('.credit_card_payment').hide();
-            $('.debit_card_payment').hide();
-		});
+            $('.card_net_banking_payment').hide();
+            $('.wallet_bal').hide();
+        });
 
         $('#OrderTransactionType').change(function(){
             $('#dues_payment').val('');
@@ -407,22 +404,20 @@
             $('#dues_payment').attr('required', 'required');
             $('.wallet_bal').hide();
             $('#dues_payment').removeAttr('readonly',false);
+            $('.payment-input').val('');
             var transactionType = $(this).val();
             if (transactionType == 'cash') {
                 $('.metal_payment').hide();
                 $('.cheque_payment').hide();
-                $('.net_banking_payment').hide();
-                $('.credit_card_payment').hide();
-                $('.debit_card_payment').hide();
+                $('.card_net_banking_payment').hide();
                 
             } else if (transactionType == 'metal') {
                 $('.metal_payment').show();
                 $('.cheque_payment').hide();
-                $('.net_banking_payment').hide();
-                $('.credit_card_payment').hide();
-                $('.debit_card_payment').hide();
-                $('#OrderTransactionMetalType').val('gold');
+                $('.card_net_banking_payment').hide();
+                $('#OrderTransactionMetalType').val('');
                 $('#OrderTransactionItem').attr('required', 'required');
+                $('#OrderTransactionMetalType').attr('required', 'required');
                 $('#OrderTransactionWeight').attr('required', 'required');
                 $('#OrderTransactionReturnPercentage').attr('required', 'required');
                 $('#OrderTransactionRate').attr('required', 'required');
@@ -430,9 +425,7 @@
             } else if (transactionType == 'wallet') {
                 $('.metal_payment').hide();
                 $('.cheque_payment').hide();
-                $('.net_banking_payment').hide();
-                $('.credit_card_payment').hide();
-                $('.debit_card_payment').hide();
+                $('.card_net_banking_payment').hide();
                 var dues = '<?php echo $dues; ?>';
                 var customerId = '<?php echo $orderDetails['Order']['customer_id']; ?>';
                 $.ajax({
@@ -440,6 +433,7 @@
                     success:function(data){
                         $('#dues_payment').attr('readonly',true);
                         $('#wallent_money').html('&#8377;'+data);
+                        $('#wallet_balance').val(data);
                         $('.wallet_bal').show();
                         if (data != '0.00') {
                             if (dues > data) {
@@ -454,39 +448,31 @@
             } else if (transactionType == 'cheque') {
                 $('.metal_payment').hide();
                 $('.cheque_payment').show();
-                $('.net_banking_payment').hide();
-                $('.credit_card_payment').hide();
-                $('.debit_card_payment').hide();
+                $('.card_net_banking_payment').hide();
                 $('#OrderTransactionChequeNumber').attr('required', 'required');
                 $('#cheque_bank_name').attr('required', 'required');
                 $('#cheque_transaction_date').attr('required', 'required');
             } else if (transactionType == 'net-banking') {
                 $('.metal_payment').hide();
                 $('.cheque_payment').hide();
-                $('.net_banking_payment').show();
-                $('.credit_card_payment').hide();
-                $('.debit_card_payment').hide();
-                $('#net_banking_bank_name').attr('required', 'required');
-                $('#net_banking_transaction_id').attr('required', 'required');
-                $('#net_banking_transaction_date').attr('required', 'required');
+                $('.card_net_banking_payment').show();
+                $('#card_net_banking_bank_name').attr('required', 'required');
+                $('#card_net_banking_transaction_id').attr('required', 'required');
+                $('#card_net_banking_transaction_date').attr('required', 'required');
             } else if (transactionType == 'credit-card') {
                 $('.metal_payment').hide();
                 $('.cheque_payment').hide();
-                $('.net_banking_payment').hide();
-                $('.credit_card_payment').show();
-                $('.debit_card_payment').hide();
-                $('#credit_card_transaction_id').attr('required', 'required');
-                $('#credit_card_bank').attr('required', 'required');
-                $('#credit_card_transaction_date').attr('required', 'required');
+                $('.card_net_banking_payment').show();
+                $('#card_net_banking_bank_name').attr('required', 'required');
+                $('#card_net_banking_transaction_id').attr('required', 'required');
+                $('#card_net_banking_transaction_date').attr('required', 'required');
             } else if (transactionType == 'debit-card') {
                 $('.metal_payment').hide();
                 $('.cheque_payment').hide();
-                $('.net_banking_payment').hide();
-                $('.credit_card_payment').hide();
-                $('.debit_card_payment').show();
-                $('#debit_card_transaction_id').attr('required', 'required');
-                $('#debit_card_bank').attr('required', 'required');
-                $('#debit_card_transaction_date').attr('required', 'required');
+                $('.card_net_banking_payment').show();
+                $('#card_net_banking_bank_name').attr('required', 'required');
+                $('#card_net_banking_transaction_id').attr('required', 'required');
+                $('#card_net_banking_transaction_date').attr('required', 'required');
             }
         });
 

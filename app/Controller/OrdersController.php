@@ -122,31 +122,141 @@ class OrdersController extends AppController {
         $this->set(compact('orderDetails','customerDetails'));
     }
 
-    // public function pay_dues($orderId=null,$payment=null,$dues=null) {
+    
     public function pay_dues() {
         $this->layout = false;
         $this->autoRender = false;
         $this->loadModel('OrderTransaction');
-
+        $this->loadModel('Order');
         if ($this->request->is(array('post','put'))) {
+            $dues = $this->request->data['OrderTransaction']['dues'];
+            $amountPaid = $this->request->data['OrderTransaction']['amount_paid'];
+            if ($this->request->data['OrderTransaction']['type'] == 'wallet') {
+                $walletBalance = $this->request->data['OrderTransaction']['wallet_balance'];
+                $remainingBalance = ($walletBalance - $amountPaid);
+                $this->loadModel('Wallet');
+                $this->Wallet->create();
+                $walletData['Wallet']['customer_id'] = $this->request->data['OrderTransaction']['customer_id'];
+                $walletData['Wallet']['order_id'] = $this->request->data['OrderTransaction']['order_id'];
+                $walletData['Wallet']['debit'] = $amountPaid;
+                $walletData['Wallet']['type'] = 'pay-dues';
+                $walletData['Wallet']['balance'] = $remainingBalance;
+                if ($this->Wallet->save($walletData)) {
+                    unset($this->request->data['OrderTransaction']['dues']);
+                    unset($this->request->data['OrderTransaction']['customer_id']);
+                    unset($this->request->data['OrderTransaction']['wallet_balance']);
+                    $orderId = $this->request->data['OrderTransaction']['order_id'];
+                    $invoiceNumber =  rand() .$orderId . time();
+                    $this->request->data['OrderTransaction']['invoice_number'] = $invoiceNumber;
+                    $this->OrderTransaction->create();
+                    if ($this->OrderTransaction->save($this->request->data)) {
+                        if ($amountPaid == $dues) {
+                            $this->Order->updateAll(array('Order.payment_status' =>0),array('Order.id'=>$orderId));
+                        }
+                        echo '1';
+                    }
+                }
+            } else {
+                if ($amountPaid > $dues) {
+                    $remainingBal = ($amountPaid - $dues); 
+                    $customerId = $this->request->data['OrderTransaction']['customer_id'];
+                    $this->loadModel('Wallet');
+                    $this->Wallet->recursive = -1;
+                    $walletBal = $this->Wallet->find('first',array('conditions' => array('Wallet.customer_id' =>$customerId),'fields'=>array('balance'),'order' => array('Wallet.id' => 'DESC')));
+                    if (!empty($walletBal)) {
+                        $walletMoney = $walletBal['Wallet']['balance'];
+                    } else {
+                        $walletMoney = '0.00';
+                    }
+                    $orderId = $this->request->data['OrderTransaction']['order_id'];
+                    $invoiceNumber =  rand() .$orderId . time();
+                    $this->request->data['OrderTransaction']['invoice_number'] = $invoiceNumber;
+                    $this->request->data['OrderTransaction']['amount_paid'] = $dues;
+                    if (!empty($this->request->data['OrderTransaction']['cheque_bank_name'])) {
+                        $this->request->data['OrderTransaction']['bank_name'] = $this->request->data['OrderTransaction']['cheque_bank_name'];
+                    }
+                    if (!empty($this->request->data['OrderTransaction']['bank_name'])) {
+                        $this->request->data['OrderTransaction']['bank_name'] = $this->request->data['OrderTransaction']['bank_name'];
+                    }
+                    if (!empty($this->request->data['OrderTransaction']['cheque_transaction_date'])) {
+                        $this->request->data['OrderTransaction']['transaction_date'] = $this->request->data['OrderTransaction']['cheque_transaction_date'];
+                    }
+                    if (!empty($this->request->data['OrderTransaction']['transaction_date'])) {
+                        $this->request->data['OrderTransaction']['transaction_date'] = $this->request->data['OrderTransaction']['transaction_date'];
+                    }
+                    $this->OrderTransaction->create();
+                    if ($this->OrderTransaction->save($this->request->data)) {
+                        $this->Order->updateAll(array('Order.payment_status' =>0),array('Order.id'=>$orderId));
+                        
+                        $this->Wallet->create();
+                        $walletData['Wallet']['customer_id'] = $customerId;
+                        $walletData['Wallet']['order_id'] = $this->request->data['OrderTransaction']['order_id'];
+                        if (!empty($this->request->data['OrderTransaction']['item'])) {
+                            $walletData['Wallet']['item'] = $this->request->data['OrderTransaction']['item'];
+                        }
+                        if (!empty($this->request->data['OrderTransaction']['metal_type'])) {
+                            $walletData['Wallet']['metal_type'] = $this->request->data['OrderTransaction']['metal_type'];
+                        }
+                        if (!empty($this->request->data['OrderTransaction']['weight'])) {
+                            $walletData['Wallet']['weight'] = $this->request->data['OrderTransaction']['weight'];
+                        }
+                        if (!empty($this->request->data['OrderTransaction']['return_percentage'])) {
+                            $walletData['Wallet']['return_percentage'] = $this->request->data['OrderTransaction']['return_percentage'];
+                        }
+                        if (!empty($this->request->data['OrderTransaction']['rate'])) {
+                            $walletData['Wallet']['rate'] = $this->request->data['OrderTransaction']['rate'];
+                        }
+                        if (!empty($this->request->data['OrderTransaction']['cheque_number'])) {
+                            $walletData['Wallet']['cheque_number'] = $this->request->data['OrderTransaction']['cheque_number'];
+                        }
+                        if (!empty($this->request->data['OrderTransaction']['cheque_bank_name'])) {
+                            $walletData['Wallet']['bank_name'] = $this->request->data['OrderTransaction']['cheque_bank_name'];
+                        }
+                        if (!empty($this->request->data['OrderTransaction']['bank_name'])) {
+                            $walletData['Wallet']['bank_name'] = $this->request->data['OrderTransaction']['bank_name'];
+                        }
+                        if (!empty($this->request->data['OrderTransaction']['cheque_transaction_date'])) {
+                            $walletData['Wallet']['transaction_date'] = $this->request->data['OrderTransaction']['cheque_transaction_date'];
+                        }
+                        if (!empty($this->request->data['OrderTransaction']['transaction_date'])) {
+                            $walletData['Wallet']['transaction_date'] = $this->request->data['OrderTransaction']['transaction_date'];
+                        }
+                        if (!empty($this->request->data['OrderTransaction']['payment_transaction_id'])) {
+                            $walletData['Wallet']['payment_transaction_id'] = $this->request->data['OrderTransaction']['payment_transaction_id'];
+                        }
+                        $walletData['Wallet']['type'] = $this->request->data['OrderTransaction']['type'];
+                        $walletData['Wallet']['credit'] = $remainingBal;
+                        $walletData['Wallet']['comments'] = $this->request->data['OrderTransaction']['comments'];
+                        $walletData['Wallet']['balance'] = ($walletMoney + $remainingBal);
+                        $this->Wallet->save($walletData);
+                        echo '1';
+                    }
 
-            pr($this->request->data);die;
-
-        }
-
-
-
-        $invoiceNumber =  rand() .$orderId . time();
-        $duesPayment['OrderTransaction']['order_id'] = $orderId;
-        $duesPayment['OrderTransaction']['amount_paid'] = $payment;
-        $duesPayment['OrderTransaction']['invoice_number'] = $invoiceNumber;
-        $this->OrderTransaction->create();
-        if ($this->OrderTransaction->save($duesPayment)) {
-            if ($payment == $dues) {
-                $this->loadModel('Order');
-                $this->Order->updateAll(array('Order.payment_status' =>0),array('Order.id'=>$orderId));
+                } else if ($amountPaid <= $dues) {
+                    $orderId = $this->request->data['OrderTransaction']['order_id'];
+                    $invoiceNumber =  rand() .$orderId . time();
+                    $this->request->data['OrderTransaction']['invoice_number'] = $invoiceNumber;
+                    $this->request->data['OrderTransaction']['amount_paid'] = $amountPaid;
+                    if (!empty($this->request->data['OrderTransaction']['cheque_bank_name'])) {
+                        $this->request->data['OrderTransaction']['bank_name'] = $this->request->data['OrderTransaction']['cheque_bank_name'];
+                    }
+                    if (!empty($this->request->data['OrderTransaction']['bank_name'])) {
+                        $this->request->data['OrderTransaction']['bank_name'] = $this->request->data['OrderTransaction']['bank_name'];
+                    }
+                    if (!empty($this->request->data['OrderTransaction']['cheque_transaction_date'])) {
+                        $this->request->data['OrderTransaction']['transaction_date'] = $this->request->data['OrderTransaction']['cheque_transaction_date'];
+                    }
+                    if (!empty($this->request->data['OrderTransaction']['transaction_date'])) {
+                        $this->request->data['OrderTransaction']['transaction_date'] = $this->request->data['OrderTransaction']['transaction_date'];
+                    }
+                    unset($this->request->data['OrderTransaction']['dues']);
+                    unset($this->request->data['OrderTransaction']['customer_id']);
+                    unset($this->request->data['OrderTransaction']['wallet_balance']);
+                    $this->OrderTransaction->create();
+                    $this->OrderTransaction->save($this->request->data);
+                    echo '1';
+                }
             }
-            echo '1';
         }
     }
 
@@ -170,7 +280,6 @@ class OrdersController extends AppController {
         // $pdf= new mPDF('utf-8', 'A4-P');
         // Define a Landscape page size/format by name
         //$mpdf=new mPDF('utf-8', 'A4-L');
-
         $pdf->WriteHTML($html);
         // $pdf->Output($filename.".pdf", "D");
         $pdf->Output($filename.".pdf", "I");

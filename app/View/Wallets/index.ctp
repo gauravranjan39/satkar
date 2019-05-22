@@ -25,9 +25,16 @@
                                 <?php foreach ($walletDetails as $walletDetail) { ?>
                                 <tr>
                                     <td><?php echo $walletDetail['Wallet']['type']; ?></td>
-                                    <td><?php echo $walletDetail['Wallet']['credit']; ?></td>
-                                    <td><?php echo $walletDetail['Wallet']['debit']; ?></td>
-                                    <td><?php echo $walletDetail['Wallet']['balance']; ?></td>
+                                    <?php if (!empty($walletDetail['Wallet']['credit'])) { ?>
+                                        <td>&#8377;<?php echo $walletDetail['Wallet']['credit']; ?></td>
+                                    <?php } else { ?>
+                                        <td></td>
+                                    <?php } if (!empty($walletDetail['Wallet']['debit'])) { ?>
+                                        <td>&#8377;<?php echo $walletDetail['Wallet']['debit']; ?></td>
+                                    <?php } else { ?>
+                                        <td></td>
+                                    <?php } ?>
+                                    <td>&#8377;<?php echo $walletDetail['Wallet']['balance']; ?></td>
                                     <td><?php echo date('d-M-Y', strtotime($walletDetail['Wallet']['transaction_date'])); ?></td>
                                     <td></td>
                                 </tr>

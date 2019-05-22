@@ -5,8 +5,9 @@
                     <div class="panel panel-default panel-table">
                         <div class="panel-heading">Wallet
                             <div class="tools">
-                            <!-- <div class="icon-container"><div class="icon"><span class="mdi mdi-plus"></span></div></div> -->
-                            <span class="icon mdi mdi-download"></span><span class="icon mdi mdi-more-vert"></span></div>
+                                <span class="icon mdi mdi-plus"></span>
+                                <!-- <span class="icon mdi mdi-more-vert"></span> -->
+                            </div>
                         </div>
                     <div class="panel-body">
                         <table class="table table-striped table-hover">

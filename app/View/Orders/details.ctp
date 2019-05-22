@@ -421,6 +421,7 @@
             $('.wallet_bal').hide();
             $('#dues_payment').removeAttr('readonly',false);
             $('.payment-input').val('');
+            $('#pay_dues').attr("disabled", false);
             var transactionType = $(this).val();
             if (transactionType == 'cash') {
                 $('.metal_payment').hide();
@@ -442,21 +443,27 @@
                 $('.metal_payment').hide();
                 $('.cheque_payment').hide();
                 $('.card_net_banking_payment').hide();
-                var dues = '<?php echo $dues; ?>';
+                var dues = parseFloat('<?php echo $dues; ?>');
                 var customerId = '<?php echo $orderDetails['Order']['customer_id']; ?>';
                 $.ajax({
                     url:"<?php echo Router::url(array('controller'=>'Wallets','action'=>'customer_wallet_money'));?>/"+ customerId,
                     success:function(data){
-                        $('#dues_payment').attr('readonly',true);
-                        $('#wallent_money').html('&#8377;'+data);
-                        $('#wallet_balance').val(data);
+                        var wallet = parseFloat(data);
+                       $('#dues_payment').attr('readonly',true);
+                        $('#wallent_money').html('&#8377;'+wallet);
+                        $('#wallet_balance').val(wallet);
                         $('.wallet_bal').show();
-                        if (data != '0.00') {
-                            if (dues > data) {
-                                $('#dues_payment').val(data);
-                            } else if(data >= dues) {
-                                $('#dues_payment').val(dues);
+                        // debugger
+                        if (wallet) {
+                            if (dues > wallet) {
+                                $('#dues_payment').val(wallet);
+                            } else if(wallet > dues) {
+                               $('#dues_payment').val(dues);
+                            } else if (wallet == dues) {
+                               $('#dues_payment').val(dues);
                             }
+                        } else {
+                            $('#pay_dues').attr("disabled", true);
                         }
                     }
                 });
@@ -506,6 +513,10 @@
 
         $('#OrderTransactionPayDuesForm').submit(function(event){
             event.preventDefault();
+            // var paidAmt = $('#dues_payment').val();
+            // if (paidAmt == '') {
+            //     alert('Amount is empty');
+            // }
             $.ajax({
                 url:"<?php echo Router::url(array('controller'=>'Orders','action'=>'pay_dues'));?>",
                 type: 'POST',

@@ -226,6 +226,7 @@
                         <?php } ?>
                         <button class="btn btn-rounded btn-space btn-warning" id="payment_history">Payment History</button>
                         <button class="btn btn-rounded btn-space btn-default" id="payment_receipt">Generate Payment Receipt</button>
+                        <button class="btn btn-rounded btn-space btn-primary" id="confirm_order">Confirm Order</button>
                     </p>
                 </div>
 
@@ -386,6 +387,23 @@
             }
         });
 
+        $("#confirm_order").click(function(){
+            var orderId = '<?php echo $orderDetails['Order']['id'];?>';
+            if (confirm('Are you sure to confirm this order ?')) {
+                $.ajax({
+                    url:"<?php echo Router::url(array('controller'=>'Orders','action'=>'confirm_order'));?>/"+orderId,
+                    success:function(data){
+                        if (data == 1) {
+                            location.reload();
+                            // window.location.href='<?php //echo $this->webroot?>Orders/index';
+                        } else {
+                            alert('Error Occured!!');
+                        }
+                    }
+			    });
+            }
+		});
+
 		$("#make_payment").click(function(){
             $('#dues_payment').val('');
             $('#orderPayment').modal('show');
@@ -490,7 +508,6 @@
 
         $('#OrderTransactionPayDuesForm').submit(function(event){
             event.preventDefault();
-            alert('###########');
             $.ajax({
                 url:"<?php echo Router::url(array('controller'=>'Orders','action'=>'pay_dues'));?>",
                 type: 'POST',
@@ -537,7 +554,6 @@
             var customerId = '<?php echo $orderDetails['Order']['customer_id']; ?>';
             var grandTotal = '<?php echo $orderDetails['Order']['grand_total']; ?>';
             var base_url = "<?php echo Router::url(array('controller'=>'Orders','action'=>'generatePaymentHistory'));?>/" + orderId + '/' + customerId + '/' + grandTotal + '/' + orderNumber;
-            //window.location.href=base_url;
             window.open(base_url,'_blank');
         });
 
@@ -566,7 +582,6 @@
             var orderGrandTotal = '<?php echo $orderDetails['Order']['grand_total']; ?>';
             var orderPayment = '<?php echo $payment; ?>';
             var dues = '<?php echo $dues; ?>';
-            // alert(dues);return false;
             if (confirm('Are you sure to cancel this item ?')) {
                 $.ajax({
                     url:"<?php echo Router::url(array('controller'=>'Orders','action'=>'cancel_order_item'));?>/" + orderId + '/' + itemId + '/' + confirmItemCount + '/' + customerId + '/' + itemGrandTotal + '/' + orderGrandTotal + '/' + orderPayment + '/' + dues,

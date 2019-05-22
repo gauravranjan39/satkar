@@ -7,16 +7,12 @@ class OrdersController extends AppController {
     public $components = array('Paginator','Encryption');
 
     public function index() {
-        // $encodeuserId=$this->Encryption->encode($id);
-        // $decodeuserId=$this->Encryption->decode($encodeuserId);
-        // $Latest = $this->OrderTransaction->find('first',array('conditions' => array('OrderTransaction.order_id' => '3'),'order' => array('OrderTransaction.id' => 'DESC')));
         $this->layout = "my_layout";
         $Encryption=$this->Encryption;
         $this->loadModel('Order');
         $this->Order->unbindModel(array('hasMany' => array('OrderItem')),true);
         $orderLists = $this->Order->find('all', array('order'=>array('Order.id'=>'desc')));
         $this->set(compact('orderLists','Encryption'));
-        // $this->set('orderLists',$orderLists);
     }
 
 	public function add($customerId=null) {
@@ -30,13 +26,6 @@ class OrdersController extends AppController {
 		$this->set('categoryLists',$categoryLists);
 		
 		if ($this->request->is('post')) {
-            // pr($this->request->data);
-            // if (empty($this->request->data['OrderTransaction']['amount_paid'])){
-            //     echo 'No payment';
-            // } else {
-            //     echo 'Payment';
-            // }
-            // die;
             $customerId = base64_decode($customerId);
             $orderNumber = 'OD' .$customerId. rand() . time();
             $this->loadModel('Order');
@@ -304,7 +293,6 @@ class OrdersController extends AppController {
         $this->loadModel('Wallet');
         $this->Wallet->unbindModel(array('belongsTo' => array('Order','OrderItem','Customer')),true);
         $Latest = $this->Wallet->find('first',array('conditions' => array('Wallet.customer_id' => $customerId),'order' => array('Wallet.id' => 'DESC')));
-        // pr($orderPayment);die;
         $newGrandTotal = ($orderGrandTotal - $itemGrandTotal);
         $newGrandTotal = round($newGrandTotal);
         $this->loadModel('OrderItem');

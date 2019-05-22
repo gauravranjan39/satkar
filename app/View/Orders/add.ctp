@@ -5,9 +5,8 @@
             <div class="col-sm-12">
                 <div class="panel panel-default panel-border-color panel-border-color-primary">
                     <div class="panel-body">
-                        <?php echo $this->Form->create('Order',array('url'=> array('controller' => 'Orders', 'action' => 'add',$customerId),'method'=>'POST')); ?>
-                            <div class="clone-div" id="clonedInput_0" data-count-val="0">
-							
+						<?php echo $this->Form->create('Order',array('url'=> array('controller' => 'Orders', 'action' => 'add',$customerId),'method'=>'POST')); ?>
+							<div class="clone-div" id="clonedInput_0" data-count-val="0">
 								<div class="col-md-12">
 									<div class="form-group">
 										<div class="col-sm-4" style="float:right;">

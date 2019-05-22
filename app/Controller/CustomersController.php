@@ -8,12 +8,16 @@ App::uses('AppController', 'Controller');
  */
 class CustomersController extends AppController {
 
+	public $components = array('Paginator','Encryption');
+
 
 	public function index() {
 		$this->layout = "my_layout";
+		$Encryption=$this->Encryption;
 		$customerLists = $this->Customer->query('SELECT c1.*,c2.id,c2.name,c2.mobile FROM
 		customers c1 LEFT JOIN customers c2 ON c2.id = c1.reference_id');
-		$this->set('customerLists',$customerLists);
+		$this->set(compact('customerLists','Encryption'));
+		// $this->set('customerLists',$customerLists);
 	}
 
 

@@ -210,8 +210,6 @@
                             </div>
                         </div>
                 <?php } ?>
-                        
-                <?php //$dues = (int)($dues); ?>
                 
 
                 </div>
@@ -226,11 +224,11 @@
                         <?php } ?>
                         <button class="btn btn-rounded btn-space btn-warning" id="payment_history">Payment History</button>
                         <button class="btn btn-rounded btn-space btn-default" id="payment_receipt">Generate Payment Receipt</button>
-                        <button class="btn btn-rounded btn-space btn-primary" id="confirm_order">Confirm Order</button>
+                        <?php if ($orderDetails['Order']['status'] == 0) { ?>
+                            <button class="btn btn-rounded btn-space" style="background-color:#1aff8c;" id="confirm_order">Confirm Order</button>
+                        <?php } ?>
                     </p>
                 </div>
-
-                <?php //pr($confirmItemCount);die; ?>
                 </div>
               </div>
             </div>

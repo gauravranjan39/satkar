@@ -16,7 +16,8 @@ class OrdersController extends AppController {
     }
 
 	public function add($customerId=null) {
-		$this->layout = "my_layout";
+        $this->layout = "my_layout";
+        //$customerId=$this->Encryption->decode($customerId);
 		if (empty($customerId)) {
 			$this->redirect(array('controller'=>'customers','action'=>'index'));
         }
@@ -26,7 +27,7 @@ class OrdersController extends AppController {
 		$this->set('categoryLists',$categoryLists);
 		
 		if ($this->request->is('post')) {
-            $customerId = base64_decode($customerId);
+            $customerId=$this->Encryption->decode($customerId);
             $orderNumber = 'OD' .$customerId. rand() . time();
             $this->loadModel('Order');
             $this->loadModel('OrderItem');

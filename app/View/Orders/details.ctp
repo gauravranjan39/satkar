@@ -453,7 +453,6 @@
                         $('#wallent_money').html('&#8377;'+wallet);
                         $('#wallet_balance').val(wallet);
                         $('.wallet_bal').show();
-                        // debugger
                         if (wallet) {
                             if (dues > wallet) {
                                 $('#dues_payment').val(wallet);
@@ -513,10 +512,6 @@
 
         $('#OrderTransactionPayDuesForm').submit(function(event){
             event.preventDefault();
-            // var paidAmt = $('#dues_payment').val();
-            // if (paidAmt == '') {
-            //     alert('Amount is empty');
-            // }
             $.ajax({
                 url:"<?php echo Router::url(array('controller'=>'Orders','action'=>'pay_dues'));?>",
                 type: 'POST',
@@ -530,28 +525,6 @@
                 }
             });
         });
-
-        // $("#pay_dues").click(function(){
-        //     var orderId = '<?php //echo $orderDetails['Order']['id']; ?>';
-        //     var dues = '<?php //echo $dues ?>';
-        //     var payment = $('#dues_payment').val();
-        //     if (payment == '') {
-        //         alert('Please enter amount');
-        //         return false;
-        //     } else {
-        //         $('#orderPayment').modal('hide');
-        //         $.ajax({
-        //             url:"<?php //echo Router::url(array('controller'=>'Orders','action'=>'pay_dues'));?>/"+ orderId + '/' + payment + '/' + dues,
-        //             success:function(data){
-        //                 if (data == 1) {
-        //                     location.reload();
-        //                 } else {
-        //                     alert('Error Occured!!');
-        //                 }
-        //             }
-		// 	    });
-        //     }
-		// });
 
         $('#payment_history').click(function(){
             $('#paymentHistory').modal('show');

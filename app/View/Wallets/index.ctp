@@ -5,8 +5,10 @@
                     <div class="panel panel-default panel-table">
                         <div class="panel-heading">Wallet
                             <div class="tools">
-                                <span class="icon mdi mdi-plus"></span>
-                                <!-- <span class="icon mdi mdi-more-vert"></span> -->
+                                <!-- <span class="icon mdi mdi-more"></span> -->
+                                <div class="icon-container">
+                                    <div class="icon" title="Make Transaction"><span class="mdi mdi-more wallet_transaction"></span></div>
+                                </div>
                             </div>
                         </div>
                     <div class="panel-body">
@@ -47,3 +49,91 @@
         </div>
     </div>
 </div>
+
+
+<div class="modal animated fadeIn" id="walletTransaction" tabindex="-1" role="dialog" aria-labelledby="smallModalHead" aria-hidden="true">
+    <div class="modal-dialog modal-lg" style="top:5%;">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header" style="text-align: center;">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h3 class="modal-title" style="line-height:1;">Make Transaction</h3><hr>
+            </div>
+            
+            <div class="modal-body" style="padding-top:0px !important;">
+                <?php echo $this->Form->create('Wallet',array('url'=> array('controller' => 'Wallets', 'action' => 'wallet_transaction'),'method'=>'POST')); ?>
+                <?php //echo $this->Form->input('OrderTransaction.customer_id',array('type'=>'hidden','value'=>$orderDetails['Order']['customer_id'])); ?>
+                
+
+                <div class="form-group col-md-12">
+                    <div class="col-md-3"><b>Transaction:</b></div>
+                    <div class="col-md-9">
+                        <?php echo $this->Form->input("Wallet.type",array('type'=>'select','options'=>array('credit'=>'Credit','debit'=>'Debit'),'required'=>'required','class'=>'form-control input-sm','label'=>false));?>
+                    </div>
+                </div>
+                
+                
+                <div class="form-group col-md-12">
+                    <div class="col-md-3"><b>Payment:</b></div>
+                    <div class="col-md-9">
+                        <?php echo $this->Form->input("OrderTransaction.type",array('type'=>'select','options'=>array('cash'=>'Cash','metal'=>'Metal','cheque'=>'Cheque','net-banking'=>'Net-Banking','credit-card'=>'Credit Card','debit-card'=>'Debit Card'),'placeholder'=>'Enter category','required'=>'required','class'=>'form-control input-sm','label'=>false));?>
+                    </div>
+                </div>
+
+                <div class="row metal_payment" style="display:none;">
+                    <div class="form-group col-md-12">
+                        <div class="col-md-4"><?php echo $this->Form->input("OrderTransaction.item",array('placeholder'=>'Enter items','type'=>'text','autocomplete'=>'off','class'=>'form-control input-sm payment-input','label'=>false));?></div>
+                        <div class="col-md-2"><?php echo $this->Form->input("OrderTransaction.metal_type",array('type'=>'select','options'=>array('gold'=>'Gold','silver'=>'Silver','others'=>'Others'),'empty'=>'--Select--','class'=>'form-control input-sm','label'=>false));?></div>
+                        <div class="col-md-2"><?php echo $this->Form->input("OrderTransaction.weight",array('placeholder'=>'Enter weight','type'=>'text','autocomplete'=>'off','class'=>'form-control input-sm allowOnlyNumber payment-input','label'=>false));?></div>
+                        <div class="col-md-2"><?php echo $this->Form->input("OrderTransaction.return_percentage",array('placeholder'=>'Enter return %','type'=>'text','autocomplete'=>'off','class'=>'form-control input-sm allowOnlyNumber payment-input','label'=>false));?></div>
+                        <div class="col-md-2"><?php echo $this->Form->input("OrderTransaction.rate",array('placeholder'=>'Enter Rate','type'=>'text','autocomplete'=>'off','class'=>'form-control input-sm allowOnlyNumber payment-input','label'=>false));?></div>
+                    </div>
+                </div>
+
+                <div class="row cheque_payment" style="display:none;">
+                    <div class="form-group col-md-12">
+                        <div class="col-md-4"><?php echo $this->Form->input("OrderTransaction.cheque_number",array('placeholder'=>'Enter cheque number','type'=>'text','autocomplete'=>'off','class'=>'form-control input-sm payment-input','label'=>false));?></div>
+                        <div class="col-md-4"><?php echo $this->Form->input("OrderTransaction.cheque_bank_name",array('placeholder'=>'Enter Bank Name','id'=>'cheque_bank_name','type'=>'text','autocomplete'=>'off','class'=>'form-control input-sm payment-input','label'=>false));?></div>
+                        <div class="col-md-4"><?php echo $this->Form->input("OrderTransaction.cheque_transaction_date",array('placeholder'=>'Select Transaction Date','id'=>'cheque_transaction_date','readonly'=>'readonly','type'=>'text','autocomplete'=>'off','class'=>'form-control input-sm datetimepicker payment-input','label'=>false));?></div>
+                    </div>
+                </div>
+
+                <div class="row card_net_banking_payment" style="display:none;">
+                    <div class="form-group col-md-12">
+                        <div class="col-md-4"><?php echo $this->Form->input("OrderTransaction.bank_name",array('placeholder'=>'Enter Bank Name','id'=>'card_net_banking_bank_name','type'=>'text','autocomplete'=>'off','class'=>'form-control input-sm payment-input','label'=>false));?></div>
+                        <div class="col-md-4"><?php echo $this->Form->input("OrderTransaction.payment_transaction_id",array('placeholder'=>'Enter Transaction Id','id'=>'card_net_banking_transaction_id','type'=>'text','autocomplete'=>'off','class'=>'form-control input-sm payment-input','label'=>false));?></div>
+                        <div class="col-md-4"><?php echo $this->Form->input("OrderTransaction.transaction_date",array('placeholder'=>'Select Transaction Date','id'=>'card_net_banking_transaction_date','readonly'=>'readonly','type'=>'text','autocomplete'=>'off','class'=>'form-control input-sm datetimepicker payment-input','label'=>false));?></div>
+                    </div>
+                </div>
+
+                <div class="row cash_payment">
+                    <div class="form-group col-md-12">
+                        <div class="col-md-4"><?php echo $this->Form->input("OrderTransaction.amount_paid",array('id'=>'dues_payment','placeholder'=>'Enter amount','type'=>'text','autocomplete'=>'off','required'=>'required','class'=>'form-control input-sm allowOnlyNumber','maxlength'=>'7','label'=>false));?></div>
+                        <div class="col-md-8"><?php echo $this->Form->input("OrderTransaction.comments",array('placeholder'=>'Enter comments','type'=>'text','autocomplete'=>'off','class'=>'form-control input-sm payment-input','label'=>false));?></div>
+                    </div>
+                </div>
+                
+                <div class="">
+                    <div class="">
+                        <div class="col-md-12">
+                            <?php echo $this->Form->button('Make Payment',array('type'=>'submit','id'=>'pay_dues','class'=>'btn btn-rounded btn-primary','style'=>'margin-top: 26px;margin-bottom: 18px;','escape'=>false));?>
+                        </div>
+                    </div>
+                </div>
+                <?php echo $this->Form->end();?>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+	$(document).ready(function() {
+
+        $('.wallet_transaction').click(function(){
+            $('#walletTransaction').modal('show');
+        });
+
+    });	
+      
+</script>

@@ -10,7 +10,6 @@ class WalletsController extends AppController {
         $customerId=$this->Encryption->decode($customerId);
         $this->Wallet->recursive = -1;
         $walletDetails = $this->Wallet->find('all',array('conditions' => array('Wallet.customer_id' => $customerId),'order' => array('Wallet.id' => 'DESC'),'limit' => 20));
-        // pr($Latest);die;
         $this->set(compact('walletDetails','customerId'));
     }
 
@@ -20,7 +19,6 @@ class WalletsController extends AppController {
         $this->autoRender = false;
         $this->Wallet->recursive = -1;
         $walletBal = $this->Wallet->find('first',array('conditions' => array('Wallet.customer_id' =>$customerId),'fields'=>array('balance'),'order' => array('Wallet.id' => 'DESC')));
-        
         if (!empty($walletBal)) {
             $walletMoney = $walletBal['Wallet']['balance'];
         } else {

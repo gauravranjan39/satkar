@@ -27,6 +27,60 @@ class WalletsController extends AppController {
         echo $walletMoney;
     }
 
+    public function wallet_transaction() {
+        $this->layout = false;
+        $this->autoRender = false;
+        if ($this->request->is(array('post','put'))) {
+            $this->Wallet->recursive = -1;
+            $walletBal = $this->Wallet->find('first',array('conditions' => array('Wallet.customer_id' => $this->request->data['Wallet']['customer_id']),'fields'=>array('Wallet.balance'),'order' => array('Wallet.id' => 'DESC')));
+            
+            if (empty($walletBal)) {
+                $walletBal['Wallet']['balance'] = '0.00';
+            } 
+            // pr($this->request->data);die;
+            $transactionType = $this->request->data['Wallet']['transaction_type'];
+            if ($transactionType == 'credit') {
+                unset($this->request->data['Wallet']['transaction_type']);
+                $this->request->data['Wallet']['credit'] = $this->request->data['Wallet']['amount_paid'];
+                $this->request->data['Wallet']['balance'] = $this->request->data['Wallet']['amount_paid'] + $walletBal['Wallet']['balance'];
+                if (!empty($this->request->data['Wallet']['cheque_bank_name'])) {
+                    $this->request->data['Wallet']['bank_name'] = $this->request->data['Wallet']['cheque_bank_name'];
+                }
+                if (!empty($this->request->data['Wallet']['bank_name'])) {
+                    $this->request->data['Wallet']['bank_name'] = $this->request->data['Wallet']['bank_name'];
+                }
+                if (!empty($this->request->data['Wallet']['cheque_transaction_date'])) {
+                    $this->request->data['Wallet']['transaction_date'] = $this->request->data['Wallet']['cheque_transaction_date'];
+                }
+                if (!empty($this->request->data['Wallet']['transaction_date'])) {
+                    $this->request->data['Wallet']['transaction_date'] = $this->request->data['Wallet']['transaction_date'];
+                }
+                $this->Wallet->create();
+                $this->Wallet->save($this->request->data);
+                echo '1';
+            } else {
+                unset($this->request->data['Wallet']['transaction_type']);
+                $this->request->data['Wallet']['debit'] = $this->request->data['Wallet']['amount_paid'];
+                $this->request->data['Wallet']['balance'] = ($walletBal['Wallet']['balance'] - $this->request->data['Wallet']['amount_paid']);
+                if (!empty($this->request->data['Wallet']['cheque_bank_name'])) {
+                    $this->request->data['Wallet']['bank_name'] = $this->request->data['Wallet']['cheque_bank_name'];
+                }
+                if (!empty($this->request->data['Wallet']['bank_name'])) {
+                    $this->request->data['Wallet']['bank_name'] = $this->request->data['Wallet']['bank_name'];
+                }
+                if (!empty($this->request->data['Wallet']['cheque_transaction_date'])) {
+                    $this->request->data['Wallet']['transaction_date'] = $this->request->data['Wallet']['cheque_transaction_date'];
+                }
+                if (!empty($this->request->data['Wallet']['transaction_date'])) {
+                    $this->request->data['Wallet']['transaction_date'] = $this->request->data['Wallet']['transaction_date'];
+                }
+                $this->Wallet->create();
+                $this->Wallet->save($this->request->data);
+                echo '1';
+            }
+        }
+    }
+
 }
 
 ?>

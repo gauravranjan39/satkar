@@ -63,8 +63,8 @@
             </div>
             
             <div class="modal-body" style="padding-top:0px !important;">
-                <?php echo $this->Form->create('Wallet',array('url'=> array('controller' => 'Wallets', 'action' => 'wallet_transaction'),'method'=>'POST')); ?>
-                <?php //echo $this->Form->input('OrderTransaction.customer_id',array('type'=>'hidden','value'=>$orderDetails['Order']['customer_id'])); ?>
+                <?php echo $this->Form->create('Wallet',array('url'=> array('controller' => 'Wallets', 'action' => 'wallet_transaction'),'id'=>'walletMoneyTransaction','method'=>'POST')); ?>
+                <?php echo $this->Form->input('Wallet.customer_id',array('type'=>'hidden','value'=>$customerId)); ?>
                 
 
                 <div class="form-group col-md-12">
@@ -146,6 +146,12 @@
 
         $('#WalletTransactionType').change(function(){
             var transactionType = $(this).val();
+            $("#WalletType").val('cash');
+            $('.metal_payment').hide();
+            $('.cheque_payment').hide();
+            $('.card_net_banking_payment').hide();
+            $('#dues_payment').val('');
+            $('#WalletComments').val('');
             if (transactionType == 'debit') {
                 $("#WalletType option[value='metal']").remove();
             } else {
@@ -175,7 +181,7 @@
                 $('.metal_payment').show();
                 $('.cheque_payment').hide();
                 $('.card_net_banking_payment').hide();
-                $('#OrderTransactionMetalType').val('');
+                $('#WalletMetalType').val('');
                 $('#WalletItem').attr('required', 'required');
                 $('#WalletMetalType').attr('required', 'required');
                 $('#WalletWeight').attr('required', 'required');
@@ -194,23 +200,39 @@
                 $('.cheque_payment').hide();
                 $('.card_net_banking_payment').show();
                 $('#card_net_banking_bank_name').attr('required', 'required');
-                $('#card_net_banking_transaction_id').attr('required', 'required');
+                //$('#card_net_banking_transaction_id').attr('required', 'required');
                 $('#card_net_banking_transaction_date').attr('required', 'required');
             } else if (transactionType == 'credit-card') {
                 $('.metal_payment').hide();
                 $('.cheque_payment').hide();
                 $('.card_net_banking_payment').show();
                 $('#card_net_banking_bank_name').attr('required', 'required');
-                $('#card_net_banking_transaction_id').attr('required', 'required');
+                //$('#card_net_banking_transaction_id').attr('required', 'required');
                 $('#card_net_banking_transaction_date').attr('required', 'required');
             } else if (transactionType == 'debit-card') {
                 $('.metal_payment').hide();
                 $('.cheque_payment').hide();
                 $('.card_net_banking_payment').show();
                 $('#card_net_banking_bank_name').attr('required', 'required');
-                $('#card_net_banking_transaction_id').attr('required', 'required');
+                //$('#card_net_banking_transaction_id').attr('required', 'required');
                 $('#card_net_banking_transaction_date').attr('required', 'required');
             }
+        });
+
+        $('#walletMoneyTransaction').submit(function(event){
+            event.preventDefault();
+            $.ajax({
+                url:"<?php echo Router::url(array('controller'=>'Wallets','action'=>'wallet_transaction'));?>",
+                type: 'POST',
+                data: $('#walletMoneyTransaction').serialize(),
+                success:function(data){
+                    if (data == 1) {
+                        location.reload();
+                    } else {
+                        alert('Error Occured!!');
+                    }
+                }
+            });
         });
 
     });	

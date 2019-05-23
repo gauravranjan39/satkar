@@ -1,3 +1,5 @@
+<?php echo $this->Html->css('bootstrap-datetimepicker.min');?>
+<?php echo $this->Html->script('bootstrap-datetimepicker.min');?>
 <div class="be-content">
         <div class="main-content container-fluid">
             <div class="row">
@@ -68,7 +70,7 @@
                 <div class="form-group col-md-12">
                     <div class="col-md-3"><b>Transaction:</b></div>
                     <div class="col-md-9">
-                        <?php echo $this->Form->input("Wallet.type",array('type'=>'select','options'=>array('credit'=>'Credit','debit'=>'Debit'),'required'=>'required','class'=>'form-control input-sm','label'=>false));?>
+                        <?php echo $this->Form->input("Wallet.transaction_type",array('type'=>'select','options'=>array('credit'=>'Credit','debit'=>'Debit'),'required'=>'required','class'=>'form-control input-sm','label'=>false));?>
                     </div>
                 </div>
                 
@@ -76,47 +78,47 @@
                 <div class="form-group col-md-12">
                     <div class="col-md-3"><b>Payment:</b></div>
                     <div class="col-md-9">
-                        <?php echo $this->Form->input("OrderTransaction.type",array('type'=>'select','options'=>array('cash'=>'Cash','metal'=>'Metal','cheque'=>'Cheque','net-banking'=>'Net-Banking','credit-card'=>'Credit Card','debit-card'=>'Debit Card'),'placeholder'=>'Enter category','required'=>'required','class'=>'form-control input-sm','label'=>false));?>
+                        <?php echo $this->Form->input("Wallet.type",array('type'=>'select','options'=>array('cash'=>'Cash','metal'=>'Metal','cheque'=>'Cheque','net-banking'=>'Net-Banking','credit-card'=>'Credit Card','debit-card'=>'Debit Card'),'placeholder'=>'Enter category','required'=>'required','class'=>'form-control input-sm','label'=>false));?>
                     </div>
                 </div>
 
                 <div class="row metal_payment" style="display:none;">
                     <div class="form-group col-md-12">
-                        <div class="col-md-4"><?php echo $this->Form->input("OrderTransaction.item",array('placeholder'=>'Enter items','type'=>'text','autocomplete'=>'off','class'=>'form-control input-sm payment-input','label'=>false));?></div>
-                        <div class="col-md-2"><?php echo $this->Form->input("OrderTransaction.metal_type",array('type'=>'select','options'=>array('gold'=>'Gold','silver'=>'Silver','others'=>'Others'),'empty'=>'--Select--','class'=>'form-control input-sm','label'=>false));?></div>
-                        <div class="col-md-2"><?php echo $this->Form->input("OrderTransaction.weight",array('placeholder'=>'Enter weight','type'=>'text','autocomplete'=>'off','class'=>'form-control input-sm allowOnlyNumber payment-input','label'=>false));?></div>
-                        <div class="col-md-2"><?php echo $this->Form->input("OrderTransaction.return_percentage",array('placeholder'=>'Enter return %','type'=>'text','autocomplete'=>'off','class'=>'form-control input-sm allowOnlyNumber payment-input','label'=>false));?></div>
-                        <div class="col-md-2"><?php echo $this->Form->input("OrderTransaction.rate",array('placeholder'=>'Enter Rate','type'=>'text','autocomplete'=>'off','class'=>'form-control input-sm allowOnlyNumber payment-input','label'=>false));?></div>
+                        <div class="col-md-4"><?php echo $this->Form->input("Wallet.item",array('placeholder'=>'Enter items','type'=>'text','autocomplete'=>'off','class'=>'form-control input-sm payment-input','label'=>false));?></div>
+                        <div class="col-md-2"><?php echo $this->Form->input("Wallet.metal_type",array('type'=>'select','options'=>array('gold'=>'Gold','silver'=>'Silver','others'=>'Others'),'empty'=>'--Select--','class'=>'form-control input-sm','label'=>false));?></div>
+                        <div class="col-md-2"><?php echo $this->Form->input("Wallet.weight",array('placeholder'=>'Enter weight','type'=>'text','autocomplete'=>'off','class'=>'form-control input-sm allowOnlyNumber payment-input','label'=>false));?></div>
+                        <div class="col-md-2"><?php echo $this->Form->input("Wallet.return_percentage",array('placeholder'=>'Enter return %','type'=>'text','autocomplete'=>'off','class'=>'form-control input-sm allowOnlyNumber payment-input','label'=>false));?></div>
+                        <div class="col-md-2"><?php echo $this->Form->input("Wallet.rate",array('placeholder'=>'Enter Rate','type'=>'text','autocomplete'=>'off','class'=>'form-control input-sm allowOnlyNumber payment-input','label'=>false));?></div>
                     </div>
                 </div>
 
                 <div class="row cheque_payment" style="display:none;">
                     <div class="form-group col-md-12">
-                        <div class="col-md-4"><?php echo $this->Form->input("OrderTransaction.cheque_number",array('placeholder'=>'Enter cheque number','type'=>'text','autocomplete'=>'off','class'=>'form-control input-sm payment-input','label'=>false));?></div>
-                        <div class="col-md-4"><?php echo $this->Form->input("OrderTransaction.cheque_bank_name",array('placeholder'=>'Enter Bank Name','id'=>'cheque_bank_name','type'=>'text','autocomplete'=>'off','class'=>'form-control input-sm payment-input','label'=>false));?></div>
-                        <div class="col-md-4"><?php echo $this->Form->input("OrderTransaction.cheque_transaction_date",array('placeholder'=>'Select Transaction Date','id'=>'cheque_transaction_date','readonly'=>'readonly','type'=>'text','autocomplete'=>'off','class'=>'form-control input-sm datetimepicker payment-input','label'=>false));?></div>
+                        <div class="col-md-4"><?php echo $this->Form->input("Wallet.cheque_number",array('placeholder'=>'Enter cheque number','type'=>'text','autocomplete'=>'off','class'=>'form-control input-sm payment-input','label'=>false));?></div>
+                        <div class="col-md-4"><?php echo $this->Form->input("Wallet.cheque_bank_name",array('placeholder'=>'Enter Bank Name','id'=>'cheque_bank_name','type'=>'text','autocomplete'=>'off','class'=>'form-control input-sm payment-input','label'=>false));?></div>
+                        <div class="col-md-4"><?php echo $this->Form->input("Wallet.cheque_transaction_date",array('placeholder'=>'Select Transaction Date','id'=>'cheque_transaction_date','type'=>'text','autocomplete'=>'off','class'=>'form-control input-sm datetimepicker payment-input','label'=>false));?></div>
                     </div>
                 </div>
 
                 <div class="row card_net_banking_payment" style="display:none;">
                     <div class="form-group col-md-12">
-                        <div class="col-md-4"><?php echo $this->Form->input("OrderTransaction.bank_name",array('placeholder'=>'Enter Bank Name','id'=>'card_net_banking_bank_name','type'=>'text','autocomplete'=>'off','class'=>'form-control input-sm payment-input','label'=>false));?></div>
-                        <div class="col-md-4"><?php echo $this->Form->input("OrderTransaction.payment_transaction_id",array('placeholder'=>'Enter Transaction Id','id'=>'card_net_banking_transaction_id','type'=>'text','autocomplete'=>'off','class'=>'form-control input-sm payment-input','label'=>false));?></div>
-                        <div class="col-md-4"><?php echo $this->Form->input("OrderTransaction.transaction_date",array('placeholder'=>'Select Transaction Date','id'=>'card_net_banking_transaction_date','readonly'=>'readonly','type'=>'text','autocomplete'=>'off','class'=>'form-control input-sm datetimepicker payment-input','label'=>false));?></div>
+                        <div class="col-md-4"><?php echo $this->Form->input("Wallet.bank_name",array('placeholder'=>'Enter Bank Name','id'=>'card_net_banking_bank_name','type'=>'text','autocomplete'=>'off','class'=>'form-control input-sm payment-input','label'=>false));?></div>
+                        <div class="col-md-4"><?php echo $this->Form->input("Wallet.payment_transaction_id",array('placeholder'=>'Enter Transaction Id','id'=>'card_net_banking_transaction_id','type'=>'text','autocomplete'=>'off','class'=>'form-control input-sm payment-input','label'=>false));?></div>
+                        <div class="col-md-4"><?php echo $this->Form->input("Wallet.transaction_date",array('placeholder'=>'Select Transaction Date','id'=>'card_net_banking_transaction_date','type'=>'text','autocomplete'=>'off','class'=>'form-control input-sm datetimepicker payment-input','label'=>false));?></div>
                     </div>
                 </div>
 
                 <div class="row cash_payment">
                     <div class="form-group col-md-12">
-                        <div class="col-md-4"><?php echo $this->Form->input("OrderTransaction.amount_paid",array('id'=>'dues_payment','placeholder'=>'Enter amount','type'=>'text','autocomplete'=>'off','required'=>'required','class'=>'form-control input-sm allowOnlyNumber','maxlength'=>'7','label'=>false));?></div>
-                        <div class="col-md-8"><?php echo $this->Form->input("OrderTransaction.comments",array('placeholder'=>'Enter comments','type'=>'text','autocomplete'=>'off','class'=>'form-control input-sm payment-input','label'=>false));?></div>
+                        <div class="col-md-4"><?php echo $this->Form->input("Wallet.amount_paid",array('id'=>'dues_payment','placeholder'=>'Enter amount','type'=>'text','autocomplete'=>'off','required'=>'required','class'=>'form-control input-sm allowOnlyNumber','maxlength'=>'7','label'=>false));?></div>
+                        <div class="col-md-8"><?php echo $this->Form->input("Wallet.comments",array('placeholder'=>'Enter comments','type'=>'text','autocomplete'=>'off','class'=>'form-control input-sm payment-input','label'=>false));?></div>
                     </div>
                 </div>
                 
                 <div class="">
                     <div class="">
                         <div class="col-md-12">
-                            <?php echo $this->Form->button('Make Payment',array('type'=>'submit','id'=>'pay_dues','class'=>'btn btn-rounded btn-primary','style'=>'margin-top: 26px;margin-bottom: 18px;','escape'=>false));?>
+                            <?php echo $this->Form->button('Make Payment',array('type'=>'submit','class'=>'btn btn-rounded btn-primary','style'=>'margin-top: 26px;margin-bottom: 18px;','escape'=>false));?>
                         </div>
                     </div>
                 </div>
@@ -129,9 +131,86 @@
 <script type="text/javascript">
 
 	$(document).ready(function() {
+        $(".datetimepicker").datetimepicker({
+            autoclose: true,
+            componentIcon: '.mdi.mdi-calendar',
+            navIcons:{
+                rightIcon: 'mdi mdi-chevron-right',
+                leftIcon: 'mdi mdi-chevron-left'
+            }
+        });
 
         $('.wallet_transaction').click(function(){
             $('#walletTransaction').modal('show');
+        });
+
+        $('#WalletTransactionType').change(function(){
+            var transactionType = $(this).val();
+            if (transactionType == 'debit') {
+                $("#WalletType option[value='metal']").remove();
+            } else {
+                $("#WalletType").append('<option value="metal">Metal</option>');
+            }
+        });
+
+        $('.datetimepicker').keypress(function(){
+            return false;
+        });
+
+        $('#WalletType').change(function(){
+            $('#dues_payment').val('');
+            $('.input-sm').removeAttr('required');
+            $('#dues_payment').attr('required', 'required');
+            $('.wallet_bal').hide();
+            $('#dues_payment').removeAttr('readonly',false);
+            $('.payment-input').val('');
+            $('#pay_dues').attr("disabled", false);
+            var transactionType = $(this).val();
+            if (transactionType == 'cash') {
+                $('.metal_payment').hide();
+                $('.cheque_payment').hide();
+                $('.card_net_banking_payment').hide();
+                
+            } else if (transactionType == 'metal') {
+                $('.metal_payment').show();
+                $('.cheque_payment').hide();
+                $('.card_net_banking_payment').hide();
+                $('#OrderTransactionMetalType').val('');
+                $('#WalletItem').attr('required', 'required');
+                $('#WalletMetalType').attr('required', 'required');
+                $('#WalletWeight').attr('required', 'required');
+                $('#WalletReturnPercentage').attr('required', 'required');
+                $('#WalletRate').attr('required', 'required');
+                
+            } else if (transactionType == 'cheque') {
+                $('.metal_payment').hide();
+                $('.cheque_payment').show();
+                $('.card_net_banking_payment').hide();
+                $('#WalletChequeNumber').attr('required', 'required');
+                $('#cheque_bank_name').attr('required', 'required');
+                $('#cheque_transaction_date').attr('required', 'required');
+            } else if (transactionType == 'net-banking') {
+                $('.metal_payment').hide();
+                $('.cheque_payment').hide();
+                $('.card_net_banking_payment').show();
+                $('#card_net_banking_bank_name').attr('required', 'required');
+                $('#card_net_banking_transaction_id').attr('required', 'required');
+                $('#card_net_banking_transaction_date').attr('required', 'required');
+            } else if (transactionType == 'credit-card') {
+                $('.metal_payment').hide();
+                $('.cheque_payment').hide();
+                $('.card_net_banking_payment').show();
+                $('#card_net_banking_bank_name').attr('required', 'required');
+                $('#card_net_banking_transaction_id').attr('required', 'required');
+                $('#card_net_banking_transaction_date').attr('required', 'required');
+            } else if (transactionType == 'debit-card') {
+                $('.metal_payment').hide();
+                $('.cheque_payment').hide();
+                $('.card_net_banking_payment').show();
+                $('#card_net_banking_bank_name').attr('required', 'required');
+                $('#card_net_banking_transaction_id').attr('required', 'required');
+                $('#card_net_banking_transaction_date').attr('required', 'required');
+            }
         });
 
     });	

@@ -103,7 +103,7 @@ class OrdersController extends AppController {
         $this->loadModel('OrderItem');
         $this->loadModel('Customer');
         $this->loadModel('OrderTransaction');
-        $orderId=$this->Encryption->decode($orderId);
+        $orderId = $this->Encryption->decode($orderId);
         $this->Order->recursive = 2;
         $this->Customer->recursive = -1;
         $this->Order->unbindModel(array('belongsTo' => array('Customer'),'hasMany'=>array('Wallet')),true);
@@ -278,11 +278,18 @@ class OrdersController extends AppController {
         $pdf->Output($filename.".pdf", "I");
     }
 
-    public function cancel_order($orderId=null) {
+    public function cancel_order($orderId=null,$orderItemsIds=null) {
         $this->autoRender = false;
         $this->layout = false;
         $this->loadModel('Order');
         $this->loadModel('OrderItem');
+        $this->OrderItem->recursive = -1;
+        $orderItemDetails = $this->OrderItem->find('list',array('conditions'=>array('OrderItem.order_id'=>$orderId,'OrderItem.status'=>0),'fields'=>array('id','grand_total')));
+        pr($orderItemDetails);die;
+        
+        
+        
+        
         $this->OrderItem->updateAll(array('OrderItem.status' =>1),array('OrderItem.order_id'=>$orderId));
         $this->Order->updateAll(array('Order.status' =>2),array('Order.id'=>$orderId));
         echo "1";

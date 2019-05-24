@@ -50,29 +50,22 @@
             </div>
         </div>
         <?php
-            echo $this->Paginator->counter(array(
-            'format' => __('Page {:page} of {:pages}, showing {:current} records out of {:count} total')
-            ));
+            // echo $this->Paginator->counter(array(
+            // 'format' => __('Page {:page} of {:pages}, showing {:current} records out of {:count} total')
+            // ));
         ?>	
         <nav>
-            <ul class="pagination">
-                <li>
+            <center>
+                <ul class="pagination">
+                    <li>
                     <?php
-                        echo $this->Paginator->prev(' Prev ',array('tag'=>'li'),null, array('class' => 'disabled','aria-label'=>'Previous','tag'=>'li'));
-                        echo $this->Paginator->numbers(array('separator' => '','tag'=>'li'),null, array('class' => 'disabled','tag'=>'li'));
-                        echo $this->Paginator->next( ' Next ',array('tag'=>'li'),null, array('class' => 'disabled','tag'=>'li','aria-label'=>'Next'));
+                        echo $this->Paginator->prev('< ' . __('previous'), array(), null, array('class' => 'prev disabled'));
+                        echo $this->Paginator->numbers(array('separator' => ''));
+                        echo $this->Paginator->next(__('next') . ' >', array(), null, array('class' => 'next disabled'));
                     ?>
-                </li>
-                <!-- <li><a href="#" aria-label="Previous"><span aria-hidden="true" class="mdi mdi-chevron-left"></span></a></li>
-                <li><a href="#">1</a></li>
-                <li class="active"><a href="#">2</a></li>
-                <li><a href="#">3</a></li>
-                <li><a href="#">4</a></li>
-                <li><a href="#">5</a></li>
-                <li><a href="#">6</a></li>
-                <li><a href="#">7</a></li>
-                <li><a href="#" aria-label="Next"><span aria-hidden="true" class="mdi mdi-chevron-right"></span></a></li> -->
-            </ul>
+                    </li>
+                </ul>
+            </center>
         </nav>
     </div>
 </div>

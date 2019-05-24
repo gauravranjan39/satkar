@@ -69,8 +69,9 @@
 					
                     <?php
                         $confirmItem = array();
-                        // $activeItemTotal = 0;
+                        // $orderItemId = array();
                         foreach ($orderDetails['OrderItem'] as $orderDetail) {
+                            // array_push($orderItemId,$orderDetail['id']);
                             if($orderDetail['status'] == 1) {
                                 $statusClass = 'text-danger';
                             } else {
@@ -541,6 +542,8 @@
 
         $('#cancel_order').click(function(){
             var orderId = '<?php echo $orderDetails['Order']['id']; ?>';
+            // var orderItemsIds = '<?php //echo implode(",",$orderItemId);?>';
+            // alert(orderItemsIds);return false;
             if (confirm('Are you sure to cancel this order ?')) {
                 $.ajax({
                     url:"<?php echo Router::url(array('controller'=>'Orders','action'=>'cancel_order'));?>/" + orderId,

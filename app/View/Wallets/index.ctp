@@ -82,6 +82,18 @@
                     </div>
                 </div>
 
+                <div class="form-group col-md-12" id="wallent_money" style="display:none;">
+                    <div class="col-md-3"><b>Wallet Money:</b></div>
+                    <?php 
+                        if (!empty($walletDetails)){
+                            $walletBalance = $walletDetails[0]['Wallet']['balance'];
+                        } else {
+                            $walletBalance = '0.00';
+                        }
+                    ?>
+                    <div class="col-md-9">&#8377;<?php echo number_format($walletBalance,2); ?></div>
+                </div>
+
                 <div class="row metal_payment" style="display:none;">
                     <div class="form-group col-md-12">
                         <div class="col-md-4"><?php echo $this->Form->input("Wallet.item",array('placeholder'=>'Enter items','type'=>'text','autocomplete'=>'off','class'=>'form-control input-sm payment-input','label'=>false));?></div>
@@ -118,7 +130,7 @@
                 <div class="">
                     <div class="">
                         <div class="col-md-12">
-                            <?php echo $this->Form->button('Make Payment',array('type'=>'submit','class'=>'btn btn-rounded btn-primary','style'=>'margin-top: 26px;margin-bottom: 18px;','escape'=>false));?>
+                            <?php echo $this->Form->button('Make Payment',array('type'=>'submit','id'=>'walletSubmitButton','class'=>'btn btn-rounded btn-primary','style'=>'margin-top: 26px;margin-bottom: 18px;','escape'=>false));?>
                         </div>
                     </div>
                 </div>
@@ -152,10 +164,20 @@
             $('.card_net_banking_payment').hide();
             $('#dues_payment').val('');
             $('#WalletComments').val('');
+            var walletBal = parseFloat('<?php echo $walletBalance;?>');
             if (transactionType == 'debit') {
+                $('#wallent_money').show();
                 $("#WalletType option[value='metal']").remove();
+                if (walletBal) {
+                } else {
+                    $('#dues_payment').attr("readonly", true);
+                    $('#walletSubmitButton').attr("disabled", true);
+                }
             } else {
+                $('#wallent_money').hide();
                 $("#WalletType").append('<option value="metal">Metal</option>');
+                $('#dues_payment').attr("readonly", false);
+                $('#walletSubmitButton').attr("disabled", false);
             }
         });
 
@@ -218,6 +240,15 @@
                 $('#card_net_banking_transaction_date').attr('required', 'required');
             }
         });
+
+        $('#dues_payment').keyup(function(){
+            var walletBal = parseFloat('<?php echo $walletBalance;?>');
+            var payment = $(this).val();
+            if (parseFloat(payment) > parseFloat(walletBal)) {
+                alert('Amount should be less than wallet balance.');
+                $(this).val('');
+            }
+		});
 
         $('#walletMoneyTransaction').submit(function(event){
             event.preventDefault();

@@ -37,7 +37,7 @@ class WalletsController extends AppController {
             if (empty($walletBal)) {
                 $walletBal['Wallet']['balance'] = '0.00';
             } 
-            // pr($this->request->data);die;
+            
             $transactionType = $this->request->data['Wallet']['transaction_type'];
             if ($transactionType == 'credit') {
                 unset($this->request->data['Wallet']['transaction_type']);
@@ -55,10 +55,14 @@ class WalletsController extends AppController {
                 if (!empty($this->request->data['Wallet']['transaction_date'])) {
                     $this->request->data['Wallet']['transaction_date'] = $this->request->data['Wallet']['transaction_date'];
                 }
+                if (empty($this->request->data['Wallet']['transaction_date']) && empty($this->request->data['Wallet']['cheque_transaction_date'])) {
+                    $this->request->data['Wallet']['transaction_date'] = date('Y-m-d H:i:s');
+                }
                 $this->Wallet->create();
                 $this->Wallet->save($this->request->data);
                 echo '1';
             } else {
+                // pr($this->request->data);die;
                 unset($this->request->data['Wallet']['transaction_type']);
                 $this->request->data['Wallet']['debit'] = $this->request->data['Wallet']['amount_paid'];
                 $this->request->data['Wallet']['balance'] = ($walletBal['Wallet']['balance'] - $this->request->data['Wallet']['amount_paid']);
@@ -73,6 +77,9 @@ class WalletsController extends AppController {
                 }
                 if (!empty($this->request->data['Wallet']['transaction_date'])) {
                     $this->request->data['Wallet']['transaction_date'] = $this->request->data['Wallet']['transaction_date'];
+                }
+                if (empty($this->request->data['Wallet']['transaction_date']) && empty($this->request->data['Wallet']['cheque_transaction_date'])) {
+                    $this->request->data['Wallet']['transaction_date'] = date('Y-m-d H:i:s');
                 }
                 $this->Wallet->create();
                 $this->Wallet->save($this->request->data);

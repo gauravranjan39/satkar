@@ -542,11 +542,13 @@
 
         $('#cancel_order').click(function(){
             var orderId = '<?php echo $orderDetails['Order']['id']; ?>';
-            // var orderItemsIds = '<?php //echo implode(",",$orderItemId);?>';
-            // alert(orderItemsIds);return false;
+            var dues = parseFloat('<?php echo $dues ?>');
+            var payment = parseFloat('<?php echo $payment ?>');
+            // alert('dues is->'+ dues);
+            // alert('payment is->'+ payment);return false;
             if (confirm('Are you sure to cancel this order ?')) {
                 $.ajax({
-                    url:"<?php echo Router::url(array('controller'=>'Orders','action'=>'cancel_order'));?>/" + orderId,
+                    url:"<?php echo Router::url(array('controller'=>'Orders','action'=>'cancel_order'));?>/" + orderId + '/' + dues + '/' + payment,
                     success:function(data){
                         if (data == 1) {
                             location.reload();

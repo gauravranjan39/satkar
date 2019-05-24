@@ -278,14 +278,27 @@ class OrdersController extends AppController {
         $pdf->Output($filename.".pdf", "I");
     }
 
-    public function cancel_order($orderId=null,$orderItemsIds=null) {
+    public function cancel_order($orderId=null,$dues=null,$payment=null) {
         $this->autoRender = false;
         $this->layout = false;
         $this->loadModel('Order');
         $this->loadModel('OrderItem');
         $this->OrderItem->recursive = -1;
         $orderItemDetails = $this->OrderItem->find('list',array('conditions'=>array('OrderItem.order_id'=>$orderId,'OrderItem.status'=>0),'fields'=>array('id','grand_total')));
+        //$orderItemId = array_flip($orderItemDetails);
         pr($orderItemDetails);die;
+
+        $payment = 0;
+        foreach ($orderDetails['OrderTransaction'] as $orderTransaction) {
+            $payment+= $orderTransaction['amount_paid'];
+        }
+        echo number_format($payment,2); 
+
+        if (empty($dues)) {
+            
+        } else {
+            echo 'pending';
+        }
         
         
         

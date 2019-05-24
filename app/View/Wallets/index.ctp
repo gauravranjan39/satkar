@@ -30,15 +30,15 @@
                                 <tr>
                                     <td><?php echo $walletDetail['Wallet']['type']; ?></td>
                                     <?php if (!empty($walletDetail['Wallet']['credit'])) { ?>
-                                        <td>&#8377;<?php echo $walletDetail['Wallet']['credit']; ?></td>
+                                        <td>&#8377;<?php echo number_format($walletDetail['Wallet']['credit'],2); ?></td>
                                     <?php } else { ?>
                                         <td></td>
                                     <?php } if (!empty($walletDetail['Wallet']['debit'])) { ?>
-                                        <td>&#8377;<?php echo $walletDetail['Wallet']['debit']; ?></td>
+                                        <td>&#8377;<?php echo number_format($walletDetail['Wallet']['debit'],2); ?></td>
                                     <?php } else { ?>
                                         <td></td>
                                     <?php } ?>
-                                    <td>&#8377;<?php echo $walletDetail['Wallet']['balance']; ?></td>
+                                    <td>&#8377;<?php echo number_format($walletDetail['Wallet']['balance'],2); ?></td>
                                     <td><?php echo date('d-M-Y', strtotime($walletDetail['Wallet']['transaction_date'])); ?></td>
                                     <td></td>
                                 </tr>

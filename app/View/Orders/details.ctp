@@ -544,11 +544,12 @@
             var orderId = '<?php echo $orderDetails['Order']['id']; ?>';
             var dues = parseFloat('<?php echo $dues ?>');
             var payment = parseFloat('<?php echo $payment ?>');
+            var customerId = '<?php echo $orderDetails['Order']['customer_id']; ?>';
             // alert('dues is->'+ dues);
             // alert('payment is->'+ payment);return false;
             if (confirm('Are you sure to cancel this order ?')) {
                 $.ajax({
-                    url:"<?php echo Router::url(array('controller'=>'Orders','action'=>'cancel_order'));?>/" + orderId + '/' + dues + '/' + payment,
+                    url:"<?php echo Router::url(array('controller'=>'Orders','action'=>'cancel_order'));?>/" + orderId + '/' + dues + '/' + payment + '/' + customerId,
                     success:function(data){
                         if (data == 1) {
                             location.reload();

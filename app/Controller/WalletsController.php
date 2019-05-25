@@ -12,7 +12,7 @@ class WalletsController extends AppController {
         //$walletDetails = $this->Wallet->find('all',array('conditions' => array('Wallet.customer_id' => $customerId),'order' => array('Wallet.id' => 'DESC'),'limit' => 20));
         $this->set(compact('walletDetails','customerId'));
 
-        $this->Paginator->settings = array('conditions' =>  array('Wallet.customer_id' => $customerId),'order'=>'Wallet.id DESC','limit'=>3);
+        $this->Paginator->settings = array('conditions' =>  array('Wallet.customer_id' => $customerId),'order'=>'Wallet.id DESC','limit'=>10);
         $this->set('walletDetails', $this->Paginator->paginate());
     }
 

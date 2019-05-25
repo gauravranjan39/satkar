@@ -278,34 +278,55 @@ class OrdersController extends AppController {
         $pdf->Output($filename.".pdf", "I");
     }
 
-    public function cancel_order($orderId=null,$dues=null,$payment=null) {
+    public function cancel_order($orderId=null,$dues=null,$payment=null,$customerId=null) {
         $this->autoRender = false;
         $this->layout = false;
         $this->loadModel('Order');
         $this->loadModel('OrderItem');
+        $this->loadModel('Wallet');
         $this->OrderItem->recursive = -1;
         $orderItemDetails = $this->OrderItem->find('list',array('conditions'=>array('OrderItem.order_id'=>$orderId,'OrderItem.status'=>0),'fields'=>array('id','grand_total')));
-        //$orderItemId = array_flip($orderItemDetails);
-        pr($orderItemDetails);die;
-
-        $payment = 0;
-        foreach ($orderDetails['OrderTransaction'] as $orderTransaction) {
-            $payment+= $orderTransaction['amount_paid'];
+        
+        $this->Wallet->recursive = -1;
+        $Latest = $this->Wallet->find('first',array('conditions' => array('Wallet.customer_id' => $customerId),'fields'=>array('Wallet.balance'),'order' => array('Wallet.id' => 'DESC')));
+        if (empty($Latest)) {
+            $Latest['Wallet']['balance'] = '0.00';
         }
-        echo number_format($payment,2); 
-
-        if (empty($dues)) {
-            
-        } else {
-            echo 'pending';
+        //comma seperated order items id
+        $orderItemId = array_keys($orderItemDetails);
+        $orderItemIds = implode(",",$orderItemId);
+        //item grand total
+        $itemTotal = 0;
+        foreach ($orderItemDetails as $orderItemDetail) {
+            $itemTotal+= $orderItemDetail;
         }
-        
-        
-        
+        $itemsGrandTotal = round($itemTotal);
         
         $this->OrderItem->updateAll(array('OrderItem.status' =>1),array('OrderItem.order_id'=>$orderId));
         $this->Order->updateAll(array('Order.status' =>2),array('Order.id'=>$orderId));
-        echo "1";
+        
+        if (empty($dues)) {
+            //credit item total amt in wallet
+            $walletData['Wallet']['customer_id'] = $customerId;
+            $walletData['Wallet']['order_id'] = $orderId;
+            $walletData['Wallet']['order_item_id'] = $orderItemIds;
+            $walletData['Wallet']['type'] = 'cancel-order';
+            $walletData['Wallet']['credit'] = $itemsGrandTotal;
+            $walletData['Wallet']['balance'] = $Latest['Wallet']['balance'] + $itemsGrandTotal;
+            $this->Wallet->create();
+            $this->Wallet->save($walletData);
+            echo "1";
+        } else {
+            $walletData['Wallet']['customer_id'] = $customerId;
+            $walletData['Wallet']['order_id'] = $orderId;
+            $walletData['Wallet']['order_item_id'] = $orderItemIds;
+            $walletData['Wallet']['type'] = 'cancel-order';
+            $walletData['Wallet']['credit'] = $payment;
+            $walletData['Wallet']['balance'] = $Latest['Wallet']['balance'] + $payment;
+            $this->Wallet->create();
+            $this->Wallet->save($walletData);
+            echo "1";
+        }
     }
 
     public function cancel_order_item($orderId=null,$orderItemId=null,$confirmItemCount=null,$customerId=null,$itemGrandTotal=null,$orderGrandTotal=null,$orderPayment=null,$dues=null) {

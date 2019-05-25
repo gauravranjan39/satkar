@@ -264,9 +264,12 @@
         $('#dues_payment').keyup(function(){
             var walletBal = parseFloat('<?php echo $walletBalance;?>');
             var payment = $(this).val();
-            if (parseFloat(payment) > parseFloat(walletBal)) {
-                alert('Amount should be less than wallet balance.');
-                $(this).val('');
+            var transactionType = $('#WalletTransactionType').val();
+            if (transactionType == 'debit') {
+                if (parseFloat(payment) > parseFloat(walletBal)) {
+                    alert('Amount should be less than wallet balance.');
+                    $(this).val('');
+                }
             }
 		});
 

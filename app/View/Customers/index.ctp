@@ -34,7 +34,7 @@
 						<?php if(isset($customerList['c1']['reference_id']) && !empty($customerList['c1']['reference_id'])) { ?>
 							<td><?php echo $customerList['c2']['name']; ?></td>
 						<?php } else { ?>
-							<td>NA</td>
+							<td></td>
 						<?php } ?>
 						<td class="center"><?php if($customerList['c1']['status'] == 1) {
 							echo $this->Html->link($this->Html->image('circle_green.png',array('alt'=>'active', 'class'=>'status','value'=>$customerList['c1']['id'] )),'javascript:void(0)', array('escape' => false));

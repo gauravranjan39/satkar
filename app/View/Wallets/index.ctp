@@ -173,6 +173,14 @@
         });
 
         $('.wallet_transaction').click(function(){
+            $('#WalletTransactionType').val('credit');
+            $('#WalletType').val('cash');
+            $('#wallent_money').hide();
+            $('.metal_payment').hide();
+            $('.cheque_payment').hide();
+            $('.card_net_banking_payment').hide();
+            $("#WalletType option[value='metal']").remove();
+            $("#WalletType").append('<option value="metal">Metal</option>');
             $('#walletTransaction').modal('show');
         });
 

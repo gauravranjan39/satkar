@@ -91,7 +91,11 @@
                             $dues = ($orderList['Order']['grand_total'] - $sum);
                         ?>
                         <td class="cell-detail"><span>&#8377;<?php echo number_format($sum,2); ?></span></td>
-                        <td class="cell-detail"><span>&#8377;<?php echo number_format($dues,2); ?></span></td>
+                        <?php if ($orderList['Order']['status'] == 2 || $orderList['Order']['status'] == 1) { ?>
+                            <td></td>
+                        <?php } else { ?>
+                            <td class="cell-detail"><span>&#8377;<?php echo number_format($dues,2); ?></span></td>
+                        <?php } ?>
                         <td class="<?php echo $orderStatusClass ?>"><?php echo $status; ?></td>
                         <td><?php echo date('d-M-Y', strtotime($orderList['Order']['created'])); ?></td>
                         <?php if ($orderList['Order']['payment_status'] == 1) { ?>

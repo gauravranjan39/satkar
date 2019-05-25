@@ -301,9 +301,10 @@ class OrdersController extends AppController {
             $itemTotal+= $orderItemDetail;
         }
         $itemsGrandTotal = round($itemTotal);
+        $this->OrderItem->updateAll(array('OrderItem.status' =>1,'Order.status' =>2,'Order.grand_total'=>'0.00'),array('OrderItem.order_id'=>$orderId));
         
-        $this->OrderItem->updateAll(array('OrderItem.status' =>1),array('OrderItem.order_id'=>$orderId));
-        $this->Order->updateAll(array('Order.status' =>2),array('Order.id'=>$orderId));
+        // $this->OrderItem->updateAll(array('OrderItem.status' =>1),array('OrderItem.order_id'=>$orderId));
+        // $this->Order->updateAll(array('Order.status' =>2),array('Order.id'=>$orderId));
         
         if (empty($dues)) {
             //credit item total amt in wallet

@@ -19,6 +19,20 @@
                     <?php echo $this->Form->input("Customer.mobile",array('type'=>'text','max'=>10,'placeholder'=>'Enter Mobile Number','required'=>'required','class'=>'form-control input-sm','label'=>false));?>
                     <span style="color:red;" id="customerMobileAjaxMsg"></span>
                 </div>
+
+                <div class="form-group input-group xs-mb-15">
+                    <label>Reference</label>
+                    <?php echo $this->Form->input("Customer.mobile",array('type'=>'text','div'=>false,'max'=>10,'placeholder'=>'Enter Mobile Number','required'=>'required','class'=>'form-control input-sm','label'=>false));?>
+                    <div class="input-group-btn">
+                        <button type="button" data-toggle="dropdown" class="btn btn-primary dropdown-toggle" style="height:37px;top:13px;" aria-expanded="false">Action <span class="caret"></span></button>
+                        <ul class="dropdown-menu pull-right">
+                            <li><a href="#">Mobile</a></li>
+                            <li><a href="#">Name</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+
 				<div class="form-group">
                     <label>Email</label>
                     <?php echo $this->Form->input("Customer.email",array('type'=>'email','placeholder'=>'Enter Email','class'=>'form-control input-sm','label'=>false));?>

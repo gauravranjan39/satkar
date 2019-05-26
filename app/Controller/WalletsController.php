@@ -44,11 +44,9 @@ class WalletsController extends AppController {
         }
         $criteria = $this->isClickedOnSearch($criteria);
         
-        /* Verifies whether any search key exist in the URL */
         if (!empty($this->params->params['named']['criteria'])) {
             $criteria = $this->params->params['named']['criteria'];
         } else if (!empty($this->request->data['criteria'])) {
-            /* For normal search operation */
             $criteria = $this->request->data['criteria'];
         }
         
@@ -117,7 +115,6 @@ class WalletsController extends AppController {
                 $this->Wallet->save($this->request->data);
                 echo '1';
             } else {
-                // pr($this->request->data);die;
                 unset($this->request->data['Wallet']['transaction_type']);
                 $this->request->data['Wallet']['debit'] = $this->request->data['Wallet']['amount_paid'];
                 $this->request->data['Wallet']['balance'] = ($walletBal['Wallet']['balance'] - $this->request->data['Wallet']['amount_paid']);

@@ -1,7 +1,8 @@
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.min.js"></script>
 <?php echo $this->Html->css('bootstrap-datetimepicker.min');?>
 <?php echo $this->Html->script('bootstrap-datetimepicker.min');?>
-<div class="be-content">
-        <div class="main-content container-fluid">
+<div class="be-content" id="cust-wallet">
+      <div class="main-content container-fluid">
             <div class="row">
                 <div class="col-sm-12">
                     <div class="panel panel-default panel-table">
@@ -59,7 +60,8 @@
                                     <?php } ?>
                                     <td>&#8377;<?php echo number_format($walletDetail['Wallet']['balance'],2); ?></td>
                                     <td><?php echo date('d-M-Y', strtotime($walletDetail['Wallet']['transaction_date'])); ?></td>
-                                    <td><i class="mdi mdi-eye payment_details" title="View Details" style="font-size: 16px;cursor: pointer;" payment-details="<?php echo json_encode($walletDetail);?>"></i></td>
+                                    <td>
+                                    <i class="mdi mdi-eye" title="View Details" style="font-size: 16px;cursor: pointer;" @click='openPopUp(<?php echo json_encode($walletDetail)?>)'></i></td>
                                 </tr>
                                 <?php } ?>
                             </tbody>
@@ -88,12 +90,7 @@
             </center>
         </nav>
     </div>
-</div>
-
-
-
-
-<div class="modal animated fadeIn" id="walletTransaction" tabindex="-1" role="dialog" aria-labelledby="smallModalHead" aria-hidden="true">
+    <div class="modal animated fadeIn" id="walletTransaction" tabindex="-1" role="dialog" aria-labelledby="smallModalHead" aria-hidden="true">
     <div class="modal-dialog modal-lg" style="top:5%;">
         <!-- Modal content-->
         <div class="modal-content">
@@ -182,6 +179,8 @@
 
 
 <div class="modal animated fadeIn" id="PaymentDetails" tabindex="-1" role="dialog" aria-labelledby="smallModalHead" aria-hidden="true">
+
+                            
     <div class="modal-dialog modal-lg" style="top:6%;">
         <!-- Modal content-->
         <div class="modal-content">
@@ -191,24 +190,64 @@
             </div>
             
             <div class="modal-body" style="padding-top:0px !important;">
-                <div class="form-group col-md-12">
-                    <div class="col-md-3"><b>Order ID:</b></div>
-                    <div class="col-md-9"><?php echo $orderDetails['Order']['order_number']; ?></div>
+            <div class="form-group col-md-12" v-if="PaymentDetails.type">
+                    <div class="col-md-3"><b>Payment Type:</b></div>
+                    <div class="col-md-9">{{PaymentDetails.type}}</div>
+                </div>
+
+                <div class="form-group col-md-12" v-if="PaymentDetails.order_number">
+                    <div class="col-md-3"><b>Order Number:</b></div>
+                    <div class="col-md-9"><a target="_blank" href="/satkar/Orders/details/6vKiJ2Gm_mgL5QtZBveeIy3DkZ7ztdTsqlH9la7YGdU">{{PaymentDetails.order_number}}</a></div>
+                </div>
+
+                <div class="form-group col-md-12" v-if="PaymentDetails.metal_type">
+                    <div class="col-md-3"><b>Metal:</b></div>
+                    <div class="col-md-9">{{PaymentDetails.metal_type}}</div>
+                </div>
+
+                <div class="form-group col-md-12" v-if="PaymentDetails.item">
+                    <div class="col-md-3"><b>Item:</b></div>
+                    <div class="col-md-9">{{PaymentDetails.item}}</div>
+                </div>
+
+                <div class="form-group col-md-12" v-if="PaymentDetails.weight">
+                    <div class="col-md-3"><b>Weight:</b></div>
+                    <div class="col-md-9">{{PaymentDetails.weight}}gm</div>
+                </div>
+
+                <div class="form-group col-md-12" v-if="PaymentDetails.rate">
+                    <div class="col-md-3"><b>Rate:</b></div>
+                    <div class="col-md-9">&#8377;{{PaymentDetails.rate}}</div>
+                </div>
+
+                <div class="form-group col-md-12" v-if="PaymentDetails.return_percentage">
+                    <div class="col-md-3"><b>Return %:</b></div>
+                    <div class="col-md-9">{{PaymentDetails.return_percentage}}%</div>
                 </div>
                 
-                <div class="form-group col-md-12">
-                    <div class="col-md-3"><b>Grand Total:</b></div>
-                    <div class="col-md-9">&#8377;<?php echo number_format($orderDetails['Order']['grand_total'],2); ?></div>
+                <div class="form-group col-md-12" v-if="PaymentDetails.cheque_number">
+                    <div class="col-md-3"><b>Cheque Number:</b></div>
+                    <div class="col-md-9">{{PaymentDetails.cheque_number}}</div>
                 </div>
 
-                <div class="form-group col-md-12">
-                    <div class="col-md-3"><b>Paid:</b></div>
-                    <div class="col-md-9">&#8377;<?php echo number_format($payment,2); ?></div>
+                <div class="form-group col-md-12" v-if="PaymentDetails.bank_name">
+                    <div class="col-md-3"><b>Bank Name:</b></div>
+                    <div class="col-md-9">{{PaymentDetails.bank_name}}</div>
                 </div>
 
-                <div class="form-group col-md-12">
-                    <div class="col-md-3"><b>Dues:</b></div>
-                    <div class="col-md-9"><span class="text-danger">&#8377;<?php echo number_format($dues,2); ?></span></div>
+                <div class="form-group col-md-12" v-if="PaymentDetails.payment_transaction_id">
+                    <div class="col-md-3"><b>Transaction Id:</b></div>
+                    <div class="col-md-9">{{PaymentDetails.payment_transaction_id}}</div>
+                </div>
+
+                <div class="form-group col-md-12" v-if="PaymentDetails.transaction_date">
+                    <div class="col-md-3"><b>Transaction Date:</b></div>
+                    <div class="col-md-9">{{PaymentDetails.transaction_date}}</div>
+                </div>
+
+                <div class="form-group col-md-12" v-if="PaymentDetails.comments">
+                    <div class="col-md-3"><b>Comments:</b></div>
+                    <div class="col-md-9">{{PaymentDetails.comments}}</div>
                 </div>
                 
                 
@@ -224,8 +263,32 @@
         </div>
     </div>
 </div>
+</div>
+
+
+
+
+
 
 <script type="text/javascript">
+
+                        
+
+    new Vue({
+        data(){
+            return {
+                PaymentDetails: {}
+            }      
+        },
+        el: '#cust-wallet',
+        methods: {
+            openPopUp: function(payment) {
+                this.PaymentDetails = payment.Wallet;
+                $('#PaymentDetails').modal();
+                console.log(payment.Wallet);
+            }
+        }
+    })
 
 	$(document).ready(function() {
         $(".datetimepicker").datetimepicker({
@@ -239,8 +302,8 @@
 
         $('.payment_details').click(function(){
             $('#PaymentDetails').modal();
-            var details = $(this).attr('payment-details');
-            console.log(details);
+            var details = JSON.parse($(this).attr('jjf'));
+            console.log(details.Wallet.customer_id);
         });
 
         $('.wallet_transaction').click(function(){

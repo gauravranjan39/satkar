@@ -51,12 +51,9 @@
 									<li><?php echo $this->Html->link('Add Ledger', array('controller' => 'Orders','action' => 'add',$encodedCustomerId),array('class'=>''));?></li>
 									<li><?php echo $this->Html->link('Orders', array('controller' => 'Orders','action' => 'index'),array('class'=>''));?></li>
 									<li><?php echo $this->Html->link('Passbook', array('controller' => 'Wallets','action' => 'index',$encodedCustomerId),array('class'=>''));?></li>
+									<!-- <li><?php //echo $this->Html->link('Passbook', array('controller' => 'Wallets','action' => 'index','?'  => array('custId' =>$encodedCustomerId)),array('class'=>''));?></li> -->
 								</ul>
 							</div>
-						
-						
-							<?php //echo $this->Html->link('<span class="mdi mdi-edit"></span>',array('controller'=>'Customers','action'=>'edit',$customerList['c1']['id']),array('escape'=>false)); ?>
-							<?php //echo $this->Html->link('<span class="mdi mdi-hospital"></span>',array('controller'=>'Orders','action'=>'add',base64_encode($customerList['c1']['id'])),array('escape'=>false)); ?>
 						</td>
 						</tr>
 					<?php } ?>

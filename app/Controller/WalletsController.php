@@ -7,10 +7,11 @@ class WalletsController extends AppController {
 
     public function index($customerId=null) {
         $this->layout = "my_layout";
+        $Encryption=$this->Encryption;
         $customerId=$this->Encryption->decode($customerId);
         $this->Wallet->recursive = -1;
         //$walletDetails = $this->Wallet->find('all',array('conditions' => array('Wallet.customer_id' => $customerId),'order' => array('Wallet.id' => 'DESC'),'limit' => 20));
-        $this->set(compact('walletDetails','customerId'));
+        $this->set(compact('customerId','Encryption'));
 
         $this->Paginator->settings = array('conditions' =>  array('Wallet.customer_id' => $customerId),'order'=>'Wallet.id DESC','limit'=>10);
         $this->set('walletDetails', $this->Paginator->paginate());

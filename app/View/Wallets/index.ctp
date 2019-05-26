@@ -5,7 +5,8 @@
             <div class="row">
                 <div class="col-sm-12">
                     <div class="panel panel-default panel-table">
-                        <div class="panel-heading">Wallet
+                        <div class="panel-heading">Wallet 
+                            <?php $encodedCustomerId = $Encryption->encode($customerId); ?>
                             <div class="tools">
                                 <!-- <span class="icon mdi mdi-more"></span> -->
                                 <div class="icon-container">
@@ -13,6 +14,24 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="form-group col-md-12">
+                            <?php echo $this->Form->create('Wallet',array('url'=> array('controller' => 'Wallets', 'action' => 'index',$encodedCustomerId),'method'=>'POST')); ?>
+                            <?php //echo $this->Form->input('Wallet.customer_id',array('type'=>'hidden','value'=>$customerId)); ?>
+                            <div class="col-md-4">
+                                <?php echo $this->Form->input("Wallet.start_date",array('placeholder'=>'Enter start date','required'=>'required','class'=>'form-control input-sm date datetimepicker','data-min-view' =>'2','data-date-format'=>'yyyy-mm-dd','autocomplete'=>'off','label'=>false));?>
+                            </div>
+                            
+                            <div class="col-md-4">
+                                <?php echo $this->Form->input("Wallet.end_date",array('placeholder'=>'Enter end date','required'=>'required','class'=>'form-control input-sm date datetimepicker','data-min-view' =>'2','data-date-format'=>'yyyy-mm-dd','autocomplete'=>'off','label'=>false));?>
+                            </div>
+
+                            <div class="col-md-4">
+                                <?php echo $this->Form->button('Search',array('type'=>'submit','id'=>'search_orders','class'=>'btn btn-rounded btn-primary','escape'=>false));?>
+                            </div>
+                            <?php echo $this->Form->end();?>
+                        </div>
+
                     <div class="panel-body">
                         <table class="table table-striped table-hover">
                             <thead>
@@ -50,6 +69,9 @@
             </div>
         </div>
         <?php
+            //$this->Paginator->options['url'] = array('controller' => 'Wallets', 'action' => 'index/'.$encodedCustomerId, '?' => $this->request->query);
+            $this->paginator->options(array('url' => $this->passedArgs)); 
+
             // echo $this->Paginator->counter(array(
             // 'format' => __('Page {:page} of {:pages}, showing {:current} records out of {:count} total')
             // ));

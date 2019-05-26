@@ -14,7 +14,7 @@ $activeClass = 'class="active"';
             <li <?=($controller == 'suppliers')?$activeClass:null?>>
 				<?php echo $this->Html->link('<i class="icon mdi mdi-face"></i><span>Suppliers</span>',array('controller'=>'suppliers','action'=>'index'),array('escape'=>false)); ?>
 			</li>
-			<li <?=($controller == 'customers')?$activeClass:null?>>
+			<li <?=($controller == 'customers' || $controller == 'wallets')?$activeClass:null?>>
 				<?php echo $this->Html->link('<i class="icon mdi mdi-face"></i><span>Customers</span>',array('controller'=>'customers','action'=>'index'),array('escape'=>false)); ?>
 			</li>
 			<li <?=($controller == 'categories')?$activeClass:null?>>

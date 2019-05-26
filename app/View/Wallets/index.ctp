@@ -69,16 +69,10 @@
             </div>
         </div>
         <?php
-            //$this->Paginator->options['url'] = array('controller' => 'Wallets', 'action' => 'index/'.$encodedCustomerId, '?' => $this->request->query);
-            //$this->paginator->options(array('url' => $this->passedArgs)); 
 
             if (!empty($criteria)) {
-                $this->Paginator->options(array(
-                'url' => array($encodedCustomerId .'/'.
-                'criteria' => $criteria
-                )
-                ));
-                }
+                $this->Paginator->options(array('url' => array($encodedCustomerId .'/'. 'criteria' => $criteria)));
+            }
         ?>	
         <nav>
             <center>

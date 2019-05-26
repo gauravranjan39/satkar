@@ -44,16 +44,13 @@ class WalletsController extends AppController {
         }
         $criteria = $this->isClickedOnSearch($criteria);
         
-        
         /* Verifies whether any search key exist in the URL */
         if (!empty($this->params->params['named']['criteria'])) {
             $criteria = $this->params->params['named']['criteria'];
         } else if (!empty($this->request->data['criteria'])) {
-        /* For normal search operation */
-        $criteria = $this->request->data['criteria'];
+            /* For normal search operation */
+            $criteria = $this->request->data['criteria'];
         }
-
-        // pr($criteria);
         
         $conditions = array('Wallet.customer_id' => $customerId);
 
@@ -62,12 +59,11 @@ class WalletsController extends AppController {
             $dateFrom = $criteria['Wallet']['end_date'].' 23:59:59';
             $conditions = array_merge($conditions,array('Wallet.transaction_date BETWEEN ? AND ?'=>array($dateTo,$dateFrom)));  
         }
-        // pr($conditions);die;
+        
         $this->paginate = array('conditions' =>  $conditions,'order'=>'Wallet.id DESC','limit'=>20);
         $walletDetails = $this->Paginator->paginate();
         $this->set('criteria', $criteria);
         $this->set(compact('walletDetails'));
-
         // $this->Paginator->settings = array('conditions' =>  array('Wallet.customer_id' => $customerId),'order'=>'Wallet.id DESC','limit'=>10);
         // $this->set('walletDetails', $this->Paginator->paginate());
     }

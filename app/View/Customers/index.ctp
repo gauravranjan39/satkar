@@ -4,10 +4,8 @@
 		<div class="col-sm-12">
 			<div class="panel panel-default panel-table">
 			<div class="panel-heading">Customers
-				<div class="tools">
-					<!-- <span class="icon mdi mdi-download"></span>
-					<span class="icon mdi mdi-more-vert"></span> -->
-					<?php echo $this->Html->link('<div class="icon"><span class="mdi mdi-account-add"></span></div>',array('controller'=>'Customers','action'=>'add'),array('escape'=>false)); ?>
+				<div class="icon-container" style="text-align: right;padding:0px;">
+					<?php echo $this->Html->link('<div class="icon"><span class="mdi mdi-account-add"></span></div>',array('controller'=>'Customers','action'=>'add'),array('title'=>'Add Customer','escape'=>false)); ?>
 				</div>
 			</div>
 			<div class="panel-body">

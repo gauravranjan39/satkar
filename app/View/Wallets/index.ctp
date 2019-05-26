@@ -14,16 +14,16 @@
                                 </div>
                             </div>
                         </div>
-
+                        <?php //echo 'index page';pr($criteria); ?>
                         <div class="form-group col-md-12">
                             <?php echo $this->Form->create('Wallet',array('url'=> array('controller' => 'Wallets', 'action' => 'index',$encodedCustomerId),'method'=>'POST')); ?>
-                            <?php //echo $this->Form->input('Wallet.customer_id',array('type'=>'hidden','value'=>$customerId)); ?>
+                            <?php echo $this->Form->input('Wallet.customer_id',array('type'=>'hidden','value'=>$encodedCustomerId)); ?>
                             <div class="col-md-4">
-                                <?php echo $this->Form->input("Wallet.start_date",array('placeholder'=>'Enter start date','required'=>'required','class'=>'form-control input-sm date datetimepicker','data-min-view' =>'2','data-date-format'=>'yyyy-mm-dd','autocomplete'=>'off','label'=>false));?>
+                                <?php echo $this->Form->input("Wallet.start_date",array('placeholder'=>'Enter start date','required'=>'required','class'=>'form-control input-sm date datetimepicker','data-min-view' =>'2','data-date-format'=>'yyyy-mm-dd','autocomplete'=>'off','label'=>false,'value'=>isset($criteria['Wallet']['start_date'])? $criteria['Wallet']['start_date']:''));?>
                             </div>
                             
                             <div class="col-md-4">
-                                <?php echo $this->Form->input("Wallet.end_date",array('placeholder'=>'Enter end date','required'=>'required','class'=>'form-control input-sm date datetimepicker','data-min-view' =>'2','data-date-format'=>'yyyy-mm-dd','autocomplete'=>'off','label'=>false));?>
+                                <?php echo $this->Form->input("Wallet.end_date",array('placeholder'=>'Enter end date','required'=>'required','class'=>'form-control input-sm date datetimepicker','data-min-view' =>'2','data-date-format'=>'yyyy-mm-dd','autocomplete'=>'off','label'=>false,'value'=>isset($criteria['Wallet']['end_date'])? $criteria['Wallet']['end_date']:''));?>
                             </div>
 
                             <div class="col-md-4">
@@ -45,7 +45,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                                <?php foreach ($walletDetails as $walletDetail) { ?>
+                                <?php foreach ($walletDetails as $walletDetail) { //pr($walletDetail);?>
                                 <tr>
                                     <td><?php echo $walletDetail['Wallet']['type']; ?></td>
                                     <?php if (!empty($walletDetail['Wallet']['credit'])) { ?>
@@ -59,7 +59,7 @@
                                     <?php } ?>
                                     <td>&#8377;<?php echo number_format($walletDetail['Wallet']['balance'],2); ?></td>
                                     <td><?php echo date('d-M-Y', strtotime($walletDetail['Wallet']['transaction_date'])); ?></td>
-                                    <td></td>
+                                    <td><i class="mdi mdi-eye payment_details" title="View Details" style="font-size: 16px;cursor: pointer;"></i></td>
                                 </tr>
                                 <?php } ?>
                             </tbody>
@@ -70,11 +70,15 @@
         </div>
         <?php
             //$this->Paginator->options['url'] = array('controller' => 'Wallets', 'action' => 'index/'.$encodedCustomerId, '?' => $this->request->query);
-            $this->paginator->options(array('url' => $this->passedArgs)); 
+            //$this->paginator->options(array('url' => $this->passedArgs)); 
 
-            // echo $this->Paginator->counter(array(
-            // 'format' => __('Page {:page} of {:pages}, showing {:current} records out of {:count} total')
-            // ));
+            if (!empty($criteria)) {
+                $this->Paginator->options(array(
+                'url' => array(
+                'criteria' => $criteria
+                )
+                ));
+                }
         ?>	
         <nav>
             <center>
@@ -182,6 +186,51 @@
     </div>
 </div>
 
+
+<div class="modal animated fadeIn" id="PaymentDetails" tabindex="-1" role="dialog" aria-labelledby="smallModalHead" aria-hidden="true">
+    <div class="modal-dialog modal-lg" style="top:6%;">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header" style="text-align: center;">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h3 class="modal-title" style="line-height:1;">Payment Details</h3><hr>
+            </div>
+            
+            <div class="modal-body" style="padding-top:0px !important;">
+                <div class="form-group col-md-12">
+                    <div class="col-md-3"><b>Order ID:</b></div>
+                    <div class="col-md-9"><?php echo $orderDetails['Order']['order_number']; ?></div>
+                </div>
+                
+                <div class="form-group col-md-12">
+                    <div class="col-md-3"><b>Grand Total:</b></div>
+                    <div class="col-md-9">&#8377;<?php echo number_format($orderDetails['Order']['grand_total'],2); ?></div>
+                </div>
+
+                <div class="form-group col-md-12">
+                    <div class="col-md-3"><b>Paid:</b></div>
+                    <div class="col-md-9">&#8377;<?php echo number_format($payment,2); ?></div>
+                </div>
+
+                <div class="form-group col-md-12">
+                    <div class="col-md-3"><b>Dues:</b></div>
+                    <div class="col-md-9"><span class="text-danger">&#8377;<?php echo number_format($dues,2); ?></span></div>
+                </div>
+                
+                
+                <div class="">
+                    <div class="">
+                        <div class="col-md-12">
+                            <?php echo $this->Form->button('Close',array('type'=>'button','class'=>'btn btn-rounded btn-primary','style'=>'margin-top: 26px;margin-bottom: 18px;','escape'=>false));?>
+                        </div>
+                    </div>
+                </div>
+                <?php echo $this->Form->end();?>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script type="text/javascript">
 
 	$(document).ready(function() {
@@ -192,6 +241,10 @@
                 rightIcon: 'mdi mdi-chevron-right',
                 leftIcon: 'mdi mdi-chevron-left'
             }
+        });
+
+        $('.payment_details').click(function(){
+            $('#PaymentDetails').modal();
         });
 
         $('.wallet_transaction').click(function(){

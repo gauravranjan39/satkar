@@ -2,7 +2,33 @@
 
 class WalletsController extends AppController {
     
+    //public $helpers = array('Html', 'Form', 'Session', 'Paginator'); 
     public $components = array('Paginator','Encryption');
+
+    private function redirectToIndexPage($criteria){
+        /* Storing the search value in session, in order to show the search results after redirection. */
+        $enocedCustomerId = $criteria['Wallet']['customer_id'];
+        $customerId=$this->Encryption->decode($enocedCustomerId);
+        $criteria['Wallet']['customer_id'] = $customerId;
+        $this->Session->write('criteria', $criteria);
+        $this->redirect(array(
+        'action' => 'index',$enocedCustomerId
+        ));
+    }
+
+    private function isClickedOnSearch($criteria){
+        /* Verifying search button is clicked and redirecting to first page. */
+        if (isset($this->request->data['Wallet'])) {
+            $this->redirectToIndexPage($criteria);
+        }
+        
+        /* Doing this to show the search results when search happened in other than page 1. */
+        if (!empty($this->Session->read('criteria'))) {
+            $criteria = $this->Session->read('criteria');
+            $this->Session->delete('criteria');
+        }
+        return $criteria;
+    }
 
 
     public function index($customerId=null) {
@@ -10,11 +36,40 @@ class WalletsController extends AppController {
         $Encryption=$this->Encryption;
         $customerId=$this->Encryption->decode($customerId);
         $this->Wallet->recursive = -1;
-        //$walletDetails = $this->Wallet->find('all',array('conditions' => array('Wallet.customer_id' => $customerId),'order' => array('Wallet.id' => 'DESC'),'limit' => 20));
         $this->set(compact('customerId','Encryption'));
+        $criteria = "";
+        
+        if ($this->request->is(array('post','put'))) {
+            $criteria = $this->request->data;
+        }
+        $criteria = $this->isClickedOnSearch($criteria);
+        
+        
+        /* Verifies whether any search key exist in the URL */
+        if (!empty($this->params->params['named']['criteria'])) {
+            $criteria = $this->params->params['named']['criteria'];
+        } else if (!empty($this->request->data['criteria'])) {
+        /* For normal search operation */
+        $criteria = $this->request->data['criteria'];
+        }
 
-        $this->Paginator->settings = array('conditions' =>  array('Wallet.customer_id' => $customerId),'order'=>'Wallet.id DESC','limit'=>10);
-        $this->set('walletDetails', $this->Paginator->paginate());
+        // pr($criteria);
+        
+        $conditions = array('Wallet.customer_id' => $customerId);
+
+        if(!empty($criteria['Wallet']['start_date']) && !empty($criteria['Wallet']['end_date'])) {
+            $dateTo = $criteria['Wallet']['start_date'];
+            $dateFrom = $criteria['Wallet']['end_date'].' 23:59:59';
+            $conditions = array_merge($conditions,array('Wallet.transaction_date BETWEEN ? AND ?'=>array($dateTo,$dateFrom)));  
+        }
+        // pr($conditions);die;
+        $this->paginate = array('conditions' =>  $conditions,'order'=>'Wallet.id DESC','limit'=>10);
+        $walletDetails = $this->Paginator->paginate();
+        $this->set('criteria', $criteria);
+        $this->set(compact('walletDetails'));
+
+        // $this->Paginator->settings = array('conditions' =>  array('Wallet.customer_id' => $customerId),'order'=>'Wallet.id DESC','limit'=>10);
+        // $this->set('walletDetails', $this->Paginator->paginate());
     }
 
 

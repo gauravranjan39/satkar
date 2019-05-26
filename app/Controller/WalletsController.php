@@ -63,7 +63,7 @@ class WalletsController extends AppController {
             $conditions = array_merge($conditions,array('Wallet.transaction_date BETWEEN ? AND ?'=>array($dateTo,$dateFrom)));  
         }
         // pr($conditions);die;
-        $this->paginate = array('conditions' =>  $conditions,'order'=>'Wallet.id DESC','limit'=>10);
+        $this->paginate = array('conditions' =>  $conditions,'order'=>'Wallet.id DESC','limit'=>20);
         $walletDetails = $this->Paginator->paginate();
         $this->set('criteria', $criteria);
         $this->set(compact('walletDetails'));

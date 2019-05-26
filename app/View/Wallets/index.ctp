@@ -19,11 +19,11 @@
                             <?php echo $this->Form->create('Wallet',array('url'=> array('controller' => 'Wallets', 'action' => 'index',$encodedCustomerId),'method'=>'POST')); ?>
                             <?php echo $this->Form->input('Wallet.customer_id',array('type'=>'hidden','value'=>$encodedCustomerId)); ?>
                             <div class="col-md-4">
-                                <?php echo $this->Form->input("Wallet.start_date",array('placeholder'=>'Enter start date','required'=>'required','class'=>'form-control input-sm date datetimepicker','data-min-view' =>'2','data-date-format'=>'yyyy-mm-dd','autocomplete'=>'off','label'=>false,'value'=>isset($criteria['Wallet']['start_date'])? $criteria['Wallet']['start_date']:''));?>
+                                <?php echo $this->Form->input("Wallet.start_date",array('placeholder'=>'Enter start date','class'=>'form-control input-sm date datetimepicker','data-min-view' =>'2','data-date-format'=>'yyyy-mm-dd','autocomplete'=>'off','label'=>false,'value'=>isset($criteria['Wallet']['start_date'])? $criteria['Wallet']['start_date']:''));?>
                             </div>
                             
                             <div class="col-md-4">
-                                <?php echo $this->Form->input("Wallet.end_date",array('placeholder'=>'Enter end date','required'=>'required','class'=>'form-control input-sm date datetimepicker','data-min-view' =>'2','data-date-format'=>'yyyy-mm-dd','autocomplete'=>'off','label'=>false,'value'=>isset($criteria['Wallet']['end_date'])? $criteria['Wallet']['end_date']:''));?>
+                                <?php echo $this->Form->input("Wallet.end_date",array('placeholder'=>'Enter end date','class'=>'form-control input-sm date datetimepicker','data-min-view' =>'2','data-date-format'=>'yyyy-mm-dd','autocomplete'=>'off','label'=>false,'value'=>isset($criteria['Wallet']['end_date'])? $criteria['Wallet']['end_date']:''));?>
                             </div>
 
                             <div class="col-md-4">
@@ -74,7 +74,7 @@
 
             if (!empty($criteria)) {
                 $this->Paginator->options(array(
-                'url' => array(
+                'url' => array($encodedCustomerId .'/'.
                 'criteria' => $criteria
                 )
                 ));

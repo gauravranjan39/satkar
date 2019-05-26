@@ -248,10 +248,12 @@
             </div>
             
             <div class="modal-body" style="padding-top:0px !important;">
+            
                 <?php echo $this->Form->create('OrderTransaction',array('url'=> array('controller' => 'Orders', 'action' => 'pay_dues'),'method'=>'POST')); ?>
                 <?php echo $this->Form->input('OrderTransaction.dues',array('type'=>'hidden','value'=>$dues)); ?>
                 <?php echo $this->Form->input('OrderTransaction.order_id',array('type'=>'hidden','value'=>$orderDetails['Order']['id'])); ?>
                 <?php echo $this->Form->input('OrderTransaction.customer_id',array('type'=>'hidden','value'=>$orderDetails['Order']['customer_id'])); ?>
+                <?php echo $this->Form->input('OrderTransaction.order_number',array('type'=>'hidden','value'=>$orderDetails['Order']['order_number'])); ?>
                 <div class="form-group col-md-12">
                     <div class="col-md-3"><b>Order ID:</b></div>
                     <div class="col-md-9"><?php echo $orderDetails['Order']['order_number']; ?></div>

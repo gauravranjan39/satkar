@@ -131,6 +131,7 @@ class OrdersController extends AppController {
                 $this->Wallet->create();
                 $walletData['Wallet']['customer_id'] = $this->request->data['OrderTransaction']['customer_id'];
                 $walletData['Wallet']['order_id'] = $this->request->data['OrderTransaction']['order_id'];
+                $walletData['Wallet']['order_number'] = $this->request->data['OrderTransaction']['order_number'];
                 $walletData['Wallet']['debit'] = $amountPaid;
                 $walletData['Wallet']['type'] = 'pay-dues';
                 $walletData['Wallet']['balance'] = $remainingBalance;
@@ -138,6 +139,7 @@ class OrdersController extends AppController {
                     unset($this->request->data['OrderTransaction']['dues']);
                     unset($this->request->data['OrderTransaction']['customer_id']);
                     unset($this->request->data['OrderTransaction']['wallet_balance']);
+                    unset($this->request->data['OrderTransaction']['order_number']);
                     $orderId = $this->request->data['OrderTransaction']['order_id'];
                     $invoiceNumber =  rand() .$orderId . time();
                     $this->request->data['OrderTransaction']['invoice_number'] = $invoiceNumber;
@@ -184,6 +186,7 @@ class OrdersController extends AppController {
                         $this->Wallet->create();
                         $walletData['Wallet']['customer_id'] = $customerId;
                         $walletData['Wallet']['order_id'] = $this->request->data['OrderTransaction']['order_id'];
+                        $walletData['Wallet']['order_id'] = $this->request->data['OrderTransaction']['order_number'];
                         if (!empty($this->request->data['OrderTransaction']['item'])) {
                             $walletData['Wallet']['item'] = $this->request->data['OrderTransaction']['item'];
                         }
@@ -245,6 +248,7 @@ class OrdersController extends AppController {
                     unset($this->request->data['OrderTransaction']['dues']);
                     unset($this->request->data['OrderTransaction']['customer_id']);
                     unset($this->request->data['OrderTransaction']['wallet_balance']);
+                    unset($this->request->data['OrderTransaction']['order_number']);
                     $this->OrderTransaction->create();
                     $this->OrderTransaction->save($this->request->data);
                     echo '1';

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 22, 2019 at 09:39 PM
+-- Generation Time: May 26, 2019 at 01:56 PM
 -- Server version: 10.1.34-MariaDB
 -- PHP Version: 5.6.37
 
@@ -21,6 +21,31 @@ SET time_zone = "+00:00";
 --
 -- Database: `satkar`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `books`
+--
+
+CREATE TABLE `books` (
+  `id` int(11) NOT NULL,
+  `name` varchar(200) NOT NULL,
+  `author` varchar(200) NOT NULL,
+  `publisher` varchar(200) NOT NULL,
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `books`
+--
+
+INSERT INTO `books` (`id`, `name`, `author`, `publisher`, `created`) VALUES
+(1, 'weq', 'qweqeq', 'qwewqewq', '2019-05-24 12:39:43'),
+(2, '21e3wqd', 'qwedqwe', 'wqaeq', '2019-05-24 12:39:43'),
+(3, 'wqedf', 'ewrfd', 'w3erfd', '2019-05-24 12:39:52'),
+(4, '3e4rg', '3ewrf', '3werf', '2019-05-24 12:39:52'),
+(5, 'ewrefg', '3erg', '3e4wrgr', '2019-05-24 12:40:28');
 
 -- --------------------------------------------------------
 
@@ -82,7 +107,8 @@ INSERT INTO `customers` (`id`, `name`, `mobile`, `email`, `address`, `reference_
 (5, 'Arya mam', '7882727272', 'aryamam@gmail.com', 'Sherpur', NULL, 1, '2019-05-04 13:55:19'),
 (6, 'Reyaj Khan', '9877263642', '', 'Kamra mohalla', NULL, 1, '2019-05-05 14:06:03'),
 (7, 'Awijit', '9871124352', 'awijitsharma@gmail.com', 'Madnani lane, club road', NULL, 1, '2019-05-06 07:09:15'),
-(8, 'Akash Kumar', '7892635173', 'akashsiwa@gmail.com', 'Rewa Road, Muzaffarpur', NULL, 1, '2019-05-22 14:11:39');
+(8, 'Akash Kumar', '7892635173', 'akashsiwa@gmail.com', 'Rewa Road, Muzaffarpur', NULL, 1, '2019-05-22 14:11:39'),
+(9, 'Rehana khan', '7006423453', '', 'Kamra mohalla', NULL, 1, '2019-05-25 19:35:28');
 
 -- --------------------------------------------------------
 
@@ -110,7 +136,7 @@ CREATE TABLE `orders` (
 
 INSERT INTO `orders` (`id`, `customer_id`, `order_number`, `total`, `discount`, `grand_total`, `status`, `payment_status`, `comments`, `created`, `modified`) VALUES
 (1, 1, 'OD1264621557947014', NULL, NULL, '165423.00', 1, 1, '', '2019-05-15 19:03:34', '0000-00-00 00:00:00'),
-(2, 7, 'OD7317211558009161', NULL, NULL, '150236.00', 1, 1, '', '2019-05-16 12:19:21', '0000-00-00 00:00:00'),
+(2, 7, 'OD7317211558009161', NULL, NULL, '69236.00', 2, 0, '', '2019-05-16 12:19:21', '0000-00-00 00:00:00'),
 (3, 5, 'OD5136021558204269', NULL, NULL, '19300.00', 1, 1, '', '2019-05-18 18:31:09', '0000-00-00 00:00:00'),
 (4, 2, 'OD2231011558204881', NULL, NULL, '2736.00', 1, 0, '', '2019-05-18 18:41:21', '0000-00-00 00:00:00'),
 (6, 6, 'OD6253881558205415', NULL, NULL, '9000.00', 1, 0, '', '2019-05-18 18:50:15', '0000-00-00 00:00:00'),
@@ -118,9 +144,10 @@ INSERT INTO `orders` (`id`, `customer_id`, `order_number`, `total`, `discount`, 
 (8, 5, 'OD5198411558465075', NULL, NULL, '2800.00', 0, 1, '', '2019-05-21 18:57:55', '0000-00-00 00:00:00'),
 (9, 4, 'OD4235941558465497', NULL, NULL, '11100.00', 1, 0, '', '2019-05-21 19:04:57', '0000-00-00 00:00:00'),
 (10, 3, 'OD3174641558466714', NULL, NULL, '45400.00', 1, 1, '', '2019-05-21 19:25:14', '0000-00-00 00:00:00'),
-(14, 8, 'OD8221961558518849', NULL, NULL, '2300.00', 1, 1, '', '2019-05-22 09:54:09', '0000-00-00 00:00:00'),
+(14, 8, 'OD8221961558518849', NULL, NULL, '0.00', 2, 1, '', '2019-05-22 09:54:09', '0000-00-00 00:00:00'),
 (15, 2, 'OD264431558549875', NULL, NULL, '400.00', 1, 0, '', '2019-05-22 18:31:15', '0000-00-00 00:00:00'),
-(16, 2, 'OD2208261558553580', NULL, NULL, '600.00', 1, 0, '', '2019-05-22 19:33:00', '0000-00-00 00:00:00');
+(16, 2, 'OD2208261558553580', NULL, NULL, '600.00', 1, 0, '', '2019-05-22 19:33:00', '0000-00-00 00:00:00'),
+(17, 1, 'OD126481558694566', NULL, NULL, '90968.00', 0, 1, '', '2019-05-24 10:42:46', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -156,10 +183,10 @@ CREATE TABLE `order_items` (
 INSERT INTO `order_items` (`id`, `order_id`, `category_id`, `name`, `weight`, `rate`, `making_charge`, `purity`, `gems_name`, `gems_rate`, `gems_weight`, `gems_price`, `total`, `discount`, `grand_total`, `comments`, `status`, `created`) VALUES
 (1, 1, 2, 'necklace', '43.674', '3200', '450', '', '', '', '', NULL, '159410.10', NULL, '159410.10', '', 0, '2019-05-15 19:03:34'),
 (2, 1, 16, 'necklace', '', '', '', '', '', '', '', NULL, '6012.78', NULL, '6012.78', '', 0, '2019-05-15 19:03:34'),
-(3, 2, 2, 'necklace', '22.500', '3200', '400', '', '', '', '', NULL, '81000.00', NULL, '81000.00', '', 0, '2019-05-16 12:19:21'),
-(4, 2, 2, 'ring', '3.760', '3200', '400', '', '', '', '', NULL, '13536.00', NULL, '13536.00', '', 0, '2019-05-16 12:19:21'),
-(5, 2, 2, 'Chain', '14.630', '3200', '450', '', '', '', '', NULL, '53399.50', NULL, '53399.50', '', 0, '2019-05-16 12:19:21'),
-(6, 2, 16, 'necklace', '', '', '', '', '', '', '', NULL, '2300.00', NULL, '2300.00', '', 0, '2019-05-16 12:19:22'),
+(3, 2, 2, 'necklace', '22.500', '3200', '400', '', '', '', '', NULL, '81000.00', NULL, '81000.00', '', 1, '2019-05-16 12:19:21'),
+(4, 2, 2, 'ring', '3.760', '3200', '400', '', '', '', '', NULL, '13536.00', NULL, '13536.00', '', 1, '2019-05-16 12:19:21'),
+(5, 2, 2, 'Chain', '14.630', '3200', '450', '', '', '', '', NULL, '53399.50', NULL, '53399.50', '', 1, '2019-05-16 12:19:21'),
+(6, 2, 16, 'necklace', '', '', '', '', '', '', '', NULL, '2300.00', NULL, '2300.00', '', 1, '2019-05-16 12:19:22'),
 (7, 3, 2, 'Ring', '4.570', '3200', '450', '', '', '', '', NULL, '16680.50', '80.50', '16600.00', '', 0, '2019-05-18 18:31:09'),
 (8, 3, 16, 'necklace', '', '', '', '', '', '', '', NULL, '2700.00', NULL, '2700.00', '', 0, '2019-05-18 18:31:09'),
 (9, 4, 14, 'payal', '57', '40', '8', '', '', '', '', NULL, '2736.00', NULL, '2736.00', '', 0, '2019-05-18 18:41:21'),
@@ -168,9 +195,15 @@ INSERT INTO `order_items` (`id`, `order_id`, `category_id`, `name`, `weight`, `r
 (13, 8, 16, 'necklace', '', '', '', '', '', '', '', NULL, '2800.00', NULL, '2800.00', '', 0, '2019-05-21 18:57:55'),
 (14, 9, 2, 'Ring', '2.500', '3200', '450', '', 'Topaz', '210', '1.780', '2055.90', '11180.90', '81.00', '11099.90', '', 0, '2019-05-21 19:04:57'),
 (15, 10, 2, 'Earing', '12.500', '3200', '450', '', '', '', '', NULL, '45625.00', '225.00', '45400.00', '', 0, '2019-05-21 19:25:14'),
-(19, 14, 16, 'necklace', '', '', '', '', '', '', '', NULL, '2300.00', NULL, '2300.00', '', 0, '2019-05-22 09:54:10'),
+(19, 14, 16, 'necklace', '', '', '', '', '', '', '', NULL, '2300.00', NULL, '2300.00', '', 1, '2019-05-22 09:54:10'),
 (20, 15, 16, 'Earing', '', '', '', '', '', '', '', NULL, '400.00', NULL, '400.00', '', 0, '2019-05-22 18:31:15'),
-(21, 16, 16, 'Ring', '', '', '', '', '', '', '', NULL, '600.00', NULL, '600.00', '', 0, '2019-05-22 19:33:00');
+(21, 16, 16, 'Ring', '', '', '', '', '', '', '', NULL, '600.00', NULL, '600.00', '', 0, '2019-05-22 19:33:00'),
+(22, 17, 2, 'Ring', '2.500', '3200', '400', '', '', '', '', NULL, '9000.00', NULL, '9000.00', '', 0, '2019-05-24 10:42:46'),
+(23, 17, 14, 'payal', '165', '40', '10', '', '', '', '', NULL, '8250.00', NULL, '8250.00', '', 0, '2019-05-24 10:42:46'),
+(24, 17, 14, 'bichya', '23', '40', '10', '', '', '', '', NULL, '1150.00', NULL, '1150.00', '', 0, '2019-05-24 10:42:46'),
+(25, 17, 14, 'hathsankar', '', '', '', '', '', '', '', NULL, '3200.00', NULL, '3200.00', '', 0, '2019-05-24 10:42:46'),
+(26, 17, 16, 'necklace', '', '', '', '', '', '', '', NULL, '2300.00', NULL, '2300.00', '', 0, '2019-05-24 10:42:46'),
+(27, 17, 2, 'chain', '18.630', '3200', '400', '', '', '', '', NULL, '67068.00', NULL, '67068.00', '', 0, '2019-05-24 10:42:46');
 
 -- --------------------------------------------------------
 
@@ -228,7 +261,11 @@ INSERT INTO `order_transactions` (`id`, `order_id`, `amount_paid`, `invoice_numb
 (43, 15, '100.00', '392151558549876', 'cash', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-05-22 18:31:16', NULL, NULL, NULL, '2019-05-22 18:31:16'),
 (46, 15, '300.00', '8296151558553484', 'wallet', '', '', '', NULL, '', '', '', '0000-00-00 00:00:00', '', '', NULL, '2019-05-22 19:31:24'),
 (47, 16, '100.00', '16267161558553580', 'cash', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-05-22 19:33:00', NULL, NULL, NULL, '2019-05-22 19:33:00'),
-(48, 16, '500.00', '1414161558553596', 'wallet', '', '', '', NULL, '', '', '', '0000-00-00 00:00:00', '', '', NULL, '2019-05-22 19:33:16');
+(48, 16, '500.00', '1414161558553596', 'wallet', '', '', '', NULL, '', '', '', '0000-00-00 00:00:00', '', '', NULL, '2019-05-22 19:33:16'),
+(49, 14, '200.00', '28420141558639010', 'cash', '', '', '', NULL, '', '', '', '0000-00-00 00:00:00', '', '', NULL, '2019-05-23 19:16:50'),
+(50, 17, '11000.00', '14632171558694641', 'cash', '', '', '', NULL, '', '', '', '0000-00-00 00:00:00', '', '', NULL, '2019-05-24 10:44:01'),
+(51, 14, '200.00', '32123141558704182', 'cash', '', '', '', NULL, '', '', '', '0000-00-00 00:00:00', '', '', NULL, '2019-05-24 13:23:02'),
+(52, 17, '15000.00', '26530171558871718', 'wallet', '', '', '', NULL, '', '', '', '0000-00-00 00:00:00', '', '', NULL, '2019-05-26 11:55:18');
 
 -- --------------------------------------------------------
 
@@ -300,6 +337,7 @@ CREATE TABLE `wallets` (
   `id` int(11) NOT NULL,
   `customer_id` int(11) NOT NULL,
   `order_id` int(11) DEFAULT NULL,
+  `order_number` varchar(200) DEFAULT NULL,
   `order_item_id` int(11) DEFAULT NULL,
   `item` varchar(200) DEFAULT NULL,
   `metal_type` varchar(200) DEFAULT NULL,
@@ -310,7 +348,7 @@ CREATE TABLE `wallets` (
   `bank_name` varchar(200) DEFAULT NULL,
   `transaction_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `payment_transaction_id` varchar(200) DEFAULT NULL,
-  `type` enum('pay-dues','cash','metal','cheque','net-banking','credit-card','debit-card') NOT NULL DEFAULT 'cash',
+  `type` enum('pay-dues','cash','metal','cheque','net-banking','credit-card','debit-card','return-item','cancel-order') NOT NULL DEFAULT 'cash',
   `credit` decimal(10,2) DEFAULT NULL,
   `debit` decimal(10,2) DEFAULT NULL,
   `balance` decimal(10,2) DEFAULT NULL,
@@ -324,24 +362,48 @@ CREATE TABLE `wallets` (
 -- Dumping data for table `wallets`
 --
 
-INSERT INTO `wallets` (`id`, `customer_id`, `order_id`, `order_item_id`, `item`, `metal_type`, `weight`, `return_percentage`, `rate`, `cheque_number`, `bank_name`, `transaction_date`, `payment_transaction_id`, `type`, `credit`, `debit`, `balance`, `refund`, `comments`, `status`, `created`) VALUES
-(2, 6, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-05-22 12:50:14', NULL, 'cash', '1000.00', NULL, '1000.00', 0, NULL, 1, '2019-05-20 09:06:36'),
-(3, 6, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-05-22 12:50:14', NULL, 'cash', '3000.00', NULL, '4000.00', 0, NULL, 1, '2019-05-21 07:59:10'),
-(14, 6, 6, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'ICICI', '2019-05-15 09:20:00', '234RFDSASRE', 'net-banking', '3000.00', NULL, '7000.00', 0, '', 1, '2019-05-21 18:30:21'),
-(16, 2, 4, NULL, 'Ring', 'gold', '1.423', '70.00', '2500.00', NULL, NULL, '2019-05-22 12:50:14', NULL, 'metal', '200.00', NULL, '200.00', 0, '', 1, '2019-05-21 18:41:30'),
-(17, 2, 7, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-05-22 12:50:14', NULL, 'pay-dues', NULL, '200.00', '0.00', 0, NULL, 1, '2019-05-21 18:44:49'),
-(18, 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-05-22 12:50:14', NULL, 'cash', '4000.00', NULL, '4000.00', 0, NULL, 1, '2019-05-22 10:57:12'),
-(19, 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '34RDS32', 'HDFC', '2019-05-14 23:51:08', '234RESWWDFR32WED', 'cheque', '200.00', NULL, '4200.00', 0, NULL, 1, '2019-05-22 10:58:23'),
-(20, 2, 7, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-05-22 12:50:14', NULL, 'pay-dues', NULL, '2500.00', '1700.00', 0, NULL, 1, '2019-05-22 12:02:27'),
-(21, 4, 9, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'HDFC', '2019-05-22 12:50:14', '23RESDFR4334R', 'net-banking', '9000.00', NULL, '9000.00', 0, '', 1, '2019-05-16 07:55:00'),
-(22, 8, 14, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-05-22 18:56:53', NULL, 'pay-dues', NULL, NULL, '0.00', 0, NULL, 1, '2019-05-22 18:56:53'),
-(23, 8, 14, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-05-22 18:59:22', NULL, 'pay-dues', NULL, NULL, '0.00', 0, NULL, 1, '2019-05-22 18:59:22'),
-(24, 2, 15, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-05-22 19:31:24', NULL, 'pay-dues', NULL, '300.00', '1400.00', 0, NULL, 1, '2019-05-22 19:31:24'),
-(25, 2, 16, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-05-22 19:33:16', NULL, 'pay-dues', NULL, '500.00', '900.00', 0, NULL, 1, '2019-05-22 19:33:16');
+INSERT INTO `wallets` (`id`, `customer_id`, `order_id`, `order_number`, `order_item_id`, `item`, `metal_type`, `weight`, `return_percentage`, `rate`, `cheque_number`, `bank_name`, `transaction_date`, `payment_transaction_id`, `type`, `credit`, `debit`, `balance`, `refund`, `comments`, `status`, `created`) VALUES
+(2, 6, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-05-22 12:50:14', NULL, 'cash', '1000.00', NULL, '1000.00', 0, NULL, 1, '2019-05-20 09:06:36'),
+(3, 6, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-05-22 12:50:14', NULL, 'cash', '3000.00', NULL, '4000.00', 0, NULL, 1, '2019-05-21 07:59:10'),
+(14, 6, 6, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'ICICI', '2019-05-15 09:20:00', '234RFDSASRE', 'net-banking', '3000.00', NULL, '7000.00', 0, '', 1, '2019-05-21 18:30:21'),
+(16, 2, 4, NULL, NULL, 'Ring', 'gold', '1.423', '70.00', '2500.00', NULL, NULL, '2019-05-22 12:50:14', NULL, 'metal', '200.00', NULL, '200.00', 0, '', 1, '2019-05-21 18:41:30'),
+(17, 2, 7, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-05-22 12:50:14', NULL, 'pay-dues', NULL, '200.00', '0.00', 0, NULL, 1, '2019-05-21 18:44:49'),
+(18, 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-05-22 12:50:14', NULL, 'cash', '4000.00', NULL, '4000.00', 0, NULL, 1, '2019-05-22 10:57:12'),
+(19, 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '34RDS32', 'HDFC', '2019-05-14 23:51:08', '234RESWWDFR32WED', 'cheque', '200.00', NULL, '4200.00', 0, NULL, 1, '2019-05-22 10:58:23'),
+(20, 2, 7, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-05-22 12:50:14', NULL, 'pay-dues', NULL, '2500.00', '1700.00', 0, NULL, 1, '2019-05-22 12:02:27'),
+(21, 4, 9, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'HDFC', '2019-05-22 12:50:14', '23RESDFR4334R', 'net-banking', '9000.00', NULL, '9000.00', 0, '', 1, '2019-05-16 07:55:00'),
+(24, 2, 15, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-05-22 19:31:24', NULL, 'pay-dues', NULL, '300.00', '1400.00', 0, NULL, 1, '2019-05-22 19:31:24'),
+(25, 2, 16, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-05-22 19:33:16', NULL, 'pay-dues', NULL, '500.00', '900.00', 0, NULL, 1, '2019-05-22 19:33:16'),
+(27, 8, NULL, NULL, NULL, '', '', '', NULL, NULL, '', '', '2019-05-23 19:01:29', '', 'cash', '17000.00', NULL, '17000.00', 0, 'Advance for Gold chain and ring', 1, '2019-05-23 19:01:29'),
+(29, 8, NULL, NULL, NULL, '', '', '', NULL, NULL, '56YFT78', 'ICICI', '2019-05-09 03:30:00', '', 'cheque', '7000.00', NULL, '24000.00', 0, '', 1, '2019-05-23 19:07:53'),
+(30, 8, NULL, NULL, NULL, '', '', '', NULL, NULL, '', 'HDFC', '2019-05-11 05:30:00', 'U7HVGHUY7I789', 'credit-card', '11000.00', NULL, '35000.00', 0, '', 1, '2019-05-23 19:08:25'),
+(31, 8, NULL, NULL, NULL, '', '', '', NULL, NULL, '', '', '2019-04-30 18:30:00', '', 'cash', NULL, '5000.00', '30000.00', 0, '', 1, '2019-05-23 19:11:16'),
+(32, 7, 2, NULL, 3, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-05-23 19:20:22', NULL, 'cash', '42764.00', NULL, '42764.00', 0, NULL, 1, '2019-05-23 19:20:22'),
+(33, 8, NULL, NULL, NULL, '', '', '', NULL, NULL, '43WER432', 'HDFC', '2019-05-02 09:48:00', '', 'cheque', '16000.00', NULL, '46000.00', 0, '', 1, '2019-05-24 05:30:34'),
+(34, 8, NULL, NULL, NULL, '', '', '', NULL, NULL, '', '', '2019-05-01 09:43:00', '', 'cash', NULL, '6000.00', '40000.00', 0, '', 1, '2019-05-24 05:30:51'),
+(35, 8, NULL, NULL, NULL, '', '', '', NULL, NULL, '', '', '2019-04-30 22:47:00', '', 'cash', NULL, '1000.00', '39000.00', 0, '', 1, '2019-05-24 05:36:22'),
+(36, 8, NULL, NULL, NULL, '', '', '', NULL, NULL, '543ERTG', 'HDFC', '2019-04-30 20:40:00', '', 'cheque', NULL, '1000.00', '38000.00', 0, '', 1, '2019-05-24 05:36:50'),
+(37, 8, NULL, NULL, NULL, '', '', '', NULL, NULL, '', '', '2019-04-30 22:44:00', '', 'cash', '5000.00', NULL, '43000.00', 0, '', 1, '2019-05-24 05:38:52'),
+(38, 8, NULL, NULL, NULL, '', '', '', NULL, NULL, '', '', '2019-05-24 05:39:16', '', 'cash', '2000.00', NULL, '45000.00', 0, '', 1, '2019-05-24 05:39:16'),
+(39, 8, NULL, NULL, NULL, '', '', '', NULL, NULL, '', 'HDFC', '2019-05-20 12:55:00', '5432WEFGT43R', 'net-banking', '3000.00', NULL, '48000.00', 0, '', 1, '2019-05-24 05:39:53'),
+(40, 8, NULL, NULL, NULL, '', '', '', NULL, NULL, '', 'CBI', '2019-05-22 09:10:00', '678UHGFR5678', 'net-banking', NULL, '5000.00', '43000.00', 0, '', 1, '2019-05-24 05:40:14'),
+(41, 8, NULL, NULL, NULL, '', '', '', NULL, NULL, '', '', '2019-05-24 13:10:38', '', 'cash', '100.00', NULL, '43100.00', 0, '', 1, '2019-05-24 13:10:38'),
+(42, 8, NULL, NULL, NULL, '', '', '', NULL, NULL, '', '', '2019-05-24 13:11:21', '', 'cash', NULL, '200.00', '42900.00', 0, '', 1, '2019-05-24 13:11:21'),
+(44, 7, 2, NULL, 4, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-05-25 12:38:00', NULL, 'cancel-order', '69236.00', NULL, '112000.00', 0, NULL, 1, '2019-05-25 12:38:00'),
+(46, 8, 14, NULL, 19, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-05-25 13:29:54', NULL, 'cancel-order', '1800.00', NULL, '44700.00', 0, NULL, 1, '2019-05-25 13:29:54'),
+(47, 7, NULL, NULL, NULL, '', '', '', NULL, NULL, '34RED234R', 'HDFC', '2019-05-20 09:00:00', '', 'cheque', '15000.00', NULL, '127000.00', 0, 'Advance payment for necklace', 1, '2019-05-26 08:45:19'),
+(48, 1, NULL, NULL, NULL, '', '', '', NULL, NULL, '', '', '2019-05-26 11:51:20', '', 'cash', '15000.00', NULL, '15000.00', 0, '', 1, '2019-05-26 11:51:20'),
+(49, 1, 17, 'OD126481558694566', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-05-26 11:55:18', NULL, 'pay-dues', NULL, '15000.00', '0.00', 0, NULL, 1, '2019-05-26 11:55:18');
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `books`
+--
+ALTER TABLE `books`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `categories`
@@ -397,6 +459,12 @@ ALTER TABLE `wallets`
 --
 
 --
+-- AUTO_INCREMENT for table `books`
+--
+ALTER TABLE `books`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
@@ -406,25 +474,25 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT for table `customers`
 --
 ALTER TABLE `customers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT for table `order_transactions`
 --
 ALTER TABLE `order_transactions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
 
 --
 -- AUTO_INCREMENT for table `suppliers`
@@ -442,7 +510,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `wallets`
 --
 ALTER TABLE `wallets`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

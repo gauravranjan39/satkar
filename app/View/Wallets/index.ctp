@@ -59,7 +59,7 @@
                                     <?php } ?>
                                     <td>&#8377;<?php echo number_format($walletDetail['Wallet']['balance'],2); ?></td>
                                     <td><?php echo date('d-M-Y', strtotime($walletDetail['Wallet']['transaction_date'])); ?></td>
-                                    <td><i class="mdi mdi-eye payment_details" title="View Details" style="font-size: 16px;cursor: pointer;"></i></td>
+                                    <td><i class="mdi mdi-eye payment_details" title="View Details" style="font-size: 16px;cursor: pointer;" payment-details="<?php echo json_encode($walletDetail);?>"></i></td>
                                 </tr>
                                 <?php } ?>
                             </tbody>
@@ -245,6 +245,8 @@
 
         $('.payment_details').click(function(){
             $('#PaymentDetails').modal();
+            var details = $(this).attr('payment-details');
+            console.log(details);
         });
 
         $('.wallet_transaction').click(function(){

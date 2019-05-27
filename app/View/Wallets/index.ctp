@@ -250,6 +250,21 @@
                     <div class="col-md-9">{{PaymentDetails.transaction_date}}</div>
                 </div>
 
+                <div class="form-group col-md-12" v-if="PaymentDetails.credit">
+                    <div class="col-md-3"><b>Credit:</b></div>
+                    <div class="col-md-9">&#8377;{{ formatPrice(PaymentDetails.credit) }}</div>
+                </div>
+
+                <div class="form-group col-md-12" v-if="PaymentDetails.debit">
+                    <div class="col-md-3"><b>Debit:</b></div>
+                    <div class="col-md-9">&#8377;{{ formatPrice(PaymentDetails.debit) }}</div>
+                </div>
+
+                <div class="form-group col-md-12" v-if="PaymentDetails.balance">
+                    <div class="col-md-3"><b>Balance:</b></div>
+                    <div class="col-md-9">&#8377;{{ formatPrice(PaymentDetails.balance) }}</div>
+                </div>
+
                 <div class="form-group col-md-12" v-if="PaymentDetails.comments">
                     <div class="col-md-3"><b>Comments:</b></div>
                     <div class="col-md-9">{{PaymentDetails.comments}}</div>
@@ -281,6 +296,10 @@
         },
         el: '#cust-wallet',
         methods: {
+            formatPrice(value) {
+                let val = (value/1).toFixed(2)
+                return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+            },
             openPopUp: function(payment) {
                 this.PaymentDetails = payment.Wallet;
                 $('#PaymentDetails').modal();

@@ -404,7 +404,6 @@
                     success:function(data){
                         if (data == 1) {
                             location.reload();
-                            // window.location.href='<?php //echo $this->webroot?>Orders/index';
                         } else {
                             alert('Error Occured!!');
                         }
@@ -552,6 +551,7 @@
 
         $('#cancel_order').click(function(){
             var orderId = '<?php echo $orderDetails['Order']['id']; ?>';
+            var orderNumber = '<?php echo $orderDetails['Order']['order_number']; ?>';
             var dues = parseFloat('<?php echo $dues ?>');
             var payment = parseFloat('<?php echo $payment ?>');
             var customerId = '<?php echo $orderDetails['Order']['customer_id']; ?>';
@@ -559,7 +559,7 @@
             // alert('payment is->'+ payment);return false;
             if (confirm('Are you sure to cancel this order ?')) {
                 $.ajax({
-                    url:"<?php echo Router::url(array('controller'=>'Orders','action'=>'cancel_order'));?>/" + orderId + '/' + dues + '/' + payment + '/' + customerId,
+                    url:"<?php echo Router::url(array('controller'=>'Orders','action'=>'cancel_order'));?>/" + orderId + '/' + dues + '/' + payment + '/' + customerId + '/' + orderNumber,
                     success:function(data){
                         if (data == 1) {
                             location.reload();

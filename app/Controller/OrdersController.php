@@ -282,7 +282,7 @@ class OrdersController extends AppController {
         $pdf->Output($filename.".pdf", "I");
     }
 
-    public function cancel_order($orderId=null,$dues=null,$payment=null,$customerId=null) {
+    public function cancel_order($orderId=null,$dues=null,$payment=null,$customerId=null,$orderNumber=null) {
         $this->autoRender = false;
         $this->layout = false;
         $this->loadModel('Order');
@@ -315,6 +315,7 @@ class OrdersController extends AppController {
             $walletData['Wallet']['customer_id'] = $customerId;
             $walletData['Wallet']['order_id'] = $orderId;
             $walletData['Wallet']['order_item_id'] = $orderItemIds;
+            $walletData['Wallet']['order_number'] = $orderNumber;
             $walletData['Wallet']['type'] = 'cancel-order';
             $walletData['Wallet']['credit'] = $itemsGrandTotal;
             $walletData['Wallet']['balance'] = $Latest['Wallet']['balance'] + $itemsGrandTotal;
@@ -325,6 +326,7 @@ class OrdersController extends AppController {
             $walletData['Wallet']['customer_id'] = $customerId;
             $walletData['Wallet']['order_id'] = $orderId;
             $walletData['Wallet']['order_item_id'] = $orderItemIds;
+            $walletData['Wallet']['order_number'] = $orderNumber;
             $walletData['Wallet']['type'] = 'cancel-order';
             $walletData['Wallet']['credit'] = $payment;
             $walletData['Wallet']['balance'] = $Latest['Wallet']['balance'] + $payment;

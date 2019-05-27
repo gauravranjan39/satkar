@@ -91,7 +91,7 @@
                             $dues = ($orderList['Order']['grand_total'] - $sum);
                         ?>
                         <td class="cell-detail"><span>&#8377;<?php echo number_format($sum,2); ?></span></td>
-                        <?php if ($orderList['Order']['status'] == 2 || $orderList['Order']['status'] == 1) { ?>
+                        <?php if ($orderList['Order']['status'] == 2 || $orderList['Order']['payment_status'] == 0) { ?>
                             <td></td>
                         <?php } else { ?>
                             <td class="cell-detail"><span>&#8377;<?php echo number_format($dues,2); ?></span></td>
@@ -108,7 +108,7 @@
                             <div class="btn-group btn-hspace">
                                 <button type="button" data-toggle="dropdown" class="btn btn-default dropdown-toggle" aria-expanded="false">Open <span class="icon-dropdown mdi mdi-chevron-down"></span></button>
                                 <ul role="menu" class="dropdown-menu pull-right">
-                                    <li><a href="#">Payment</a></li>
+                                    <!-- <li><a href="#">Payment</a></li> -->
                                     <?php $encodedOrderId = $Encryption->encode($orderList['Order']['id']);?>
                                     <li><?php echo $this->Html->link('Order Details', array('controller' => 'Orders','action' => 'details',$encodedOrderId),array('class'=>''));?></li>
                                 </ul>

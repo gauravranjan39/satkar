@@ -25,6 +25,10 @@ $activeClass = 'class="active"';
 			</li>
 
 			<li>
+				<?php echo $this->Html->link('<i class="icon mdi mdi-email"></i><span>Manage Email</span>',array('controller'=>'EmailTemplate','action'=>'index'),array('escape'=>false)); ?>
+			</li>
+
+			<li>
 				<?php echo $this->Html->link('<i class="icon mdi mdi-card-membership"></i><span>Coupon Code</span>',array('controller'=>'','action'=>''),array('escape'=>false)); ?>
 			</li>
 

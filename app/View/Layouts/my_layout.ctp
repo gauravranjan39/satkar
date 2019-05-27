@@ -54,7 +54,7 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 		// echo $this->Html->script('bootstrap-slider');
 		// echo $this->Html->script('app-form-elements');
 		// echo $this->Html->script('select2.min');
-		echo $this->Html->script('speechToText');
+		// echo $this->Html->script('speechToText');
 
 		echo $this->fetch('meta');
 		echo $this->fetch('css');

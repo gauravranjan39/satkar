@@ -24,13 +24,22 @@ $activeClass = 'class="active"';
 				<?php echo $this->Html->link('<i class="icon mdi mdi-chart-donut"></i><span>Orders</span>',array('controller'=>'Orders','action'=>'index'),array('escape'=>false)); ?>
 			</li>
 
-			<li>
-				<?php echo $this->Html->link('<i class="icon mdi mdi-email"></i><span>Manage Email</span>',array('controller'=>'EmailTemplate','action'=>'index'),array('escape'=>false)); ?>
-			</li>
+			<!-- <li>
+				<?php //echo $this->Html->link('<i class="icon mdi mdi-email"></i><span>Manage Email</span>',array('controller'=>'EmailTemplates','action'=>'index'),array('escape'=>false)); ?>
+			</li> -->
 
 			<li>
 				<?php echo $this->Html->link('<i class="icon mdi mdi-card-membership"></i><span>Coupon Code</span>',array('controller'=>'','action'=>''),array('escape'=>false)); ?>
 			</li>
+
+			<li class="parent"><a href="#"><i class="icon mdi mdi-email"></i><span>Email</span></a>
+              <ul class="sub-menu">
+                <li><a href="tables-general.html">General</a>
+                </li>
+                <li><a href="tables-datatables.html">Data Tables</a>
+                </li>
+              </ul>
+            </li>
 
             <li class="parent"><a href="charts.html"><i class="zmdi zmdi-hc-fw"></i><span>Charts</span></a>
               <ul class="sub-menu">

@@ -325,12 +325,14 @@
             $('.card_net_banking_payment').hide();
             $('#dues_payment').val('');
             $('#WalletComments').val('');
+            $('#WalletType').attr("disabled", false);
             var walletBal = parseFloat('<?php echo $walletBalance;?>');
             if (transactionType == 'debit') {
                 $('#wallent_money').show();
                 $("#WalletType option[value='metal']").remove();
                 if (walletBal) {
                 } else {
+                    $('#WalletType').attr("disabled", true);
                     $('#dues_payment').attr("readonly", true);
                     $('#walletSubmitButton').attr("disabled", true);
                 }

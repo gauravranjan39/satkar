@@ -50,11 +50,11 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 		echo $this->Html->script('buttons.colVis');
 		echo $this->Html->script('buttons.bootstrap');
 		echo $this->Html->script('app-tables-datatables');
-		// echo $this->Html->script('bootstrap-datetimepicker.min');
+		// echo $this->Html->script('perfect-scrollbar.jquery.min');
 		// echo $this->Html->script('bootstrap-slider');
 		// echo $this->Html->script('app-form-elements');
 		// echo $this->Html->script('select2.min');
-		// echo $this->Html->script('speechToText');
+		echo $this->Html->script('speechToText');
 
 		echo $this->fetch('meta');
 		echo $this->fetch('css');
@@ -98,7 +98,7 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 		/**  Callback to be called after starting SPEECH RECOGNIZATION*/
 		function callBackCalledAfterUpdate(voice) {
 			// What you say, will be console here
-			console.log(voice);
+			//console.log(voice);
 			if (voice == 'go back') {
 				window.history.back();
 			} else if (voice == 'kill you' || voice == 'logout') {

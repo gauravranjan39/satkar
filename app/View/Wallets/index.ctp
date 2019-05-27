@@ -46,7 +46,12 @@
                             </tr>
                             </thead>
                             <tbody>
-                                <?php foreach ($walletDetails as $walletDetail) { //pr($walletDetail);?>
+                                <?php foreach ($walletDetails as $walletDetail) { 
+                                    $encodedOrderId = $Encryption->encode($walletDetail['Wallet']['order_id']);
+                                    // pr($walletDetail);
+                                    $walletDetail['Wallet']['encoded_order_id'] = $encodedOrderId;
+                                    // pr($walletDetail);die;
+                                ?>
                                 <tr>
                                     <td><?php echo $walletDetail['Wallet']['type']; ?></td>
                                     <?php if (!empty($walletDetail['Wallet']['credit'])) { ?>
@@ -71,7 +76,6 @@
             </div>
         </div>
         <?php
-
             if (!empty($criteria)) {
                 $this->Paginator->options(array('url' => array($encodedCustomerId .'/'. 'criteria' => $criteria)));
             }
@@ -197,7 +201,7 @@
 
                 <div class="form-group col-md-12" v-if="PaymentDetails.order_number">
                     <div class="col-md-3"><b>Order Number:</b></div>
-                    <div class="col-md-9"><a target="_blank" href="/satkar/Orders/details/6vKiJ2Gm_mgL5QtZBveeIy3DkZ7ztdTsqlH9la7YGdU">{{PaymentDetails.order_number}}</a></div>
+                    <div class="col-md-9"><a target="_blank" :href="'/satkar/Orders/details/' + PaymentDetails.encoded_order_id">{{ PaymentDetails.order_number }}</a></div>
                 </div>
 
                 <div class="form-group col-md-12" v-if="PaymentDetails.metal_type">
@@ -254,7 +258,7 @@
                 <div class="">
                     <div class="">
                         <div class="col-md-12">
-                            <?php echo $this->Form->button('Close',array('type'=>'button','class'=>'btn btn-rounded btn-primary','style'=>'margin-top: 26px;margin-bottom: 18px;','escape'=>false));?>
+                            <?php echo $this->Form->button('Cancel',array('type'=>'button','data-dismiss'=>'modal','class'=>'btn btn-rounded btn-default','style'=>'margin-top: 26px;margin-bottom: 18px;','escape'=>false));?>
                         </div>
                     </div>
                 </div>
@@ -271,8 +275,6 @@
 
 
 <script type="text/javascript">
-
-                        
 
     new Vue({
         data(){
@@ -300,11 +302,11 @@
             }
         });
 
-        $('.payment_details').click(function(){
-            $('#PaymentDetails').modal();
-            var details = JSON.parse($(this).attr('jjf'));
-            console.log(details.Wallet.customer_id);
-        });
+        // $('.payment_details').click(function(){
+        //     $('#PaymentDetails').modal();
+        //     var details = JSON.parse($(this).attr('jjf'));
+        //     console.log(details.Wallet.customer_id);
+        // });
 
         $('.wallet_transaction').click(function(){
             $('#WalletTransactionType').val('credit');

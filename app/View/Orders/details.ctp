@@ -565,6 +565,7 @@
 
         $('.return_item').click(function(){
             var orderId = '<?php echo $orderDetails['Order']['id']; ?>';
+            var orderNumber = '<?php echo $orderDetails['Order']['order_number']; ?>';
             var itemId = $(this).attr('order_item_id');
             var confirmItemCount = '<?php echo $confirmItemCount; ?>';
             var customerId = '<?php echo $orderDetails['Order']['customer_id']; ?>';
@@ -574,7 +575,7 @@
             var dues = '<?php echo $dues; ?>';
             if (confirm('Are you sure to cancel this item ?')) {
                 $.ajax({
-                    url:"<?php echo Router::url(array('controller'=>'Orders','action'=>'cancel_order_item'));?>/" + orderId + '/' + itemId + '/' + confirmItemCount + '/' + customerId + '/' + itemGrandTotal + '/' + orderGrandTotal + '/' + orderPayment + '/' + dues,
+                    url:"<?php echo Router::url(array('controller'=>'Orders','action'=>'cancel_order_item'));?>/" + orderId + '/' + itemId + '/' + confirmItemCount + '/' + customerId + '/' + itemGrandTotal + '/' + orderGrandTotal + '/' + orderPayment + '/' + dues + '/' + orderNumber,
                     success:function(data){
                         if (data == 1) {
                             location.reload();

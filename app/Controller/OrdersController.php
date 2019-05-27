@@ -334,7 +334,7 @@ class OrdersController extends AppController {
         }
     }
 
-    public function cancel_order_item($orderId=null,$orderItemId=null,$confirmItemCount=null,$customerId=null,$itemGrandTotal=null,$orderGrandTotal=null,$orderPayment=null,$dues=null) {
+    public function cancel_order_item($orderId=null,$orderItemId=null,$confirmItemCount=null,$customerId=null,$itemGrandTotal=null,$orderGrandTotal=null,$orderPayment=null,$dues=null,$orderNumber=null) {
         $this->autoRender = false;
         $this->layout = false;
         $this->loadModel('Wallet');
@@ -363,8 +363,10 @@ class OrdersController extends AppController {
             $this->Wallet->create();
             $walletData['Wallet']['customer_id'] = $customerId;
             $walletData['Wallet']['order_id'] = $orderId;
+            $walletData['Wallet']['order_number'] = $orderNumber;
             $walletData['Wallet']['order_item_id'] = $orderItemId;
             $walletData['Wallet']['credit'] = $itemGrandTotal;
+            $walletData['Wallet']['type'] = 'return-item';
             if (empty($Latest)) {
                 $walletData['Wallet']['balance'] = $itemGrandTotal;
             } else {
@@ -377,15 +379,16 @@ class OrdersController extends AppController {
                 $this->Wallet->create();
                 $walletData['Wallet']['customer_id'] = $customerId;
                 $walletData['Wallet']['order_id'] = $orderId;
+                $walletData['Wallet']['order_number'] = $orderNumber;
                 $walletData['Wallet']['order_item_id'] = $orderItemId;
                 $walletData['Wallet']['credit'] = $customerAdvance;
+                $walletData['Wallet']['type'] = 'return-item';
                 if (empty($Latest)) {
                     $walletData['Wallet']['balance'] = $customerAdvance;
                 } else {
                     $walletData['Wallet']['balance'] = $Latest['Wallet']['balance'] + $customerAdvance;
                 }
                 $this->Wallet->save($walletData);
-    
             }
         }
         echo "1";

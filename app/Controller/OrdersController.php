@@ -404,6 +404,12 @@ class OrdersController extends AppController {
         echo "1";
     }
 
-
+    public function extra_discount() {
+        $this->autoRender = false;
+        $this->layout = false;
+        if ($this->request->is(array('post','put'))) {
+            pr($this->request->data);
+        }
+    }
 
 }

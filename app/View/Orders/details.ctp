@@ -70,7 +70,14 @@
                     <?php
                         $confirmItem = array();
                         // $orderItemId = array();
+                        $orderItemDetailsForDiscount = array();
                         foreach ($orderDetails['OrderItem'] as $orderDetail) {
+                            $orderItemDetailsForDiscount['item_id'] = $orderDetail['id'];
+                            $orderItemDetailsForDiscount['item_discount'] = $orderDetail['discount'];
+                            $orderItemDetailsForDiscount['item_grand_total'] = $orderDetail['grand_total'];
+                            $orderItemDetailsForDiscount['order_id'] = $orderDetails['Order']['id'];
+                            $orderItemDetailsForDiscount['order_grand_total'] = $orderDetails['Order']['grand_total'];
+                            
                             // array_push($orderItemId,$orderDetail['id']);
                             if($orderDetail['status'] == 1) {
                                 $statusClass = 'text-danger';
@@ -104,15 +111,15 @@
                         <!-- <td><?php //echo $orderDetail['gems_price']; ?></td> -->
                         <td><span class="<?php echo $statusClass ?>">&#8377;<?php echo number_format($orderDetail['total'],2); ?></span></td>
                         <?php if(isset($orderDetail['discount']) && !empty($orderDetail['discount'])) { ?>
-                            <td><span class="<?php echo $statusClass ?>">&#8377;<?php echo number_format($orderDetail['discount'],2); ?></span>
+                            <td class="editable"><span class="<?php echo $statusClass ?>">&#8377;<?php echo number_format($orderDetail['discount'],2); ?></span>
                             <?php if($orderDetail['status'] == 0) { ?>
-                                <span style="float:right;cursor:pointer;" class="item_discount" title="Add Discount"><i class="mdi mdi-edit"></i></span>
+                                <span style="float:right;cursor:pointer;" details-for-discount=<?php echo json_encode($orderItemDetailsForDiscount)?> class="item_discount" title="Add Discount"><i class="mdi mdi-edit"></i></span>
                             <?php } ?>
                             </td>
                         <?php } else { ?>
-                            <td>
+                            <td class="editable">
                             <?php if($orderDetail['status'] == 0) { ?>
-                                <span style="float:right;cursor:pointer;" class="item_discount" title="Add Discount"><i class="mdi mdi-edit"></i></span>
+                                <span style="float:right;cursor:pointer;" details-for-discount=<?php echo json_encode($orderItemDetailsForDiscount)?> class="item_discount" title="Add Discount"><i class="mdi mdi-edit"></i></span>
                             <?php } ?>
                             </td>
                         <?php } ?>
@@ -124,8 +131,7 @@
                         <?php } ?>
                     </tr>
                     <?php }
-                    // pr($activeItemTotal);die;
-                    $confirmItemCount = count($confirmItem);
+                        $confirmItemCount = count($confirmItem);
                     ?>
                     </tbody>
                   </table>
@@ -139,24 +145,8 @@
                             <?php echo $orderDetails['Order']['comments']; ?>
                         <?php } ?>
                     </div>
-                    <!-- <div class="form-group col-sm-2">
-                        <label>Total:</label>
-                        &#8377;<?php //echo number_format($orderDetails['Order']['total'],2); ?>
-                    </div> -->
                 </div>
 
-                <!-- <div class="row xs-pt-12">
-                    <div class="form-group col-sm-10">
-                    </div>
-                    <div class="form-group col-sm-2">
-                        <label>Discount:</label>
-                        <?php //if (isset($orderDetails['Order']['discount']) && !empty($orderDetails['Order']['discount'])) { ?>
-                        &#8377;<?php //echo number_format($orderDetails['Order']['discount'],2); ?>
-                        <?php// } else { ?>
-                            &#8377; 0.0
-                        <?php //} ?>
-                    </div>
-                </div> -->
                 <?php if ($orderDetails['Order']['status'] != 2) { ?>
                     <div class="row xs-pt-12">
                         <div class="form-group col-sm-10">
@@ -406,6 +396,43 @@
                 leftIcon: 'mdi mdi-chevron-left'
             }
         });
+        
+        $('.table-fw-widget').off("click", ".item_discount");
+        $('.table-fw-widget').on('click','.item_discount',function(){
+        // $('.item_discount').click(function(){
+            // var discountVal = $(this).closest('tr').find('td.editable').attr('item-discount');
+            var discountDetails = $(this).attr('details-for-discount');
+            console.log(discountDetails);
+            var myObj = JSON.parse(discountDetails);
+            console.log(myObj.item_discount);
+            
+            $(this).closest('tr').find('td.editable').html('<span><input class="item_extra_discount allowOnlyNumber" style="width:50%;" type="text" /></span><span class="mdi mdi-check-circle update_discount" data-discount-details='+discountDetails+' style="margin-left:5px;cursor:pointer;" title="Update"></span><a><span class="mdi mdi-close-circle cancel_discount" style="padding:5px;cursor:pointer;" title="Cancel" item_discount="'+myObj.item_discount+'"></span></a>');
+            $('.cancel_discount').click(function(){
+                var previousDiscount = $(this).attr('item_discount');
+                $(this).closest('tr').find('td.editable').html('&#8377;'+previousDiscount + '<span style="float:right;cursor:pointer;" details-for-discount='+discountDetails+' class="item_discount" title="Add Discount"><i class="mdi mdi-edit"></i></span>');
+            });
+
+            $('.update_discount').click(function(){
+                var extraDiscountVal = $(this).closest('tr').find('td.editable').find('input').val();
+                var dataDiscountDetails = JSON.parse($(this).attr('data-discount-details'));
+                dataDiscountDetails.item_extra_discount = extraDiscountVal;
+                console.log(dataDiscountDetails);
+                $.ajax({
+                    type: "POST",
+                    url:"<?php echo Router::url(array('controller'=>'Orders','action'=>'extra_discount'));?>",
+                    data:({discount_details:dataDiscountDetails}),
+                    success:function(data){
+                        if (data == 1) {
+                            location.reload();
+                        } else {
+                            alert('Error Occured!!');
+                        }
+                    }
+			    });
+            });
+        });
+
+        
 
         $("#confirm_order").click(function(){
             var orderId = '<?php echo $orderDetails['Order']['id'];?>';

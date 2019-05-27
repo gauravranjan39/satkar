@@ -157,15 +157,26 @@
                         <?php //} ?>
                     </div>
                 </div> -->
+                <?php if ($orderDetails['Order']['status'] != 2) { ?>
+                    <div class="row xs-pt-12">
+                        <div class="form-group col-sm-10">
+                        </div>
+                        <div class="form-group col-sm-2">
+                            <label>Grand Total:</label>
+                            &#8377;<?php echo number_format($orderDetails['Order']['grand_total'],2); ?>
+                        </div>
+                    </div>
+                <?php } else { ?>
+                    <div class="row xs-pt-12">
+                        <div class="form-group col-sm-10">
+                        </div>
+                        <div class="form-group col-sm-2">
+                            <label>Grand Total:</label>
+                            &#8377;<?php echo number_format($orderDetails['Order']['total'],2); ?>
+                        </div>
+                    </div>
+                <?php } ?>
 
-                <div class="row xs-pt-12">
-                    <div class="form-group col-sm-10">
-                    </div>
-                    <div class="form-group col-sm-2">
-                        <label>Grand Total:</label>
-                        &#8377;<?php echo number_format($orderDetails['Order']['grand_total'],2); ?>
-                    </div>
-                </div>
 
                  <div class="row xs-pt-12">
                     <div class="form-group col-sm-10">

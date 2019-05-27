@@ -35,7 +35,7 @@ class OrdersController extends AppController {
             $this->Order->create();
             $this->request->data['Order']['customer_id'] = $customerId;
             $this->request->data['Order']['order_number'] = $orderNumber;
-
+            $this->request->data['Order']['total'] = $this->request->data['Order']['grand_total'];
             $grandTotal = floatval($this->request->data['Order']['grand_total']);
             $orderPayment = floatval($this->request->data['OrderTransaction']['amount_paid']);
             $dues = ($grandTotal - $orderPayment);
@@ -305,7 +305,7 @@ class OrdersController extends AppController {
             $itemTotal+= $orderItemDetail;
         }
         $itemsGrandTotal = round($itemTotal);
-        $this->OrderItem->updateAll(array('OrderItem.status' =>1,'Order.status' =>2,'Order.grand_total'=>'0.00'),array('OrderItem.order_id'=>$orderId));
+        $this->OrderItem->updateAll(array('OrderItem.status' =>1,'Order.status' =>2,'Order.payment_status' =>0,'Order.grand_total'=>'0.00'),array('OrderItem.order_id'=>$orderId));
         
         // $this->OrderItem->updateAll(array('OrderItem.status' =>1),array('OrderItem.order_id'=>$orderId));
         // $this->Order->updateAll(array('Order.status' =>2),array('Order.id'=>$orderId));

@@ -104,9 +104,17 @@
                         <!-- <td><?php //echo $orderDetail['gems_price']; ?></td> -->
                         <td><span class="<?php echo $statusClass ?>">&#8377;<?php echo number_format($orderDetail['total'],2); ?></span></td>
                         <?php if(isset($orderDetail['discount']) && !empty($orderDetail['discount'])) { ?>
-                            <td><span class="<?php echo $statusClass ?>">&#8377;<?php echo number_format($orderDetail['discount'],2); ?></span></td>
+                            <td><span class="<?php echo $statusClass ?>">&#8377;<?php echo number_format($orderDetail['discount'],2); ?></span>
+                            <?php if($orderDetail['status'] == 0) { ?>
+                                <span style="float:right;cursor:pointer;" class="item_discount" title="Add Discount"><i class="mdi mdi-edit"></i></span>
+                            <?php } ?>
+                            </td>
                         <?php } else { ?>
-                            <td></td>
+                            <td>
+                            <?php if($orderDetail['status'] == 0) { ?>
+                                <span style="float:right;cursor:pointer;" class="item_discount" title="Add Discount"><i class="mdi mdi-edit"></i></span>
+                            <?php } ?>
+                            </td>
                         <?php } ?>
                         <td><span class="<?php echo $statusClass ?>">&#8377;<?php echo  number_format($orderDetail['grand_total'],2); ?></span></td>
                         <?php if($orderDetail['status'] == 1) { ?>

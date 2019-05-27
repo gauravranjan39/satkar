@@ -1,4 +1,5 @@
-<script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.min.js"></script>
+<!-- <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.min.js"></script> -->
+<?php echo $this->Html->script('vue.min');?>
 <?php echo $this->Html->css('bootstrap-datetimepicker.min');?>
 <?php echo $this->Html->script('bootstrap-datetimepicker.min');?>
 <div class="be-content" id="cust-wallet">
@@ -268,10 +269,6 @@
     </div>
 </div>
 </div>
-
-
-
-
 
 
 <script type="text/javascript">

@@ -403,10 +403,11 @@
             console.log(discountDetails);
             var myObj = JSON.parse(discountDetails);
             console.log(myObj.item_discount);
-            
+            $(this).closest('tr').find('td.editable').css('width','15%');
             $(this).closest('tr').find('td.editable').html('<span><input class="item_extra_discount allowOnlyNumber" style="width:50%;" type="text" /></span><span class="mdi mdi-check-circle update_discount" data-discount-details='+discountDetails+' style="margin-left:5px;cursor:pointer;" title="Update"></span><a><span class="mdi mdi-close-circle cancel_discount" style="padding:5px;cursor:pointer;" title="Cancel" item_discount="'+myObj.item_discount+'"></span></a>');
             $('.item_extra_discount').focus();
             $('.cancel_discount').click(function(){
+                $(this).closest('tr').find('td.editable').css('width','0%');
                 var previousDiscount = $(this).attr('item_discount');
                 if (previousDiscount === 'null') {
                     previousDiscount = '';

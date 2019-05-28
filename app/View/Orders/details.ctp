@@ -112,13 +112,13 @@
                         <td><span class="<?php echo $statusClass ?>">&#8377;<?php echo number_format($orderDetail['total'],2); ?></span></td>
                         <?php if(isset($orderDetail['discount']) && !empty($orderDetail['discount'])) { ?>
                             <td class="editable"><span class="<?php echo $statusClass ?>">&#8377;<?php echo number_format($orderDetail['discount'],2); ?></span>
-                            <?php if($orderDetail['status'] == 0) { ?>
+                            <?php if($orderDetail['status'] == 0 && $orderDetails['Order']['payment_status']== 1) { ?>
                                 <span style="float:right;cursor:pointer;" details-for-discount=<?php echo json_encode($orderItemDetailsForDiscount)?> class="item_discount" title="Add Discount"><i class="mdi mdi-edit"></i></span>
                             <?php } ?>
                             </td>
                         <?php } else { ?>
                             <td class="editable">
-                            <?php if($orderDetail['status'] == 0) { ?>
+                            <?php if($orderDetail['status'] == 0 && $orderDetails['Order']['payment_status']== 1) { ?>
                                 <span style="float:right;cursor:pointer;" details-for-discount=<?php echo json_encode($orderItemDetailsForDiscount)?> class="item_discount" title="Add Discount"><i class="mdi mdi-edit"></i></span>
                             <?php } ?>
                             </td>
@@ -399,23 +399,28 @@
         
         $('.table-fw-widget').off("click", ".item_discount");
         $('.table-fw-widget').on('click','.item_discount',function(){
-        // $('.item_discount').click(function(){
-            // var discountVal = $(this).closest('tr').find('td.editable').attr('item-discount');
             var discountDetails = $(this).attr('details-for-discount');
             console.log(discountDetails);
             var myObj = JSON.parse(discountDetails);
             console.log(myObj.item_discount);
             
             $(this).closest('tr').find('td.editable').html('<span><input class="item_extra_discount allowOnlyNumber" style="width:50%;" type="text" /></span><span class="mdi mdi-check-circle update_discount" data-discount-details='+discountDetails+' style="margin-left:5px;cursor:pointer;" title="Update"></span><a><span class="mdi mdi-close-circle cancel_discount" style="padding:5px;cursor:pointer;" title="Cancel" item_discount="'+myObj.item_discount+'"></span></a>');
+            $('.item_extra_discount').focus();
             $('.cancel_discount').click(function(){
                 var previousDiscount = $(this).attr('item_discount');
-                $(this).closest('tr').find('td.editable').html('&#8377;'+previousDiscount + '<span style="float:right;cursor:pointer;" details-for-discount='+discountDetails+' class="item_discount" title="Add Discount"><i class="mdi mdi-edit"></i></span>');
+                if (previousDiscount === 'null') {
+                    previousDiscount = '';
+                } else {
+                    previousDiscount = '&#8377;'+ previousDiscount;
+                }
+                $(this).closest('tr').find('td.editable').html(previousDiscount + '<span style="float:right;cursor:pointer;" details-for-discount='+discountDetails+' class="item_discount" title="Add Discount"><i class="mdi mdi-edit"></i></span>');
             });
 
             $('.update_discount').click(function(){
                 var extraDiscountVal = $(this).closest('tr').find('td.editable').find('input').val();
                 var dataDiscountDetails = JSON.parse($(this).attr('data-discount-details'));
-                dataDiscountDetails.item_extra_discount = extraDiscountVal;
+                dataDiscountDetails.item_extra_discount = parseFloat(extraDiscountVal);
+                dataDiscountDetails.dues = parseFloat('<?php echo $dues ?>');
                 console.log(dataDiscountDetails);
                 $.ajax({
                     type: "POST",
@@ -430,9 +435,27 @@
                     }
 			    });
             });
-        });
+            
+            
+            $('.item_extra_discount').keyup(function(){
+                var discountVal = $(this).val();
+                var dues = '<?php echo $dues ?>';
+                var itemTotal = myObj.item_grand_total;
+                if (parseFloat(dues) >= parseFloat(itemTotal)) {
+                    if (parseFloat(discountVal) > parseFloat(itemTotal)) {
+                        alert('Discount should be less than item value.');
+                        $(this).val('');
+                    }
+                } else if (parseFloat(dues) < parseFloat(itemTotal)) {
+                    if (parseFloat(discountVal) > parseFloat(dues)) {
+                        alert('Discount should be less than dues.');
+                        $(this).val('');
+                    }
+                }
+            });
 
-        
+
+        });
 
         $("#confirm_order").click(function(){
             var orderId = '<?php echo $orderDetails['Order']['id'];?>';

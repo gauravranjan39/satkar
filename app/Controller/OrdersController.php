@@ -251,6 +251,7 @@ class OrdersController extends AppController {
                     unset($this->request->data['OrderTransaction']['order_number']);
                     $this->OrderTransaction->create();
                     $this->OrderTransaction->save($this->request->data);
+                    $this->Order->updateAll(array('Order.payment_status' =>0),array('Order.id'=>$orderId));
                     echo '1';
                 }
             }
@@ -408,7 +409,7 @@ class OrdersController extends AppController {
         $this->autoRender = false;
         $this->layout = false;
         if ($this->request->is(array('post','put'))) {
-            pr($this->request->data);
+            pr($this->request->data['discount_details']);
         }
     }
 

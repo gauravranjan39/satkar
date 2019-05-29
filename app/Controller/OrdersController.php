@@ -103,6 +103,7 @@ class OrdersController extends AppController {
         $this->loadModel('OrderItem');
         $this->loadModel('Customer');
         $this->loadModel('OrderTransaction');
+        $this->loadModel('Category');
         $orderId = $this->Encryption->decode($orderId);
         $this->Order->recursive = 2;
         $this->Customer->recursive = -1;
@@ -112,7 +113,8 @@ class OrdersController extends AppController {
         $orderDetails = $this->Order->find('first',array('conditions'=>array('Order.id'=>$orderId)));
         $customerId = $orderDetails['Order']['customer_id'];
         $customerDetails = $this->Customer->find('first',array('conditions'=>array('Customer.id'=>$customerId),'fields'=>array('name','address','mobile')));
-        $this->set(compact('orderDetails','customerDetails'));
+        $categoryLists = $this->Category->find('list',array('conditions'=>array('Category.parent_id'=>0)));
+		$this->set(compact('orderDetails','customerDetails','categoryLists'));
     }
 
     
@@ -426,6 +428,16 @@ class OrdersController extends AppController {
                 $this->Order->updateAll(array('Order.grand_total' =>$newOrderGrandTotal),array('Order.id'=>$orderId));
             }
             echo '1';
+        }
+    }
+
+    public function add_more_item() {
+        $this->autoRender = false;
+        $this->layout = false;
+        $this->loadModel('Order');
+        $this->loadModel('OrderItem');
+        if ($this->request->is(array('post','put'))) {
+            pr($this->request->data);die;
         }
     }
 

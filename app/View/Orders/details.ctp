@@ -232,11 +232,20 @@
                         if ($orderDetails['Order']['status'] != 2) { ?>
                         <button class="btn btn-rounded btn-space btn-danger" id="cancel_order">Cancel Order</button>
                         <?php } ?>
+                        <?php
+                            $currentDate = strtotime(date("Y-m-d"));
+                            $twoDaysAfterOrder = date('Y-m-d', strtotime($orderDetails['Order']['created']. ' + 2 days'));
+                            $twoDaysAfterOrder = strtotime($twoDaysAfterOrder);
+                            if ($currentDate < $twoDaysAfterOrder) { ?>
+                                <button class="btn btn-rounded btn-space" style="background-color:#46F948;border-color:#46F948;" id="add-order-item">Add Order Item</button>
+                        <?php } ?>
+                        
                         <button class="btn btn-rounded btn-space btn-warning" id="payment_history">Payment History</button>
                         <button class="btn btn-rounded btn-space btn-default" id="payment_receipt">Generate Payment Receipt</button>
                         <?php if ($orderDetails['Order']['status'] == 0) { ?>
                             <button class="btn btn-rounded btn-space" style="background-color:#1aff8c;" id="confirm_order">Confirm Order</button>
                         <?php } ?>
+                        
                     </p>
                 </div>
                 </div>
@@ -421,6 +430,7 @@
                 var extraDiscountVal = $(this).closest('tr').find('td.editable').find('input').val();
                 if (extraDiscountVal == '') {
                     alert('Please enter extra discount');
+                    $('.item_extra_discount').focus();
                     return false;
                 }
                 var dataDiscountDetails = JSON.parse($(this).attr('data-discount-details'));

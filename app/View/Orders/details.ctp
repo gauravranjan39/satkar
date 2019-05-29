@@ -78,6 +78,7 @@
                         $confirmItem = array();
                         $orderItemDetailsForDiscount = array();
                         $orderItemDetailsForDelete = array();
+                        $totalItemInOrder =  count($orderDetails['OrderItem']);
                         foreach ($orderDetails['OrderItem'] as $orderDetail) {
                             $orderItemDetailsForDiscount['item_id'] = $orderDetail['id'];
                             $orderItemDetailsForDiscount['item_discount'] = $orderDetail['discount'];
@@ -92,6 +93,7 @@
                             $orderItemDetailsForDelete['order_grand_total'] = $orderDetails['Order']['grand_total'];
                             $orderItemDetailsForDelete['order_number'] = $orderDetails['Order']['order_number'];
                             $orderItemDetailsForDelete['customer_id'] = $orderDetails['Order']['customer_id'];
+                            $orderItemDetailsForDelete['order_total_item'] = $totalItemInOrder;
                             $payment = 0;
                             foreach ($orderDetails['OrderTransaction'] as $orderTransaction) {
                                 $payment+= $orderTransaction['amount_paid'];

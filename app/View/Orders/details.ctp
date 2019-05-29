@@ -91,6 +91,7 @@
                             $orderItemDetailsForDelete['item_grand_total'] = $orderDetail['grand_total'];
                             $orderItemDetailsForDelete['order_id'] = $orderDetails['Order']['id'];
                             $orderItemDetailsForDelete['order_grand_total'] = $orderDetails['Order']['grand_total'];
+                            $orderItemDetailsForDelete['order_total'] = $orderDetails['Order']['total'];
                             $orderItemDetailsForDelete['order_number'] = $orderDetails['Order']['order_number'];
                             $orderItemDetailsForDelete['customer_id'] = $orderDetails['Order']['customer_id'];
                             $orderItemDetailsForDelete['order_total_item'] = $totalItemInOrder;

@@ -462,8 +462,20 @@ class OrdersController extends AppController {
         $this->layout = false;
         $this->loadModel('Order');
         $this->loadModel('OrderItem');
+        $this->loadModel('OrderTransaction');
         if ($this->request->is(array('post','put'))) {
             pr($this->request->data);die;
+            $this->OrderItem->deleteAll(array('OrderItem.id'=>$this->request->data['delete_details']['item_id']));
+            $numberOfItem = $this->request->data['delete_details']['order_total_item'];
+            $orderPayment = $this->request->data['delete_details']['payment'];
+            if ($numberOfItem == 1) {
+                $this->Order->deleteAll(array('Order.id'=>$this->request->data['delete_details']['order_id']));
+                $this->OrderTransaction->deleteAll(array('OrderTransaction.order_id'=>$this->request->data['delete_details']['order_id']));
+                echo json_encode(array('success' => true, 'payment' => $orderPayment));
+            } else {
+                $orderGrandTotal = $this->request->data['delete_details']['order_grand_total'];
+                $itemTotal = $this->request->data['delete_details']['item_total'];
+            }
         }
     }
 

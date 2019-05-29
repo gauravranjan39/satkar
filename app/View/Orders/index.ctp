@@ -55,8 +55,8 @@
                         <th style="width:11%;">Total</th>
                         <th style="width:10%;">Paid</th>
                         <th style="width:10%;">Dues</th>
-                        <th style="width:10%;">Status</th>
-                        <th style="width:15%;">Date</th>
+                        <th style="width:13%;">Status</th>
+                        <th style="width:12%;">Date</th>
                         <th style="width:10%;">Payment</th>
                         <th style="width:10%;">Action</th>
                       </tr>

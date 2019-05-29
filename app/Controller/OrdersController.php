@@ -408,8 +408,24 @@ class OrdersController extends AppController {
     public function extra_discount() {
         $this->autoRender = false;
         $this->layout = false;
+        $this->loadModel('Order');
+        $this->loadModel('OrderItem');
         if ($this->request->is(array('post','put'))) {
-            pr($this->request->data['discount_details']);
+            $itemId = $this->request->data['discount_details']['item_id'];
+            $orderId = $this->request->data['discount_details']['order_id'];
+            
+            $itemTotalDiscount = (float)$this->request->data['discount_details']['item_discount'] + (float)$this->request->data['discount_details']['item_extra_discount']; 
+            $itemNewGrandTotal = ((float)$this->request->data['discount_details']['item_grand_total'] - (float)$this->request->data['discount_details']['item_extra_discount']);
+            
+            $this->OrderItem->updateAll(array('OrderItem.grand_total' =>$itemNewGrandTotal,'OrderItem.discount' =>$itemTotalDiscount),array('OrderItem.id'=>$itemId));
+            $newOrderGrandTotal = ((float)$this->request->data['discount_details']['order_grand_total'] - (float)$this->request->data['discount_details']['item_extra_discount']);
+            
+            if ((float)$this->request->data['discount_details']['item_discount'] == (float)$this->request->data['discount_details']['dues']) {
+                $this->Order->updateAll(array('Order.grand_total' =>$newOrderGrandTotal,'Order.payment_status' =>0),array('Order.id'=>$orderId));
+            } else {
+                $this->Order->updateAll(array('Order.grand_total' =>$newOrderGrandTotal),array('Order.id'=>$orderId));
+            }
+            echo '1';
         }
     }
 

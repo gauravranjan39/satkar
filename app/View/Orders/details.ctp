@@ -419,6 +419,10 @@
 
             $('.update_discount').click(function(){
                 var extraDiscountVal = $(this).closest('tr').find('td.editable').find('input').val();
+                if (extraDiscountVal == '') {
+                    alert('Please enter extra discount');
+                    return false;
+                }
                 var dataDiscountDetails = JSON.parse($(this).attr('data-discount-details'));
                 dataDiscountDetails.item_extra_discount = parseFloat(extraDiscountVal);
                 dataDiscountDetails.dues = parseFloat('<?php echo $dues ?>');

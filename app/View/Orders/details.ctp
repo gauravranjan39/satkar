@@ -232,13 +232,13 @@
                         if ($orderDetails['Order']['status'] != 2) { ?>
                         <button class="btn btn-rounded btn-space btn-danger" id="cancel_order">Cancel Order</button>
                         <?php } ?>
-                        <?php
+                        <?php if ($orderDetails['Order']['payment_status'] == 1) {
                             $currentDate = strtotime(date("Y-m-d"));
                             $twoDaysAfterOrder = date('Y-m-d', strtotime($orderDetails['Order']['created']. ' + 2 days'));
                             $twoDaysAfterOrder = strtotime($twoDaysAfterOrder);
                             if ($currentDate < $twoDaysAfterOrder) { ?>
                                 <button class="btn btn-rounded btn-space" style="background-color:#46F948;border-color:#46F948;" id="add-order-item">Add Order Item</button>
-                        <?php } ?>
+                        <?php } } ?>
                         
                         <button class="btn btn-rounded btn-space btn-warning" id="payment_history">Payment History</button>
                         <button class="btn btn-rounded btn-space btn-default" id="payment_receipt">Generate Payment Receipt</button>
@@ -413,7 +413,7 @@
                 
 
               
-              <div class="clone-div" id="clonedInput_0" data-count-val="0">
+                <div class="clone-div" id="clonedInput_0" data-count-val="0">
 								<div class="col-md-12">
 									<div class="form-group">
 										<div class="col-sm-5" style="float:right;">
@@ -771,7 +771,6 @@
 
          $('#OrderAddMoreItemForm').submit(function(event){
             event.preventDefault();
-            alert('@@@@@@@@@');return false;
             $.ajax({
                 url:"<?php echo Router::url(array('controller'=>'Orders','action'=>'add_more_item'));?>",
                 type: 'POST',

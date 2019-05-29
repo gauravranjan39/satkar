@@ -63,6 +63,14 @@
 						<th>Discount</th>
 						<th>Grand Total</th>
                         <th>Status</th>
+                        <?php
+                        if ($orderDetails['Order']['payment_status'] == 1) {
+                            $currentDate = strtotime(date("Y-m-d"));
+                            $twoDaysAfterOrder = date('Y-m-d', strtotime($orderDetails['Order']['created']. ' + 2 days'));
+                            $twoDaysAfterOrder = strtotime($twoDaysAfterOrder);
+                            if ($currentDate < $twoDaysAfterOrder) { ?>
+                                <th>Action</th>
+                        <?php } } ?>
                       </tr>
                     </thead>
                     <tbody>
@@ -129,6 +137,14 @@
                         <?php } else { ?>
                             <td><span class="text-success"><?php echo $this->Html->link('Confirm', 'javascript:void(0);',  array("class" => "text-success return_item", "escape" => false,'order_item_id'=>$orderDetail['id'],'item_grand_total'=>$orderDetail['grand_total'],'title'=>'Return this item')); ?></span></td>
                         <?php } ?>
+                        <?php if ($orderDetails['Order']['payment_status'] == 1) {
+                            $currentDate = strtotime(date("Y-m-d"));
+                            $twoDaysAfterOrder = date('Y-m-d', strtotime($orderDetails['Order']['created']. ' + 2 days'));
+                            $twoDaysAfterOrder = strtotime($twoDaysAfterOrder);
+                            if ($currentDate < $twoDaysAfterOrder) { ?>
+                                <td style="text-align:center;"><i class="mdi mdi-delete"></i></td>
+                        <?php } } ?>
+                        
                     </tr>
                     <?php }
                         $confirmItemCount = count($confirmItem);

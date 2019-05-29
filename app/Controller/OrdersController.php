@@ -437,21 +437,17 @@ class OrdersController extends AppController {
         $this->loadModel('Order');
         $this->loadModel('OrderItem');
         if ($this->request->is(array('post','put'))) {
-            
             $orderId = $this->request->data['Order']['order_id'];
             $this->Order->recursive = -1;
             $orderDetails = $this->Order->find('first',array('conditions'=>array('Order.id'=>$orderId),'fields'=>array('Order.grand_total','total')));
-            //pr($orderDetails);die;
-
             $orderGrandTotal = $orderDetails['Order']['grand_total'];
             $orderTotal = $orderDetails['Order']['total'];
             $newItemGrandTotal = $this->request->data['Order']['grand_total'];
 
             $newOrderTotal = ($orderTotal + $newItemGrandTotal);
-
             $newOrderGrandTotal = ($orderGrandTotal + $newItemGrandTotal);
-            $this->Order->updateAll(array('Order.total' =>$newOrderTotal,'Order.grand_total' =>$newOrderGrandTotal),array('Order.id'=>$orderId));
 
+            $this->Order->updateAll(array('Order.total' =>$newOrderTotal,'Order.grand_total' =>$newOrderGrandTotal),array('Order.id'=>$orderId));
             foreach ($this->request->data['OrderItem'] as $orderItem) {
                 $orderItem['order_id'] = $orderId;
                 $this->OrderItem->create();

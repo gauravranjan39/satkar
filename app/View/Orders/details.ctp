@@ -76,20 +76,32 @@
 					
                     <?php
                         $confirmItem = array();
-                        // $orderItemId = array();
                         $orderItemDetailsForDiscount = array();
+                        $orderItemDetailsForDelete = array();
                         foreach ($orderDetails['OrderItem'] as $orderDetail) {
                             $orderItemDetailsForDiscount['item_id'] = $orderDetail['id'];
                             $orderItemDetailsForDiscount['item_discount'] = $orderDetail['discount'];
                             $orderItemDetailsForDiscount['item_grand_total'] = $orderDetail['grand_total'];
                             $orderItemDetailsForDiscount['order_id'] = $orderDetails['Order']['id'];
                             $orderItemDetailsForDiscount['order_grand_total'] = $orderDetails['Order']['grand_total'];
+                            //creating data array required to hard delete the item from order 
+                            $orderItemDetailsForDelete['item_id'] = $orderDetail['id'];
+                            $orderItemDetailsForDelete['item_total'] = $orderDetail['total'];
+                            $orderItemDetailsForDelete['item_grand_total'] = $orderDetail['grand_total'];
+                            $orderItemDetailsForDelete['order_id'] = $orderDetails['Order']['id'];
+                            $orderItemDetailsForDelete['order_grand_total'] = $orderDetails['Order']['grand_total'];
+                            $orderItemDetailsForDelete['order_number'] = $orderDetails['Order']['order_number'];
+                            $orderItemDetailsForDelete['customer_id'] = $orderDetails['Order']['customer_id'];
+                            $payment = 0;
+                            foreach ($orderDetails['OrderTransaction'] as $orderTransaction) {
+                                $payment+= $orderTransaction['amount_paid'];
+                            }
+                            $orderItemDetailsForDelete['payment'] = (float)$payment;
+                            //Emd of array creation for hard delete item from order
                             
-                            // array_push($orderItemId,$orderDetail['id']);
                             if($orderDetail['status'] == 1) {
                                 $statusClass = 'text-danger';
                             } else {
-                                // $activeItemTotal+= $orderDetail['grand_total'];
                                 array_push($confirmItem,$orderDetail['id']);
                                 $statusClass = '';
                             }
@@ -149,7 +161,9 @@
                             $twoDaysAfterOrder = date('Y-m-d', strtotime($orderDetails['Order']['created']. ' + 1 days'));
                             $twoDaysAfterOrder = strtotime($twoDaysAfterOrder);
                             if ($currentDate < $twoDaysAfterOrder) { ?>
-                                <td style="text-align:center;"><i class="mdi mdi-delete" style="cursor:pointer;"></i></td>
+                                <td style="text-align:center;">
+                                <span style="cursor:pointer;" details-for-delete=<?php echo json_encode($orderItemDetailsForDelete)?> class="delete_item" title="Delete Item"><i class="mdi mdi-delete"></i></span>
+                                </td>
                         <?php } } ?>
                         
                     </tr>
@@ -575,6 +589,25 @@
             navIcons:{
                 rightIcon: 'mdi mdi-chevron-right',
                 leftIcon: 'mdi mdi-chevron-left'
+            }
+        });
+
+        $('.delete_item').click(function(){
+            var dataDeleteDetails = JSON.parse($(this).attr('details-for-delete'));
+            console.log(dataDeleteDetails);
+            if (confirm('Are you sure to delete this item from order ?')) {
+                $.ajax({
+                    type: "POST",
+                    url:"<?php echo Router::url(array('controller'=>'Orders','action'=>'delete_order_item'));?>",
+                    data:({delete_details:dataDeleteDetails}),
+                    success:function(data){
+                        if (data == 1) {
+                            location.reload();
+                        } else {
+                            alert('Error Occured!!');
+                        }
+                    }
+			    });
             }
         });
         

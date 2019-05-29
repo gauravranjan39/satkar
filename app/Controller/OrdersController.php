@@ -457,4 +457,14 @@ class OrdersController extends AppController {
         }
     }
 
+    public function delete_order_item() {
+        $this->autoRender = false;
+        $this->layout = false;
+        $this->loadModel('Order');
+        $this->loadModel('OrderItem');
+        if ($this->request->is(array('post','put'))) {
+            pr($this->request->data);die;
+        }
+    }
+
 }

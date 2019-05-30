@@ -478,13 +478,15 @@ class OrdersController extends AppController {
             $newOrderTotal = (float)($orderTotal + $newItemGrandTotal);
             $newOrderGrandTotal = (float)($orderGrandTotal + $newItemGrandTotal);
 
+            $this->Wallet->deleteAll(array('Wallet.order_id'=>$orderId,'Wallet.credit !='=>"NULL"));
+            
             $this->Wallet->recursive = -1;
             $Latest = $this->Wallet->find('first',array('conditions' => array('Wallet.customer_id' => $customerId),'fields'=>array('Wallet.balance'),'order' => array('Wallet.id' => 'DESC')));
             if (empty($Latest)) {
                 $Latest['Wallet']['balance'] = '0.00';
             }
 
-            $this->Wallet->deleteAll(array('Wallet.order_id'=>$orderId,'Wallet.credit !='=>"NULL"));
+            
             // idea: delete row from wallet with order_id and check if paymant > newgrandtotal then save remaing value to wallet
             if ($payment > $newOrderGrandTotal) {
                 $advance = ($payment - $newOrderGrandTotal);

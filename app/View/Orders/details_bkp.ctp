@@ -150,8 +150,18 @@
                         <td><span class="<?php echo $statusClass ?>">&#8377;<?php echo  number_format($orderDetail['grand_total'],2); ?></span></td>
                         <?php if($orderDetail['status'] == 1) { ?>
                             <td><span class="text-danger">Cancel</span></td>
-                        <?php } else { ?>
-                                <td><span class="text-success"><?php echo $this->Html->link('Confirm', 'javascript:void(0);',  array("class" => "text-success return_item", "escape" => false,'order_item_id'=>$orderDetail['id'],'item_grand_total'=>$orderDetail['grand_total'],'title'=>'Return this item')); ?></span></td>
+                        <?php } else {
+                                if ($orderDetails['Order']['payment_status'] == 0) { ?>
+                                     <td><span class="text-success"><?php echo $this->Html->link('Confirm', 'javascript:void(0);',  array("class" => "text-success return_item", "escape" => false,'order_item_id'=>$orderDetail['id'],'item_grand_total'=>$orderDetail['grand_total'],'title'=>'Return this item')); ?></span></td>
+                                <?php } else {
+                                    $currentDate = strtotime(date("Y-m-d"));
+                                    $twoDaysAfterOrder = date('Y-m-d', strtotime($orderDetails['Order']['created']. ' + 1 days'));
+                                    $twoDaysAfterOrder = strtotime($twoDaysAfterOrder);
+                                    if ($currentDate < $twoDaysAfterOrder) { ?>
+                                <td><span class="text-success">Confirm</span></td>
+                                <?php } else { ?>
+                                    <td><span class="text-success"><?php echo $this->Html->link('Confirm', 'javascript:void(0);',  array("class" => "text-success return_item", "escape" => false,'order_item_id'=>$orderDetail['id'],'item_grand_total'=>$orderDetail['grand_total'],'title'=>'Return this item')); ?></span></td>
+                                <?php } }?>
                             
                         <?php } ?>
                         <?php //if ($orderDetails['Order']['payment_status'] == 1) {

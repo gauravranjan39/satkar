@@ -603,10 +603,29 @@
                     type: "POST",
                     url:"<?php echo Router::url(array('controller'=>'Orders','action'=>'delete_order_item'));?>",
                     data:({delete_details:dataDeleteDetails}),
-                    success:function(data){
-                        if (data == 1) {
-                            location.reload();
+                    dataType: 'json',
+                    success:function(result){
+                        console.log('@@@@@@@@@');
+                        if (result.success) {
+                            console.log('inside true');
+                            if (result.payment) {
+                                console.log('inside payment');
+                                payment = '&#8377;'+ result.payment;
+                                
+                                alert('Either return amount of '+payment+' to customer or use this amount to other order of else add this amount to customer wallet manually ');
+                                window.location.href='<?php echo $this->webroot?>Customers/index';
+                            
+                            } else if (result.advancePayment) {
+                                console.log('inside advance payment');
+                                alert('Amount of &#8377; '+result.advancePayment+' is added to the customer wallet');
+                                location.reload();
+                            } else {
+                                location.reload();
+                            }
+                            console.log('outside all');
+                            
                         } else {
+                            console.log('inside error');
                             alert('Error Occured!!');
                         }
                     }

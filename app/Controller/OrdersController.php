@@ -467,14 +467,49 @@ class OrdersController extends AppController {
             pr($this->request->data);die;
             $this->OrderItem->deleteAll(array('OrderItem.id'=>$this->request->data['delete_details']['item_id']));
             $numberOfItem = $this->request->data['delete_details']['order_total_item'];
-            $orderPayment = $this->request->data['delete_details']['payment'];
+            $orderPayment = (float)$this->request->data['delete_details']['payment'];
+            $orderId = $this->request->data['delete_details']['order_id'];
             if ($numberOfItem == 1) {
-                $this->Order->deleteAll(array('Order.id'=>$this->request->data['delete_details']['order_id']));
-                $this->OrderTransaction->deleteAll(array('OrderTransaction.order_id'=>$this->request->data['delete_details']['order_id']));
+                $this->Order->deleteAll(array('Order.id'=>$orderId));
+                $this->OrderTransaction->deleteAll(array('OrderTransaction.order_id'=>$orderId));
                 echo json_encode(array('success' => true, 'payment' => $orderPayment));
             } else {
                 $orderGrandTotal = $this->request->data['delete_details']['order_grand_total'];
                 $itemTotal = $this->request->data['delete_details']['item_total'];
+                $orderTotal = $this->request->data['delete_details']['order_total'];
+                $itemGrandTotal = $this->request->data['delete_details']['item_grand_total'];
+
+                $newOrderTotal = (float)($orderTotal - $itemTotal);
+                $newOrderGrandTotal = (float)($orderGrandTotal - $itemGrandTotal);
+
+                if ($orderPayment < $newOrderGrandTotal) {
+                    $this->Order->updateAll(array('Order.total' =>$newOrderTotal,'Order.grand_total' =>$newOrderGrandTotal),array('Order.id'=>$orderId));
+                    echo json_encode(array('success' => true));
+                } else if ($orderPayment > $newOrderGrandTotal) {
+
+                    $this->Wallet->recursive = -1;
+                    $Latest = $this->Wallet->find('first',array('conditions' => array('Wallet.customer_id' => $this->request->data['delete_details']['customer_id']),'fields'=>array('Wallet.balance'),'order' => array('Wallet.id' => 'DESC')));
+                    if (empty($Latest)) {
+                        $Latest['Wallet']['balance'] = '0.00';
+                    }
+
+                    $customerAdvance = (float)($orderPayment - $newOrderGrandTotal);
+                    $this->Order->updateAll(array('Order.total' =>$newOrderTotal,'Order.grand_total' =>$newOrderGrandTotal,'Order.payment_status' =>0),array('Order.id'=>$orderId));
+                    $this->loadModel('Wallet');
+                    $walletData['Wallet']['customer_id'] = $this->request->data['delete_details']['customer_id'];
+                    $walletData['Wallet']['order_id'] = $orderId;
+                    $walletData['Wallet']['order_number'] = $this->request->data['delete_details']['order_number'];
+                    $walletData['Wallet']['type'] = 'delete-item';
+                    $walletData['Wallet']['credit'] = $customerAdvance;
+                    $walletData['Wallet']['balance'] = $Latest['Wallet']['balance'] + $customerAdvance;
+                    $walletData['Wallet']['comments'] = 'This amount is credited because customer return some items from order on the same day';
+                    $this->Wallet->create();
+                    $this->Wallet->save($walletData);
+                    echo json_encode(array('success' => true, 'payment' => $customerAdvance));
+                } else if ($orderPayment == $newOrderGrandTotal) {
+                    $this->Order->updateAll(array('Order.total' =>$newOrderTotal,'Order.grand_total' =>$newOrderGrandTotal,'Order.payment_status' =>0),array('Order.id'=>$orderId));
+                    echo json_encode(array('success' => true));
+                }
             }
         }
     }

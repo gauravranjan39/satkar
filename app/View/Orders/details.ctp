@@ -10,9 +10,11 @@
                 <div class="col-md-12">
                     <div class="col-md-6">
                     <div style="font-size:15px;"><b>Customer Name:</b>
-                            <?php echo $customerDetails['Customer']['name']; ?></div>
-                            <div style="font-size:15px;"><b>Address:  </b><?php echo $customerDetails['Customer']['address']; ?></div>
-                            <div style="font-size:15px;"><b>Mb:  </b><?php echo $customerDetails['Customer']['mobile']; ?></div>
+
+                        <?php $encodedCustomerId = $Encryption->encode($orderDetails['Order']['customer_id']);?>
+                        <?php echo $customerDetails['Customer']['name']; ?></div>
+                        <div style="font-size:15px;"><b>Address:  </b><?php echo $customerDetails['Customer']['address']; ?></div>
+                        <div style="font-size:15px;"><b>Mb:  </b><?php echo $customerDetails['Customer']['mobile']; ?></div>
                     </div>
                 <?php //pr($orderDetails);die;
                     if ($orderDetails['Order']['status'] == 0 ) {
@@ -148,15 +150,18 @@
                         <td><span class="<?php echo $statusClass ?>">&#8377;<?php echo  number_format($orderDetail['grand_total'],2); ?></span></td>
                         <?php if($orderDetail['status'] == 1) { ?>
                             <td><span class="text-danger">Cancel</span></td>
-                        <?php } else { 
-                                $currentDate = strtotime(date("Y-m-d"));
-                                $twoDaysAfterOrder = date('Y-m-d', strtotime($orderDetails['Order']['created']. ' + 1 days'));
-                                $twoDaysAfterOrder = strtotime($twoDaysAfterOrder);
-                                if ($currentDate < $twoDaysAfterOrder) { ?>
-                                    <td><span class="text-success">Confirm</span></td>
+                        <?php } else {
+                                if ($orderDetails['Order']['payment_status'] == 0) { ?>
+                                     <td><span class="text-success"><?php echo $this->Html->link('Confirm', 'javascript:void(0);',  array("class" => "text-success return_item", "escape" => false,'order_item_id'=>$orderDetail['id'],'item_grand_total'=>$orderDetail['grand_total'],'title'=>'Return this item')); ?></span></td>
+                                <?php } else {
+                                    $currentDate = strtotime(date("Y-m-d"));
+                                    $twoDaysAfterOrder = date('Y-m-d', strtotime($orderDetails['Order']['created']. ' + 1 days'));
+                                    $twoDaysAfterOrder = strtotime($twoDaysAfterOrder);
+                                    if ($currentDate < $twoDaysAfterOrder) { ?>
+                                <td><span class="text-success">Confirm</span></td>
                                 <?php } else { ?>
                                     <td><span class="text-success"><?php echo $this->Html->link('Confirm', 'javascript:void(0);',  array("class" => "text-success return_item", "escape" => false,'order_item_id'=>$orderDetail['id'],'item_grand_total'=>$orderDetail['grand_total'],'title'=>'Return this item')); ?></span></td>
-                                <?php } ?>
+                                <?php } }?>
                             
                         <?php } ?>
                         <?php if ($orderDetails['Order']['payment_status'] == 1) {
@@ -165,7 +170,7 @@
                             $twoDaysAfterOrder = strtotime($twoDaysAfterOrder);
                             if ($currentDate < $twoDaysAfterOrder) { ?>
                                 <td style="text-align:center;">
-                                <span style="cursor:pointer;" details-for-delete=<?php echo json_encode($orderItemDetailsForDelete)?> class="delete_item" title="Delete Item"><i class="mdi mdi-delete"></i></span>
+                                    <span style="cursor:pointer;" details-for-delete=<?php echo json_encode($orderItemDetailsForDelete)?> class="delete_item" title="Delete Item"><i class="mdi mdi-delete"></i></span>
                                 </td>
                         <?php } } ?>
                         
@@ -265,7 +270,7 @@
                 </div>
                 <div class="col-md-12">
                     <p class="xs-mt-10 xs-mb-10">
-                        <button class="btn btn-rounded btn-space btn-success" id="order_invoice">Generate Order Invoice</button>
+                        <button class="btn btn-rounded btn-space btn-success" id="order_invoice">Order Invoice</button>
                         <?php if ($orderDetails['Order']['payment_status'] == 1) { ?>
                             <button class="btn btn-rounded btn-space btn-primary" id="make_payment">Make Payment</button>
                         <?php }
@@ -279,9 +284,9 @@
                             if ($currentDate < $twoDaysAfterOrder) { ?>
                                 <button class="btn btn-rounded btn-space" style="background-color:#46F948;border-color:#46F948;" id="add-order-item">Add Order Item</button>
                         <?php } } ?>
-                        
+                        <button class="btn btn-rounded btn-space btn" style="background-color:#B591F0;border-color:#B591F0;" id="customer_wallet">Wallet Money</button>
                         <button class="btn btn-rounded btn-space btn-warning" id="payment_history">Payment History</button>
-                        <button class="btn btn-rounded btn-space btn-default" id="payment_receipt">Generate Payment Receipt</button>
+                        <button class="btn btn-rounded btn-space btn-default" id="payment_receipt">Payment Receipt</button>
                         <?php if ($orderDetails['Order']['status'] == 0) { ?>
                             <button class="btn btn-rounded btn-space" style="background-color:#1aff8c;" id="confirm_order">Confirm Order</button>
                         <?php } ?>
@@ -593,6 +598,12 @@
                 rightIcon: 'mdi mdi-chevron-right',
                 leftIcon: 'mdi mdi-chevron-left'
             }
+        });
+
+        $('#customer_wallet').click(function(){
+            var customerId = '<?php echo $encodedCustomerId?>';
+            url='<?php echo $this->webroot?>Wallets/index/' +customerId;
+            window.open(url, '_blank');
         });
 
         $('.delete_item').click(function(){

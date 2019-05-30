@@ -105,6 +105,7 @@ class OrdersController extends AppController {
         $this->loadModel('OrderTransaction');
         $this->loadModel('Category');
         $orderId = $this->Encryption->decode($orderId);
+        $Encryption=$this->Encryption;
         $this->Order->recursive = 2;
         $this->Customer->recursive = -1;
         $this->Order->unbindModel(array('belongsTo' => array('Customer'),'hasMany'=>array('Wallet')),true);
@@ -114,7 +115,7 @@ class OrdersController extends AppController {
         $customerId = $orderDetails['Order']['customer_id'];
         $customerDetails = $this->Customer->find('first',array('conditions'=>array('Customer.id'=>$customerId),'fields'=>array('name','address','mobile')));
         $categoryLists = $this->Category->find('list',array('conditions'=>array('Category.parent_id'=>0)));
-		$this->set(compact('orderDetails','customerDetails','categoryLists'));
+		$this->set(compact('orderDetails','customerDetails','categoryLists','Encryption'));
     }
 
     

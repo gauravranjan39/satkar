@@ -65,13 +65,13 @@
 						<th>Grand Total</th>
                         <th>Status</th>
                         <?php
-                        if ($orderDetails['Order']['payment_status'] == 1) {
+                        //if ($orderDetails['Order']['payment_status'] == 1) {
                             $currentDate = strtotime(date("Y-m-d"));
                             $twoDaysAfterOrder = date('Y-m-d', strtotime($orderDetails['Order']['created']. ' + 1 days'));
                             $twoDaysAfterOrder = strtotime($twoDaysAfterOrder);
                             if ($currentDate < $twoDaysAfterOrder) { ?>
                                 <th>Action</th>
-                        <?php } } ?>
+                        <?php } //} ?>
                       </tr>
                     </thead>
                     <tbody>
@@ -164,7 +164,7 @@
                                 <?php } }?>
                             
                         <?php } ?>
-                        <?php if ($orderDetails['Order']['payment_status'] == 1) {
+                        <?php //if ($orderDetails['Order']['payment_status'] == 1) {
                             $currentDate = strtotime(date("Y-m-d"));
                             $twoDaysAfterOrder = date('Y-m-d', strtotime($orderDetails['Order']['created']. ' + 1 days'));
                             $twoDaysAfterOrder = strtotime($twoDaysAfterOrder);
@@ -172,7 +172,7 @@
                                 <td style="text-align:center;">
                                     <span style="cursor:pointer;" details-for-delete=<?php echo json_encode($orderItemDetailsForDelete)?> class="delete_item" title="Delete Item"><i class="mdi mdi-delete"></i></span>
                                 </td>
-                        <?php } } ?>
+                        <?php } //} ?>
                         
                     </tr>
                     <?php }
@@ -223,7 +223,7 @@
                             foreach ($orderDetails['OrderTransaction'] as $orderTransaction) {
                                 $payment+= $orderTransaction['amount_paid'];
                             }
-                        echo number_format($payment,2); ?>
+                            echo number_format($payment,2); ?>
                     </div>
                 </div>
 
@@ -277,13 +277,13 @@
                         if ($orderDetails['Order']['status'] != 2) { ?>
                         <button class="btn btn-rounded btn-space btn-danger" id="cancel_order">Cancel Order</button>
                         <?php } ?>
-                        <?php if ($orderDetails['Order']['payment_status'] == 1) {
+                        <?php //if ($orderDetails['Order']['payment_status'] == 1) {
                             $currentDate = strtotime(date("Y-m-d"));
                             $twoDaysAfterOrder = date('Y-m-d', strtotime($orderDetails['Order']['created']. ' + 2 days'));
                             $twoDaysAfterOrder = strtotime($twoDaysAfterOrder);
                             if ($currentDate < $twoDaysAfterOrder) { ?>
                                 <button class="btn btn-rounded btn-space" style="background-color:#46F948;border-color:#46F948;" id="add-order-item">Add Order Item</button>
-                        <?php } } ?>
+                        <?php } //} ?>
                         <button class="btn btn-rounded btn-space btn" style="background-color:#FC8E39;border-color:#FC8E39;" id="customer_wallet">Wallet Money</button>
                         <button class="btn btn-rounded btn-space btn-warning" id="payment_history">Payment History</button>
                         <button class="btn btn-rounded btn-space btn-default" id="payment_receipt">Payment Receipt</button>
@@ -455,6 +455,11 @@
             
                 <?php echo $this->Form->create('Order',array('url'=> array('controller' => 'Orders', 'action' => 'add_more_item'),'method'=>'POST')); ?>
                 <?php echo $this->Form->input('Order.order_id',array('type'=>'hidden','value'=>$orderDetails['Order']['id'])); ?>
+                <?php echo $this->Form->input('Order.payment',array('type'=>'hidden','value'=>$payment)); ?>
+                <?php echo $this->Form->input('Order.customer_id',array('type'=>'hidden','value'=>$orderDetails['Order']['customer_id'])); ?>
+                <?php echo $this->Form->input('Order.order_number',array('type'=>'hidden','value'=>$orderDetails['Order']['order_number'])); ?>
+                
+                
                 
 
               
@@ -623,7 +628,7 @@
                                 console.log('inside payment');
                                 payment = '&#8377;'+ result.payment;
                                 
-                                alert('Either return amount of '+payment+' to customer or use this amount to other order of else add this amount to customer wallet manually ');
+                                alert('Either return amount of '+payment+' to customer or use this amount to other order or else add this amount to customer wallet manually ');
                                 window.location.href='<?php echo $this->webroot?>Customers/index';
                             
                             } else if (result.advancePayment) {

@@ -284,7 +284,7 @@
                             if ($currentDate < $twoDaysAfterOrder) { ?>
                                 <button class="btn btn-rounded btn-space" style="background-color:#46F948;border-color:#46F948;" id="add-order-item">Add Order Item</button>
                         <?php } } ?>
-                        <button class="btn btn-rounded btn-space btn" style="background-color:#B591F0;border-color:#B591F0;" id="customer_wallet">Wallet Money</button>
+                        <button class="btn btn-rounded btn-space btn" style="background-color:#FC8E39;border-color:#FC8E39;" id="customer_wallet">Wallet Money</button>
                         <button class="btn btn-rounded btn-space btn-warning" id="payment_history">Payment History</button>
                         <button class="btn btn-rounded btn-space btn-default" id="payment_receipt">Payment Receipt</button>
                         <?php if ($orderDetails['Order']['status'] == 0) { ?>

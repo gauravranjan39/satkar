@@ -37,13 +37,13 @@ class OrdersController extends AppController {
             $this->request->data['Order']['order_number'] = $orderNumber;
             $this->request->data['Order']['total'] = $this->request->data['Order']['grand_total'];
             $grandTotal = floatval($this->request->data['Order']['grand_total']);
-            $orderPayment = floatval($this->request->data['OrderTransaction']['amount_paid']);
-            $dues = ($grandTotal - $orderPayment);
-            if (empty($dues)) {
-                $this->request->data['Order']['payment_status'] = 0;
-            } else {
-                $this->request->data['Order']['payment_status'] = 1;
-            }
+            //$orderPayment = floatval($this->request->data['OrderTransaction']['amount_paid']);
+            // $dues = ($grandTotal - $orderPayment);
+            // if (empty($dues)) {
+            //     $this->request->data['Order']['payment_status'] = 0;
+            // } else {
+            //     $this->request->data['Order']['payment_status'] = 1;
+            // }
 
             $this->Order->save($this->request->data['Order']);
             $orderId = $this->Order->getLastInsertID();
@@ -54,13 +54,13 @@ class OrdersController extends AppController {
                 $this->OrderItem->create();
                 $this->OrderItem->save($orderItem);
             }
-            if (!empty($this->request->data['OrderTransaction']['amount_paid'])) { 
-                $this->OrderTransaction->create();
-                $this->request->data['OrderTransaction']['order_id'] = $orderId;
-                $invoiceNumber =  rand() .$orderId . time();
-                $this->request->data['OrderTransaction']['invoice_number'] = $invoiceNumber;
-                $this->OrderTransaction->save($this->request->data['OrderTransaction']);
-            }
+            // if (!empty($this->request->data['OrderTransaction']['amount_paid'])) { 
+            //     $this->OrderTransaction->create();
+            //     $this->request->data['OrderTransaction']['order_id'] = $orderId;
+            //     $invoiceNumber =  rand() .$orderId . time();
+            //     $this->request->data['OrderTransaction']['invoice_number'] = $invoiceNumber;
+            //     $this->OrderTransaction->save($this->request->data['OrderTransaction']);
+            // }
             $encodedOrderId=$this->Encryption->encode($orderId);
             $this->redirect(array('controller'=>'Orders','action'=>'summary',$encodedOrderId));
 		}
@@ -84,7 +84,6 @@ class OrdersController extends AppController {
         $customerDetails = $this->Customer->find('first',array('conditions'=>array('Customer.id'=>$customerId),'fields'=>array('name','address','mobile')));
         $categoryLists = $this->Category->find('list',array('conditions'=>array('Category.parent_id'=>0)));
         $this->set(compact('orderDetails','customerDetails','categoryLists','Encryption'));
-        // $this->set('orderDetails',$orderDetails);
     }
 
 

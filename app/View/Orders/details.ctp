@@ -267,13 +267,7 @@
                         if ($orderDetails['Order']['status'] != 2) { ?>
                         <button class="btn btn-rounded btn-space btn-danger" id="cancel_order">Cancel Order</button>
                         <?php } ?>
-                        <?php //if ($orderDetails['Order']['payment_status'] == 1) {
-                            $currentDate = strtotime(date("Y-m-d"));
-                            $twoDaysAfterOrder = date('Y-m-d', strtotime($orderDetails['Order']['created']. ' + 2 days'));
-                            $twoDaysAfterOrder = strtotime($twoDaysAfterOrder);
-                            if ($currentDate < $twoDaysAfterOrder) { ?>
-                                <button class="btn btn-rounded btn-space" style="background-color:#46F948;border-color:#46F948;" id="add-order-item">Add Order Item</button>
-                        <?php } //} ?>
+                        
                         <button class="btn btn-rounded btn-space btn" style="background-color:#FC8E39;border-color:#FC8E39;" id="customer_wallet">Wallet Money</button>
                         <button class="btn btn-rounded btn-space btn-warning" id="payment_history">Payment History</button>
                         <button class="btn btn-rounded btn-space btn-default" id="payment_receipt">Payment Receipt</button>
@@ -425,159 +419,6 @@
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
-<div class="modal animated fadeIn" id="addMoreItem" tabindex="-1" role="dialog" aria-labelledby="smallModalHead" aria-hidden="true">
-    <div class="modal-dialog modal-lg" style="top:6%;">
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header" style="text-align: center;height:70px !important;">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h3 class="modal-title" style="line-height:1;">Add Order Item</h3><hr>
-            </div>
-            
-            <div class="modal-body" style="padding-top:0px !important;">
-            
-                <?php echo $this->Form->create('Order',array('url'=> array('controller' => 'Orders', 'action' => 'add_more_item'),'method'=>'POST')); ?>
-                <?php echo $this->Form->input('Order.order_id',array('type'=>'hidden','value'=>$orderDetails['Order']['id'])); ?>
-                <?php echo $this->Form->input('Order.payment',array('type'=>'hidden','value'=>$payment)); ?>
-                <?php echo $this->Form->input('Order.customer_id',array('type'=>'hidden','value'=>$orderDetails['Order']['customer_id'])); ?>
-                <?php echo $this->Form->input('Order.order_number',array('type'=>'hidden','value'=>$orderDetails['Order']['order_number'])); ?>
-                
-                
-                
-
-              
-                <div class="clone-div" id="clonedInput_0" data-count-val="0">
-								<div class="col-md-12">
-									<div class="form-group">
-										<div class="col-sm-5" style="float:right;">
-											<div class="be-radio inline">
-												<input type="radio" checked="" class="saleType" sale-type="weight" name="type0" data-count-val="0" id="weight_0">
-												<label for="weight_0">By Weight</label>
-											</div>
-											<div class="be-radio inline">
-												<input type="radio" class="saleType" sale-type="piece" name="type0" data-count-val="0" id="piece_0">
-												<label for="piece_0">By Piece</label>
-											</div>
-											<div class="be-radio inline">
-												<input type="radio" class="saleType" sale-type="gems" name="type0" data-count-val="0" id="gems_0">
-												<label for="gems_0">Gems</label>
-											</div>
-										</div>
-									</div>
-								</div>
-								<hr style="border: 1px dotted gainsboro;">
-
-								<?php $categoryJson =  json_encode($categoryLists); ?>
-								<div class="row xs-pt-12">
-									<div class="form-group col-sm-6">
-										<label>Category</label>
-										<?php echo $this->Form->input("OrderItem.category_id",array('name'=>'data[OrderItem][0][category_id]','id'=>'OrderItemCategoryId_0','type'=>'select','options'=>$categoryLists,'empty'=>'---Select---','placeholder'=>'Enter category','required'=>'required','class'=>'form-control input-sm','label'=>false));?>
-									</div>
-
-									<div class="form-group col-sm-6">
-										<label>Item</label>
-										<?php echo $this->Form->input("OrderItem.name",array('name'=>'data[OrderItem][0][name]','id'=>'OrderItemName_0','placeholder'=>'Enter Item','required'=>'required','class'=>'form-control input-sm itemName','label'=>false));?>
-									</div>
-								</div>
-
-								<div class="row xs-pt-12 extra_fields_0" id="rateMakingFields_0">
-									<div class="form-group col-sm-6">
-										<label>Rate</label>
-										<?php echo $this->Form->input("OrderItem.rate",array('name'=>'data[OrderItem][0][rate]','id'=>'OrderItemRate_0','placeholder'=>'Enter Rate','required'=>'required','class'=>'form-control input-sm per-weight-field allowOnlyNumber','label'=>false));?>
-									</div>
-
-									<div class="form-group col-sm-6">
-										<label>Making Charge</label>
-										<?php echo $this->Form->input("OrderItem.making_charge",array('name'=>'data[OrderItem][0][making_charge]','id'=>'OrderItemMakingCharge_0','placeholder'=>'Enter Making Charge','required'=>'required','class'=>'form-control input-sm per-weight-field allowOnlyNumber','label'=>false));?>
-									</div>
-								</div>
-
-								<div class="row xs-pt-12 extra_fields_0" id="weightPurityFields_0">
-									<div class="form-group col-sm-6">
-										<label>Weight</label>
-										<?php echo $this->Form->input("OrderItem.weight",array('name'=>'data[OrderItem][0][weight]','id'=>'OrderItemWeight_0','placeholder'=>'Enter Weight','required'=>'required','class'=>'form-control input-sm per-weight-field item-weight allowOnlyNumber','label'=>false));?>
-									</div>
-
-									<div class="form-group col-sm-6">
-										<label>Purity</label>
-										<?php echo $this->Form->input("OrderItem.purity",array('name'=>'data[OrderItem][0][purity]','id'=>'OrderItemPurity_0','placeholder'=>'Enter Purity','class'=>'form-control input-sm per-weight-field allowOnlyNumber','label'=>false));?>
-									</div>
-								</div>
-
-								<div class="row xs-pt-12 gems_fields_0" id="gemsField_0" style="display:none;">
-									<div class="form-group col-sm-3">
-										<label>Gems Name</label>
-										<?php echo $this->Form->input("OrderItem.gems_name",array('name'=>'data[OrderItem][0][gems_name]','id'=>'GemsName_0','placeholder'=>'Enter Gems Name','class'=>'form-control input-sm','label'=>false));?>
-									</div>
-									<div class="form-group col-sm-3">
-										<label>Gems Rate</label>
-										<?php echo $this->Form->input("OrderItem.gems_rate",array('name'=>'data[OrderItem][0][gems_rate]','id'=>'GemsRate_0','placeholder'=>'Enter Gems Rate','class'=>'form-control input-sm allowOnlyNumber per-weight-field','label'=>false));?>
-									</div>
-									<div class="form-group col-sm-3">
-										<label>Gems Weight</label>
-										<?php echo $this->Form->input("OrderItem.gems_weight",array('name'=>'data[OrderItem][0][gems_weight]','id'=>'GemsWeight_0','placeholder'=>'Enter Gems Weight','class'=>'form-control input-sm allowOnlyNumber per-weight-field','label'=>false));?>
-									</div>
-									<div class="form-group col-sm-3">
-										<label>Gems Price</label>
-										<?php echo $this->Form->input("OrderItem.gems_price",array('name'=>'data[OrderItem][0][gems_price]','id'=>'GemsPrice_0','placeholder'=>'Enter Gems Price','class'=>'form-control input-sm allowOnlyNumber per-weight-field','readonly'=>true, 'label'=>false));?>
-									</div>
-								</div>
-
-								<div class="row xs-pt-12">
-									<div class="form-group col-sm-6">
-										<label>Total</label>
-										<?php echo $this->Form->input("OrderItem.total",array('name'=>'data[OrderItem][0][total]','id'=>'OrderItemTotal_0','placeholder'=>'Total','type'=>'text','required'=>'required','readonly'=>true,'class'=>'form-control input-sm allowOnlyNumber itemTotal','label'=>false));?>
-									</div>
-									<div class="form-group col-sm-6">
-										<label>Discount</label>
-										<?php echo $this->Form->input("OrderItem.discount",array('name'=>'data[OrderItem][0][discount]','id'=>'OrderItemDiscount_0','placeholder'=>'Enter Discount','type'=>'text','class'=>'form-control input-sm allowOnlyNumber per-weight-field','label'=>false,'maxLength'=>7));?>
-									</div>
-								</div>
-
-								<div class="row xs-pt-12">
-									<div class="form-group col-sm-6">
-										<label>Comments</label>
-										<?php echo $this->Form->input("OrderItem.comments",array('name'=>'data[OrderItem][0][comments]','id'=>'OrderItemComments_0','type'=>'text','placeholder'=>'Enter Comments','class'=>'form-control input-sm','label'=>false));?>
-									</div>
-									<div class="form-group col-sm-6">
-										<label>Grand Total</label>
-										<?php echo $this->Form->input("OrderItem.grand_total",array('name'=>'data[OrderItem][0][grand_total]','id'=>'OrderItemGrandTotal_0','placeholder'=>'Grand Total','required'=>'required','readonly'=>true,'class'=>'form-control input-sm allowOnlyNumber grand_total','label'=>false));?>
-									</div>
-								</div>
-								<br/>
-
-								<div class="clone-remove" style="padding: 5px;">
-									<button type="button" class="btn btn-warning btn-xs remove pull-right" style="display: none;">Remove</button>
-								</div>
-								
-								<hr style="border-color:#4285f4;border-width:2px;">
-							</div> 
-							<button type="button" class="btn btn-primary btn-xs add-more">Add More</button>
-
-                            <div class="row xs-pt-12">
-								<div class="form-group col-sm-6"></div>
-								<div class="form-group col-sm-6">
-									<label>Grand Total</label>
-									<?php echo $this->Form->input("Order.grand_total",array('placeholder'=>'Grand Total','autocomplete'=>'off','required'=>'required','class'=>'form-control input-sm orderAllowOnlyNumber','readonly'=>true,'label'=>false));?>
-								</div>
-							</div>
-                
-                
-                <div class="">
-                    <div class="">
-                        <div class="col-md-12">
-                            <?php echo $this->Form->button('Submit',array('type'=>'submit','id'=>'pay_dues','class'=>'btn btn-rounded btn-primary','style'=>'margin-top: 26px;margin-bottom: 18px;','escape'=>false));?>
-                        </div>
-                    </div>
-                </div>
-                <?php echo $this->Form->end();?>
             </div>
         </div>
     </div>
@@ -847,25 +688,7 @@
             $('#paymentHistory').modal('show');
         });
 
-        $('#add-order-item').click(function(){
-            $('#addMoreItem').modal('show');
-        });
-
-         $('#OrderAddMoreItemForm').submit(function(event){
-            event.preventDefault();
-            $.ajax({
-                url:"<?php echo Router::url(array('controller'=>'Orders','action'=>'add_more_item'));?>",
-                type: 'POST',
-                data: $('#OrderAddMoreItemForm').serialize(),
-                success:function(data){
-                    if (data == 1) {
-                        location.reload();
-                    } else {
-                        alert('Error Occured!!');
-                    }
-                }
-            });
-        });
+        
 
         $('#payment_receipt').click(function(){
             var orderId = '<?php echo $orderDetails['Order']['id']; ?>';

@@ -138,23 +138,23 @@
 								</div>
 							</div>
 
-							<div class="row xs-pt-12">
+							<!-- <div class="row xs-pt-12">
 								<div class="form-group col-sm-6"></div>
 								<div class="form-group col-sm-6">
 									<label>Payment</label>
-									<?php echo $this->Form->input("OrderTransaction.amount_paid",array('placeholder'=>'Payment','type'=>'text','required'=>'required','autocomplete'=>'off','class'=>'form-control input-sm orderAllowOnlyNumber','label'=>false));?>
+									<?php //echo $this->Form->input("OrderTransaction.amount_paid",array('placeholder'=>'Payment','type'=>'text','required'=>'required','autocomplete'=>'off','class'=>'form-control input-sm orderAllowOnlyNumber','label'=>false));?>
 								</div>
-							</div>
+							</div> -->
 
 							<div class="row xs-pt-12">
 								<div class="form-group col-sm-6">
 									<label>Comments</label>
 									<?php echo $this->Form->input("Order.comments",array('placeholder'=>'Comments','autocomplete'=>'off','class'=>'form-control input-sm','label'=>false));?>
 								</div>
-								<div class="form-group col-sm-6">
+								<!-- <div class="form-group col-sm-6">
 									<label>Dues</label>
-									<?php echo $this->Form->input("OrderTransaction.dues",array('placeholder'=>'Dues','autocomplete'=>'off','class'=>'form-control input-sm orderAllowOnlyNumber','readonly'=>true,'label'=>false));?>
-								</div>
+									<?php //echo $this->Form->input("OrderTransaction.dues",array('placeholder'=>'Dues','autocomplete'=>'off','class'=>'form-control input-sm orderAllowOnlyNumber','readonly'=>true,'label'=>false));?>
+								</div> -->
 							</div>
 							
 							<div class="row xs-pt-15">
@@ -280,7 +280,7 @@
 					var currentElemGrandTotal =  (parseFloat(currentElemTotal) - parseFloat(curentElemDiscount));
 					$('#OrderItemGrandTotal_'+parentDiv).val(currentElemGrandTotal.toFixed(2));
 					// $('#OrderDiscount').val('');
-					$('#OrderTransactionAmountPaid').val('');
+					//$('#OrderTransactionAmountPaid').val('');
 				}
 			} else if (saleType == 'piece') {
 				var currentElemTotal = $('#OrderItemTotal_'+parentDiv).val();
@@ -308,7 +308,7 @@
 				if ($.isNumeric(currentElemGrandTotal)) {
 					$('#OrderItemGrandTotal_'+parentDiv).val(currentElemGrandTotal.toFixed(2));
 					// $('#OrderDiscount').val('');
-					$('#OrderTransactionAmountPaid').val('');
+					//$('#OrderTransactionAmountPaid').val('');
 				}
 			} else if (saleType == 'gems') {
 				var curentElemRate = $('#OrderItemRate_'+parentDiv).val();
@@ -352,7 +352,7 @@
 					var currentElemGemsGrandTotal =  (parseFloat(gemsItemTotalAmt) - parseFloat(curentElemGemsDiscount));
 					$('#OrderItemGrandTotal_'+parentDiv).val(currentElemGemsGrandTotal.toFixed(2));
 					// $('#OrderDiscount').val('');
-					$('#OrderTransactionAmountPaid').val('');
+					//$('#OrderTransactionAmountPaid').val('');
 				}
 			}
 			var orderTotalAmt = 0;
@@ -364,7 +364,7 @@
 			});
 			$('#OrderTotal').val(Math.round(orderTotalAmt));
 			$('#OrderGrandTotal').val(Math.round(orderTotalAmt));
-			$('#OrderTransactionDues').val(Math.round(orderTotalAmt));
+			//$('#OrderTransactionDues').val(Math.round(orderTotalAmt));
 		});
 		
 		//calculate the grand total after discount amount
@@ -393,22 +393,22 @@
 		// });
 		
 		//payment for the order
-		$('#OrderTransactionAmountPaid').keyup(function(){
-			var orderGrandTotal = $('#OrderGrandTotal').val();
-			var orderPayment = $(this).val();
-			if (orderPayment == '') {
-				orderPayment = '0.00';
-			}
-			if (parseFloat(orderPayment) > parseFloat(orderGrandTotal)) {
-				alert('payment amount must be less than grand total');
-				$('#OrderTransactionAmountPaid').val('');
-				orderPayment = '0.00';
-			}
-			var orderDues =  (parseFloat(orderGrandTotal) - parseFloat(orderPayment));
-			if ($.isNumeric(orderDues)) { 
-				$('#OrderTransactionDues').val(orderDues.toFixed(2));
-			}
-		});
+		// $('#OrderTransactionAmountPaid').keyup(function(){
+		// 	var orderGrandTotal = $('#OrderGrandTotal').val();
+		// 	var orderPayment = $(this).val();
+		// 	if (orderPayment == '') {
+		// 		orderPayment = '0.00';
+		// 	}
+		// 	if (parseFloat(orderPayment) > parseFloat(orderGrandTotal)) {
+		// 		alert('payment amount must be less than grand total');
+		// 		$('#OrderTransactionAmountPaid').val('');
+		// 		orderPayment = '0.00';
+		// 	}
+		// 	var orderDues =  (parseFloat(orderGrandTotal) - parseFloat(orderPayment));
+		// 	if ($.isNumeric(orderDues)) { 
+		// 		$('#OrderTransactionDues').val(orderDues.toFixed(2));
+		// 	}
+		// });
 		
 		var category = JSON.parse('<?php echo $categoryJson; ?>');
 

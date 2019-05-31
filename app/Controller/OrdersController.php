@@ -195,7 +195,7 @@ class OrdersController extends AppController {
                         $this->Wallet->create();
                         $walletData['Wallet']['customer_id'] = $customerId;
                         $walletData['Wallet']['order_id'] = $this->request->data['OrderTransaction']['order_id'];
-                        $walletData['Wallet']['order_id'] = $this->request->data['OrderTransaction']['order_number'];
+                        $walletData['Wallet']['order_number'] = $this->request->data['OrderTransaction']['order_number'];
                         if (!empty($this->request->data['OrderTransaction']['item'])) {
                             $walletData['Wallet']['item'] = $this->request->data['OrderTransaction']['item'];
                         }

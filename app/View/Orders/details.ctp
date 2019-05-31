@@ -64,14 +64,6 @@
 						<th>Discount</th>
 						<th>Grand Total</th>
                         <th>Status</th>
-                        <?php
-                        //if ($orderDetails['Order']['payment_status'] == 1) {
-                            $currentDate = strtotime(date("Y-m-d"));
-                            $twoDaysAfterOrder = date('Y-m-d', strtotime($orderDetails['Order']['created']. ' + 1 days'));
-                            $twoDaysAfterOrder = strtotime($twoDaysAfterOrder);
-                            if ($currentDate < $twoDaysAfterOrder) { ?>
-                                <th>Action</th>
-                        <?php } //} ?>
                       </tr>
                     </thead>
                     <tbody>
@@ -154,15 +146,7 @@
                                 <td><span class="text-success"><?php echo $this->Html->link('Confirm', 'javascript:void(0);',  array("class" => "text-success return_item", "escape" => false,'order_item_id'=>$orderDetail['id'],'item_grand_total'=>$orderDetail['grand_total'],'title'=>'Return this item')); ?></span></td>
                             
                         <?php } ?>
-                        <?php //if ($orderDetails['Order']['payment_status'] == 1) {
-                            $currentDate = strtotime(date("Y-m-d"));
-                            $twoDaysAfterOrder = date('Y-m-d', strtotime($orderDetails['Order']['created']. ' + 1 days'));
-                            $twoDaysAfterOrder = strtotime($twoDaysAfterOrder);
-                            if ($currentDate < $twoDaysAfterOrder) { ?>
-                                <td style="text-align:center;">
-                                    <span style="cursor:pointer;" details-for-delete=<?php echo json_encode($orderItemDetailsForDelete)?> class="delete_item" title="Delete Item"><i class="mdi mdi-delete"></i></span>
-                                </td>
-                        <?php } //} ?>
+                        
                         
                     </tr>
                     <?php }
@@ -233,8 +217,6 @@
                                 $dues = ($orderDetails['Order']['grand_total'] - $sum);
                             }
                             
-                            // echo (int)($dues);die;
-                            
                         ?>
                         <span class="text-danger">&#8377;<?php echo number_format($dues,2); ?></span>
                     </div>
@@ -242,7 +224,8 @@
 
                 <?php
                     
-                    if ($payment > $orderDetails['Order']['grand_total']) { 
+                    
+                    if ($payment > $orderDetails['Order']['grand_total']) {
                         $advance = ($payment - $orderDetails['Order']['grand_total']);
                         ?>
                         <div class="row xs-pt-12">
@@ -441,42 +424,6 @@
             url='<?php echo $this->webroot?>Wallets/index/' +customerId;
             window.open(url, '_blank');
         });
-
-        $('.delete_item').click(function(){
-            var dataDeleteDetails = JSON.parse($(this).attr('details-for-delete'));
-            console.log(dataDeleteDetails);
-            if (confirm('Are you sure to delete this item from order ?')) {
-                $.ajax({
-                    type: "POST",
-                    url:"<?php echo Router::url(array('controller'=>'Orders','action'=>'delete_order_item'));?>",
-                    data:({delete_details:dataDeleteDetails}),
-                    dataType: 'json',
-                    success:function(result){
-                        console.log('@@@@@@@@@');
-                        if (result.success) {
-                            console.log('inside true');
-                            if (result.payment) {
-                                console.log('inside payment');
-                                alert('Either return amount of Rs.'+result.payment+' to customer or use this amount to other order or else add this amount to customer wallet manually ');
-                                window.location.href='<?php echo $this->webroot?>Customers/index';
-                            
-                            } else if (result.advancePayment) {
-                                console.log('inside advance payment');
-                                alert('Amount of Rs. '+result.advancePayment+' is added to the customer wallet');
-                                location.reload();
-                            } else {
-                                location.reload();
-                            }
-                            console.log('outside all');
-                            
-                        } else {
-                            console.log('inside error');
-                            alert('Error Occured!!');
-                        }
-                    }
-			    });
-            }
-        });
         
         $('.table-fw-widget').off("click", ".item_discount");
         $('.table-fw-widget').on('click','.item_discount',function(){
@@ -523,7 +470,6 @@
 			    });
             });
             
-            
             $('.item_extra_discount').keyup(function(){
                 var discountVal = $(this).val();
                 var dues = '<?php echo $dues ?>';
@@ -540,8 +486,7 @@
                     }
                 }
             });
-
-
+            
         });
 
         $("#confirm_order").click(function(){

@@ -469,23 +469,54 @@ class OrdersController extends AppController {
         $this->layout = false;
         $this->loadModel('Order');
         $this->loadModel('OrderItem');
+        $this->loadModel('Wallet');
         if ($this->request->is(array('post','put'))) {
-            // pr($this->request->data);
+            pr($this->request->data);die;
             $orderId = $this->request->data['Order']['order_id'];
+            $customerId = $this->request->data['Order']['customer_id'];
+            $orderNumber = $this->request->data['Order']['order_number'];
             $this->Order->recursive = -1;
             $orderDetails = $this->Order->find('first',array('conditions'=>array('Order.id'=>$orderId),'fields'=>array('Order.grand_total','total')));
             $orderGrandTotal = $orderDetails['Order']['grand_total'];
             $orderTotal = $orderDetails['Order']['total'];
-            $newItemsGrandTotal = (float)$this->request->data['Order']['grand_total'];
-            $newOrderGrandTotal = (float)($orderGrandTotal + $newItemsGrandTotal);
+            $newItemGrandTotal = $this->request->data['Order']['grand_total'];
+            $payment = (float)$this->request->data['Order']['payment'];
+
+            $newOrderTotal = (float)($orderTotal + $newItemGrandTotal);
+            $newOrderGrandTotal = (float)($orderGrandTotal + $newItemGrandTotal);
+
+            $this->Wallet->deleteAll(array('Wallet.order_id'=>$orderId,'Wallet.credit !='=>"NULL"));
+            
+            $this->Wallet->recursive = -1;
+            $Latest = $this->Wallet->find('first',array('conditions' => array('Wallet.customer_id' => $customerId),'fields'=>array('Wallet.balance'),'order' => array('Wallet.id' => 'DESC')));
+            if (empty($Latest)) {
+                $Latest['Wallet']['balance'] = '0.00';
+            }
+
+            
+            // idea: delete row from wallet with order_id and check if paymant > newgrandtotal then save remaing value to wallet
+            if ($payment > $newOrderGrandTotal) {
+                $advance = ($payment - $newOrderGrandTotal);
+                $walletData['Wallet']['customer_id'] = $customerId;
+                $walletData['Wallet']['order_id'] = $orderId;
+                $walletData['Wallet']['order_number'] = $orderNumber;
+                $walletData['Wallet']['type'] = 'add-item';
+                $walletData['Wallet']['credit'] = $advance;
+                $walletData['Wallet']['balance'] = $Latest['Wallet']['balance'] + $advance;
+                $this->Wallet->create();
+                $this->Wallet->save($walletData);
+                $this->Order->updateAll(array('Order.total' =>$newOrderTotal,'Order.grand_total' =>$newOrderGrandTotal,'Order.payment_status'=>0),array('Order.id'=>$orderId));
+            } else if ($payment < $newOrderGrandTotal) {
+                $this->Order->updateAll(array('Order.total' =>$newOrderTotal,'Order.grand_total' =>$newOrderGrandTotal,'Order.payment_status'=>1),array('Order.id'=>$orderId));
+            } else if ($payment == $newOrderGrandTotal) {
+                $this->Order->updateAll(array('Order.total' =>$newOrderTotal,'Order.grand_total' =>$newOrderGrandTotal,'Order.payment_status'=>0),array('Order.id'=>$orderId));
+            }
             
             foreach ($this->request->data['OrderItem'] as $orderItem) {
-                $orderTotal+= (float)$orderItem['total'];
                 $orderItem['order_id'] = $orderId;
                 $this->OrderItem->create();
                 $this->OrderItem->save($orderItem);
             }
-            $this->Order->updateAll(array('Order.total' =>$orderTotal,'Order.grand_total' =>$newOrderGrandTotal),array('Order.id'=>$orderId));
             echo '1';
         }
     }

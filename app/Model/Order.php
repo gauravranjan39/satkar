@@ -38,7 +38,7 @@ class Order extends AppModel {
 		'OrderItem' => array(
 			'className' => 'OrderItem',
 			'foreignKey' => 'order_id',
-			'dependent' => false,
+			'dependent' => true,
 			'conditions' => '',
 			'fields' => '',
 			'order' => '',
@@ -51,7 +51,7 @@ class Order extends AppModel {
 		'OrderTransaction' => array(
 			'className' => 'OrderTransaction',
 			'foreignKey' => 'order_id',
-			'dependent' => false,
+			'dependent' => true,
 			'conditions' => '',
 			'fields' => '',
 			'order' => '',

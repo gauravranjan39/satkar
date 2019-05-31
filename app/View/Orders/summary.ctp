@@ -3,17 +3,17 @@
           <div class="row">
             <div class="col-sm-12">
               <div class="panel panel-default panel-table">
-                <div class="panel-heading">Order Summary
-                <br/><br/>
+                <div class="panel-heading">Order Summary<br/><br/>
                 <div class="col-md-12">
                     <div class="col-md-6">
                     <div style="font-size:15px;"><b>Customer Name:</b>
-                        <?php $encodedOrderId = $Encryption->encode($orderDetails['Order']['id']);?>
+						<?php $encodedOrderId = $Encryption->encode($orderDetails['Order']['id']);?>
                         <?php $encodedCustomerId = $Encryption->encode($orderDetails['Order']['customer_id']);?>
                         <?php echo $customerDetails['Customer']['name']; ?></div>
                         <div style="font-size:15px;"><b>Address:  </b><?php echo $customerDetails['Customer']['address']; ?></div>
-                        <div style="font-size:15px;"><b>Mb: </b><?php echo '+91-' . $customerDetails['Customer']['mobile']; ?></div>
+                        <div style="font-size:15px;"><b>Mb:  </b><?php echo $customerDetails['Customer']['mobile']; ?></div>
                     </div>
+
                         <div class="col-md-6">
                             <div class="tools" style="font-size:18px;">
                                 <?php echo "Order ID: " .$orderDetails['Order']['order_number']; ?>
@@ -30,28 +30,28 @@
                 </div>
 
                 <hr>
+                
                 <div class="panel-body">
                   <table id="" class="table table-striped table-hover table-fw-widget">
                     <thead>
-                      <tr>
-                        <th>Category</th>
-						<th>Item</th>
-                        <th>Rate</th>
-                        <th>Weight</th>
-                        <th>Making Charge</th>
-                        <th>Gems</th>
-                        <th>Gems Rate</th>
-                        <th>Gems Weight</th>
-                        <th>Gems Amount</th>
-						<th>Total</th>
-						<th>Discount</th>
-						<th>Grand Total</th>
-                        <th>Action</th>
-                      </tr>
+						<tr>
+							<th>Category</th>
+							<th>Item</th>
+							<th>Rate</th>
+							<th>Weight</th>
+							<th>Making Charge</th>
+							<th>Gems</th>
+							<th>Gems Rate</th>
+							<th>Gems Weight</th>
+							<th>Total</th>
+							<th>Discount</th>
+							<th>Grand Total</th>
+							<th>Action</th>
+						</tr>
                     </thead>
                     <tbody>
 					
-					<?php foreach ($orderDetails['OrderItem'] as $orderDetail) { ?>
+                    <?php foreach ($orderDetails['OrderItem'] as $orderDetail) { ?>
                     <tr class="odd gradeX">
                         <td><?php echo $orderDetail['Category']['name']; ?></td>
                         <td><?php echo $orderDetail['name']; ?></td>
@@ -59,21 +59,21 @@
                         <td><?php echo $orderDetail['weight']; ?></td>
                         
                         <?php if(isset($orderDetail['making_charge']) && !empty($orderDetail['making_charge'])) { ?>
-                            <td>&#8377;<?php echo " ". $orderDetail['making_charge']; ?></td>
+                            <td>&#8377;<?php echo $orderDetail['making_charge']; ?></td>
                         <?php } else { ?>
                             <td></td>
                         <?php } ?>
                         <td><?php echo $orderDetail['gems_name']; ?></td>
                         <td><?php echo $orderDetail['gems_rate']; ?></td>
                         <td><?php echo $orderDetail['gems_weight']; ?></td>
-                        <td><?php echo $orderDetail['gems_price']; ?></td>
-                        <td>&#8377;<?php echo " ". number_format($orderDetail['total'],2); ?></td>
+                        
+                        <td>&#8377;<?php echo number_format($orderDetail['total'],2); ?></td>
                         <?php if(isset($orderDetail['discount']) && !empty($orderDetail['discount'])) { ?>
-                            <td>&#8377;<?php echo " ". number_format($orderDetail['discount'],2); ?></td>
+                            <td>&#8377;<?php echo number_format($orderDetail['discount'],2); ?></td>
                         <?php } else { ?>
                             <td></td>
                         <?php } ?>
-                        <td>&#8377;<?php echo " ". number_format($orderDetail['grand_total'],2); ?></td>
+                        <td>&#8377;<?php echo number_format($orderDetail['grand_total'],2); ?></td>
                         <td style="text-align:center;">
                             <span style="cursor:pointer;" class="delete_item" title="Delete Item"><i class="mdi mdi-delete"></i></span>
                         </td>
@@ -83,23 +83,24 @@
                   </table>
                   <br/><br/><br/><br/>
                 <hr>
-                
-                <div class="col-md-12">
 
-                    <div class="col-md-10">
-                    <?php if (isset($orderDetails['Order']['comments']) && !empty($orderDetails['Order']['comments'])) { ?>
-                            <label>Comments:&nbsp;&nbsp;</label>
-                            <?php echo $orderDetails['Order']['comments']; ?>
-                        <?php } ?>
-                    </div>
+               <div class="col-md-12">
 
-                    <div class="col-md-2">
-                    <label>Grand Total:</label>
-                        &#8377;<?php echo " ". number_format($orderDetails['Order']['grand_total'],2); ?>
-                    </div>
+					<div class="col-md-10">
+					<?php if (isset($orderDetails['Order']['comments']) && !empty($orderDetails['Order']['comments'])) { ?>
+							<label>Comments:&nbsp;&nbsp;</label>
+							<?php echo $orderDetails['Order']['comments']; ?>
+						<?php } ?>
+					</div>
 
-                </div>
-               
+					<div class="col-md-2">
+					<label>Grand Total:</label>
+						&#8377;<?php echo number_format($orderDetails['Order']['grand_total'],2); ?>
+					</div>
+
+				</div>
+
+
                 <div class="col-md-12">
                     <p class="xs-mt-10 xs-mb-10">
                         <button class="btn btn-rounded btn-space btn-success" id="add-order-item">Add More Item</button>
@@ -107,13 +108,11 @@
                         <button class="btn btn-rounded btn-space btn-primary" id="order_proceed">Proceed For Payment</button>
                     </p>
                 </div>
-
                 </div>
               </div>
             </div>
           </div>
       </div>
-
 <div class="modal animated fadeIn" id="addMoreItem" tabindex="-1" role="dialog" aria-labelledby="smallModalHead" aria-hidden="true">
     <div class="modal-dialog modal-lg" style="top:6%;">
         <!-- Modal content-->
@@ -128,8 +127,8 @@
                 <?php echo $this->Form->create('Order',array('url'=> array('controller' => 'Orders', 'action' => 'add_more_item'),'method'=>'POST')); ?>
                 <?php echo $this->Form->input('Order.order_id',array('type'=>'hidden','value'=>$orderDetails['Order']['id'])); ?>
                 <?php //echo $this->Form->input('Order.payment',array('type'=>'hidden','value'=>$payment)); ?>
-                <?php echo $this->Form->input('Order.customer_id',array('type'=>'hidden','value'=>$orderDetails['Order']['customer_id'])); ?>
-                <?php echo $this->Form->input('Order.order_number',array('type'=>'hidden','value'=>$orderDetails['Order']['order_number'])); ?>
+                <?php //echo $this->Form->input('Order.customer_id',array('type'=>'hidden','value'=>$orderDetails['Order']['customer_id'])); ?>
+                <?php //echo $this->Form->input('Order.order_number',array('type'=>'hidden','value'=>$orderDetails['Order']['order_number'])); ?>
               
                 <div class="clone-div" id="clonedInput_0" data-count-val="0">
 								<div class="col-md-12">

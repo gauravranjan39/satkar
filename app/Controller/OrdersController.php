@@ -62,7 +62,7 @@ class OrdersController extends AppController {
                 $this->OrderTransaction->save($this->request->data['OrderTransaction']);
             }
             $encodedOrderId=$this->Encryption->encode($orderId);
-            $this->redirect(array('controller'=>'Orders','action'=>'details',$encodedOrderId));
+            $this->redirect(array('controller'=>'Orders','action'=>'summary',$encodedOrderId));
 		}
     }
     
@@ -72,12 +72,19 @@ class OrdersController extends AppController {
         $this->loadModel('OrderItem');
         $this->loadModel('Customer');
         $this->loadModel('OrderTransaction');
+        $this->loadModel('Category');
+        $orderId = $this->Encryption->decode($orderId);
+        $Encryption=$this->Encryption;
         $this->Order->recursive = 2;
         $this->Order->unbindModel(array('belongsTo' => array('Customer')),true);
         $this->OrderTransaction->unbindModel(array('belongsTo' => array('Order')),true);
         $this->OrderItem->unbindModel(array('belongsTo' => array('Order')),true);
         $orderDetails = $this->Order->find('first',array('conditions'=>array('Order.id'=>$orderId)));
-        $this->set('orderDetails',$orderDetails);
+        $customerId = $orderDetails['Order']['customer_id'];
+        $customerDetails = $this->Customer->find('first',array('conditions'=>array('Customer.id'=>$customerId),'fields'=>array('name','address','mobile')));
+        $categoryLists = $this->Category->find('list',array('conditions'=>array('Category.parent_id'=>0)));
+        $this->set(compact('orderDetails','customerDetails','categoryLists','Encryption'));
+        // $this->set('orderDetails',$orderDetails);
     }
 
 

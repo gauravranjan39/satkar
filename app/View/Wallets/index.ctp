@@ -21,11 +21,11 @@
                             <?php echo $this->Form->create('Wallet',array('url'=> array('controller' => 'Wallets', 'action' => 'index',$encodedCustomerId),'method'=>'POST')); ?>
                             <?php echo $this->Form->input('Wallet.customer_id',array('type'=>'hidden','value'=>$encodedCustomerId)); ?>
                             <div class="col-md-4">
-                                <?php echo $this->Form->input("Wallet.start_date",array('placeholder'=>'Enter start date','class'=>'form-control input-sm date datetimepicker','data-min-view' =>'2','data-date-format'=>'yyyy-mm-dd','autocomplete'=>'off','label'=>false,'value'=>isset($criteria['Wallet']['start_date'])? $criteria['Wallet']['start_date']:''));?>
+                                <?php echo $this->Form->input("Wallet.start_date",array('placeholder'=>'Enter start date','id'=>'start_date','class'=>'form-control input-sm date datetimepicker','data-min-view' =>'2','data-date-format'=>'yyyy-mm-dd','autocomplete'=>'off','label'=>false,'value'=>isset($criteria['Wallet']['start_date'])? $criteria['Wallet']['start_date']:''));?>
                             </div>
                             
                             <div class="col-md-4">
-                                <?php echo $this->Form->input("Wallet.end_date",array('placeholder'=>'Enter end date','class'=>'form-control input-sm date datetimepicker','data-min-view' =>'2','data-date-format'=>'yyyy-mm-dd','autocomplete'=>'off','label'=>false,'value'=>isset($criteria['Wallet']['end_date'])? $criteria['Wallet']['end_date']:''));?>
+                                <?php echo $this->Form->input("Wallet.end_date",array('placeholder'=>'Enter end date','id'=>'end_date','class'=>'form-control input-sm date datetimepicker','data-min-view' =>'2','data-date-format'=>'yyyy-mm-dd','autocomplete'=>'off','label'=>false,'value'=>isset($criteria['Wallet']['end_date'])? $criteria['Wallet']['end_date']:''));?>
                             </div>
 
                             <div class="col-md-4">
@@ -309,12 +309,27 @@
     })
 
 	$(document).ready(function() {
-        $(".datetimepicker").datetimepicker({
+        $("#start_date").datetimepicker({
             autoclose: true,
             componentIcon: '.mdi.mdi-calendar',
             navIcons:{
                 rightIcon: 'mdi mdi-chevron-right',
                 leftIcon: 'mdi mdi-chevron-left'
+            },
+            onClose: function( selectedDate ) {
+                $( "#end_date").datetimepicker( "option", "minDate", selectedDate );
+            }
+        });
+
+        $("#end_date").datetimepicker({
+            autoclose: true,
+            componentIcon: '.mdi.mdi-calendar',
+            navIcons:{
+                rightIcon: 'mdi mdi-chevron-right',
+                leftIcon: 'mdi mdi-chevron-left'
+            },
+            onClose: function( selectedDate ) {
+                $( "#start_date").datetimepicker( "option", "minDate", selectedDate );
             }
         });
 

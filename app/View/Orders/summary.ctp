@@ -8,7 +8,7 @@
                 <div class="col-md-12">
                     <div class="col-md-6">
                     <div style="font-size:15px;"><b>Customer Name:</b>
-
+                        <?php $encodedOrderId = $Encryption->encode($orderDetails['Order']['id']);?>
                         <?php $encodedCustomerId = $Encryption->encode($orderDetails['Order']['customer_id']);?>
                         <?php echo $customerDetails['Customer']['name']; ?></div>
                         <div style="font-size:15px;"><b>Address:  </b><?php echo $customerDetails['Customer']['address']; ?></div>
@@ -281,6 +281,11 @@
 
         $('#add-order-item').click(function(){
             $('#addMoreItem').modal('show');
+        });
+        
+        $('#order_proceed').click(function(){
+            var encodedOrderId = '<?php echo $encodedOrderId; ?>';
+            window.location.href='<?php echo $this->webroot?>Orders/details/' + encodedOrderId;
         });
 
         $('#OrderAddMoreItemForm').submit(function(event){

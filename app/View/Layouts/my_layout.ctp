@@ -82,6 +82,11 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 		
 	});
 
+	//when click on browser back button it will redirect to the same page
+	function preventBack() { window.history.forward(); }
+		setTimeout("preventBack()", 0);
+		window.onunload = function () { null };
+
 		
 	if(navigator.userAgent.indexOf("Chrome") != -1 ) {
 		/** Initialise the speech Recognization*/

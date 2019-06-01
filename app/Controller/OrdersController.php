@@ -445,6 +445,7 @@ class OrdersController extends AppController {
         $this->loadModel('Order');
         $this->loadModel('OrderItem');
         if ($this->request->is(array('post','put'))) {
+            pr($this->request->data);die;
             $itemId = $this->request->data['discount_details']['item_id'];
             $orderId = $this->request->data['discount_details']['order_id'];
             
@@ -500,15 +501,11 @@ class OrdersController extends AppController {
             $orderTotal = $this->request->data['delete_details']['order_total'];
             $itemTotal = $this->request->data['delete_details']['item_total'];
             $itemGrandTotal = $this->request->data['delete_details']['item_grand_total'];
-
             $newOrderTotal = (float)($orderTotal - $itemTotal);
             $newOrderGrandTotal = (float)($orderGrandTotal - $itemGrandTotal);
-
-            // pr($this->request->data);die;
             $this->OrderItem->deleteAll(array('OrderItem.id'=>$this->request->data['delete_details']['item_id']));
             $this->Order->updateAll(array('Order.total' =>$newOrderTotal,'Order.grand_total' =>$newOrderGrandTotal),array('Order.id'=>$orderId));
             echo '1';
-            
         }
     }
 

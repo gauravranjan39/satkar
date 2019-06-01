@@ -32,7 +32,7 @@
                 <hr>
                 
                 <div class="panel-body">
-                  <table id="" class="table table-striped table-hover table-fw-widget">
+                  <table id="" class="table table-striped table-hover table-summary">
                     <thead>
 						<tr>
 							<th>Category</th>
@@ -52,8 +52,14 @@
                     <tbody>
 					
 					<?php
+					$orderItemDetailsForDiscount = array();
 					$orderItemDetailsForDelete = array();
 					foreach ($orderDetails['OrderItem'] as $orderDetail) {
+						$orderItemDetailsForDiscount['item_id'] = $orderDetail['id'];
+						$orderItemDetailsForDiscount['item_discount'] = $orderDetail['discount'];
+						$orderItemDetailsForDiscount['item_grand_total'] = $orderDetail['grand_total'];
+						$orderItemDetailsForDiscount['order_id'] = $orderDetails['Order']['id'];
+						$orderItemDetailsForDiscount['order_grand_total'] = $orderDetails['Order']['grand_total'];
 						//creating data array required to hard delete the item from order 
 						$orderItemDetailsForDelete['item_id'] = $orderDetail['id'];
 						$orderItemDetailsForDelete['item_total'] = $orderDetail['total'];
@@ -80,9 +86,11 @@
                         
                         <td>&#8377;<?php echo number_format($orderDetail['total'],2); ?></td>
                         <?php if(isset($orderDetail['discount']) && !empty($orderDetail['discount'])) { ?>
-                            <td>&#8377;<?php echo number_format($orderDetail['discount'],2); ?></td>
+                            <td class="editable">&#8377;<?php echo number_format($orderDetail['discount'],2); ?>
+								<span style="float:right;cursor:pointer;" details-for-discount=<?php echo json_encode($orderItemDetailsForDiscount)?> class="item_discount" title="Add Discount"><i class="mdi mdi-edit"></i></span>
+							</td>
                         <?php } else { ?>
-                            <td></td>
+                            <td class="editable"> <span style="float:right;cursor:pointer;" details-for-discount=<?php echo json_encode($orderItemDetailsForDiscount)?> class="item_discount" title="Add Discount"><i class="mdi mdi-edit"></i></span></td>
                         <?php } ?>
                         <td>&#8377;<?php echo number_format($orderDetail['grand_total'],2); ?></td>
                         <td style="text-align:center;">
@@ -332,6 +340,63 @@
                     }
                 }
             });
+        });
+
+		$('.table-summary').off("click", ".item_discount");
+        $('.table-summary').on('click','.item_discount',function(){
+            var discountDetails = $(this).attr('details-for-discount');
+            console.log(discountDetails);
+            var myObj = JSON.parse(discountDetails);
+            console.log(myObj.item_discount);
+            $(this).closest('tr').find('td.editable').css('width','15%');
+            $(this).closest('tr').find('td.editable').html('<span><input class="item_extra_discount allowOnlyNumber" style="width:50%;" type="text" /></span><span class="mdi mdi-check-circle update_discount" data-discount-details='+discountDetails+' style="margin-left:5px;cursor:pointer;" title="Update"></span><a><span class="mdi mdi-close-circle cancel_discount" style="padding:5px;cursor:pointer;" title="Cancel" item_discount="'+myObj.item_discount+'"></span></a>');
+            $('.item_extra_discount').focus();
+            $('.cancel_discount').click(function(){
+                $(this).closest('tr').find('td.editable').css('width','0%');
+                var previousDiscount = $(this).attr('item_discount');
+                if (previousDiscount === 'null') {
+                    previousDiscount = '';
+                } else {
+                    previousDiscount = '&#8377;'+ previousDiscount;
+                }
+                $(this).closest('tr').find('td.editable').html(previousDiscount + '<span style="float:right;cursor:pointer;" details-for-discount='+discountDetails+' class="item_discount" title="Add Discount"><i class="mdi mdi-edit"></i></span>');
+            });
+
+            $('.update_discount').click(function(){
+                var extraDiscountVal = $(this).closest('tr').find('td.editable').find('input').val();
+                if (extraDiscountVal == '') {
+                    alert('Please enter extra discount');
+                    $('.item_extra_discount').focus();
+                    return false;
+                }
+                var dataDiscountDetails = JSON.parse($(this).attr('data-discount-details'));
+				
+                dataDiscountDetails.item_extra_discount = parseFloat(extraDiscountVal);
+                dataDiscountDetails.dues = parseFloat(dataDiscountDetails.order_grand_total);
+                console.log(dataDiscountDetails);return false;
+                $.ajax({
+                    type: "POST",
+                    url:"<?php echo Router::url(array('controller'=>'Orders','action'=>'extra_discount'));?>",
+                    data:({discount_details:dataDiscountDetails}),
+                    success:function(data){
+                        if (data == 1) {
+                            location.reload();
+                        } else {
+                            alert('Error Occured!!');
+                        }
+                    }
+			    });
+            });
+            
+            $('.item_extra_discount').keyup(function(){
+                var discountVal = $(this).val();
+                var itemTotal = myObj.item_grand_total;
+				if (parseFloat(discountVal) > parseFloat(itemTotal)) {
+					alert('Discount should be less than item value.');
+					$(this).val('');
+				}
+            });
+            
         });
 
         $('.clone-div').on('change','.saleType',function(){

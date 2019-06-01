@@ -51,7 +51,18 @@
                     </thead>
                     <tbody>
 					
-                    <?php foreach ($orderDetails['OrderItem'] as $orderDetail) { ?>
+					<?php
+					$orderItemDetailsForDelete = array();
+					foreach ($orderDetails['OrderItem'] as $orderDetail) {
+						//creating data array required to hard delete the item from order 
+						$orderItemDetailsForDelete['item_id'] = $orderDetail['id'];
+						$orderItemDetailsForDelete['item_total'] = $orderDetail['total'];
+						$orderItemDetailsForDelete['item_grand_total'] = $orderDetail['grand_total'];
+						$orderItemDetailsForDelete['order_id'] = $orderDetails['Order']['id'];
+						$orderItemDetailsForDelete['order_grand_total'] = $orderDetails['Order']['grand_total'];
+						$orderItemDetailsForDelete['order_total'] = $orderDetails['Order']['total'];
+						//pr($orderItemDetailsForDelete);die;
+					?>
                     <tr class="odd gradeX">
                         <td><?php echo $orderDetail['Category']['name']; ?></td>
                         <td><?php echo $orderDetail['name']; ?></td>
@@ -75,7 +86,7 @@
                         <?php } ?>
                         <td>&#8377;<?php echo number_format($orderDetail['grand_total'],2); ?></td>
                         <td style="text-align:center;">
-                            <span style="cursor:pointer;" class="delete_item" title="Delete Item"><i class="mdi mdi-delete"></i></span>
+                            <span style="cursor:pointer;" details-for-delete=<?php echo json_encode($orderItemDetailsForDelete)?> class="delete_item" title="Delete Item"><i class="mdi mdi-delete"></i></span>
                         </td>
                     </tr>
 					<?php } ?>
@@ -286,6 +297,26 @@
             var encodedOrderId = '<?php echo $encodedOrderId; ?>';
             window.location.href='<?php echo $this->webroot?>Orders/details/' + encodedOrderId;
         });
+
+		$('.delete_item').click(function(){
+			var dataDeleteDetails = JSON.parse($(this).attr('details-for-delete'));
+			console.log(dataDeleteDetails);
+			if (confirm('Are you sure to delete this item from order ?')) {
+				$.ajax({
+                    type: "POST",
+                    url:"<?php echo Router::url(array('controller'=>'Orders','action'=>'delete_order_item'));?>",
+                    data:({delete_details:dataDeleteDetails}),
+                    //dataType: 'json',
+                    success:function(data){
+                        if (data == 1) {
+                        	location.reload();
+						} else {
+							alert('Error Occured!!');
+						}
+                    }
+			    });
+			}
+		});
 
         $('#OrderAddMoreItemForm').submit(function(event){
             event.preventDefault();

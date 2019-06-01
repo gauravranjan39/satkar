@@ -426,6 +426,14 @@
 
         $('body').on('click', '.remove', function() {
 		    $(this).parent().closest("div.clone-div").remove();
+			var orderTotalAmt = 0;
+			$('.clone-div .grand_total').each(function() {
+				var grandTotal = $(this).val();
+				if ($.isNumeric(grandTotal)) { 
+					orderTotalAmt += parseFloat(grandTotal);
+				}
+			});
+            $('#OrderGrandTotal').val(Math.round(orderTotalAmt));
 	    });
 	});
 </script>

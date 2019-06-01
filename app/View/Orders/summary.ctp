@@ -86,14 +86,14 @@
 
                <div class="col-md-12">
 
-					<div class="col-md-10">
+					<div class="col-md-10 xs-mt-20 xs-mb-30">
 					<?php if (isset($orderDetails['Order']['comments']) && !empty($orderDetails['Order']['comments'])) { ?>
 							<label>Comments:&nbsp;&nbsp;</label>
 							<?php echo $orderDetails['Order']['comments']; ?>
 						<?php } ?>
 					</div>
 
-					<div class="col-md-2">
+					<div class="col-md-2 xs-mt-20 xs-mb-30">
 					<label>Grand Total:</label>
 						&#8377;<?php echo number_format($orderDetails['Order']['grand_total'],2); ?>
 					</div>

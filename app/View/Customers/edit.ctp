@@ -4,7 +4,7 @@
         <div class="row">
         <div class="col-sm-12">
             <div class="panel panel-default panel-border-color panel-border-color-primary">
-            
+            <?php //pr($this->request->data); ?>
             <div class="panel-body">
             <?php echo $this->Form->create('Customer',array('url'=> array('controller' => 'customers', 'action' => 'edit'),'method'=>'POST')); ?>
 			<?php echo $this->Form->input('id');?>

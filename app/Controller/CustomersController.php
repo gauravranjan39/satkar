@@ -70,6 +70,7 @@ class CustomersController extends AppController {
 				$this->Session->SetFlash('The customer could not be saved. Please, try again', 'error');
 			}
 		} else {
+			$this->Customer->recursive = -1;
 			$options = array('conditions' => array('Customer.' . $this->Customer->primaryKey => $id));
 			$this->request->data = $this->Customer->find('first', $options);
 		}

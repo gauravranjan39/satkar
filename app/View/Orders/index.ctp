@@ -82,7 +82,11 @@
                         
                       <td><?php echo $orderList['Order']['order_number']; ?></td>
                         <td class="cell-detail"> <span><?php echo $this->Html->link($orderList['Customer']['name'], 'javascript:void(0);',  array("class" => "customer_details", "escape" => false,"mobile"=>$orderList['Customer']['mobile'],"email"=>$orderList['Customer']['email'],"address"=>$orderList['Customer']['address'])); ?></span></td>
-                        <td class="milestone">&#8377;<?php echo number_format($orderList['Order']['grand_total'],2); ?></td>
+                        <?php if ($orderList['Order']['status'] == 2) { ?>
+                            <td class="milestone">&#8377;<?php echo number_format($orderList['Order']['total'],2); ?></td>
+                        <?php } else { ?>
+                            <td class="milestone">&#8377;<?php echo number_format($orderList['Order']['grand_total'],2); ?></td>
+                        <?php } ?>
                         <?php 
                             $sum = 0;
                             foreach ($orderList['OrderTransaction'] as $orderTransaction) {
@@ -100,9 +104,13 @@
                         <td><?php echo date('d-M-Y', strtotime($orderList['Order']['created'])); ?></td>
                         <?php if ($orderList['Order']['payment_status'] == 1) { ?>
                             <td><?php echo $this->Html->link('Pending', 'javascript:void(0);',  array("class" => "text-danger payment_pending", "escape" => false,'order_id'=>$orderList['Order']['id'],'title'=>'Change to Completed')); ?></td>
+                        <?php } else {
+                            if ($orderList['Order']['status'] == 2) {
+                            ?>
+                            <td class="text-danger">Cancelled</td>
                         <?php } else { ?>
                             <td class="text-success">Completed</td>
-                        <?php } ?>
+                        <?php } } ?>
 
                         <td class="text-right">
                             <div class="btn-group btn-hspace">

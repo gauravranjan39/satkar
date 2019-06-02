@@ -34,6 +34,8 @@ class CustomersController extends AppController {
 		$this->layout = "my_layout";
 		$customerLists = $this->Customer->find('all',array('fields'=>array('id','name','mobile')));
 		// pr($customerLists);die;
+		$custRef = '';
+        $this->set('custRef', $custRef);
 		if ($this->request->is('post')) {
 			$this->Customer->create();
 			if ($this->Customer->save($this->request->data)) {
@@ -106,6 +108,50 @@ class CustomersController extends AppController {
 				echo 1;
 			}
 		}
+	}
+
+	public function check_customer() {
+		$this->autoRender = false;
+		$this->Customer->recursive = -1;
+		if ($this->request->is('post')) {
+			//pr($this->request->data);
+			if ($this->request->data['searchParam'] == 'name') {
+				$results = $this->Customer->find('all', array('conditions' => array('Customer.name LIKE ' => '%'.$this->request->data['searchData'] . '%')));
+				//pr($results);die;
+				if (!empty($results)) {
+					$customerRef = '<select name="data[Customer][reference]" >';
+					foreach ($results as $result) {
+						$customerRef .='<option value="' . $result['Customer']['id'] . '">' . $result['Customer']['name'] .' (' . $result['Customer']['mobile'] . ')' . '</option>';
+					}
+					$customerRef .='</select>';
+				}
+			} else {
+				$results = $this->Customer->find('all', array('conditions' => array('Customer.mobile' => $this->request->data['searchData'])));
+				if (!empty($results)) {
+					$customerRef = '<select name="data[Customer][reference]" >';
+					foreach ($results as $result) {
+						$customerRef .='<option value="' . $result['Customer']['id'] . '">' . $result['Customer']['name'] .' (' . $result['Customer']['mobile'] . ')' . '</option>';
+					}
+					$customerRef .='</select>';
+				}
+			}
+			echo $customerRef;
+		}
+	}
+
+	public function autoname() {
+		// $this->layout='mylayout';
+	   $this->Customer->recursive = -1;
+	   if ($this->request->is('ajax')) {
+		  $this->autoRender = false;
+		  $this->layout = 'ajax';
+		  $results = $this->Customer->find('all', array('fields' => array('Customer.name'),
+			  'conditions' => array('Customer.name LIKE ' => '%'.$this->request->query['term'] . '%'),
+			  
+		   ));
+		  $custRef = Set::extract('../Customer/name', $results);
+		  echo json_encode($custRef);
+	   }
 	}
 
 }

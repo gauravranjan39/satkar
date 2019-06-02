@@ -1,3 +1,6 @@
+<link href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" rel="Stylesheet"></link>
+<script src='https://cdn.rawgit.com/pguso/jquery-plugin-circliful/master/js/jquery.circliful.min.js'></script>
+<script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js" ></script>
 <div class="be-content">
     <div class="main-content container-fluid">
     <?php echo $this->Session->flash(); ?>
@@ -20,15 +23,39 @@
                     <span style="color:red;" id="customerMobileAjaxMsg"></span>
                 </div>
 
-                <div class="form-group input-group xs-mb-15">
+                <!-- <div class="form-group input-group xs-mb-15">
                     <label>Reference</label>
-                    <?php echo $this->Form->input("Customer.mobile",array('type'=>'text','div'=>false,'max'=>10,'placeholder'=>'Enter Mobile Number','required'=>'required','class'=>'form-control input-sm','label'=>false));?>
+                    <?php //echo $this->Form->input("Customer.mobile",array('type'=>'text','div'=>false,'max'=>10,'placeholder'=>'Enter Mobile Number','required'=>'required','class'=>'form-control input-sm','label'=>false));?>
                     <div class="input-group-btn">
                         <button type="button" data-toggle="dropdown" class="btn btn-primary dropdown-toggle" style="height:37px;top:13px;" aria-expanded="false">Action <span class="caret"></span></button>
                         <ul class="dropdown-menu pull-right">
                             <li><a href="#">Mobile</a></li>
                             <li><a href="#">Name</a></li>
                         </ul>
+                    </div>
+                </div> -->
+
+                <div class="form-group">
+                    <label>Reference</label>
+                    <div class="">
+                        <div class="input-group">
+                            <div class="input-group-btn search-panel">
+                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" style="height:37px;">
+                                    <span id="search_concept">Mobile</span> <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a href="#mobile">Mobile</a></li>
+                                    <li><a href="#name">Name</a></li>
+                                </ul>
+                            </div>
+                            <input type="hidden" name="search_param" value="mobile" id="search_param">
+                            <?php echo $this->Form->input("Customer.reference",array('type'=>'text','div'=>false,'maxlength'=>10,'placeholder'=>'Search','option'=> $custRef,'autocomplete' => 'on','required'=>'required','class'=>'form-control input-sm allowOnlyNumber','label'=>false));?>
+                            <!-- <input type="text" placeholder="Search" class="form-control input-sm allowOnlyNumber search_ref_val">         -->
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default search_reference" style="height:37px;"><i class="icon mdi mdi-search"></i></button>
+                            </span>
+                        
+                        </div>
                     </div>
                 </div>
 
@@ -53,6 +80,55 @@
 </div>
 <script type="text/javascript">
     $(document).ready(function() {
+        $("#CustomerReference").autocomplete({
+            source: "../customers/autoname",
+            minLength: 2,
+            delay: 2
+        });
+
+        $('.search-panel .dropdown-menu').find('a').click(function(e) {
+            e.preventDefault();
+            var param = $(this).attr("href").replace("#","");
+            if (param == 'name') {
+                $('#CustomerReference').val('');
+                $('#CustomerReference').removeClass('allowOnlyNumber');
+                $('#CustomerReference').removeAttr('maxlength');
+            } else {
+                $('#CustomerReference').val('');
+                $('#CustomerReference').addClass('allowOnlyNumber');
+                $('#CustomerReference').attr("maxlength", "10");
+            }
+            var concept = $(this).text();
+            $('.search-panel span#search_concept').text(concept);
+            $('.input-group #search_param').val(param);
+	    });
+        
+        $('.search_reference').click(function(){
+            var searchParam = $('#search_param').val();
+            var searchData = $('#CustomerReference ').val();
+            if (searchData == '') {
+                if (searchParam == 'name') {
+                    alert('Please enter customer name');
+                } else if (searchParam == 'mobile') {
+                    alert('Please enter customer mobile number');
+                }
+            } else {
+                $.ajax({
+                    type: "POST",
+                    url:"<?php echo Router::url(array('controller'=>'customers','action'=>'check_customer'));?>",
+                    data:({searchParam:searchParam,searchData:searchData}),
+                    success: function(data) {
+                        console.log(data);
+                        $("#CustomerReference").html(data);
+                    }
+                });
+            }
+        });
+
+        
+
+
+
         $('#CustomerEmail').blur(function() {
             var customerEmail = $(this).val();
             var pattern = new RegExp(/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i);

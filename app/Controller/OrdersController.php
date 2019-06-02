@@ -301,15 +301,15 @@ class OrdersController extends AppController {
         $this->loadModel('Customer');
         $view = new View($this, false);
         $this->Customer->unbindModel(array('hasMany' => array('Order')),true);
-        $customerDetails = $this->Customer->find('first',array('conditions'=>array('Customer.id'=>$customerId),'fields'=>array('name','address','mobile')));
+        $customerDetails = $this->Customer->find('first',array('conditions'=>array('Customer.id'=>$customerId),'fields'=>array('name','address','mobile','email')));
         $this->OrderTransaction->unbindModel(array('belongsTo' => array('Order')),true);
         $paymentLists = $this->OrderTransaction->find('all',array('conditions'=>array('OrderTransaction.order_id'=>$orderId)) ,array('order'=>array('OrderTransaction.id'=>'desc')));
         $filename =  "order". '-'. date("m-d-y");
         $view->set(compact('paymentLists','customerDetails','grandTotal','orderNumber'));
         $html = $view->render('payment_history_pdf');
-        $pdf= new mPDF('utf-8', 'A4-L');
+        // $pdf= new mPDF('utf-8', 'A4-L');
         //A4-P is for portrait view
-        // $pdf= new mPDF('utf-8', 'A4-P');
+        $pdf= new mPDF('utf-8', 'A4-P');
         // Define a Landscape page size/format by name
         //$mpdf=new mPDF('utf-8', 'A4-L');
         $pdf->WriteHTML($html);
@@ -445,7 +445,7 @@ class OrdersController extends AppController {
         $this->loadModel('Order');
         $this->loadModel('OrderItem');
         if ($this->request->is(array('post','put'))) {
-            pr($this->request->data);die;
+            //pr($this->request->data);die;
             $itemId = $this->request->data['discount_details']['item_id'];
             $orderId = $this->request->data['discount_details']['order_id'];
             

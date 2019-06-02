@@ -373,7 +373,7 @@
 				
                 dataDiscountDetails.item_extra_discount = parseFloat(extraDiscountVal);
                 dataDiscountDetails.dues = parseFloat(dataDiscountDetails.order_grand_total);
-                console.log(dataDiscountDetails);return false;
+                console.log(dataDiscountDetails);
                 $.ajax({
                     type: "POST",
                     url:"<?php echo Router::url(array('controller'=>'Orders','action'=>'extra_discount'));?>",

@@ -27,7 +27,7 @@ th, td {
 .right {
   
   float:left;
-  width:50%;
+  width:40%;
   padding:0 16px;
   /* padding:15px; */
   margin-left:17px;
@@ -54,17 +54,19 @@ th, td {
 	<div style="overflow:auto">
 		<div class="main">
 			<h2>SATKAR JEWELLERS</h2>
-			<p>Purani bazar, sabji mandi, opp. of central bank of india</p>
+			<p>Purani bazar, sabji mandi, <br/>opp. of central bank of india</p>
+            <p></p>
 			Mb: +91-9934669155
 		</div>
-
+        
 		<div class="right">
 			<h2><?php echo $customerDetails['Customer']['name']; ?></h2>
-			<p><?php echo $customerDetails['Customer']['address']; ?></p>
+			<p><?php echo $customerDetails['Customer']['address'];?></p>
+            <p><?php echo isset($customerDetails['Customer']['email']) ? $customerDetails['Customer']['email'] : '' ;?></p>
 			Mb: +91-<?php echo $customerDetails['Customer']['mobile']; ?>
 		</div>
 	</div>
-
+    <?php //die;?>
 	<br/><br/>
 
     <table class="table">
@@ -92,8 +94,8 @@ th, td {
         <thead>
             <tr>
                 <th>Order ID</th>
-                <th>Grand Total</th>
                 <th>Payment</th>
+                <th>Grand Total</th>
                 <th>Dues</th>
             </tr>
         </thead>
@@ -107,8 +109,8 @@ th, td {
             ?>
             <tr>
                 <td><?php echo $orderNumber; ?></td>
-                <td>&#8377;<?php echo number_format($grandTotal,2); ?></td>
                 <td>&#8377;<?php echo number_format($sum,2); ?></td>
+                <td>&#8377;<?php echo number_format($grandTotal,2); ?></td>
                 <td style="color:red;">&#8377;<?php echo number_format($dues,2); ?></td>
             </tr>
         </tbody>

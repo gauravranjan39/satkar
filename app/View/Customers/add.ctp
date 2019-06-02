@@ -73,7 +73,7 @@
                                 </ul>
                             </div>
                             <input type="hidden" name="search_param" value="mobile" id="search_param">
-                            <?php echo $this->Form->input("Customer.referenceBy",array('type'=>'text','div'=>false,'maxlength'=>10,'placeholder'=>'Search','class'=>'form-control input-sm allowOnlyNumber','label'=>false));?>
+                            <?php echo $this->Form->input("Customer.referenceBy",array('type'=>'text','div'=>false,'maxlength'=>10,'placeholder'=>'Search','class'=>'form-control input-sm allowOnlyNumber','autocomplete'=>'off','label'=>false));?>
                             <span class="input-group-btn">
                                 <button type="button" class="btn btn-default search_reference" style="height:37px;"><i class="icon mdi mdi-search"></i></button>
                             </span>
@@ -84,7 +84,7 @@
 
                     <div class="form-group col-sm-6">
                         <label>Refered By</label>
-                        <?php echo $this->Form->input("Customer.reference",array('type'=>'select','empty'=>'---Select---','class'=>'form-control input-sm','label'=>false));?>
+                        <?php echo $this->Form->input("Customer.reference_id",array('type'=>'select','empty'=>'---Select---','class'=>'form-control input-sm','label'=>false));?>
                     </div>
                 </div>
 
@@ -143,7 +143,7 @@
                     data:({searchParam:searchParam,searchData:searchData}),
                     success: function(data) {
                         console.log(data);
-                        $("#CustomerReference").html(data);
+                        $("#CustomerReferenceId").html(data);
                     }
                 });
             }

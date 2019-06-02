@@ -33,10 +33,9 @@ class CustomersController extends AppController {
 	public function add() {
 		$this->layout = "my_layout";
 		$customerLists = $this->Customer->find('all',array('fields'=>array('id','name','mobile')));
-		// pr($customerLists);die;
-		$custRef = '';
-        $this->set('custRef', $custRef);
 		if ($this->request->is('post')) {
+			unset($this->request->data['search_param']);
+			unset($this->request->data['Customer']['referenceBy']);
 			$this->Customer->create();
 			if ($this->Customer->save($this->request->data)) {
 				return $this->redirect(array('action' => 'index'));
@@ -131,13 +130,11 @@ class CustomersController extends AppController {
 				$results = $this->Customer->find('all', array('conditions' => array('Customer.mobile LIKE' => '%'.$this->request->data['searchData'] . '%')));
 				$customerRef = '<select name="data[Customer][reference]" >';
 				if (!empty($results)) {
-					//$customerRef = '<select name="data[Customer][reference]" >';
 					$customerRef .='<option value="">' . '---Select refered by customer---' . '</option>';
 					foreach ($results as $result) {
 						$customerRef .='<option value="' . $result['Customer']['id'] . '">' . $result['Customer']['name'] .' (' . $result['Customer']['mobile'] . ')' . '</option>';
 					}
 					$customerRef .='</select>';
-					// echo $customerRef;
 				} else {
 					$customerRef .='<option value="">' . 'No record found' . '</option>';
 				}

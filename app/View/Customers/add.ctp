@@ -1,6 +1,7 @@
-<link href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" rel="Stylesheet"></link>
+<!-- <link href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" rel="Stylesheet"></link>
 <script src='https://cdn.rawgit.com/pguso/jquery-plugin-circliful/master/js/jquery.circliful.min.js'></script>
-<script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js" ></script>
+<script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js" ></script> -->
+
 <div class="be-content">
     <div class="main-content container-fluid">
     <?php echo $this->Session->flash(); ?>
@@ -35,7 +36,7 @@
                     </div>
                 </div> -->
 
-                <div class="form-group">
+                <!-- <div class="form-group">
                     <label>Reference</label>
                     <div class="">
                         <div class="input-group">
@@ -49,13 +50,41 @@
                                 </ul>
                             </div>
                             <input type="hidden" name="search_param" value="mobile" id="search_param">
-                            <?php echo $this->Form->input("Customer.reference",array('type'=>'text','div'=>false,'maxlength'=>10,'placeholder'=>'Search','option'=> $custRef,'autocomplete' => 'on','required'=>'required','class'=>'form-control input-sm allowOnlyNumber','label'=>false));?>
-                            <!-- <input type="text" placeholder="Search" class="form-control input-sm allowOnlyNumber search_ref_val">         -->
+                            <?php //echo $this->Form->input("Customer.reference",array('type'=>'text','div'=>false,'maxlength'=>10,'placeholder'=>'Search','class'=>'form-control input-sm allowOnlyNumber','label'=>false));?>
                             <span class="input-group-btn">
                                 <button type="button" class="btn btn-default search_reference" style="height:37px;"><i class="icon mdi mdi-search"></i></button>
                             </span>
                         
                         </div>
+                    </div>
+                </div> -->
+
+                <div class="row xs-pt-12 extra_fields_0" id="rateMakingFields_0">
+                    <div class="form-group col-sm-6">
+                        <label>Reference</label>
+                        <div class="input-group">
+                            <div class="input-group-btn search-panel">
+                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" style="height:37px;">
+                                    <span id="search_concept">Mobile</span> <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a href="#mobile">Mobile</a></li>
+                                    <li><a href="#name">Name</a></li>
+                                </ul>
+                            </div>
+                            <input type="hidden" name="search_param" value="mobile" id="search_param">
+                            <?php echo $this->Form->input("Customer.referenceBy",array('type'=>'text','div'=>false,'maxlength'=>10,'placeholder'=>'Search','class'=>'form-control input-sm allowOnlyNumber','label'=>false));?>
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default search_reference" style="height:37px;"><i class="icon mdi mdi-search"></i></button>
+                            </span>
+                        
+                        </div>
+                        <?php //echo $this->Form->input("OrderItem.rate",array('name'=>'data[OrderItem][0][rate]','id'=>'OrderItemRate_0','placeholder'=>'Enter Rate','required'=>'required','class'=>'form-control input-sm per-weight-field allowOnlyNumber','label'=>false));?>
+                    </div>
+
+                    <div class="form-group col-sm-6">
+                        <label>Refered By</label>
+                        <?php echo $this->Form->input("Customer.reference",array('type'=>'select','empty'=>'---Select---','class'=>'form-control input-sm','label'=>false));?>
                     </div>
                 </div>
 
@@ -80,23 +109,18 @@
 </div>
 <script type="text/javascript">
     $(document).ready(function() {
-        $("#CustomerReference").autocomplete({
-            source: "../customers/autoname",
-            minLength: 2,
-            delay: 2
-        });
-
+    
         $('.search-panel .dropdown-menu').find('a').click(function(e) {
             e.preventDefault();
             var param = $(this).attr("href").replace("#","");
             if (param == 'name') {
-                $('#CustomerReference').val('');
-                $('#CustomerReference').removeClass('allowOnlyNumber');
-                $('#CustomerReference').removeAttr('maxlength');
+                $('#CustomerReferenceBy').val('');
+                $('#CustomerReferenceBy').removeClass('allowOnlyNumber');
+                $('#CustomerReferenceBy').removeAttr('maxlength');
             } else {
-                $('#CustomerReference').val('');
-                $('#CustomerReference').addClass('allowOnlyNumber');
-                $('#CustomerReference').attr("maxlength", "10");
+                $('#CustomerReferenceBy').val('');
+                $('#CustomerReferenceBy').addClass('allowOnlyNumber');
+                $('#CustomerReferenceBy').attr("maxlength", "10");
             }
             var concept = $(this).text();
             $('.search-panel span#search_concept').text(concept);
@@ -105,7 +129,7 @@
         
         $('.search_reference').click(function(){
             var searchParam = $('#search_param').val();
-            var searchData = $('#CustomerReference ').val();
+            var searchData = $('#CustomerReferenceBy ').val();
             if (searchData == '') {
                 if (searchParam == 'name') {
                     alert('Please enter customer name');

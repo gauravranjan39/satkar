@@ -117,41 +117,33 @@ class CustomersController extends AppController {
 			//pr($this->request->data);
 			if ($this->request->data['searchParam'] == 'name') {
 				$results = $this->Customer->find('all', array('conditions' => array('Customer.name LIKE ' => '%'.$this->request->data['searchData'] . '%')));
-				//pr($results);die;
+				$customerRef = '<select name="data[Customer][reference]" >';
 				if (!empty($results)) {
-					$customerRef = '<select name="data[Customer][reference]" >';
+					$customerRef .='<option value="">' . '---Select refered by customer---' . '</option>';
 					foreach ($results as $result) {
 						$customerRef .='<option value="' . $result['Customer']['id'] . '">' . $result['Customer']['name'] .' (' . $result['Customer']['mobile'] . ')' . '</option>';
 					}
 					$customerRef .='</select>';
+				}  else {
+					$customerRef .='<option value="">' . 'No record found' . '</option>';
 				}
 			} else {
-				$results = $this->Customer->find('all', array('conditions' => array('Customer.mobile' => $this->request->data['searchData'])));
+				$results = $this->Customer->find('all', array('conditions' => array('Customer.mobile LIKE' => '%'.$this->request->data['searchData'] . '%')));
+				$customerRef = '<select name="data[Customer][reference]" >';
 				if (!empty($results)) {
-					$customerRef = '<select name="data[Customer][reference]" >';
+					//$customerRef = '<select name="data[Customer][reference]" >';
+					$customerRef .='<option value="">' . '---Select refered by customer---' . '</option>';
 					foreach ($results as $result) {
 						$customerRef .='<option value="' . $result['Customer']['id'] . '">' . $result['Customer']['name'] .' (' . $result['Customer']['mobile'] . ')' . '</option>';
 					}
 					$customerRef .='</select>';
+					// echo $customerRef;
+				} else {
+					$customerRef .='<option value="">' . 'No record found' . '</option>';
 				}
 			}
 			echo $customerRef;
 		}
-	}
-
-	public function autoname() {
-		// $this->layout='mylayout';
-	   $this->Customer->recursive = -1;
-	   if ($this->request->is('ajax')) {
-		  $this->autoRender = false;
-		  $this->layout = 'ajax';
-		  $results = $this->Customer->find('all', array('fields' => array('Customer.name'),
-			  'conditions' => array('Customer.name LIKE ' => '%'.$this->request->query['term'] . '%'),
-			  
-		   ));
-		  $custRef = Set::extract('../Customer/name', $results);
-		  echo json_encode($custRef);
-	   }
 	}
 
 }

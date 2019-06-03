@@ -64,6 +64,10 @@
 	</div>
 <script type="text/javascript">
 	$(document).ready(function() {
+		$('#table1').DataTable( {
+        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]]
+      } );
+
 		$(".status").click(function(){
 			var val = $(this).attr('value');
 			var ref = $(this);

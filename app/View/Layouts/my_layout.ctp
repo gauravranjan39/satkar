@@ -66,7 +66,7 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
         //initialize the javascript
         App.init();
         // App.dashboard();
-		App.dataTables();
+		// App.dataTables();
 		// App.formElements();
 		
 		$('.helbutton').click(function(){

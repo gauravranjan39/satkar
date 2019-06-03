@@ -95,3 +95,11 @@
 	});	
       
 </script>
+<style>
+.dataTables_filter {
+	margin-right: 20px !important;
+}
+.dataTables_length {
+	margin-left: 20px;
+}
+</style>

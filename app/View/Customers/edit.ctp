@@ -21,6 +21,37 @@
 					<?php echo $this->Form->input("Customer.mobile",array('type'=>'text','max'=>10,'placeholder'=>'Enter Mobile Number','required'=>'required','class'=>'form-control input-sm','label'=>false));?>
 					<span style="color:red;" id="customerMobileAjaxMsg"></span>
 				</div>
+
+                <?php //pr($this->request->data[0]['c2']['name']); ?>
+
+                <!-- <div class="row xs-pt-12 extra_fields_0" id="rateMakingFields_0">
+                    <div class="form-group col-sm-6">
+                        <label>Reference</label>
+                        <div class="input-group">
+                            <div class="input-group-btn search-panel">
+                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" style="height:37px;">
+                                    <span id="search_concept">Mobile</span> <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a href="#mobile">Mobile</a></li>
+                                    <li><a href="#name">Name</a></li>
+                                </ul>
+                            </div>
+                            <input type="hidden" name="search_param" value="mobile" id="search_param">
+                            <?php //echo $this->Form->input("Customer.referenceBy",array('type'=>'text','div'=>false,'maxlength'=>10,'placeholder'=>'Search','class'=>'form-control input-sm allowOnlyNumber','autocomplete'=>'off','label'=>false));?>
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default search_reference" style="height:37px;"><i class="icon mdi mdi-search"></i></button>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-sm-6">
+                        <label>Refered By</label>
+                        <?php //echo $this->Form->input("Customer.reference_id",array('type'=>'select','options'=>array($this->request->data[0]['c2']['name']),'class'=>'form-control input-sm','label'=>false));?>
+                    </div>
+                </div> -->
+
+
 				<div class="form-group">
 					<label>Email</label>
 					<?php echo $this->Form->input("Customer.email",array('type'=>'email','placeholder'=>'Enter Email','class'=>'form-control input-sm','label'=>false));?>

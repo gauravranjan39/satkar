@@ -24,41 +24,6 @@
                     <span style="color:red;" id="customerMobileAjaxMsg"></span>
                 </div>
 
-                <!-- <div class="form-group input-group xs-mb-15">
-                    <label>Reference</label>
-                    <?php //echo $this->Form->input("Customer.mobile",array('type'=>'text','div'=>false,'max'=>10,'placeholder'=>'Enter Mobile Number','required'=>'required','class'=>'form-control input-sm','label'=>false));?>
-                    <div class="input-group-btn">
-                        <button type="button" data-toggle="dropdown" class="btn btn-primary dropdown-toggle" style="height:37px;top:13px;" aria-expanded="false">Action <span class="caret"></span></button>
-                        <ul class="dropdown-menu pull-right">
-                            <li><a href="#">Mobile</a></li>
-                            <li><a href="#">Name</a></li>
-                        </ul>
-                    </div>
-                </div> -->
-
-                <!-- <div class="form-group">
-                    <label>Reference</label>
-                    <div class="">
-                        <div class="input-group">
-                            <div class="input-group-btn search-panel">
-                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" style="height:37px;">
-                                    <span id="search_concept">Mobile</span> <span class="caret"></span>
-                                </button>
-                                <ul class="dropdown-menu" role="menu">
-                                    <li><a href="#mobile">Mobile</a></li>
-                                    <li><a href="#name">Name</a></li>
-                                </ul>
-                            </div>
-                            <input type="hidden" name="search_param" value="mobile" id="search_param">
-                            <?php //echo $this->Form->input("Customer.reference",array('type'=>'text','div'=>false,'maxlength'=>10,'placeholder'=>'Search','class'=>'form-control input-sm allowOnlyNumber','label'=>false));?>
-                            <span class="input-group-btn">
-                                <button type="button" class="btn btn-default search_reference" style="height:37px;"><i class="icon mdi mdi-search"></i></button>
-                            </span>
-                        
-                        </div>
-                    </div>
-                </div> -->
-
                 <div class="row xs-pt-12 extra_fields_0" id="rateMakingFields_0">
                     <div class="form-group col-sm-6">
                         <label>Reference</label>
@@ -77,9 +42,7 @@
                             <span class="input-group-btn">
                                 <button type="button" class="btn btn-default search_reference" style="height:37px;"><i class="icon mdi mdi-search"></i></button>
                             </span>
-                        
                         </div>
-                        <?php //echo $this->Form->input("OrderItem.rate",array('name'=>'data[OrderItem][0][rate]','id'=>'OrderItemRate_0','placeholder'=>'Enter Rate','required'=>'required','class'=>'form-control input-sm per-weight-field allowOnlyNumber','label'=>false));?>
                     </div>
 
                     <div class="form-group col-sm-6">
@@ -148,10 +111,6 @@
                 });
             }
         });
-
-        
-
-
 
         $('#CustomerEmail').blur(function() {
             var customerEmail = $(this).val();

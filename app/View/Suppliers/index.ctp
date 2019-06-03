@@ -50,6 +50,7 @@
 	</div>
 <script type="text/javascript">
 	$(document).ready(function() {
+		App.dataTables();
 		$(".status").click(function(){
 			var val = $(this).attr('value');
 			var ref = $(this);

@@ -71,8 +71,11 @@ class CustomersController extends AppController {
 			}
 		} else {
 			$this->Customer->recursive = -1;
+			//$this->request->data = $this->Customer->query('SELECT c1.*,c2.id,c2.name,c2.mobile FROM customers c1 INNER JOIN customers c2 ON c2.id = c1.reference_id  WHERE c1.id= '.$id.' ');
+			//pr($customerLists);die;
 			$options = array('conditions' => array('Customer.' . $this->Customer->primaryKey => $id));
 			$this->request->data = $this->Customer->find('first', $options);
+			
 		}
 	}
 

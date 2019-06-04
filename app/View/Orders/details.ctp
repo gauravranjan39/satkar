@@ -410,8 +410,6 @@
 
 <script type="text/javascript">
 	$(document).ready(function() {
-        
-        //$('#orderPayment').modal('show');
 
         $('.datetimepicker').keypress(function(){
             return false;
@@ -622,6 +620,11 @@
 
         $('#OrderTransactionPayDuesForm').submit(function(event){
             event.preventDefault();
+            var payment = $('#dues_payment').val();
+            var dues = '<?php echo $dues ?>';
+            if (parseFloat(payment) > parseFloat(dues)) {
+                alert('Payment is more than dues, So rest amount will goes to wallet');
+            }
             $.ajax({
                 url:"<?php echo Router::url(array('controller'=>'Orders','action'=>'pay_dues'));?>",
                 type: 'POST',

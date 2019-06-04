@@ -389,7 +389,7 @@
                             <td><?=$orderTransaction['invoice_number']?></td>
                             
                             <td>&#8377;<?php echo number_format($orderTransaction['amount_paid'],2); ?></td>
-                            <td><?php echo date('d-M-Y h:i A', strtotime($orderTransaction['created'])); ?></td>
+                            <td><?php echo date('d-M-Y h:i A', strtotime($orderTransaction['transaction_date'])); ?></td>
                         </tr>
                         <?php } ?>
                     </tbody>

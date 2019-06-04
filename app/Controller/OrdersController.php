@@ -188,6 +188,9 @@ class OrdersController extends AppController {
                     if (!empty($this->request->data['OrderTransaction']['transaction_date'])) {
                         $this->request->data['OrderTransaction']['transaction_date'] = $this->request->data['OrderTransaction']['transaction_date'];
                     }
+                    if (empty($this->request->data['OrderTransaction']['transaction_date']) && empty($this->request->data['OrderTransaction']['cheque_transaction_date'])) {
+                        $this->request->data['OrderTransaction']['transaction_date'] = date('Y-m-d H:i:s');
+                    }
                     $this->OrderTransaction->create();
                     if ($this->OrderTransaction->save($this->request->data)) {
                         $this->Order->updateAll(array('Order.payment_status' =>0),array('Order.id'=>$orderId));
@@ -254,6 +257,9 @@ class OrdersController extends AppController {
                     if (!empty($this->request->data['OrderTransaction']['transaction_date'])) {
                         $this->request->data['OrderTransaction']['transaction_date'] = $this->request->data['OrderTransaction']['transaction_date'];
                     }
+                    if (empty($this->request->data['OrderTransaction']['transaction_date']) && empty($this->request->data['OrderTransaction']['cheque_transaction_date'])) {
+                        $this->request->data['OrderTransaction']['transaction_date'] = date('Y-m-d H:i:s');
+                    }
                     unset($this->request->data['OrderTransaction']['dues']);
                     unset($this->request->data['OrderTransaction']['customer_id']);
                     unset($this->request->data['OrderTransaction']['wallet_balance']);
@@ -278,6 +284,9 @@ class OrdersController extends AppController {
                     }
                     if (!empty($this->request->data['OrderTransaction']['transaction_date'])) {
                         $this->request->data['OrderTransaction']['transaction_date'] = $this->request->data['OrderTransaction']['transaction_date'];
+                    }
+                    if (empty($this->request->data['OrderTransaction']['transaction_date']) && empty($this->request->data['OrderTransaction']['cheque_transaction_date'])) {
+                        $this->request->data['OrderTransaction']['transaction_date'] = date('Y-m-d H:i:s');
                     }
                     unset($this->request->data['OrderTransaction']['dues']);
                     unset($this->request->data['OrderTransaction']['customer_id']);

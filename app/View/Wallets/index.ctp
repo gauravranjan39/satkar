@@ -49,9 +49,7 @@
                             <tbody>
                                 <?php foreach ($walletDetails as $walletDetail) { 
                                     $encodedOrderId = $Encryption->encode($walletDetail['Wallet']['order_id']);
-                                    // pr($walletDetail);
                                     $walletDetail['Wallet']['encoded_order_id'] = $encodedOrderId;
-                                    // pr($walletDetail);die;
                                 ?>
                                 <tr>
                                     <td><?php echo $walletDetail['Wallet']['type']; ?></td>
@@ -309,35 +307,69 @@
     })
 
 	$(document).ready(function() {
-        $("#start_date").datetimepicker({
+
+        var start = new Date();
+        // set end date to max one year period:
+        var end = new Date(new Date().setYear(start.getFullYear()+1));
+
+        $('#start_date').datetimepicker({
             autoclose: true,
             componentIcon: '.mdi.mdi-calendar',
             navIcons:{
                 rightIcon: 'mdi mdi-chevron-right',
                 leftIcon: 'mdi mdi-chevron-left'
             },
-            onClose: function( selectedDate ) {
-                $( "#end_date").datetimepicker( "option", "minDate", selectedDate );
-            }
-        });
+            //startDate : start,
+            endDate   : end
+            // update "toDate" defaults whenever "fromDate" changes
+            }).on('changeDate', function(){
+                // set the "toDate" start to not be later than "fromDate" ends:
+                $('#end_date').datetimepicker('setStartDate', new Date($(this).val()));
+        }); 
 
-        $("#end_date").datetimepicker({
+        $('#end_date').datetimepicker({
             autoclose: true,
             componentIcon: '.mdi.mdi-calendar',
             navIcons:{
                 rightIcon: 'mdi mdi-chevron-right',
                 leftIcon: 'mdi mdi-chevron-left'
             },
-            onClose: function( selectedDate ) {
-                $( "#start_date").datetimepicker( "option", "minDate", selectedDate );
-            }
+            // startDate : start,
+            endDate   : end
+        // update "fromDate" defaults whenever "toDate" changes
+        }).on('changeDate', function(){
+            // set the "fromDate" end to not be later than "toDate" starts:
+            $('#start_date').datetimepicker('setEndDate', new Date($(this).val()));
         });
 
-        // $('.payment_details').click(function(){
-        //     $('#PaymentDetails').modal();
-        //     var details = JSON.parse($(this).attr('jjf'));
-        //     console.log(details.Wallet.customer_id);
+        // $("#start_date").datetimepicker({
+        //     autoclose: true,
+        //     componentIcon: '.mdi.mdi-calendar',
+        //     navIcons:{
+        //         rightIcon: 'mdi mdi-chevron-right',
+        //         leftIcon: 'mdi mdi-chevron-left'
+        //     },
+        //     onClose: function( selectedDate ) {
+        //         $( "#end_date").datetimepicker( "option", "minDate", selectedDate );
+        //     }
         // });
+
+        // $("#end_date").datetimepicker({
+        //     autoclose: true,
+        //     componentIcon: '.mdi.mdi-calendar',
+        //     navIcons:{
+        //         rightIcon: 'mdi mdi-chevron-right',
+        //         leftIcon: 'mdi mdi-chevron-left'
+        //     },
+        //     onClose: function( selectedDate ) {
+        //         $( "#start_date").datetimepicker( "option", "minDate", selectedDate );
+        //     }
+        // });
+
+        $('.datetimepicker').keypress(function(){
+            return false;
+        });
+        
 
         $('.wallet_transaction').click(function(){
             $('#WalletTransactionType').val('credit');
@@ -376,10 +408,6 @@
                 $('#dues_payment').attr("readonly", false);
                 $('#walletSubmitButton').attr("disabled", false);
             }
-        });
-
-        $('.datetimepicker').keypress(function(){
-            return false;
         });
 
         $('#WalletType').change(function(){

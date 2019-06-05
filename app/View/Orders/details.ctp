@@ -380,9 +380,11 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th >Invoice ID</th>
-                            <th >Amount</th>
+                            <th>Invoice ID</th>
+                            <th>Amount</th>
                             <th>Date</th>
+                            <th>Type</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody class="no-border-x">
@@ -392,6 +394,8 @@
                             
                             <td>&#8377;<?php echo number_format($orderTransaction['amount_paid'],2); ?></td>
                             <td><?php echo date('d-M-Y h:i A', strtotime($orderTransaction['transaction_date'])); ?></td>
+                            <td style="text-align: center;"><?php echo $orderTransaction['type']; ?></td>
+                            <td style="text-align: center;"><i class="mdi mdi-eye" title="View Details" style="font-size: 16px;cursor: pointer;"></i></td>
                         </tr>
                         <?php } ?>
                     </tbody>

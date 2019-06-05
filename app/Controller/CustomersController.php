@@ -147,4 +147,18 @@ class CustomersController extends AppController {
 		}
 	}
 
+	public function change_status ($id) {
+		$this->autoRender = false;
+		$status = $this->Customer->find('first',array('recursive'=>-1,'conditions'=>array('Customer.id'=>$id),'fields'=>array('Customer.id','Customer.status')));
+		if ($status['Customer']['status'] == 1) {
+			$status['Customer']['status'] = 0;
+			$data = 0;
+	    } else {
+			$status['Customer']['status'] = 1;
+			$data = 1;
+	    }
+		$this->Customer->save($status);
+		return $data;
+	}
+
 }

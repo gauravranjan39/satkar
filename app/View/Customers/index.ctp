@@ -72,7 +72,7 @@
 			var val = $(this).attr('value');
 			var ref = $(this);
 			$.ajax({
-				url:"<?php echo Router::url(array('controller'=>'Suppliers','action'=>'change_status'));?>/"+val,
+				url:"<?php echo Router::url(array('controller'=>'Customers','action'=>'change_status'));?>/"+val,
 				success:function(data){
 					if(data == 0){
 						ref.attr({
@@ -95,6 +95,7 @@
 	});	
       
 </script>
+
 <style>
 .dataTables_filter {
 	margin-right: 20px !important;

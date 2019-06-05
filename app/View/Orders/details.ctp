@@ -395,7 +395,7 @@
                             <td>&#8377;<?php echo number_format($orderTransaction['amount_paid'],2); ?></td>
                             <td><?php echo date('d-M-Y h:i A', strtotime($orderTransaction['transaction_date'])); ?></td>
                             <td style="text-align: center;"><?php echo $orderTransaction['type']; ?></td>
-                            <td style="text-align: center;"><i class="mdi mdi-eye" title="View Details" style="font-size: 16px;cursor: pointer;"></i></td>
+                            <td style="text-align: center;"><i class="mdi mdi-eye view-transaction-details" title="View Details" style="font-size: 16px;cursor: pointer;"></i></td>
                         </tr>
                         <?php } ?>
                     </tbody>
@@ -414,8 +414,35 @@
 </div>
 
 
+<div class="modal animated fadeIn" id="paymentDetails" tabindex="-1" role="dialog" aria-labelledby="smallModalHead" aria-hidden="true">
+    <div class="modal-dialog modal-lg" style=" margin: 0  auto;top:10%;width: 40%;">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header" style="text-align: center;">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h3 class="modal-title" style="line-height:1;">Payment Details</h3><hr>
+            </div>
+            <div class="modal-body">
+            This is the testing body
+                <div class="">
+                    <div class="">
+                        <div class="col-md-12">
+                            <?php echo $this->Form->button('Cancel',array('type'=>'button','data-dismiss'=>'modal','class'=>'btn btn-rounded btn-default','style'=>'margin-top: 26px;margin-bottom: 18px;','escape'=>false));?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <script type="text/javascript">
 	$(document).ready(function() {
+
+        $('.view-transaction-details').click(function(){
+            $('#paymentDetails').modal('show');
+        });
 
         $('.datetimepicker').keypress(function(){
             return false;

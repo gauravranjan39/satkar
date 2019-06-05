@@ -252,8 +252,10 @@
                         <?php } ?>
                         
                         <button class="btn btn-rounded btn-space btn" style="background-color:#FC8E39;border-color:#FC8E39;" id="customer_wallet">Wallet Money</button>
-                        <button class="btn btn-rounded btn-space btn-warning" id="payment_history">Payment History</button>
-                        <button class="btn btn-rounded btn-space btn-default" id="payment_receipt">Payment Receipt</button>
+                        <?php if (!empty($orderDetails['OrderTransaction'])) { ?>
+                            <button class="btn btn-rounded btn-space btn-warning" id="payment_history">Payment History</button>
+                            <button class="btn btn-rounded btn-space btn-default" id="payment_receipt">Payment Receipt</button>
+                        <?php } ?>
                         <?php if ($orderDetails['Order']['status'] == 0) { ?>
                             <button class="btn btn-rounded btn-space" style="background-color:#1aff8c;" id="confirm_order">Confirm Order</button>
                         <?php } ?>

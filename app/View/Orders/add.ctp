@@ -278,7 +278,7 @@
 						curentElemDiscount = '0.00';
 					}
 					var currentElemGrandTotal =  (parseFloat(currentElemTotal) - parseFloat(curentElemDiscount));
-					$('#OrderItemGrandTotal_'+parentDiv).val(currentElemGrandTotal.toFixed(2));
+					$('#OrderItemGrandTotal_'+parentDiv).val(Math.round(currentElemGrandTotal.toFixed(2)));
 					// $('#OrderDiscount').val('');
 					//$('#OrderTransactionAmountPaid').val('');
 				}
@@ -306,7 +306,7 @@
 				}
 				var currentElemGrandTotal =  (parseFloat(currentElemTotal) - parseFloat(curentElemDiscount));
 				if ($.isNumeric(currentElemGrandTotal)) {
-					$('#OrderItemGrandTotal_'+parentDiv).val(currentElemGrandTotal.toFixed(2));
+					$('#OrderItemGrandTotal_'+parentDiv).val(Math.round(currentElemGrandTotal.toFixed(2)));
 					// $('#OrderDiscount').val('');
 					//$('#OrderTransactionAmountPaid').val('');
 				}
@@ -350,7 +350,7 @@
 						curentElemGemsDiscount = '0.00';
 					}
 					var currentElemGemsGrandTotal =  (parseFloat(gemsItemTotalAmt) - parseFloat(curentElemGemsDiscount));
-					$('#OrderItemGrandTotal_'+parentDiv).val(currentElemGemsGrandTotal.toFixed(2));
+					$('#OrderItemGrandTotal_'+parentDiv).val(Math.round(currentElemGemsGrandTotal.toFixed(2)));
 					// $('#OrderDiscount').val('');
 					//$('#OrderTransactionAmountPaid').val('');
 				}

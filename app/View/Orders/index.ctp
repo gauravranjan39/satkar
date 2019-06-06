@@ -45,6 +45,47 @@
                 <div class="panel-heading">Orders
                   <div class="tools"><span class="icon mdi mdi-download"></span><span class="icon mdi mdi-more-vert"></span></div>
                 </div>
+
+                <div class="form-group col-md-12"></div>
+                <div class="form-group col-md-12">
+                    <?php echo $this->Form->create('Order',array('url'=> array('controller' => 'Orders', 'action' => 'index'),'method'=>'POST')); ?>
+                    
+                    <div class="form-group col-md-12">
+                        <div class="form-group col-md-4">
+                            <label>Order Number</label>
+                            <?php echo $this->Form->input("Order.order_number",array('placeholder'=>'Enter order number','class'=>'form-control input-sm','autocomplete'=>'off','label'=>false));?>
+                        </div>
+
+                        <div class="form-group col-md-4">
+                            <label>Order Status</label>
+                            <?php echo $this->Form->input("Order.status",array('class'=>'form-control input-sm','options'=>array('draft'=>'Draft','1'=>'Confirm','2'=>'Cancelled','3'=>'partial cancelled'),'empty'=>'--Select--','label'=>false));?>
+                        </div>
+
+                        <div class="form-group col-md-4">
+                            <label>Payment Status</label>
+                            <?php echo $this->Form->input("Order.payment_status",array('class'=>'form-control input-sm','options'=>array('completed'=>'Completed','1'=>'Pending'),'empty'=>'--Select--','label'=>false));?>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-12">
+                        <div class="form-group col-md-4">
+                            <label>Order start date</label>
+                            <?php echo $this->Form->input("Order.start_date",array('placeholder'=>'Enter order number','class'=>'form-control input-sm','autocomplete'=>'off','label'=>false));?>
+                        </div>
+
+                        <div class="form-group col-md-4">
+                            <label>Order end date</label>
+                            <?php echo $this->Form->input("Order.end_date",array('placeholder'=>'Enter order number','class'=>'form-control input-sm','autocomplete'=>'off','label'=>false));?>
+                        </div>
+
+                        <div class="form-group col-md-4">
+                            <?php echo $this->Form->button('Search',array('type'=>'submit','id'=>'search_orders','class'=>'btn btn-rounded btn-primary','escape'=>false));?>
+                        </div>
+                    </div>
+                    
+                    <?php echo $this->Form->end();?>
+                </div>
+
                 <div class="panel-body">
                   <table class="table table-striped table-hover">
                     <thead>
@@ -130,7 +171,21 @@
               </div>
             </div>
             </div>
+            
     </div>
+    <nav>
+            <center>
+                <ul class="pagination">
+                    <li>
+                    <?php
+                        echo $this->Paginator->prev('< ' . __('previous'), array(), null, array('class' => 'prev disabled'));
+                        echo $this->Paginator->numbers(array('separator' => ''));
+                        echo $this->Paginator->next(__('next') . ' >', array(), null, array('class' => 'next disabled'));
+                    ?>
+                    </li>
+                </ul>
+            </center>
+        </nav>
 </div>
 
 <script type="text/javascript">

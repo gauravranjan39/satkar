@@ -1,17 +1,88 @@
 <?php
 App::uses('AppController', 'Controller');
+App::uses('Sanitize', 'Utility');
 App::import('Vendor', 'PDF', array('file' => 'mpdf/vendor/autoload.php'));
 
 class OrdersController extends AppController {
 
     public $components = array('Paginator','Encryption');
 
+    private function redirectToIndexPage($criteria){
+        $this->Session->write('criteria', $criteria);
+        $this->redirect(array('action' => 'index'));
+    }
+
+    private function isClickedOnSearch($criteria){
+        /* Verifying search button is clicked and redirecting to first page. */
+        if (isset($this->request->data['Order'])) {
+            $this->redirectToIndexPage($criteria);
+        }
+        
+        /* Doing this to show the search results when search happened in other than page 1. */
+        if (!empty($this->Session->read('criteria'))) {
+            $criteria = $this->Session->read('criteria');
+            $this->Session->delete('criteria');
+        }
+        return $criteria;
+    }
+
     public function index() {
         $this->layout = "my_layout";
         $Encryption=$this->Encryption;
         $this->loadModel('Order');
         $this->Order->unbindModel(array('hasMany' => array('OrderItem')),true);
-        $orderLists = $this->Order->find('all', array('order'=>array('Order.id'=>'desc')));
+
+        $criteria = "";
+        
+        if ($this->request->is(array('post','put'))) {
+            // pr($this->request->data);die;
+            $criteria = $this->request->data;
+        }
+        $criteria = $this->isClickedOnSearch($criteria);
+
+        if (!empty($this->params->params['named']['criteria'])) {
+            $criteria = $this->params->params['named']['criteria'];
+        } else if (!empty($this->request->data['criteria'])) {
+            $criteria = $this->request->data['criteria'];
+        }
+
+        $conditions = array();
+
+        // pr($criteria);
+
+        if(!empty($criteria['Order']['order_number'])) {
+            $conditions = array_merge($conditions,array('Order.order_number LIKE'=>trim("%".$criteria['Order']['order_number']."%")));
+        }
+
+        if(!empty($criteria['Order']['status'])) {
+            if ($criteria['Order']['status'] == 'draft') {
+                $conditions = array_merge($conditions,array('Order.status'=>'0'));
+            } else {
+                $conditions = array_merge($conditions,array('Order.status'=>$criteria['Order']['status']));
+            }
+        }
+        
+        if(!empty($criteria['Order']['payment_status'])) {
+            if ($criteria['Order']['payment_status'] == 'completed') {
+                $conditions = array_merge($conditions,array('Order.payment_status'=>'0'));
+            } else {
+                $conditions = array_merge($conditions,array('Order.payment_status'=>$criteria['Order']['payment_status']));
+            }
+        }
+
+        // if(!empty($criteria['Order']['start_date']) && !empty($criteria['Order']['end_date'])) {
+        //     $dateTo = $criteria['Order']['start_date'];
+        //     $dateFrom = $criteria['Order']['end_date'].' 23:59:59';
+        //     $conditions = array_merge($conditions,array('Order.created BETWEEN ? AND ?'=>array($dateTo,$dateFrom)));  
+        // }
+
+        // pr($conditions);die;
+
+        $this->paginate = array('conditions' =>  $conditions,'order'=>'Order.id DESC','limit'=>20);
+        $orderLists = $this->Paginator->paginate();
+        $this->set('criteria', $criteria);
+
+        //$orderLists = $this->Order->find('all', array('order'=>array('Order.id'=>'desc')));
         $this->set(compact('orderLists','Encryption'));
     }
 

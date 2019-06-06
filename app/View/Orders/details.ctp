@@ -465,12 +465,12 @@
 
                 <div class="form-group col-md-12" v-if="PaymentHistoryDetails.total_amount">
                     <div class="col-md-5"><b>Total Amount:</b></div>
-                    <div class="col-md-7">&#8377;{{PaymentHistoryDetails.total_amount}}</div>
+                    <div class="col-md-7">&#8377;{{formatPrice(PaymentHistoryDetails.total_amount)}}</div>
                 </div>
 
                 <div class="form-group col-md-12" v-if="PaymentHistoryDetails.amount_paid">
                     <div class="col-md-5"><b>Amount paid to this order:</b></div>
-                    <div class="col-md-7">&#8377;{{PaymentHistoryDetails.amount_paid}}</div>
+                    <div class="col-md-7">&#8377;{{formatPrice(PaymentHistoryDetails.amount_paid)}}</div>
                 </div>
                 
                 <div class="">
@@ -510,9 +510,24 @@
 
 	$(document).ready(function() {
 
-        // $('.view-transaction-details').click(function(){
-        //     $('#paymentDetails').modal('show');
-        // });
+        $('#order_invoice').click(function(){
+            <?php if ($orderDetails['Order']['payment_status'] == 1) { ?>
+                if (confirm('Payment is pending are you sure to print the order invoice ?')) {
+                    $.ajax({
+                    url:"<?php echo Router::url(array('controller'=>'Orders','action'=>'confirm_order'));?>/"+orderId,
+                    success:function(data){
+                        if (data == 1) {
+                            location.reload();
+                        } else {
+                            alert('Error Occured!!');
+                        }
+                    }
+			    });
+            }
+            <?php } else { ?>
+            alert('completed');
+            <?php } ?>
+        });
 
         $('.datetimepicker').keypress(function(){
             return false;

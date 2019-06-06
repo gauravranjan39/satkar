@@ -358,7 +358,7 @@
 
 
 <div class="modal animated fadeIn" id="paymentHistory" tabindex="-1" role="dialog" aria-labelledby="smallModalHead" aria-hidden="true">
-    <div class="modal-dialog modal-lg" style=" margin: 0  auto;top:10%;width: 40%;">
+    <div class="modal-dialog modal-lg" style=" margin: 0  auto;top:10%;">
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header" style="text-align: center;">
@@ -382,7 +382,7 @@
                             <td><?php echo $orderTransaction['invoice_number']; ?></td>
                             <td>&#8377;<?php echo number_format($orderTransaction['amount_paid'],2); ?></td>
                             <td><?php echo date('d-M-Y h:i A', strtotime($orderTransaction['transaction_date'])); ?></td>
-                            <td style="text-align: center;"><?php echo $orderTransaction['type']; ?></td>
+                            <td><?php echo $orderTransaction['type']; ?></td>
                             <td style="text-align: center;"><i class="mdi mdi-eye view-transaction-details" title="View Details" style="font-size: 16px;cursor: pointer;" @click='openPopUp(<?php echo json_encode($orderTransaction)?>)'></i></td>
                         </tr>
                         <?php } ?>
@@ -404,7 +404,7 @@
 
 
 <div class="modal animated fadeIn" id="paymentDetails" tabindex="-1" role="dialog" aria-labelledby="smallModalHead" aria-hidden="true">
-    <div class="modal-dialog modal-lg" style=" margin: 0  auto;top:10%;width: 40%;">
+    <div class="modal-dialog modal-lg" style=" margin: 0  auto;top:10%;width: 45%;">
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header" style="text-align: center;">
@@ -414,19 +414,65 @@
             <div class="modal-body">
             
             <div class="form-group col-md-12" v-if="PaymentHistoryDetails.type">
-                    <div class="col-md-3"><b>Payment Type:</b></div>
-                    <div class="col-md-9">{{PaymentHistoryDetails.type}}</div>
+                    <div class="col-md-5"><b>Payment Type:</b></div>
+                    <div class="col-md-7">{{PaymentHistoryDetails.type}}</div>
                 </div>
 
                 <div class="form-group col-md-12" v-if="PaymentHistoryDetails.metal_type">
-                    <div class="col-md-3"><b>Metal:</b></div>
-                    <div class="col-md-9">{{PaymentHistoryDetails.metal_type}}</div>
+                    <div class="col-md-5"><b>Metal:</b></div>
+                    <div class="col-md-7">{{PaymentHistoryDetails.metal_type}}</div>
                 </div>
 
                 <div class="form-group col-md-12" v-if="PaymentHistoryDetails.item">
-                    <div class="col-md-3"><b>Item:</b></div>
-                    <div class="col-md-9">{{PaymentHistoryDetails.item}}</div>
+                    <div class="col-md-5"><b>Item:</b></div>
+                    <div class="col-md-7">{{PaymentHistoryDetails.item}}</div>
                 </div>
+
+                <div class="form-group col-md-12" v-if="PaymentHistoryDetails.rate">
+                    <div class="col-md-5"><b>Rate:</b></div>
+                    <div class="col-md-7">{{PaymentHistoryDetails.rate}}</div>
+                </div>
+
+                <div class="form-group col-md-12" v-if="PaymentHistoryDetails.weight">
+                    <div class="col-md-5"><b>Item Weight:</b></div>
+                    <div class="col-md-7">{{PaymentHistoryDetails.weight}}</div>
+                </div>
+
+                <div class="form-group col-md-12" v-if="PaymentHistoryDetails.return_percentage">
+                    <div class="col-md-5"><b>Return %:</b></div>
+                    <div class="col-md-7">{{PaymentHistoryDetails.return_percentage}}</div>
+                </div>
+
+                <div class="form-group col-md-12" v-if="PaymentHistoryDetails.cheque_number">
+                    <div class="col-md-5"><b>Cheque No.:</b></div>
+                    <div class="col-md-7">{{PaymentHistoryDetails.cheque_number}}</div>
+                </div>
+
+                <div class="form-group col-md-12" v-if="PaymentHistoryDetails.bank_name">
+                    <div class="col-md-5"><b>Bank Name:</b></div>
+                    <div class="col-md-7">{{PaymentHistoryDetails.bank_name}}</div>
+                </div>
+
+                <div class="form-group col-md-12" v-if="PaymentHistoryDetails.payment_transaction_id">
+                    <div class="col-md-5"><b>Transaction ID:</b></div>
+                    <div class="col-md-7">{{PaymentHistoryDetails.payment_transaction_id}}</div>
+                </div>
+
+                <div class="form-group col-md-12" v-if="PaymentHistoryDetails.transaction_date">
+                    <div class="col-md-5"><b>Transaction Date:</b></div>
+                    <div class="col-md-7">{{PaymentHistoryDetails.transaction_date}}</div>
+                </div>
+
+                <div class="form-group col-md-12" v-if="PaymentHistoryDetails.total_amount">
+                    <div class="col-md-5"><b>Total Amount:</b></div>
+                    <div class="col-md-7">&#8377;{{PaymentHistoryDetails.total_amount}}</div>
+                </div>
+
+                <div class="form-group col-md-12" v-if="PaymentHistoryDetails.amount_paid">
+                    <div class="col-md-5"><b>Amount paid to this order:</b></div>
+                    <div class="col-md-7">&#8377;{{PaymentHistoryDetails.amount_paid}}</div>
+                </div>
+                
                 <div class="">
                     <div class="">
                         <div class="col-md-12">
@@ -450,8 +496,11 @@
         },
         el: '#cust-order-details',
         methods: {
+            formatPrice(value) {
+                let val = (value/1).toFixed(2)
+                return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+            },
             openPopUp: function(payment) {
-                // console.log(payment);
                 this.PaymentHistoryDetails = payment;
                 $('#paymentDetails').modal();
                 console.log(payment);

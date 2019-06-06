@@ -131,6 +131,7 @@ class OrdersController extends AppController {
         $this->loadModel('OrderTransaction');
         $this->loadModel('Order');
         if ($this->request->is(array('post','put'))) {
+            $this->request->data['OrderTransaction']['total_amount'] = $this->request->data['OrderTransaction']['amount_paid'];
             $dues = $this->request->data['OrderTransaction']['dues'];
             $amountPaid = $this->request->data['OrderTransaction']['amount_paid'];
             if ($this->request->data['OrderTransaction']['type'] == 'wallet') {

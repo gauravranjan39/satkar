@@ -1,7 +1,8 @@
+<?php echo $this->Html->script('vue.min');?>
 <?php echo $this->Html->css('bootstrap-datetimepicker.min');?>
 <?php echo $this->Html->script('bootstrap-datetimepicker.min');?>
 
-<div class="be-content">
+<div class="be-content" id="cust-order-details">
         <div class="main-content container-fluid">
           <div class="row">
             <div class="col-sm-12">
@@ -266,6 +267,53 @@
               </div>
             </div>
           </div>
+
+
+        <div class="modal animated fadeIn" id="paymentHistory" tabindex="-1" role="dialog" aria-labelledby="smallModalHead" aria-hidden="true">
+    <div class="modal-dialog modal-lg" style=" margin: 0  auto;top:10%;width: 40%;">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header" style="text-align: center;">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h3 class="modal-title" style="line-height:1;">Payment History</h3><hr>
+            </div>
+            <div class="modal-body">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Invoice ID</th>
+                            <th>Amount</th>
+                            <th>Date</th>
+                            <th>Type</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody class="no-border-x">
+                        <?php foreach ($orderDetails['OrderTransaction'] as $orderTransaction) { ?>
+                        <tr>
+                            <td><?php echo $orderTransaction['invoice_number']; ?></td>
+                            <td>&#8377;<?php echo number_format($orderTransaction['amount_paid'],2); ?></td>
+                            <td><?php echo date('d-M-Y h:i A', strtotime($orderTransaction['transaction_date'])); ?></td>
+                            <td style="text-align: center;"><?php echo $orderTransaction['type']; ?></td>
+                            <td style="text-align: center;"><i class="mdi mdi-eye view-transaction-details" title="View Details" style="font-size: 16px;cursor: pointer;" @click='openPopUp(<?php echo json_encode($orderTransaction)?>)'></i></td>
+                        </tr>
+                        <?php } ?>
+                    </tbody>
+                </table>
+                <div class="">
+                    <div class="">
+                        <div class="col-md-12">
+                            <?php echo $this->Form->button('Cancel',array('type'=>'button','data-dismiss'=>'modal','class'=>'btn btn-rounded btn-default','style'=>'margin-top: 26px;margin-bottom: 18px;','escape'=>false));?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
       </div>
 
 
@@ -367,51 +415,7 @@
 </div>
 
 
-<div class="modal animated fadeIn" id="paymentHistory" tabindex="-1" role="dialog" aria-labelledby="smallModalHead" aria-hidden="true">
-    <div class="modal-dialog modal-lg" style=" margin: 0  auto;top:10%;width: 40%;">
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header" style="text-align: center;">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h3 class="modal-title" style="line-height:1;">Payment History</h3><hr>
-            </div>
-            <div class="modal-body">
-            <!-- <div class="panel-body table-responsive"> -->
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Invoice ID</th>
-                            <th>Amount</th>
-                            <th>Date</th>
-                            <th>Type</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody class="no-border-x">
-                        <?php foreach ($orderDetails['OrderTransaction'] as $orderTransaction) {?>
-                        <tr>
-                            <td><?=$orderTransaction['invoice_number']?></td>
-                            
-                            <td>&#8377;<?php echo number_format($orderTransaction['amount_paid'],2); ?></td>
-                            <td><?php echo date('d-M-Y h:i A', strtotime($orderTransaction['transaction_date'])); ?></td>
-                            <td style="text-align: center;"><?php echo $orderTransaction['type']; ?></td>
-                            <td style="text-align: center;"><i class="mdi mdi-eye view-transaction-details" title="View Details" style="font-size: 16px;cursor: pointer;"></i></td>
-                        </tr>
-                        <?php } ?>
-                    </tbody>
-                </table>
-            <!-- </div> -->
-                <div class="">
-                    <div class="">
-                        <div class="col-md-12">
-                            <?php echo $this->Form->button('Cancel',array('type'=>'button','data-dismiss'=>'modal','class'=>'btn btn-rounded btn-default','style'=>'margin-top: 26px;margin-bottom: 18px;','escape'=>false));?>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+
 
 
 <div class="modal animated fadeIn" id="paymentDetails" tabindex="-1" role="dialog" aria-labelledby="smallModalHead" aria-hidden="true">
@@ -423,7 +427,21 @@
                 <h3 class="modal-title" style="line-height:1;">Payment Details</h3><hr>
             </div>
             <div class="modal-body">
-            This is the testing body
+            
+            <div class="form-group col-md-12" v-if="PaymentHistoryDetails.type">
+                    <div class="col-md-3"><b>Payment Type:</b></div>
+                    <div class="col-md-9">{{PaymentHistoryDetails.type}}</div>
+                </div>
+
+                <div class="form-group col-md-12" v-if="PaymentHistoryDetails.metal_type">
+                    <div class="col-md-3"><b>Metal:</b></div>
+                    <div class="col-md-9">{{PaymentHistoryDetails.metal_type}}</div>
+                </div>
+
+                <div class="form-group col-md-12" v-if="PaymentHistoryDetails.item">
+                    <div class="col-md-3"><b>Item:</b></div>
+                    <div class="col-md-9">{{PaymentHistoryDetails.item}}</div>
+                </div>
                 <div class="">
                     <div class="">
                         <div class="col-md-12">
@@ -438,11 +456,29 @@
 
 
 <script type="text/javascript">
+
+    new Vue({
+        data(){
+            return {
+                PaymentHistoryDetails: {}
+            }      
+        },
+        el: '#cust-order-details',
+        methods: {
+            openPopUp: function(payment) {
+                // console.log(payment);
+                this.PaymentHistoryDetails = payment;
+                $('#paymentDetails').modal();
+                console.log(payment);
+            }
+        }
+    })
+
 	$(document).ready(function() {
 
-        $('.view-transaction-details').click(function(){
-            $('#paymentDetails').modal('show');
-        });
+        // $('.view-transaction-details').click(function(){
+        //     $('#paymentDetails').modal('show');
+        // });
 
         $('.datetimepicker').keypress(function(){
             return false;

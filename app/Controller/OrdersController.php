@@ -70,11 +70,11 @@ class OrdersController extends AppController {
             }
         }
 
-        // if(!empty($criteria['Order']['start_date']) && !empty($criteria['Order']['end_date'])) {
-        //     $dateTo = $criteria['Order']['start_date'];
-        //     $dateFrom = $criteria['Order']['end_date'].' 23:59:59';
-        //     $conditions = array_merge($conditions,array('Order.created BETWEEN ? AND ?'=>array($dateTo,$dateFrom)));  
-        // }
+        if(!empty($criteria['Order']['start_date']) && !empty($criteria['Order']['end_date'])) {
+            $dateTo = $criteria['Order']['start_date'];
+            $dateFrom = $criteria['Order']['end_date'].' 23:59:59';
+            $conditions = array_merge($conditions,array('Order.created BETWEEN ? AND ?'=>array($dateTo,$dateFrom)));  
+        }
 
         // pr($conditions);die;
 

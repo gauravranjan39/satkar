@@ -1,3 +1,6 @@
+<?php echo $this->Html->css('bootstrap-datetimepicker.min');?>
+<?php echo $this->Html->script('bootstrap-datetimepicker.min');?>
+
 <div class="modal animated fadeIn" id="myModalForCustomer" tabindex="-1" role="dialog" aria-labelledby="smallModalHead" aria-hidden="true">
     <div class="modal-dialog modal-lg" style=" margin: 0  auto;top:10%;width: 40%;">
         <!-- Modal content-->
@@ -53,29 +56,29 @@
                     <div class="form-group col-md-12">
                         <div class="form-group col-md-4">
                             <label>Order Number</label>
-                            <?php echo $this->Form->input("Order.order_number",array('placeholder'=>'Enter order number','class'=>'form-control input-sm','autocomplete'=>'off','label'=>false));?>
+                            <?php echo $this->Form->input("Order.order_number",array('placeholder'=>'Enter order number','class'=>'form-control input-sm','autocomplete'=>'off','label'=>false,'value'=>isset($criteria['Order']['order_number'])? $criteria['Order']['order_number']:''));?>
                         </div>
 
                         <div class="form-group col-md-4">
                             <label>Order Status</label>
-                            <?php echo $this->Form->input("Order.status",array('class'=>'form-control input-sm','options'=>array('draft'=>'Draft','1'=>'Confirm','2'=>'Cancelled','3'=>'partial cancelled'),'empty'=>'--Select--','label'=>false));?>
+                            <?php echo $this->Form->input("Order.status",array('class'=>'form-control input-sm','options'=>array('draft'=>'Draft','1'=>'Confirm','2'=>'Cancelled','3'=>'partial cancelled'),'empty'=>'--Select--','label'=>false,'default' =>isset($criteria['Order']['status'])? $criteria['Order']['status']:''));?>
                         </div>
 
                         <div class="form-group col-md-4">
                             <label>Payment Status</label>
-                            <?php echo $this->Form->input("Order.payment_status",array('class'=>'form-control input-sm','options'=>array('completed'=>'Completed','1'=>'Pending'),'empty'=>'--Select--','label'=>false));?>
+                            <?php echo $this->Form->input("Order.payment_status",array('class'=>'form-control input-sm','options'=>array('completed'=>'Completed','1'=>'Pending'),'empty'=>'--Select--','label'=>false,'default' =>isset($criteria['Order']['payment_status'])? $criteria['Order']['payment_status']:''));?>
                         </div>
                     </div>
 
                     <div class="form-group col-md-12">
                         <div class="form-group col-md-4">
                             <label>Order start date</label>
-                            <?php echo $this->Form->input("Order.start_date",array('placeholder'=>'Enter order number','class'=>'form-control input-sm','autocomplete'=>'off','label'=>false));?>
+                            <?php echo $this->Form->input("Order.start_date",array('placeholder'=>'Enter start date','id'=>'start_date','class'=>'form-control input-sm date datetimepicker','data-min-view' =>'2','data-date-format'=>'yyyy-mm-dd','autocomplete'=>'off','label'=>false,'value'=>isset($criteria['Order']['start_date'])? $criteria['Order']['start_date']:''));?>
                         </div>
 
                         <div class="form-group col-md-4">
                             <label>Order end date</label>
-                            <?php echo $this->Form->input("Order.end_date",array('placeholder'=>'Enter order number','class'=>'form-control input-sm','autocomplete'=>'off','label'=>false));?>
+                            <?php echo $this->Form->input("Order.end_date",array('placeholder'=>'Enter end date','id'=>'end_date','class'=>'form-control input-sm date datetimepicker','data-min-view' =>'2','data-date-format'=>'yyyy-mm-dd','autocomplete'=>'off','label'=>false,'value'=>isset($criteria['Order']['end_date'])? $criteria['Order']['end_date']:''));?>
                         </div>
 
                         <div class="form-group col-md-4">
@@ -173,7 +176,12 @@
             </div>
             
     </div>
-    <nav>
+        <?php
+            if (!empty($criteria)) {
+                $this->Paginator->options(array('url' => array('criteria' => $criteria)));
+            }
+        ?>	
+        <nav>
             <center>
                 <ul class="pagination">
                     <li>
@@ -190,6 +198,45 @@
 
 <script type="text/javascript">
 	$(document).ready(function() {
+
+        var start = new Date();
+        // set end date to max one year period:
+        var end = new Date(new Date().setYear(start.getFullYear()+1));
+
+        $('#start_date').datetimepicker({
+            autoclose: true,
+            componentIcon: '.mdi.mdi-calendar',
+            navIcons:{
+                rightIcon: 'mdi mdi-chevron-right',
+                leftIcon: 'mdi mdi-chevron-left'
+            },
+            //startDate : start,
+            endDate   : start
+            // update "toDate" defaults whenever "fromDate" changes
+            }).on('changeDate', function(){
+                // set the "toDate" start to not be later than "fromDate" ends:
+                $('#end_date').datetimepicker('setStartDate', new Date($(this).val()));
+        }); 
+
+        $('#end_date').datetimepicker({
+            autoclose: true,
+            componentIcon: '.mdi.mdi-calendar',
+            navIcons:{
+                rightIcon: 'mdi mdi-chevron-right',
+                leftIcon: 'mdi mdi-chevron-left'
+            },
+            // startDate : start,
+            endDate   : start
+        // update "fromDate" defaults whenever "toDate" changes
+        }).on('changeDate', function(){
+            // set the "fromDate" end to not be later than "toDate" starts:
+            $('#start_date').datetimepicker('setEndDate', new Date($(this).val()));
+        });
+
+        $('.datetimepicker').keypress(function(){
+            return false;
+        });
+
         $(".customer_details").click(function(){
             var customerName = $(this).text();
             var customerAddress = $(this).attr('address');

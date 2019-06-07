@@ -7,12 +7,12 @@ class OrdersController extends AppController {
 
     public $components = array('Paginator','Encryption');
 
-    private function redirectToIndexPage($criteria){
+    private function redirectToIndexPage($criteria) {
         $this->Session->write('criteria', $criteria);
         $this->redirect(array('action' => 'index'));
     }
 
-    private function isClickedOnSearch($criteria){
+    private function isClickedOnSearch($criteria) {
         /* Verifying search button is clicked and redirecting to first page. */
         if (isset($this->request->data['Order'])) {
             $this->redirectToIndexPage($criteria);

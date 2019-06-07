@@ -342,30 +342,6 @@
             $('#start_date').datetimepicker('setEndDate', new Date($(this).val()));
         });
 
-        // $("#start_date").datetimepicker({
-        //     autoclose: true,
-        //     componentIcon: '.mdi.mdi-calendar',
-        //     navIcons:{
-        //         rightIcon: 'mdi mdi-chevron-right',
-        //         leftIcon: 'mdi mdi-chevron-left'
-        //     },
-        //     onClose: function( selectedDate ) {
-        //         $( "#end_date").datetimepicker( "option", "minDate", selectedDate );
-        //     }
-        // });
-
-        // $("#end_date").datetimepicker({
-        //     autoclose: true,
-        //     componentIcon: '.mdi.mdi-calendar',
-        //     navIcons:{
-        //         rightIcon: 'mdi mdi-chevron-right',
-        //         leftIcon: 'mdi mdi-chevron-left'
-        //     },
-        //     onClose: function( selectedDate ) {
-        //         $( "#start_date").datetimepicker( "option", "minDate", selectedDate );
-        //     }
-        // });
-
         $('.datetimepicker').keypress(function(){
             return false;
         });

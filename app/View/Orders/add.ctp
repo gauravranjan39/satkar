@@ -236,18 +236,6 @@
 			return false;
 		});
 
-		// $('body').on('change','.hideSomeField',function(){
-		// 	//alert($(this).attr('data-count-val'));return false;
-		// 	if ($(this).prop("checked") == true) {
-		// 		$(this).parent().parent().parent("div.clone-div").find("div.extra_fields").show();
-		// 		$(this).parent().parent().parent("div.clone-div").find("div.extra_fields").find('input').attr('required', 'required');
-		// 	} else {
-		// 		$(this).parent().parent().parent("div.clone-div").find("div.extra_fields").hide();
-		// 		$(this).parent().parent().parent("div.clone-div").find("div.extra_fields").find('input').removeAttr('required');
-		// 		$(this).parent().parent().parent("div.clone-div").find("div.extra_fields").find('input').val('');
-		// 	}
-		// });
-
 		$(document).off("focus change keyup", "input.per-weight-field");
 
 		$(document).on("focus change keyup", "input.per-weight-field,input.itemTotal", function(){
@@ -278,7 +266,8 @@
 						curentElemDiscount = '0.00';
 					}
 					var currentElemGrandTotal =  (parseFloat(currentElemTotal) - parseFloat(curentElemDiscount));
-					$('#OrderItemGrandTotal_'+parentDiv).val(Math.round(currentElemGrandTotal.toFixed(2)));
+					var currentElemGrandTotal = Math.round(currentElemGrandTotal);
+					$('#OrderItemGrandTotal_'+parentDiv).val(currentElemGrandTotal.toFixed(2));
 					// $('#OrderDiscount').val('');
 					//$('#OrderTransactionAmountPaid').val('');
 				}
@@ -306,7 +295,8 @@
 				}
 				var currentElemGrandTotal =  (parseFloat(currentElemTotal) - parseFloat(curentElemDiscount));
 				if ($.isNumeric(currentElemGrandTotal)) {
-					$('#OrderItemGrandTotal_'+parentDiv).val(Math.round(currentElemGrandTotal.toFixed(2)));
+					var currentElemGrandTotal = Math.round(currentElemGrandTotal);
+					$('#OrderItemGrandTotal_'+parentDiv).val(currentElemGrandTotal.toFixed(2));
 					// $('#OrderDiscount').val('');
 					//$('#OrderTransactionAmountPaid').val('');
 				}
@@ -350,7 +340,8 @@
 						curentElemGemsDiscount = '0.00';
 					}
 					var currentElemGemsGrandTotal =  (parseFloat(gemsItemTotalAmt) - parseFloat(curentElemGemsDiscount));
-					$('#OrderItemGrandTotal_'+parentDiv).val(Math.round(currentElemGemsGrandTotal.toFixed(2)));
+					var currentElemGemsGrandTotal = Math.round(currentElemGemsGrandTotal);
+					$('#OrderItemGrandTotal_'+parentDiv).val(currentElemGemsGrandTotal.toFixed(2));
 					// $('#OrderDiscount').val('');
 					//$('#OrderTransactionAmountPaid').val('');
 				}
@@ -363,7 +354,8 @@
 				}
 			});
 			$('#OrderTotal').val(Math.round(orderTotalAmt));
-			$('#OrderGrandTotal').val(Math.round(orderTotalAmt));
+			var orderTotalAmt = Math.round(orderTotalAmt);
+			$('#OrderGrandTotal').val(orderTotalAmt.toFixed(2));
 			//$('#OrderTransactionDues').val(Math.round(orderTotalAmt));
 		});
 		

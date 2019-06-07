@@ -489,6 +489,7 @@
 						curentElemDiscount = '0.00';
 					}
 					var currentElemGrandTotal =  (parseFloat(currentElemTotal) - parseFloat(curentElemDiscount));
+					var currentElemGrandTotal = Math.round(currentElemGrandTotal);
 					$('#OrderItemGrandTotal_'+parentDiv).val(currentElemGrandTotal.toFixed(2));
 					// $('#OrderDiscount').val('');
 					$('#OrderTransactionAmountPaid').val('');
@@ -517,6 +518,7 @@
 				}
 				var currentElemGrandTotal =  (parseFloat(currentElemTotal) - parseFloat(curentElemDiscount));
 				if ($.isNumeric(currentElemGrandTotal)) {
+					var currentElemGrandTotal = Math.round(currentElemGrandTotal);
 					$('#OrderItemGrandTotal_'+parentDiv).val(currentElemGrandTotal.toFixed(2));
 					// $('#OrderDiscount').val('');
 					$('#OrderTransactionAmountPaid').val('');
@@ -561,6 +563,7 @@
 						curentElemGemsDiscount = '0.00';
 					}
 					var currentElemGemsGrandTotal =  (parseFloat(gemsItemTotalAmt) - parseFloat(curentElemGemsDiscount));
+					var currentElemGrandTotal = Math.round(currentElemGrandTotal);
 					$('#OrderItemGrandTotal_'+parentDiv).val(currentElemGemsGrandTotal.toFixed(2));
 					// $('#OrderDiscount').val('');
 					$('#OrderTransactionAmountPaid').val('');
@@ -573,9 +576,10 @@
 					orderTotalAmt += parseFloat(grandTotal);
 				}
 			});
-			$('#OrderTotal').val(Math.round(orderTotalAmt));
-			$('#OrderGrandTotal').val(Math.round(orderTotalAmt));
-			$('#OrderTransactionDues').val(Math.round(orderTotalAmt));
+			var orderTotalAmt = Math.round(orderTotalAmt);
+			$('#OrderTotal').val(orderTotalAmt.toFixed(2));
+			$('#OrderGrandTotal').val(orderTotalAmt.toFixed(2));
+			$('#OrderTransactionDues').val(orderTotalAmt.toFixed(2));
 		});
 		
 		//payment for the order

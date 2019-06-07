@@ -61,7 +61,7 @@
 
                         <div class="form-group col-md-4">
                             <label>Order Status</label>
-                            <?php echo $this->Form->input("Order.status",array('class'=>'form-control input-sm','options'=>array('draft'=>'Draft','1'=>'Confirm','2'=>'Cancelled','3'=>'partial cancelled'),'empty'=>'--Select--','label'=>false,'default' =>isset($criteria['Order']['status'])? $criteria['Order']['status']:''));?>
+                            <?php echo $this->Form->input("Order.status",array('class'=>'form-control input-sm','options'=>array('draft'=>'Draft','1'=>'Confirm','2'=>'Cancelled','3'=>'Partial Cancelled'),'empty'=>'--Select--','label'=>false,'default' =>isset($criteria['Order']['status'])? $criteria['Order']['status']:''));?>
                         </div>
 
                         <div class="form-group col-md-4">
@@ -148,13 +148,9 @@
                         <td><?php echo date('d-M-Y', strtotime($orderList['Order']['created'])); ?></td>
                         <?php if ($orderList['Order']['payment_status'] == 1) { ?>
                             <td><?php echo $this->Html->link('Pending', 'javascript:void(0);',  array("class" => "text-danger payment_pending", "escape" => false,'order_id'=>$orderList['Order']['id'],'title'=>'Change to Completed')); ?></td>
-                        <?php } else {
-                            if ($orderList['Order']['status'] == 2) {
-                            ?>
-                            <td class="text-danger">Cancelled</td>
                         <?php } else { ?>
                             <td class="text-success">Completed</td>
-                        <?php } } ?>
+                        <?php } ?>
 
                         <td class="text-right">
                             <div class="btn-group btn-hspace">

@@ -532,6 +532,8 @@
         $('.datetimepicker').keypress(function(){
             return false;
         });
+        
+        var start = new Date();
 
         $(".datetimepicker").datetimepicker({
             autoclose: true,
@@ -539,7 +541,8 @@
             navIcons:{
                 rightIcon: 'mdi mdi-chevron-right',
                 leftIcon: 'mdi mdi-chevron-left'
-            }
+            },
+            endDate   : start
         });
 
         $('#customer_wallet').click(function(){

@@ -320,7 +320,7 @@
                 leftIcon: 'mdi mdi-chevron-left'
             },
             //startDate : start,
-            endDate   : end
+            endDate   : start
             // update "toDate" defaults whenever "fromDate" changes
             }).on('changeDate', function(){
                 // set the "toDate" start to not be later than "fromDate" ends:
@@ -335,7 +335,7 @@
                 leftIcon: 'mdi mdi-chevron-left'
             },
             // startDate : start,
-            endDate   : end
+            endDate   : start
         // update "fromDate" defaults whenever "toDate" changes
         }).on('changeDate', function(){
             // set the "fromDate" end to not be later than "toDate" starts:
@@ -368,6 +368,16 @@
 
         $('.datetimepicker').keypress(function(){
             return false;
+        });
+
+        $(".datetimepicker").datetimepicker({
+            autoclose: true,
+            componentIcon: '.mdi.mdi-calendar',
+            navIcons:{
+                rightIcon: 'mdi mdi-chevron-right',
+                leftIcon: 'mdi mdi-chevron-left'
+            },
+            endDate   : start
         });
         
 

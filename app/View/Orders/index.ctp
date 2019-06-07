@@ -46,12 +46,23 @@
             <div class="col-sm-12">
               <div class="panel panel-default panel-table">
                 <div class="panel-heading">Orders
+                <?php $encodedCustomerId = $Encryption->encode($customerId); 
+                    
+                ?>
                   <div class="tools"><span class="icon mdi mdi-download"></span><span class="icon mdi mdi-more-vert"></span></div>
                 </div>
 
                 <div class="form-group col-md-12"></div>
                 <div class="form-group col-md-12">
-                    <?php echo $this->Form->create('Order',array('url'=> array('controller' => 'Orders', 'action' => 'index'),'method'=>'POST')); ?>
+                    <?php
+                    if (!empty($encodedCustomerId)) {
+                        echo $this->Form->create('Order',array('url'=> array('controller' => 'Orders', 'action' => 'index',$encodedCustomerId),'method'=>'POST')); 
+                        echo $this->Form->input('Order.customer_id',array('type'=>'hidden','value'=>$encodedCustomerId));
+                    } else {
+                        echo $this->Form->create('Order',array('url'=> array('controller' => 'Orders', 'action' => 'index'),'method'=>'POST')); 
+                    }
+                    
+                    ?>
                     
                     <div class="form-group col-md-12">
                         <div class="form-group col-md-4">
@@ -173,9 +184,16 @@
             
     </div>
         <?php
-            if (!empty($criteria)) {
-                $this->Paginator->options(array('url' => array('criteria' => $criteria)));
+
+            if (!empty($encodedCustomerId)) {
+                $this->Paginator->options(array('url' => array($encodedCustomerId .'/'. 'criteria' => $criteria)));
+            } else {
+                if (!empty($criteria)) {
+                    $this->Paginator->options(array('url' => array('criteria' => $criteria)));
+                }
             }
+
+            
         ?>	
         <nav>
             <center>

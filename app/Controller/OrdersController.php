@@ -8,8 +8,16 @@ class OrdersController extends AppController {
     public $components = array('Paginator','Encryption');
 
     private function redirectToIndexPage($criteria) {
-        $this->Session->write('criteria', $criteria);
-        $this->redirect(array('action' => 'index'));
+        if (isset($criteria['Order']['customer_id']) && !empty($criteria['Order']['customer_id'])) {
+            $enocedCustomerId = $criteria['Order']['customer_id'];
+            $customerId=$this->Encryption->decode($enocedCustomerId);
+            $criteria['Order']['customer_id'] = $customerId;
+            $this->Session->write('criteria', $criteria);
+            $this->redirect(array('action' => 'index',$enocedCustomerId));
+        } else {
+            $this->Session->write('criteria', $criteria);
+            $this->redirect(array('action' => 'index'));
+        }
     }
 
     private function isClickedOnSearch($criteria) {
@@ -26,9 +34,10 @@ class OrdersController extends AppController {
         return $criteria;
     }
 
-    public function index() {
+    public function index($customerId=null) {
         $this->layout = "my_layout";
         $Encryption=$this->Encryption;
+        $customerId=$this->Encryption->decode($customerId);
         $this->loadModel('Order');
         $this->Order->unbindModel(array('hasMany' => array('OrderItem')),true);
 
@@ -46,9 +55,19 @@ class OrdersController extends AppController {
             $criteria = $this->request->data['criteria'];
         }
 
-        $conditions = array();
+        //echo 'cust id -->' .$customerId;
 
-        // pr($criteria);
+        if (isset($customerId) && !empty($customerId)) {
+            $conditions = array('Order.customer_id' => $customerId);
+        } else {
+            $conditions = array();
+        }
+
+        if (isset($criteria['Order']['customer_id']) && !empty($criteria['Order']['customer_id'])) {
+            $conditions = array('Order.customer_id' => $customerId);
+        } 
+
+        // pr($criteria);die;
 
         if(!empty($criteria['Order']['order_number'])) {
             $conditions = array_merge($conditions,array('Order.order_number LIKE'=>trim("%".$criteria['Order']['order_number']."%")));
@@ -83,7 +102,7 @@ class OrdersController extends AppController {
         $this->set('criteria', $criteria);
 
         //$orderLists = $this->Order->find('all', array('order'=>array('Order.id'=>'desc')));
-        $this->set(compact('orderLists','Encryption'));
+        $this->set(compact('orderLists','Encryption','customerId'));
     }
 
 	public function add($customerId=null) {

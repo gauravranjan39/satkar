@@ -47,7 +47,7 @@
 									<?php $encodedCustomerId = $Encryption->encode($customerList['c1']['id']);?>
 									<li><?php echo $this->Html->link('Edit', array('controller' => 'Customers','action' => 'edit',$customerList['c1']['id']),array('class'=>''));?></li>
 									<li><?php echo $this->Html->link('Add Ledger', array('controller' => 'Orders','action' => 'add',$encodedCustomerId),array('class'=>''));?></li>
-									<li><?php echo $this->Html->link('Orders', array('controller' => 'Orders','action' => 'index'),array('class'=>''));?></li>
+									<li><?php echo $this->Html->link('Orders', array('controller' => 'Orders','action' => 'index',$encodedCustomerId),array('class'=>''));?></li>
 									<li><?php echo $this->Html->link('Passbook', array('controller' => 'Wallets','action' => 'index',$encodedCustomerId),array('class'=>''));?></li>
 									<!-- <li><?php //echo $this->Html->link('Passbook', array('controller' => 'Wallets','action' => 'index','?'  => array('custId' =>$encodedCustomerId)),array('class'=>''));?></li> -->
 								</ul>

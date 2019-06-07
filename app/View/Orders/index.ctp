@@ -56,7 +56,7 @@
                     <div class="form-group col-md-12">
                         <div class="form-group col-md-4">
                             <label>Order Number</label>
-                            <?php echo $this->Form->input("Order.order_number",array('placeholder'=>'Enter order number','class'=>'form-control input-sm','autocomplete'=>'off','label'=>false,'value'=>isset($criteria['Order']['order_number'])? $criteria['Order']['order_number']:''));?>
+                            <?php echo $this->Form->input("Order.order_number",array('placeholder'=>'Enter order number','class'=>'form-control input-sm allowOnlyNumber','autocomplete'=>'off','label'=>false,'value'=>isset($criteria['Order']['order_number'])? $criteria['Order']['order_number']:''));?>
                         </div>
 
                         <div class="form-group col-md-4">
@@ -82,7 +82,7 @@
                         </div>
 
                         <div class="form-group col-md-4">
-                            <?php echo $this->Form->button('Search',array('type'=>'submit','id'=>'search_orders','class'=>'btn btn-rounded btn-primary','escape'=>false));?>
+                            <?php echo $this->Form->button('Search',array('type'=>'submit','id'=>'search_orders','class'=>'btn btn-rounded btn-primary','escape'=>false,'style'=>'width:45%;margin: 26px;'));?>
                         </div>
                     </div>
                     

@@ -80,6 +80,11 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 			return false;
 		});
 		
+		$('body').bind('paste','.allowOnlyNumber',function(evt){
+			alert('Sorry, pasting is not allowed. Please type in.');
+			return false;
+		});
+		
 	});
 
 	//when click on browser back button it will redirect to the same page

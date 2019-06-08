@@ -44,7 +44,6 @@ class OrdersController extends AppController {
         $criteria = "";
         
         if ($this->request->is(array('post','put'))) {
-            // pr($this->request->data);die;
             $criteria = $this->request->data;
         }
         $criteria = $this->isClickedOnSearch($criteria);
@@ -55,8 +54,6 @@ class OrdersController extends AppController {
             $criteria = $this->request->data['criteria'];
         }
 
-        //echo 'cust id -->' .$customerId;
-
         if (isset($customerId) && !empty($customerId)) {
             $conditions = array('Order.customer_id' => $customerId);
         } else {
@@ -65,9 +62,7 @@ class OrdersController extends AppController {
 
         if (isset($criteria['Order']['customer_id']) && !empty($criteria['Order']['customer_id'])) {
             $conditions = array('Order.customer_id' => $customerId);
-        } 
-
-        // pr($criteria);die;
+        }
 
         if(!empty($criteria['Order']['order_number'])) {
             $conditions = array_merge($conditions,array('Order.order_number LIKE'=>trim("%".$criteria['Order']['order_number']."%")));
@@ -95,13 +90,9 @@ class OrdersController extends AppController {
             $conditions = array_merge($conditions,array('Order.created BETWEEN ? AND ?'=>array($dateTo,$dateFrom)));  
         }
 
-        // pr($conditions);die;
-
         $this->paginate = array('conditions' =>  $conditions,'order'=>'Order.id DESC','limit'=>20);
         $orderLists = $this->Paginator->paginate();
         $this->set('criteria', $criteria);
-
-        //$orderLists = $this->Order->find('all', array('order'=>array('Order.id'=>'desc')));
         $this->set(compact('orderLists','Encryption','customerId'));
     }
 
@@ -127,14 +118,6 @@ class OrdersController extends AppController {
             $this->request->data['Order']['order_number'] = $orderNumber;
             $this->request->data['Order']['total'] = $this->request->data['Order']['grand_total'];
             $grandTotal = floatval($this->request->data['Order']['grand_total']);
-            //$orderPayment = floatval($this->request->data['OrderTransaction']['amount_paid']);
-            // $dues = ($grandTotal - $orderPayment);
-            // if (empty($dues)) {
-            //     $this->request->data['Order']['payment_status'] = 0;
-            // } else {
-            //     $this->request->data['Order']['payment_status'] = 1;
-            // }
-
             $this->Order->save($this->request->data['Order']);
             $orderId = $this->Order->getLastInsertID();
             
@@ -144,13 +127,6 @@ class OrdersController extends AppController {
                 $this->OrderItem->create();
                 $this->OrderItem->save($orderItem);
             }
-            // if (!empty($this->request->data['OrderTransaction']['amount_paid'])) { 
-            //     $this->OrderTransaction->create();
-            //     $this->request->data['OrderTransaction']['order_id'] = $orderId;
-            //     $invoiceNumber =  rand() .$orderId . time();
-            //     $this->request->data['OrderTransaction']['invoice_number'] = $invoiceNumber;
-            //     $this->OrderTransaction->save($this->request->data['OrderTransaction']);
-            // }
             $encodedOrderId=$this->Encryption->encode($orderId);
             $this->redirect(array('controller'=>'Orders','action'=>'summary',$encodedOrderId));
 		}
@@ -545,7 +521,6 @@ class OrdersController extends AppController {
         $this->loadModel('Order');
         $this->loadModel('OrderItem');
         if ($this->request->is(array('post','put'))) {
-            //pr($this->request->data);die;
             $itemId = $this->request->data['discount_details']['item_id'];
             $orderId = $this->request->data['discount_details']['order_id'];
             
@@ -570,7 +545,6 @@ class OrdersController extends AppController {
         $this->loadModel('Order');
         $this->loadModel('OrderItem');
         if ($this->request->is(array('post','put'))) {
-            // pr($this->request->data);
             $orderId = $this->request->data['Order']['order_id'];
             $this->Order->recursive = -1;
             $orderDetails = $this->Order->find('first',array('conditions'=>array('Order.id'=>$orderId),'fields'=>array('Order.grand_total','total')));

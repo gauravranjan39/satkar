@@ -393,6 +393,10 @@ class OrdersController extends AppController {
         $pdf->Output($filename.".pdf", "I");
     }
 
+    public function invoice_pdf(){
+        
+    }
+
     public function cancel_order($orderId=null,$dues=null,$payment=null,$customerId=null,$orderNumber=null) {
         $this->autoRender = false;
         $this->layout = false;

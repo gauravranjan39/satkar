@@ -1174,11 +1174,11 @@ div .border{
 .col-xs-6{padding: 0}
 
 .parent-div {
-    height: 100%;
+    /* height: 100%; */
     display: flex;
     justify-content: center;
     align-items: center;
-	margin-top: 5%;
+	margin-top: 1%;
 }
 
 
@@ -1191,7 +1191,7 @@ div .border{
     	margin: 20px;
 		float:right;
 		position: relative;
-
+        margin-right: 8%;
     }
 	
 	
@@ -1571,12 +1571,12 @@ table {
 </style>
 
 <body width="100%">
-
+<div style="margin-top: 1%;"><?php echo $this->Html->image('logo-xx.png',array('height'=>'60','width'=>'70','class'=>'logo-img','style'=>'margin-left:45%;')) ?></div>
 
 <div class="col-xs-12 parent-div">
     <div class="col-xs-4 border" style="height: 225px;font-family:Palatino Linotype;border-right:none !important;">
 		<div class="col-md-12" style="height: 225px;">
-			<p><b>SATKAR JEWELLERS</b></p>
+			<p style="margin-top: 2%;"><b>SATKAR JEWELLERS</b></p>
 			<p style="font-family: monospace;font-weight: bold;"> Purani Bazar, Sabji Mandi, Infront Of Central Bank Of India, Muzaffarpur, Bihar </p>
 			<p style="font-family: monospace;font-weight: bold;">Pin: 842001</p>
 			<p style="font-family: monospace;font-weight: bold;"><strong>Email:</strong> jewellerssatkar@gmail.com</p>
@@ -1586,7 +1586,7 @@ table {
     <div class="col-xs-5 border" style="height: 225px;font-family:Palatino Linotype;">
         <div class="col-xs-7" style="height: 172px;">
             <div class="col-md-12">
-                <p><b>Raj Kumar Singh</b></p>
+                <p style="margin-top: 2%;"><b>Raj Kumar Singh</b></p>
                 <p style="font-family: monospace;font-weight: bold;">purani bazar, shukla road,Muzaffarpur, Bihar</p>
                 <p style="font-family: monospace;font-weight: bold;"><strong>Mb:</strong> +91-9675455678</p>
             
@@ -1611,7 +1611,7 @@ table {
 
 
 <!-- Bill format Table Start-->
-<div class="container" style="margin-top:23%;">
+<div class="container" style="margin-top:21%;">
   <table class="table">
     <thead>
       <tr>

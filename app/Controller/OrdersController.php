@@ -109,7 +109,7 @@ class OrdersController extends AppController {
 		
 		if ($this->request->is('post')) {
             $customerId=$this->Encryption->decode($customerId);
-            $orderNumber = 'OD' .$customerId. rand() . time();
+            $orderNumber = $customerId. rand() . time();
             $this->loadModel('Order');
             $this->loadModel('OrderItem');
             $this->loadModel('OrderTransaction');

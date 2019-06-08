@@ -33,7 +33,7 @@
                                 ?>
                                 <div class="col-md-6">
                                     <div class="tools" style="font-size:18px;">
-                                        <?php echo "Order ID: " .$orderDetails['Order']['order_number']; ?>
+                                        <?php echo "Order ID: " . 'OD' .$orderDetails['Order']['order_number']; ?>
                                     </div><br/>
                                     <div class="tools" style="font-size:15px;">
                                         <span style="font-size:18px;">Date: </span><?php echo date('d-M-Y h:i A', strtotime($orderDetails['Order']['created'])); ?>
@@ -278,7 +278,7 @@
                 <?php echo $this->Form->input('OrderTransaction.order_number',array('type'=>'hidden','value'=>$orderDetails['Order']['order_number'])); ?>
                 <div class="form-group col-md-12">
                     <div class="col-md-3"><b>Order ID:</b></div>
-                    <div class="col-md-9"><?php echo $orderDetails['Order']['order_number']; ?></div>
+                    <div class="col-md-9"><?php echo 'OD' .$orderDetails['Order']['order_number']; ?></div>
                 </div>
                 
                 <div class="form-group col-md-12">

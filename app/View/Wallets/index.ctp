@@ -200,7 +200,7 @@
 
                 <div class="form-group col-md-12" v-if="PaymentDetails.order_number">
                     <div class="col-md-3"><b>Order Number:</b></div>
-                    <div class="col-md-9"><a target="_blank" :href="'/satkar/Orders/details/' + PaymentDetails.encoded_order_id">{{ PaymentDetails.order_number }}</a></div>
+                    <div class="col-md-9"><a target="_blank" :href="'/satkar/Orders/details/' + PaymentDetails.encoded_order_id">OD{{ PaymentDetails.order_number }}</a></div>
                 </div>
 
                 <div class="form-group col-md-12" v-if="PaymentDetails.metal_type">

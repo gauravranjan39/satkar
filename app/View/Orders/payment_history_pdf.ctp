@@ -108,7 +108,7 @@ th, td {
                 $dues = ($grandTotal - $sum);
             ?>
             <tr>
-                <td><?php echo $orderNumber; ?></td>
+                <td><?php echo 'OD' . $orderNumber; ?></td>
                 <td>&#8377;<?php echo number_format($sum,2); ?></td>
                 <td>&#8377;<?php echo number_format($grandTotal,2); ?></td>
                 <td style="color:red;">&#8377;<?php echo number_format($dues,2); ?></td>

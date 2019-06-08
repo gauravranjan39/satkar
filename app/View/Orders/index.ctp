@@ -135,7 +135,7 @@
                     ?>
                       <tr>
                         
-                      <td><?php echo $orderList['Order']['order_number']; ?></td>
+                      <td><?php echo 'OD' . $orderList['Order']['order_number']; ?></td>
                         <td class="cell-detail"> <span><?php echo $this->Html->link($orderList['Customer']['name'], 'javascript:void(0);',  array("class" => "customer_details", "escape" => false,"mobile"=>$orderList['Customer']['mobile'],"email"=>$orderList['Customer']['email'],"address"=>$orderList['Customer']['address'])); ?></span></td>
                         <?php if ($orderList['Order']['status'] == 2) { ?>
                             <td class="milestone">&#8377;<?php echo number_format($orderList['Order']['total'],2); ?></td>

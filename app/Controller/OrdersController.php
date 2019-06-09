@@ -393,17 +393,18 @@ class OrdersController extends AppController {
         $pdf->Output($filename.".pdf", "I");
     }
 
-    public function generateOrderInvoice($orderId=null){
+    public function generateOrderInvoice($orderId=null,$orderNumber=null,$grandTotal=null,$payment=null,$dues=null){
         $this->layout = "ajax";
         $this->autoRender = false;
-        $this->set('title_for_layout','payment History');
         error_reporting(0);
-        $this->loadModel('Order');
-        $this->loadModel('Customer');
-        $orderDetails = $this->Order->find('first',array('conditions'=>array('Order.id'=>$orderId)));
-        pr($orderDetails);die;
         $view = new View($this, false);
-        $filename =  "order". '-'. date("m-d-y");
+        $orderId=$this->Encryption->decode($orderId);
+        $this->Order->unbindModel(array('hasMany' => array('OrderTransaction','Wallet')),true);
+        $orderDetails = $this->Order->find('first',array('conditions'=>array('Order.id'=>$orderId)));
+        // pr($orderDetails);die;
+        
+        $filename =  $orderNumber;
+        $view->set(compact('orderDetails','orderNumber','grandTotal','payment','dues'));
         $html = $view->render('invoice_pdf');
         $pdf= new mPDF('utf-8', 'A4-L');
         $pdf->WriteHTML($html);

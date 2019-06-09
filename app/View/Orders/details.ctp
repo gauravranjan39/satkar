@@ -513,15 +513,20 @@
 	$(document).ready(function() {
 
         $('#order_invoice').click(function(){
-            var orderId = '<?php echo $orderDetails['Order']['id'];?>';
-            
+            var orderId = '<?php echo $Encryption->encode($orderDetails['Order']['id']);?>';
+            var orderNumber = '<?php echo $orderDetails['Order']['order_number']; ?>';
+            var orderDate = '<?php echo date('d-M-Y h:i A', strtotime($orderDetails['Order']['created'])); ?>';
+            var grandTotal = '<?php echo number_format($orderDetails['Order']['grand_total'],2); ?>';
+            var payment = '<?php echo number_format($payment,2); ?>';
+            var dues = '<?php echo number_format($dues,2); ?>';
+            //alert(orderDate);
             <?php if ($orderDetails['Order']['payment_status'] == 1) { ?>
                 if (confirm('Payment is pending are you sure to print the order invoice ?')) {
-                    var base_url = "<?php echo Router::url(array('controller'=>'Orders','action'=>'generateOrderInvoice'));?>/" + orderId;
+                    var base_url = "<?php echo Router::url(array('controller'=>'Orders','action'=>'generateOrderInvoice'));?>/" + orderId + '/' + orderNumber + '/' + grandTotal + '/' + payment + '/' + dues;
                     window.open(base_url,'_blank');
                 }
             <?php } else { ?>
-                var base_url = "<?php echo Router::url(array('controller'=>'Orders','action'=>'generateOrderInvoice'));?>/" + orderId;
+                var base_url = "<?php echo Router::url(array('controller'=>'Orders','action'=>'generateOrderInvoice'));?>/" + orderId + '/' + orderNumber + '/' + grandTotal + '/' + payment + '/' + dues;
                 window.open(base_url,'_blank');
             <?php } ?>
         });

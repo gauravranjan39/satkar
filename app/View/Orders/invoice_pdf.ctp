@@ -1538,7 +1538,7 @@ table {
   }
 
   div .border{
-  border: 1px solid black !important;
+  border: 1px solid #fbbc05 !important;
 }
 .col-xs-12{padding: 0}
 .col-xs-5{padding: 0}
@@ -1574,7 +1574,7 @@ table {
 <div class="col-xs-12 parent-div">
     <div class="col-xs-4 " style="height: 225px;font-family:Palatino Linotype;border-right:none !important;">
 		<div class="col-md-12">
-			<p style="margin-top: 2%;"><b>SATKAR JEWELLERS</b></p>
+			<p style="margin-top: 2%;font-size:10px;"><b>SATKAR JEWELLERS</b></p><br/>
 			<p style="font-family: monospace;font-weight: bold;"> Purani Bazar, Sabji Mandi, Infront Of Central Bank Of India, Muzaffarpur, Bihar </p>
 			<p style="font-family: monospace;font-weight: bold;">Pin: 842001</p>
 			<p style="font-family: monospace;font-weight: bold;"><strong>Email:</strong> jewellerssatkar@gmail.com</p>
@@ -1584,22 +1584,22 @@ table {
     <div class="border" style="font-family:Palatino Linotype;">
         <div class=" border" style="height: 225px;width:360px;float:left;border-right: none !important;border-top: none !important;border-bottom: none !important;">
             <div class="col-xs-9" style="">
-                <p style="margin-top: 2%;"><b>Raj Kumar Singh</b></p>
-                <p style="font-family: monospace;font-weight: bold;">purani bazar, shukla road,Muzaffarpur, Bihar</p><br/>
-                <p style="font-family: monospace;font-weight: bold;"><strong>Email:</strong> customer@gmail.com</p>
-                <p style="font-family: monospace;font-weight: bold;"><strong>Mb:</strong> +91-9675455678</p>
+                <p style="margin-top: 2%;font-size:10px;"><b><?php echo strtoupper($orderDetails['Customer']['name']); ?></b></p><br/>
+                <p style="font-family: monospace;font-weight: bold;"><?php echo $orderDetails['Customer']['address']; ?></p>
+                <p style="font-family: monospace;font-weight: bold;"><strong>Email:</strong><?php echo $orderDetails['Customer']['email']; ?></p>
+                <p style="font-family: monospace;font-weight: bold;"><strong>Mb:</strong> +91-<?php echo $orderDetails['Customer']['mobile']; ?></p>
             </div>
 	    </div>
         <div class="" style="float:left;">
             <div class=" border" style="height: 50px;border-right: none !important;border-top: none !important;">
-		        <p style="font-family: monospace;font-weight: bold;margin-top: 10px;margin-left:10px;"><strong>Order ID: </strong>OD8197981559417573</p>
+		        <p style="font-family: monospace;font-weight: bold;margin-top: 10px;margin-left:10px;"><strong>Order ID: </strong><?php echo 'OD' .$orderNumber; ?></p>
 			</div>
            <div class="border" style="height: 175px;border-right: none !important;border-bottom: none !important;border-top: none !important;"></div>
         </div>
 		<div class="border" style="border-right: none !important;border-bottom: none !important;border-left: none !important;">
 			<div class="border" style="width:360px;height:57px;float:left;border-top: none !important;border-bottom: none !important;">FGHJKJHGFDFTYUIKJ</div>
 			<div class=" " style="width:275px;height:57px;float:left;">
-				<p style="font-family: monospace;font-weight: bold;margin-top: 14px;margin-left:20px;"><strong>Date:</strong> 23-June-2019 01:25 PM</p>
+				<p style="font-family: monospace;font-weight: bold;margin-top: 14px;margin-left:20px;"><strong>Date:</strong><?php echo date('d-M-Y h:i A', strtotime($orderDetails['Order']['created'])); ?></p>
 			</div>
 		</div>
   </div>
@@ -1651,15 +1651,18 @@ table {
     <table class="table table-borderless">
         <thead>
             <tr>
-                <th style="width:120px;">Grand Total: </th><td><font size="5">25000</font></td>
+                <th style="width:190px;font-size:25px;">Grand Total:</th><td style="font-size:25px;"><?php echo $grandTotal; ?></td>
             </tr>
+
+            <?php if (!empty((float)$dues)) { ?>
 			
 			 <tr>
-                <th style="width:100px;">Payment: </th><td><font size="5">20000</font></td>
+             <th style="width:190px;font-size:25px;">Payment:</th><td style="font-size:25px;"><?php echo $payment; ?></td>
             </tr>
 			<tr>
-                <th style="width:100px;">Dues: </th><td><font size="5">5000</font></td>
+            <th style="width:190px;font-size:25px;">Dues:</th><td style="font-size:25px;"><?php echo $dues; ?></td>
             </tr>
+            <?php } ?>
         </thead>
         <tbody>
              

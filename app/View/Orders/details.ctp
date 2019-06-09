@@ -233,7 +233,9 @@
                 </div>
                 <div class="col-md-12">
                     <p class="xs-mt-10 xs-mb-10">
-                        <button class="btn btn-rounded btn-space btn-success" id="order_invoice">Order Invoice</button>
+                        <?php if ($orderDetails['Order']['status'] != 2) { ?>
+                            <button class="btn btn-rounded btn-space btn-success" id="order_invoice">Order Invoice</button>
+                        <?php } ?>
                         <?php if ($orderDetails['Order']['payment_status'] == 1) { ?>
                             <button class="btn btn-rounded btn-space btn-primary" id="make_payment">Make Payment</button>
                         <?php }
@@ -511,21 +513,16 @@
 	$(document).ready(function() {
 
         $('#order_invoice').click(function(){
+            var orderId = '<?php echo $orderDetails['Order']['id'];?>';
+            
             <?php if ($orderDetails['Order']['payment_status'] == 1) { ?>
                 if (confirm('Payment is pending are you sure to print the order invoice ?')) {
-                    $.ajax({
-                    url:"<?php echo Router::url(array('controller'=>'Orders','action'=>'confirm_order'));?>/"+orderId,
-                    success:function(data){
-                        if (data == 1) {
-                            location.reload();
-                        } else {
-                            alert('Error Occured!!');
-                        }
-                    }
-			    });
-            }
+                    var base_url = "<?php echo Router::url(array('controller'=>'Orders','action'=>'generateOrderInvoice'));?>/" + orderId;
+                    window.open(base_url,'_blank');
+                }
             <?php } else { ?>
-            alert('completed');
+                var base_url = "<?php echo Router::url(array('controller'=>'Orders','action'=>'generateOrderInvoice'));?>/" + orderId;
+                window.open(base_url,'_blank');
             <?php } ?>
         });
 

@@ -1164,38 +1164,7 @@ pre code {
   .col-md-offset-0 {
     margin-left: 0%;
   }
-}
-
-div .border{
-  border: 1px solid black !important;
-}
-.col-xs-12{padding: 0}
-.col-xs-5{padding: 0}
-.col-xs-6{padding: 0}
-
-.parent-div {
-    /* height: 100%; */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-	margin-top: 1%;
-}
-
-
-   .table-example{
-    	margin: 20px;
-		
-    }
-	
-	 .table-total{
-    	margin: 20px;
-		float:right;
-		position: relative;
-        margin-right: 8%;
-    }
-	
-	
-	
+}	
 	table {
   border-collapse: collapse;
 }
@@ -1568,14 +1537,43 @@ table {
     border-color: #dee2e6;
   }
 
+  div .border{
+  border: 1px solid black !important;
+}
+.col-xs-12{padding: 0}
+.col-xs-5{padding: 0}
+.col-xs-6{padding: 0}
+
+.parent-div {
+    /* height: 100%; */
+    display: flex;
+    /* justify-content: center; */
+    /* align-items: center; */
+	/* margin-top: 1%; */
+}
+
+
+   .table-example{
+    	margin: 20px;
+		
+    }
+	
+	 .table-total{
+    	/* margin: 20px; */
+		/* float:right !important; */
+		/* position: relative; */
+        /* margin-right: 8px; */
+    }
+	
+
 </style>
 
-<body width="100%">
-<div style="margin-top: 1%;"><?php echo $this->Html->image('logo-xx.png',array('height'=>'60','width'=>'70','class'=>'logo-img','style'=>'margin-left:45%;')) ?></div>
+<body>
+<div><?php echo $this->Html->image('logo-xx.png',array('height'=>'60','width'=>'70','class'=>'logo-img','style'=>'margin-left:45%;')) ?></div>
 
 <div class="col-xs-12 parent-div">
-    <div class="col-xs-4 border" style="height: 225px;font-family:Palatino Linotype;border-right:none !important;">
-		<div class="col-md-12" style="height: 225px;">
+    <div class="col-xs-4 " style="height: 225px;font-family:Palatino Linotype;border-right:none !important;">
+		<div class="col-md-12">
 			<p style="margin-top: 2%;"><b>SATKAR JEWELLERS</b></p>
 			<p style="font-family: monospace;font-weight: bold;"> Purani Bazar, Sabji Mandi, Infront Of Central Bank Of India, Muzaffarpur, Bihar </p>
 			<p style="font-family: monospace;font-weight: bold;">Pin: 842001</p>
@@ -1583,35 +1581,33 @@ table {
 			<p style="font-family: monospace;font-weight: bold;"><strong>Mb:</strong> +91-9934669155</p>
 		</div>
     </div>
-    <div class="col-xs-5 border" style="height: 225px;font-family:Palatino Linotype;">
-        <div class="col-xs-7" style="height: 172px;">
-            <div class="col-md-12">
+    <div class="border" style="font-family:Palatino Linotype;">
+        <div class=" border" style="height: 225px;width:360px;float:left;border-right: none !important;border-top: none !important;border-bottom: none !important;">
+            <div class="col-xs-9" style="">
                 <p style="margin-top: 2%;"><b>Raj Kumar Singh</b></p>
-                <p style="font-family: monospace;font-weight: bold;">purani bazar, shukla road,Muzaffarpur, Bihar</p>
+                <p style="font-family: monospace;font-weight: bold;">purani bazar, shukla road,Muzaffarpur, Bihar</p><br/>
+                <p style="font-family: monospace;font-weight: bold;"><strong>Email:</strong> customer@gmail.com</p>
                 <p style="font-family: monospace;font-weight: bold;"><strong>Mb:</strong> +91-9675455678</p>
-            
-            
             </div>
 	    </div>
-        <div class="col-xs-5 " style="height: 163px;">
-            <div class="col-xs-12 border" style="height: 45px;border-top: none !important;border-right: none !important;border-bottom: none !important;" >
-		        <p style="font-family: monospace;font-weight: bold;margin-left:23px;margin-top: 10px;font-size:19px;">OD8197981559417573</p>
+        <div class="" style="float:left;">
+            <div class=" border" style="height: 50px;border-right: none !important;border-top: none !important;">
+		        <p style="font-family: monospace;font-weight: bold;margin-top: 10px;margin-left:10px;"><strong>Order ID: </strong>OD8197981559417573</p>
 			</div>
-           <div class="col-xs-12 border" style="height: 127px;;border-right: none !important;border-bottom: none !important;"></div>
+           <div class="border" style="height: 175px;border-right: none !important;border-bottom: none !important;border-top: none !important;"></div>
         </div>
-		<div class="col-xs-12 border" style="border-right: none !important;border-bottom: none !important;border-left: none !important;">
-			<div class="col-xs-7" style="height: 62px;"></div>
-			<div class="col-xs-5 border" style="height:50px;border-right: none !important;border-bottom: none !important;border-top: none !important;">
-				<center><p style="font-family: monospace;font-weight: bold;margin-top: 14px;"><strong>Date:</strong> 23-June-2019 01:25 PM</p></center>
+		<div class="border" style="border-right: none !important;border-bottom: none !important;border-left: none !important;">
+			<div class="border" style="width:360px;height:57px;float:left;border-top: none !important;border-bottom: none !important;">FGHJKJHGFDFTYUIKJ</div>
+			<div class=" " style="width:275px;height:57px;float:left;">
+				<p style="font-family: monospace;font-weight: bold;margin-top: 14px;margin-left:20px;"><strong>Date:</strong> 23-June-2019 01:25 PM</p>
 			</div>
 		</div>
   </div>
 </div>
-<br/><br/>
 
 
 <!-- Bill format Table Start-->
-<div class="container" style="margin-top:21%;">
+<div class="container" style="margin-top:15px;">
   <table class="table">
     <thead>
       <tr>
@@ -1649,18 +1645,20 @@ table {
 </div>
 
 
-<div class="table-total">
+
+
+<div class="table-total" style="margin-left:850px;">
     <table class="table table-borderless">
         <thead>
             <tr>
-                <th>Grand Total: </th><td><font size="3">25000</font></td>
+                <th style="width:120px;">Grand Total: </th><td><font size="5">25000</font></td>
             </tr>
 			
 			 <tr>
-                <th>Payment: </th><td><font size="3">20000</font></td>
+                <th style="width:100px;">Payment: </th><td><font size="5">20000</font></td>
             </tr>
 			<tr>
-                <th>Dues: </th><td><font size="3">5000</font></td>
+                <th style="width:100px;">Dues: </th><td><font size="5">5000</font></td>
             </tr>
         </thead>
         <tbody>
@@ -1668,6 +1666,6 @@ table {
         </tbody>
     </table>
 </div>
-
+<?php //die; ?>
 </body>
 </html>

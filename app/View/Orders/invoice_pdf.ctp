@@ -1611,35 +1611,27 @@ table {
   <table class="table">
     <thead>
       <tr>
-        <th>Item</th>
-        <th>Rate</th>
-        <th>Making</th>
-		<th>Weight</th>
-		<th>Total</th>
+        <th style="text-align:left;">Item</th>
+        <th style="text-align:left;">Rate</th>
+        <th style="text-align:left;">Making</th>
+		<th style="text-align:left;">Weight</th>
+		<th style="text-align:left;">Total</th>
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <td>Ring</td>
-        <td>3200</td>
-        <td>400</td>
-		<td>2.670gm</td>
-		<td>12,200</td>
-      </tr>
-      <tr>
-        <td>Ring</td>
-        <td>3200</td>
-        <td>400</td>
-		<td>2.670gm</td>
-		<td>12,200</td>
-      </tr>
-      <tr>
-        <td>Ring</td>
-        <td>3200</td>
-        <td>400</td>
-		<td>2.670gm</td>
-		<td>12,200</td>
-      </tr>
+    <?php foreach ($orderDetails['OrderItem'] as $OrderItem) {
+        //pr($OrderItem);die;
+        if (empty($OrderItem['status'])) {
+    ?>
+    <tr>
+        <td><?php echo $OrderItem['name']; ?></td>
+        <td><?php echo $OrderItem['rate']; ?></td>
+        <td><?php echo $OrderItem['making_charge']; ?></td>
+        <td><?php echo $OrderItem['weight'] . ' gm'; ?></td>
+        <td>&#8377;<?php echo $OrderItem['grand_total']; ?></td>
+    </tr>
+    <?php } } ?>
+        
     </tbody>
   </table>
 </div>
@@ -1647,26 +1639,23 @@ table {
 
 
 
-<div class="table-total" style="margin-left:850px;">
+<div class="table-total" style="margin-left:800px;">
     <table class="table table-borderless">
         <thead>
             <tr>
-                <th style="width:190px;font-size:25px;">Grand Total:</th><td style="font-size:25px;"><?php echo $grandTotal; ?></td>
+                <th style="width:190px;font-size:20px;">Grand Total:</th><td style="font-size:20px;">&#8377;<?php echo $grandTotal; ?></td>
             </tr>
 
             <?php if (!empty((float)$dues)) { ?>
 			
-			 <tr>
-             <th style="width:190px;font-size:25px;">Payment:</th><td style="font-size:25px;"><?php echo $payment; ?></td>
+			<tr>
+                <th style="width:190px;font-size:20px;">Payment:</th><td style="font-size:20px;">&#8377;<?php echo $payment; ?></td>
             </tr>
 			<tr>
-            <th style="width:190px;font-size:25px;">Dues:</th><td style="font-size:25px;"><?php echo $dues; ?></td>
+                <th style="width:190px;font-size:20px;">Dues:</th><td style="font-size:20px;">&#8377;<?php echo $dues; ?></td>
             </tr>
             <?php } ?>
         </thead>
-        <tbody>
-             
-        </tbody>
     </table>
 </div>
 <?php //die; ?>

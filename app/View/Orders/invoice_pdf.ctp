@@ -1646,7 +1646,7 @@ table {
         <?php } else  { ?>
         	<td></td>
         <?php } ?>
-        <td>&#8377;<?php echo $OrderItem['grand_total']; ?></td>
+        <td>&#8377;<?php echo number_format($OrderItem['grand_total'],2); ?></td>
     </tr>
     <?php } } ?>
         

@@ -169,7 +169,7 @@
                                 <ul role="menu" class="dropdown-menu pull-right">
                                     <!-- <li><a href="#">Payment</a></li> -->
                                     <?php $encodedOrderId = $Encryption->encode($orderList['Order']['id']);?>
-                                    <li><?php echo $this->Html->link('Order Details', array('controller' => 'Orders','action' => 'details',$encodedOrderId),array('class'=>''));?></li>
+                                    <li><?php echo $this->Html->link('Order Details', array('controller' => 'Orders','action' => 'details',$encodedOrderId),array('class'=>'','target'=>'_blank'));?></li>
                                 </ul>
                             </div>                        
                         </td>

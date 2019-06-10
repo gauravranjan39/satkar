@@ -399,13 +399,13 @@ class OrdersController extends AppController {
     public function generateOrderInvoice($orderId=null,$orderNumber=null,$grandTotal=null,$payment=null,$dues=null){
         $this->layout = "ajax";
         $this->autoRender = false;
+        ini_set('memory_limit', '-1');
         error_reporting(0);
         $view = new View($this, false);
         $orderId=$this->Encryption->decode($orderId);
         $this->Order->unbindModel(array('hasMany' => array('OrderTransaction','Wallet')),true);
         $orderDetails = $this->Order->find('first',array('conditions'=>array('Order.id'=>$orderId)));
         $barcodeGenerator = new Picqer\Barcode\BarcodeGeneratorPNG();
-        
         $view->set(compact('orderDetails','orderNumber','grandTotal','payment','dues','barcodeGenerator'));
         $filename = $orderNumber;
         $html = $view->render('invoice_pdf');

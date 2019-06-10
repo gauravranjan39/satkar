@@ -79,11 +79,16 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 			&& (charCode < 48 || charCode > 57))
 			return false;
 		});
-		
-		$('body').bind('paste','.allowOnlyNumber',function(evt){
-			alert('Sorry, pasting is not allowed. Please type in.');
-			return false;
+
+		$('.allowOnlyNumber').bind('copy paste cut',function(e) {
+			e.preventDefault();
+			alert('Sorry, pasting is not allowed. Please type in.');	
 		});
+		
+		// $('body').bind('paste','.allowOnlyNumber',function(evt){
+		// 	alert('Sorry, pasting is not allowed. Please type in.');
+		// 	return false;
+		// });
 		
 	});
 

@@ -1569,9 +1569,9 @@ table {
 </style>
 
 <body>
-<div><?php echo $this->Html->image('logo-xx.png',array('height'=>'60','width'=>'70','class'=>'logo-img','style'=>'margin-left:45%;')) ?></div>
+<div><?php echo $this->Html->image('logo-xx.png',array('height'=>'60','width'=>'70','class'=>'logo-img','style'=>'margin-left:45%;margin-top:-50px;')) ?></div>
 
-<div class="col-xs-12 parent-div">
+<div class="col-xs-12 parent-div" style="margin-top:7px;">
     <div class="col-xs-4 " style="height: 225px;font-family:Palatino Linotype;border-right:none !important;">
 		<div class="col-md-12">
 			<p style="margin-top: 2%;font-size:10px;"><b>SATKAR JEWELLERS</b></p><br/>

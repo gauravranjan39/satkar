@@ -2,9 +2,12 @@
 App::uses('AppController', 'Controller');
 App::uses('Sanitize', 'Utility');
 App::import('Vendor', 'PDF', array('file' => 'mpdf/vendor/autoload.php'));
+App::import('Vendor', 'barcode', array('file' => 'barcode/vendor/autoload.php'));
+// App::uses('BarcodeHelper','Vendor');
 
 class OrdersController extends AppController {
 
+    public $helpers = array('Barcode','QrCode');
     public $components = array('Paginator','Encryption');
 
     private function redirectToIndexPage($criteria) {
@@ -401,10 +404,10 @@ class OrdersController extends AppController {
         $orderId=$this->Encryption->decode($orderId);
         $this->Order->unbindModel(array('hasMany' => array('OrderTransaction','Wallet')),true);
         $orderDetails = $this->Order->find('first',array('conditions'=>array('Order.id'=>$orderId)));
-        // pr($orderDetails);die;
+        $barcodeGenerator = new Picqer\Barcode\BarcodeGeneratorPNG();
         
-        $filename =  $orderNumber;
-        $view->set(compact('orderDetails','orderNumber','grandTotal','payment','dues'));
+        $view->set(compact('orderDetails','orderNumber','grandTotal','payment','dues','barcodeGenerator'));
+        $filename = $orderNumber;
         $html = $view->render('invoice_pdf');
         $pdf= new mPDF('utf-8', 'A4-L');
         $pdf->WriteHTML($html);

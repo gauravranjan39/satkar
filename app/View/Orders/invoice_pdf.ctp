@@ -1582,7 +1582,7 @@ table {
 		</div>
     </div>
     <div class="border" style="font-family:Palatino Linotype;">
-        <div class=" border" style="height: 225px;width:360px;float:left;border-right: none !important;border-top: none !important;border-bottom: none !important;">
+        <div class=" border" style="height: 230px;width:360px;float:left;border-right: none !important;border-top: none !important;border-bottom: none !important;">
             <div class="col-xs-9" style="">
                 <p style="margin-top: 2%;font-size:10px;"><b><?php echo strtoupper($orderDetails['Customer']['name']); ?></b></p><br/>
                 <p style="font-family: monospace;font-weight: bold;"><?php echo $orderDetails['Customer']['address']; ?></p>
@@ -1594,10 +1594,14 @@ table {
             <div class=" border" style="height: 50px;border-right: none !important;border-top: none !important;">
 		        <p style="font-family: monospace;font-weight: bold;margin-top: 10px;margin-left:10px;"><strong>Order ID: </strong><?php echo 'OD' .$orderNumber; ?></p>
 			</div>
-           <div class="border" style="height: 175px;border-right: none !important;border-bottom: none !important;border-top: none !important;"></div>
+           <div class="border" style="height: 175px;border-right: none !important;border-bottom: none !important;border-top: none !important;">
+		   		<?=$this->QrCode->text($orderNumber,['size'=>'280x180'])?>
+		   </div>
         </div>
 		<div class="border" style="border-right: none !important;border-bottom: none !important;border-left: none !important;">
-			<div class="border" style="width:360px;height:57px;float:left;border-top: none !important;border-bottom: none !important;">FGHJKJHGFDFTYUIKJ</div>
+			<div class="border" style="width:360px;height:57px;float:left;border-top: none !important;border-bottom: none !important;">
+				<img style="margin-left:30px;margin-top: 14px;" width="300" height="30"  src="data:image/png;base64,<?=base64_encode($barcodeGenerator->getBarcode($orderNumber, $barcodeGenerator::TYPE_CODE_128)) ?>">
+			</div>
 			<div class=" " style="width:275px;height:57px;float:left;">
 				<p style="font-family: monospace;font-weight: bold;margin-top: 14px;margin-left:20px;"><strong>Date:</strong><?php echo date('d-M-Y h:i A', strtotime($orderDetails['Order']['created'])); ?></p>
 			</div>
@@ -1620,14 +1624,28 @@ table {
     </thead>
     <tbody>
     <?php foreach ($orderDetails['OrderItem'] as $OrderItem) {
-        //pr($OrderItem);die;
         if (empty($OrderItem['status'])) {
     ?>
     <tr>
         <td><?php echo $OrderItem['name']; ?></td>
-        <td><?php echo $OrderItem['rate']; ?></td>
-        <td><?php echo $OrderItem['making_charge']; ?></td>
-        <td><?php echo $OrderItem['weight'] . ' gm'; ?></td>
+
+		<?php if (!empty($OrderItem['rate'])) { ?>
+        	<td>&#8377;<?php echo $OrderItem['rate']; ?></td>
+        <?php } else  { ?>
+        	<td></td>
+        <?php } ?>
+
+		<?php if (!empty($OrderItem['making_charge'])) { ?>
+        	<td>&#8377;<?php echo $OrderItem['making_charge']; ?></td>
+        <?php } else  { ?>
+        	<td></td>
+        <?php } ?>
+
+        <?php if (!empty($OrderItem['weight'])) { ?>
+        	<td><?php echo $OrderItem['weight'] . ' gm'; ?></td>
+        <?php } else  { ?>
+        	<td></td>
+        <?php } ?>
         <td>&#8377;<?php echo $OrderItem['grand_total']; ?></td>
     </tr>
     <?php } } ?>
@@ -1635,9 +1653,6 @@ table {
     </tbody>
   </table>
 </div>
-
-
-
 
 <div class="table-total" style="margin-left:800px;">
     <table class="table table-borderless">

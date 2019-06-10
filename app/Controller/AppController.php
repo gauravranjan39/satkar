@@ -20,6 +20,7 @@
  */
 
 App::uses('Controller', 'Controller');
+App::uses('Sanitize', 'Utility');
 
 /**
  * Application Controller

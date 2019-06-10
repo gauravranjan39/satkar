@@ -39,6 +39,7 @@ class OrdersController extends AppController {
 
     public function index($customerId=null) {
         $this->layout = "my_layout";
+        // pr($this->Auth->user());die;
         $Encryption=$this->Encryption;
         $customerId=$this->Encryption->decode($customerId);
         $this->loadModel('Order');

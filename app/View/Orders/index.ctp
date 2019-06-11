@@ -167,7 +167,6 @@
                             <div class="btn-group btn-hspace">
                                 <button type="button" data-toggle="dropdown" class="btn btn-default dropdown-toggle" aria-expanded="false">Open <span class="icon-dropdown mdi mdi-chevron-down"></span></button>
                                 <ul role="menu" class="dropdown-menu pull-right">
-                                    <!-- <li><a href="#">Payment</a></li> -->
                                     <?php $encodedOrderId = $Encryption->encode($orderList['Order']['id']);?>
                                     <li><?php echo $this->Html->link('Order Details', array('controller' => 'Orders','action' => 'details',$encodedOrderId),array('class'=>'','target'=>'_blank'));?></li>
                                 </ul>

@@ -18,6 +18,10 @@ class UsersController extends AppController {
 	public function beforeFilter() {
 		parent::beforeFilter();
 		$this->Auth->allow('login','register');
+		// if(!isset($_SERVER['HTTP_REFERER'])){
+		// 	$this->redirect(array('controller'=>'Customers','action'=>'index'));
+		// 	exit;
+		// }
 	}
 
 	public function register() {

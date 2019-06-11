@@ -3,7 +3,6 @@ App::uses('AppController', 'Controller');
 App::uses('Sanitize', 'Utility');
 App::import('Vendor', 'PDF', array('file' => 'mpdf/vendor/autoload.php'));
 App::import('Vendor', 'barcode', array('file' => 'barcode/vendor/autoload.php'));
-// App::uses('BarcodeHelper','Vendor');
 
 class OrdersController extends AppController {
 

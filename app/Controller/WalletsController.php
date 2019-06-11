@@ -5,6 +5,14 @@ class WalletsController extends AppController {
     //public $helpers = array('Html', 'Form', 'Session', 'Paginator'); 
     public $components = array('Paginator','Encryption');
 
+    public function beforeFilter() {
+		parent::beforeFilter();
+		if(!isset($_SERVER['HTTP_REFERER'])){
+			$this->redirect(array('controller'=>'Customers','action'=>'index'));
+			exit;
+		}
+	}
+
     private function redirectToIndexPage($criteria){
         /* Storing the search value in session, in order to show the search results after redirection. */
         $enocedCustomerId = $criteria['Wallet']['customer_id'];

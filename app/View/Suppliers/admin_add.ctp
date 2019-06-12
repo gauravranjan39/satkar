@@ -50,7 +50,7 @@
                 if(pattern.test(supplierEmail)) {
                     $.ajax({
                         type: "POST",
-                        url:"<?php echo Router::url(array('controller'=>'Suppliers','action'=>'check_email_unique'));?>",
+                        url:"<?php echo Router::url(array('controller'=>'Suppliers','action'=>'admin_check_email_unique'));?>",
                         data:({data:supplierEmail}),
                         success: function(data) {
                             if(data==0) {
@@ -99,7 +99,7 @@
                 var supplierMobile = $(this).val();
 				$.ajax({
                     type: "POST",
-                    url:"<?php echo Router::url(array('controller'=>'suppliers','action'=>'check_unique_mobile'));?>",
+                    url:"<?php echo Router::url(array('controller'=>'suppliers','action'=>'admin_check_unique_mobile'));?>",
                     data:({data:supplierMobile}),
                     success: function(data) {
                         if(data==0) {

@@ -8,20 +8,20 @@ $activeClass = 'class="active"';
         <div class="left-sidebar-content">
           <ul class="sidebar-elements">
             <li class="divider">Menu</li>
-            <li <?=($controller == 'users')?$activeClass:null?>>
-				<?php echo $this->Html->link('<i class="icon mdi mdi-home"></i><span>Dashboard</span>',array('controller'=>'Admin','action'=>'admin_dashboard'),array('escape'=>false)); ?>
+            <li <?=($controller == 'admins')?$activeClass:null?>>
+				<?php echo $this->Html->link('<i class="icon mdi mdi-home"></i><span>Dashboard</span>',array('controller'=>'Admins','action'=>'admin_dashboard'),array('escape'=>false)); ?>
 			</li>
             <li <?=($controller == 'suppliers')?$activeClass:null?>>
 				<?php echo $this->Html->link('<i class="icon mdi mdi-face"></i><span>Suppliers</span>',array('controller'=>'Suppliers','action'=>'admin_index'),array('escape'=>false)); ?>
 			</li>
 			<li <?=($controller == 'customers' || $controller == 'wallets')?$activeClass:null?>>
-				<?php echo $this->Html->link('<i class="icon mdi mdi-face"></i><span>Customers</span>',array('controller'=>'Customers','action'=>'index'),array('escape'=>false)); ?>
+				<?php echo $this->Html->link('<i class="icon mdi mdi-face"></i><span>Customers</span>',array('controller'=>'Customers','action'=>'admin_index'),array('escape'=>false)); ?>
 			</li>
 			<li <?=($controller == 'categories')?$activeClass:null?>>
-				<?php echo $this->Html->link('<i class="icon mdi mdi-layers"></i><span>Category</span>',array('controller'=>'Categories','action'=>'index'),array('escape'=>false)); ?>
+				<!-- <?php //echo $this->Html->link('<i class="icon mdi mdi-layers"></i><span>Category</span>',array('controller'=>'Categories','action'=>'admin_index'),array('escape'=>false)); ?> -->
 			</li>
 			<li <?=($controller == 'orders')?$activeClass:null?>>
-				<?php echo $this->Html->link('<i class="icon mdi mdi-chart-donut"></i><span>Orders</span>',array('controller'=>'Orders','action'=>'index'),array('escape'=>false)); ?>
+				<?php echo $this->Html->link('<i class="icon mdi mdi-chart-donut"></i><span>Orders</span>',array('controller'=>'Orders','action'=>'admin_index'),array('escape'=>false)); ?>
 			</li>
 			<li>
 				<?php echo $this->Html->link('<i class="icon mdi mdi-card-membership"></i><span>Coupon Code</span>',array('controller'=>'','action'=>''),array('escape'=>false)); ?>

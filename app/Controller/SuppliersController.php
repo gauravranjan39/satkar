@@ -8,12 +8,12 @@ App::uses('AppController', 'Controller');
  */
 class SuppliersController extends AppController {
 
-
-	public function index() {
-		$this->layout = "my_layout";
+	public function admin_index() {
+		$this->layout = "admin_layout";
 		$supplierLists = $this->Supplier->find('all');
 		$this->set('supplierLists',$supplierLists);
 	}
+
 
 	public function view($id = null) {
 		if (!$this->Supplier->exists($id)) {
@@ -55,7 +55,7 @@ class SuppliersController extends AppController {
 		}
 	}
 
-	public function check_email_unique() {
+	public function admin_check_email_unique() {
 		$this->autoRender = false;
 		if ($this->request->is('post')) {
 			if (isset($this->request->data['get_supplierId']) && $this->request->data['get_supplierId'] !='' ) {
@@ -73,7 +73,7 @@ class SuppliersController extends AppController {
 		}
 	}
 
-	public function change_status ($id) {
+	public function admin_change_status ($id) {
 		$this->autoRender = false;
 		$status = $this->Supplier->find('first',array('recursive'=>-1,'conditions'=>array('Supplier.id'=>$id),'fields'=>array('Supplier.id','Supplier.status')));
 		if ($status['Supplier']['status'] == 1) {
@@ -101,7 +101,7 @@ class SuppliersController extends AppController {
 		return $this->redirect(array('action' => 'index'));
 	}
 
-	public function check_unique_mobile() {
+	public function admin_check_unique_mobile() {
 		$this->autoRender = false;
 		if ($this->request->is('post')) {
 			if (isset($this->request->data['get_supplierId']) && $this->request->data['get_supplierId'] !='' ) {
@@ -119,10 +119,6 @@ class SuppliersController extends AppController {
 		}
 	}
 
-	public function admin_index() {
-		$this->layout = "admin_layout";
-		$supplierLists = $this->Supplier->find('all');
-		$this->set('supplierLists',$supplierLists);
-	}
+	
 
 }

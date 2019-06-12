@@ -50,6 +50,7 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 		echo $this->Html->script('buttons.colVis');
 		echo $this->Html->script('buttons.bootstrap');
 		echo $this->Html->script('app-tables-datatables');
+		echo $this->Html->script('app-dashboard');
 		// echo $this->Html->script('perfect-scrollbar.jquery.min');
 		// echo $this->Html->script('bootstrap-slider');
 		// echo $this->Html->script('app-form-elements');

@@ -26,7 +26,7 @@
             <li><a href="#"><span class="icon mdi mdi-face"></span> Account</a></li>
             <li><a href="#"><span class="icon mdi mdi-settings"></span> Settings</a></li>
             <li>
-            <?php echo $this->Html->link('<span class="icon mdi mdi-power"></span> Logout',array('controller'=>'Admins','action'=>'logout'),array('escape'=>false)); ?>
+            <?php echo $this->Html->link('<span class="icon mdi mdi-power"></span> Logout',array('controller'=>'Admins','action'=>'admin_logout'),array('escape'=>false)); ?>
           </ul>
         </li>
       </ul>

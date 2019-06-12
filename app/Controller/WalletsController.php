@@ -148,6 +148,41 @@ class WalletsController extends AppController {
         }
     }
 
+    public function admin_index($customerId=null) {
+        $this->layout = "admin_layout";
+        $Encryption=$this->Encryption;
+        $customerId=$this->Encryption->decode($customerId);
+        $this->Wallet->recursive = -1;
+        $this->set(compact('customerId','Encryption'));
+        $criteria = "";
+        
+        if ($this->request->is(array('post','put'))) {
+            $criteria = $this->request->data;
+        }
+        $criteria = $this->isClickedOnSearch($criteria);
+        
+        if (!empty($this->params->params['named']['criteria'])) {
+            $criteria = $this->params->params['named']['criteria'];
+        } else if (!empty($this->request->data['criteria'])) {
+            $criteria = $this->request->data['criteria'];
+        }
+        
+        $conditions = array('Wallet.customer_id' => $customerId);
+
+        if(!empty($criteria['Wallet']['start_date']) && !empty($criteria['Wallet']['end_date'])) {
+            $dateTo = $criteria['Wallet']['start_date'];
+            $dateFrom = $criteria['Wallet']['end_date'].' 23:59:59';
+            $conditions = array_merge($conditions,array('Wallet.transaction_date BETWEEN ? AND ?'=>array($dateTo,$dateFrom)));  
+        }
+        
+        $this->paginate = array('conditions' =>  $conditions,'order'=>'Wallet.id DESC','limit'=>20);
+        $walletDetails = $this->Paginator->paginate();
+        $this->set('criteria', $criteria);
+        $this->set(compact('walletDetails'));
+        // $this->Paginator->settings = array('conditions' =>  array('Wallet.customer_id' => $customerId),'order'=>'Wallet.id DESC','limit'=>10);
+        // $this->set('walletDetails', $this->Paginator->paginate());
+    }
+
 }
 
 ?>

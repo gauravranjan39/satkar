@@ -605,4 +605,142 @@ class OrdersController extends AppController {
         }
     }
 
+    public function admin_index($customerId=null) {
+        $this->layout = "admin_layout";
+        $Encryption=$this->Encryption;
+        $customerId=$this->Encryption->decode($customerId);
+        $this->loadModel('Order');
+        $this->Order->unbindModel(array('hasMany' => array('OrderItem')),true);
+
+        $criteria = "";
+        
+        if ($this->request->is(array('post','put'))) {
+            $criteria = $this->request->data;
+        }
+        $criteria = $this->isClickedOnSearch($criteria);
+
+        if (!empty($this->params->params['named']['criteria'])) {
+            $criteria = $this->params->params['named']['criteria'];
+        } else if (!empty($this->request->data['criteria'])) {
+            $criteria = $this->request->data['criteria'];
+        }
+
+        if (isset($customerId) && !empty($customerId)) {
+            $conditions = array('Order.customer_id' => $customerId);
+        } else {
+            $conditions = array();
+        }
+
+        if (isset($criteria['Order']['customer_id']) && !empty($criteria['Order']['customer_id'])) {
+            $conditions = array('Order.customer_id' => $customerId);
+        }
+
+        if(!empty($criteria['Order']['order_number'])) {
+            $conditions = array_merge($conditions,array('Order.order_number LIKE'=>trim("%".$criteria['Order']['order_number']."%")));
+        }
+
+        if(!empty($criteria['Order']['status'])) {
+            if ($criteria['Order']['status'] == 'draft') {
+                $conditions = array_merge($conditions,array('Order.status'=>'0'));
+            } else {
+                $conditions = array_merge($conditions,array('Order.status'=>$criteria['Order']['status']));
+            }
+        }
+        
+        if(!empty($criteria['Order']['payment_status'])) {
+            if ($criteria['Order']['payment_status'] == 'completed') {
+                $conditions = array_merge($conditions,array('Order.payment_status'=>'0'));
+            } else {
+                $conditions = array_merge($conditions,array('Order.payment_status'=>$criteria['Order']['payment_status']));
+            }
+        }
+
+        if(!empty($criteria['Order']['start_date']) && !empty($criteria['Order']['end_date'])) {
+            $dateTo = $criteria['Order']['start_date'];
+            $dateFrom = $criteria['Order']['end_date'].' 23:59:59';
+            $conditions = array_merge($conditions,array('Order.created BETWEEN ? AND ?'=>array($dateTo,$dateFrom)));  
+        }
+
+        $this->paginate = array('conditions' =>  $conditions,'order'=>'Order.id DESC','limit'=>20);
+        $orderLists = $this->Paginator->paginate();
+        $this->set('criteria', $criteria);
+        $this->set(compact('orderLists','Encryption','customerId'));
+    }
+
+    public function admin_details($orderId=null) {
+        $this->layout = "admin_layout";
+        $this->loadModel('Order');
+        $this->loadModel('OrderItem');
+        $this->loadModel('Customer');
+        $this->loadModel('OrderTransaction');
+        $this->loadModel('Category');
+        $orderId = $this->Encryption->decode($orderId);
+        $Encryption=$this->Encryption;
+        $this->Order->recursive = 2;
+        $this->Customer->recursive = -1;
+        $this->Order->unbindModel(array('belongsTo' => array('Customer'),'hasMany'=>array('Wallet')),true);
+        $this->OrderTransaction->unbindModel(array('belongsTo' => array('Order')),true);
+        $this->OrderItem->unbindModel(array('belongsTo' => array('Order'),'hasMany'=>array('Wallet')),true);
+        $orderDetails = $this->Order->find('first',array('conditions'=>array('Order.id'=>$orderId)));
+        $customerId = $orderDetails['Order']['customer_id'];
+        $customerDetails = $this->Customer->find('first',array('conditions'=>array('Customer.id'=>$customerId),'fields'=>array('name','address','mobile')));
+        $categoryLists = $this->Category->find('list',array('conditions'=>array('Category.parent_id'=>0)));
+		$this->set(compact('orderDetails','customerDetails','categoryLists','Encryption'));
+    }
+
+    public function admin_generatePaymentHistory($orderId=null,$customerId=null,$grandTotal=null,$orderNumber=null) {
+        $this->layout = "ajax";
+        $this->autoRender = false;
+        $this->set('title_for_layout','payment History');
+        error_reporting(0);
+        $this->loadModel('OrderTransaction');
+        $this->loadModel('Customer');
+        $view = new View($this, false);
+        $this->Customer->unbindModel(array('hasMany' => array('Order')),true);
+        $customerDetails = $this->Customer->find('first',array('conditions'=>array('Customer.id'=>$customerId),'fields'=>array('name','address','mobile','email')));
+        $this->OrderTransaction->unbindModel(array('belongsTo' => array('Order')),true);
+        $paymentLists = $this->OrderTransaction->find('all',array('conditions'=>array('OrderTransaction.order_id'=>$orderId)) ,array('order'=>array('OrderTransaction.id'=>'desc')));
+        $filename =  "order". '-'. date("m-d-y");
+        $view->set(compact('paymentLists','customerDetails','grandTotal','orderNumber'));
+        $html = $view->render('payment_history_pdf');
+        // $pdf= new mPDF('utf-8', 'A4-L');
+        //A4-P is for portrait view
+        $pdf= new mPDF('utf-8', 'A4-P');
+        // Define a Landscape page size/format by name
+        //$mpdf=new mPDF('utf-8', 'A4-L');
+        $pdf->WriteHTML($html);
+        // $pdf->Output($filename.".pdf", "D");
+        $pdf->Output($filename.".pdf", "I");
+    }
+
+    public function admin_generateOrderInvoice($orderId=null,$orderNumber=null,$grandTotal=null,$payment=null,$dues=null){
+        $this->layout = "ajax";
+        $this->autoRender = false;
+        ini_set('memory_limit', '-1');
+        error_reporting(0);
+        $view = new View($this, false);
+        $orderId=$this->Encryption->decode($orderId);
+        $this->Order->unbindModel(array('hasMany' => array('OrderTransaction','Wallet')),true);
+        $orderDetails = $this->Order->find('first',array('conditions'=>array('Order.id'=>$orderId)));
+        $barcodeGenerator = new Picqer\Barcode\BarcodeGeneratorPNG();
+        $view->set(compact('orderDetails','orderNumber','grandTotal','payment','dues','barcodeGenerator'));
+        $filename = $orderNumber;
+        $html = $view->render('invoice_pdf');
+        $pdf= new mPDF('utf-8', 'A4-L');
+        $pdf->WriteHTML($html);
+        $pdf->Output($filename.".pdf", "I");
+    }
+
+    public function admin_changeShowStatus($orderId,$orderShowStatus) {
+        $this->layout = false;
+        $this->autoRender = false;
+        if ($orderShowStatus == 'show_order') {
+            $this->Order->updateAll(array('Order.is_show' =>1),array('Order.id'=>$orderId));
+            echo '1';
+        } else if ($orderShowStatus == 'hide_order') {
+            $this->Order->updateAll(array('Order.is_show' =>0),array('Order.id'=>$orderId));
+            echo '1';
+        }
+    }
+
 }

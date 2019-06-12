@@ -1,6 +1,6 @@
 <?php echo $this->Html->script('jquery.sparkline.min');?>
 <?php echo $this->Html->script('countUp.min');?>
-<?php echo $this->Html->script('app-dashboard');?>
+<?php //echo $this->Html->script('app-dashboard');?>
 <div class="be-content">
         <div class="main-content container-fluid">
           <div class="row">

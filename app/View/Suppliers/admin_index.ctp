@@ -37,7 +37,7 @@
 						} else {
 							echo $this->Html->link($this->Html->image('circle_red.png',array('alt'=>'deactive','class'=>'status','value'=>$supplierList['Supplier']['id'])),'javascript:void(0)', array('escape' => false));
 						} ?></td>
-						<td class="center"><?php echo $supplierList['Supplier']['created']; ?></td>
+						<td class="center"><?php echo date('d-M-Y', strtotime($supplierList['Supplier']['created'])); ?></td>
 						<td class="center"><?php echo $this->Html->link('<span class="mdi mdi-edit"></span>',array('controller'=>'suppliers','action'=>'admin_edit',$supplierList['Supplier']['id']),array('escape'=>false)); ?></td>
 						</tr>
 					<?php } ?>
@@ -55,7 +55,7 @@
 			var val = $(this).attr('value');
 			var ref = $(this);
 			$.ajax({
-				url:"<?php echo Router::url(array('controller'=>'Suppliers','action'=>'change_status'));?>/"+val,
+				url:"<?php echo Router::url(array('controller'=>'Suppliers','action'=>'admin_change_status'));?>/"+val,
 				success:function(data){
 					if(data == 0){
 						ref.attr({

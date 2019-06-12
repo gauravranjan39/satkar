@@ -33,16 +33,26 @@ App::uses('Sanitize', 'Utility');
  */
 class AppController extends Controller {
     public $helpers = array('Html', 'Form');
-    public $uses = array('User');
-    public $components = array(
-			  'Session',
-				'RequestHandler',
-				'Email',
-        'Auth' => array(
-        'loginRedirect' => array('controller' => 'users', 'action' => 'index'),
-        'logoutRedirect' => array('controller' => 'users', 'action' => 'login'),
-        )
-	);
+    public $components = array('Session','Auth');
+    //public $uses = array('User');
+  //   public $components = array(
+	// 		  'Session',
+	// 			'RequestHandler',
+	// 			'Email',
+  //       'Auth' => array(
+  //       'loginRedirect' => array('controller' => 'users', 'action' => 'index'),
+  //       'logoutRedirect' => array('controller' => 'users', 'action' => 'login'),
+  //       )
+  // );
+  
+  public function beforeFilter() {
+    //Configure::load('app_config');
+    
+   
+    
+    $this->Auth->allow('admin_login','admin_register','login','register');
+    
+   }
 	function beforeRender(){
 		$this->set('base_url', 'http://'.$_SERVER['SERVER_NAME'].Router::url('/'));
 	}

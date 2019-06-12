@@ -15,13 +15,6 @@ class SuppliersController extends AppController {
 		$this->set('supplierLists',$supplierLists);
 	}
 
-/**
- * view method
- *
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
 	public function view($id = null) {
 		if (!$this->Supplier->exists($id)) {
 			throw new NotFoundException(__('Invalid supplier'));
@@ -30,40 +23,29 @@ class SuppliersController extends AppController {
 		$this->set('supplier', $this->Supplier->find('first', $options));
 	}
 
-/**
- * add method
- *
- * @return void
- */
-	public function add() {
-		$this->layout = "my_layout";
+	public function admin_add() {
+		// $this->layout = "my_layout";
+		$this->layout = "admin_layout";
 		if ($this->request->is('post')) {
 			$this->Supplier->create();
 			if ($this->Supplier->save($this->request->data)) {
-				return $this->redirect(array('action' => 'index'));
+				return $this->redirect(array('action' => 'admin_index'));
 			} else {
 				$this->Session->SetFlash('The supplier could not be saved. Please, try again.', 'error');
 			}
 		}
 	}
 
-/**
- * edit method
- *
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
-	public function edit($id = null) {
-		//$id = base64_decode($id);
-		$this->layout = "my_layout";
+	public function admin_edit($id = null) {
+		// $this->layout = "my_layout";
+		$this->layout = "admin_layout";
 		if (!$this->Supplier->exists($id)) {
 			throw new NotFoundException(__('Invalid Supplier'));
 		}
 		if ($this->request->is(array('post', 'put'))) {
 				//$this->request->data['User']['password'] = AuthComponent::password($this->request->data['User']['hash_token']);
 			if ($this->Supplier->save($this->request->data)) {
-				return $this->redirect(array('action' => 'index'));
+				return $this->redirect(array('action' => 'admin_index'));
 			} else {
 				$this->Session->SetFlash('The Supplier could not be saved. Please, try again.', 'error');
 			}
@@ -105,13 +87,6 @@ class SuppliersController extends AppController {
 		return $data;
 	}
 
-/**
- * delete method
- *
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
 	public function delete($id = null) {
 		$this->Supplier->id = $id;
 		if (!$this->Supplier->exists()) {
@@ -142,6 +117,12 @@ class SuppliersController extends AppController {
 				echo 1;
 			}
 		}
+	}
+
+	public function admin_index() {
+		$this->layout = "admin_layout";
+		$supplierLists = $this->Supplier->find('all');
+		$this->set('supplierLists',$supplierLists);
 	}
 
 }

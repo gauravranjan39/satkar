@@ -17,6 +17,14 @@ class UsersController extends AppController {
 
 	public function beforeFilter() {
 		parent::beforeFilter();
+		$this->Auth->loginRedirect = array('controller' => 'Customers', 'action' => 'index');
+            $this->Auth->logoutRedirect = array('controller'=> 'users' , 'action'=> 'login');
+            $this->Auth->authenticate = array('Form'=>array('fields' => array(
+                                                                'username' => 'username',
+                                                                'password' => 'password'),
+                                                                'userModel'=>'User' 
+                                                            )                                  
+            );
 		$this->Auth->allow('login','register');
 		// if(!isset($_SERVER['HTTP_REFERER'])){
 		// 	$this->redirect(array('controller'=>'Customers','action'=>'index'));
@@ -46,6 +54,10 @@ class UsersController extends AppController {
 			}
 		}
 	}
+
+	// public function admin_login() {
+	// 	$this->redirect(array('controller'=>'Admins','action'=>'login'));
+	// }
 	
 	public function login() {
 		if ($this->request->is('post')) {

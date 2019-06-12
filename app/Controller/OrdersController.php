@@ -222,6 +222,7 @@ class OrdersController extends AppController {
                     $orderId = $this->request->data['OrderTransaction']['order_id'];
                     $invoiceNumber =  rand() .$orderId . time();
                     $this->request->data['OrderTransaction']['invoice_number'] = $invoiceNumber;
+                    $this->request->data['OrderTransaction']['transaction_date'] = date('Y-m-d H:i:s');
                     $this->OrderTransaction->create();
                     if ($this->OrderTransaction->save($this->request->data)) {
                         if ($amountPaid == $dues) {

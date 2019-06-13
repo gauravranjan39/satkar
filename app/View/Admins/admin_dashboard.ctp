@@ -1,25 +1,27 @@
 <?php echo $this->Html->script('jquery.sparkline.min');?>
 <?php echo $this->Html->script('countUp.min');?>
 <?php //echo $this->Html->script('app-dashboard');?>
-<div class="be-content">
+	<div class="be-content">
         <div class="main-content container-fluid">
-          <div class="row">
-            <div class="col-xs-12 col-md-6 col-lg-3">
-                        <div class="widget widget-tile">
-                          <div id="spark1" class="chart sparkline"></div>
-                          <div class="data-info">
-                            <div class="desc">New Users</div>
-                            <div class="value"><span class="indicator indicator-equal mdi mdi-chevron-right"></span><span data-toggle="counter" data-end="113" class="number">0</span>
+          	<div class="row">
+            	<div class="col-xs-12 col-md-6 col-lg-3">
+                    <div class="widget widget-tile">
+                        <div id="spark1" class="chart sparkline"></div>
+                        <div class="data-info">
+                            <div class="desc">Total Customers</div>
+                            <div class="value">
+								<span class="indicator indicator-equal mdi mdi-chevron-right"></span><span id="total-customers" data-toggle="counter" data-end="<?php echo $totalCustomers; ?>" class="number">0</span>
                             </div>
-                          </div>
                         </div>
-            </div>
+                    </div>
+            	</div>
+				
             <div class="col-xs-12 col-md-6 col-lg-3">
                         <div class="widget widget-tile">
                           <div id="spark2" class="chart sparkline"></div>
                           <div class="data-info">
                             <div class="desc">Monthly Sales</div>
-                            <div class="value"><span class="indicator indicator-positive mdi mdi-chevron-up"></span><span data-toggle="counter" data-end="80" data-suffix="%" class="number">0</span>
+                            <div class="value"><span class="indicator indicator-positive mdi mdi-chevron-up"></span><span data-toggle="counter" data-end="<?php echo  $grand_total; ?>" data-prefix="&#8377;" class="number">0</span>
                             </div>
                           </div>
                         </div>
@@ -355,3 +357,15 @@
           </div>
         </div>
       </div>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		// $.ajax({
+		// 	url:"<?php //echo Router::url(array('controller'=>'Admins','action'=>'admin_total_customers'));?>",
+		// 	success:function(data){
+		// 		$('#total-customers').text(data);
+		// 		$('#total-customers').attr('data-end',data);
+		// 	}
+		// });
+	});
+</script>

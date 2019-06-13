@@ -84,6 +84,30 @@ class AdminsController extends AppController {
 
 	public function admin_dashboard() {
 		$this->layout = "admin_layout";
+		$this->loadModel('Customer');
+		$this->loadModel('Order');
+		$this->Customer->recursive = -1;
+		$totalCustomers = $this->Customer->find('count');
+		
+
+		$first_day_this_month = date('Y-m-01');
+		$last_day_this_month  = date('Y-m-t');
+
+		$conditions = array();
+		$dateTo = $first_day_this_month;
+		$dateFrom = $last_day_this_month;
+		$conditions = array_merge($conditions,array('Order.created BETWEEN ? AND ?'=>array($dateTo,$dateFrom)));  
+		// pr($conditions);die;
+		$grand_total = $this->Order->find('first', array(
+			'conditions' => array($conditions),
+			'fields' => array('sum(Order.grand_total) as total_sum'
+					)
+				)
+			);
+		$grand_total = $grand_total[0]['total_sum'];
+		// pr($grand_total[0]['total_sum']);die;
+		$this->set(compact('totalCustomers','grand_total'));
+
 	}
 	  
 	public function admin_logout() {

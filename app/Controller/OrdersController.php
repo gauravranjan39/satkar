@@ -703,13 +703,8 @@ class OrdersController extends AppController {
         $filename =  "order". '-'. date("m-d-y");
         $view->set(compact('paymentLists','customerDetails','grandTotal','orderNumber'));
         $html = $view->render('payment_history_pdf');
-        // $pdf= new mPDF('utf-8', 'A4-L');
-        //A4-P is for portrait view
         $pdf= new mPDF('utf-8', 'A4-P');
-        // Define a Landscape page size/format by name
-        //$mpdf=new mPDF('utf-8', 'A4-L');
         $pdf->WriteHTML($html);
-        // $pdf->Output($filename.".pdf", "D");
         $pdf->Output($filename.".pdf", "I");
     }
 
@@ -736,10 +731,12 @@ class OrdersController extends AppController {
         $this->autoRender = false;
         if ($orderShowStatus == 'show_order') {
             $this->Order->updateAll(array('Order.is_show' =>1),array('Order.id'=>$orderId));
-            echo '1';
+            echo json_encode(array('success' => true, 'msg' =>'show_order'));
+            // echo '1';
         } else if ($orderShowStatus == 'hide_order') {
             $this->Order->updateAll(array('Order.is_show' =>0),array('Order.id'=>$orderId));
-            echo '1';
+            echo json_encode(array('success' => true, 'msg' =>'hide_order'));
+            // echo '1';
         }
     }
 

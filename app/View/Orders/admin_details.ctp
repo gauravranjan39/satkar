@@ -433,8 +433,9 @@
             if (confirm('Are you sure to continue ?')) {
                 $.ajax({
                     url:"<?php echo Router::url(array('controller'=>'Orders','action'=>'admin_changeShowStatus'));?>/"+orderId + '/' + orderShowStatus,
+                    dataType: 'json',
                     success:function(data){
-                        if (data == 1) {
+                        if (data.success) {
                             location.reload();
                         } else {
                             alert('Error Occured!!');

@@ -1,3 +1,11 @@
+<style>
+.hide_order{
+    color:#CD451D;
+}
+.show_order {
+    color:#15AA2E;
+}
+</style>
 <?php echo $this->Html->css('bootstrap-datetimepicker.min');?>
 <?php echo $this->Html->script('bootstrap-datetimepicker.min');?>
 
@@ -134,10 +142,11 @@
                             }
                     ?>
                       <tr>
-                        
-                      <td >
-                      <?php //echo $this->Html->link( 'OD' . $orderList['Order']['order_number'], 'javascript:void(0);',  array("class" => "hide_order", "escape" => false,'order_id'=>$orderList['Order']['id'],'title'=>'Change to Completed')); ?>
-                      <span title="Hide Order" order-id="<?php echo $orderList['Order']['id']; ?>"><?php echo 'OD' . $orderList['Order']['order_number']; ?></span></td>
+                        <?php if ($orderList['Order']['is_show'] == 1) { ?>
+                            <td ><span class="order_show_status show_order" title="Hide Order" style="cursor:pointer;" order-id="<?php echo $orderList['Order']['id']; ?>" order-show-status="hide_order"><?php echo 'OD' . $orderList['Order']['order_number']; ?></span></td>
+                        <?php } else { ?>
+                            <td ><span class="order_show_status hide_order" title="Show Order" style="cursor:pointer;" order-id="<?php echo $orderList['Order']['id']; ?>" order-show-status="show_order"><?php echo 'OD' . $orderList['Order']['order_number']; ?></span></td>
+                        <?php } ?>
                         <td class="cell-detail"> <span><?php echo $this->Html->link($orderList['Customer']['name'], 'javascript:void(0);',  array("class" => "customer_details", "escape" => false,"mobile"=>$orderList['Customer']['mobile'],"email"=>$orderList['Customer']['email'],"address"=>$orderList['Customer']['address'])); ?></span></td>
                         <?php if ($orderList['Order']['status'] == 2) { ?>
                             <td class="milestone">&#8377;<?php echo number_format($orderList['Order']['total'],2); ?></td>
@@ -274,6 +283,36 @@
                         if (data == 1) {
                             ref.parent().addClass('text-success');
                             ref.parent().html('Completed');
+                        } else {
+                            alert('Error Occured!!');
+                        }
+                    }
+			    });
+            }
+        });
+
+        $('.order_show_status').click(function(){
+            var orderId = $(this).attr('order-id');
+            var orderShowStatus = $(this).attr('order-show-status');
+            var ref = $(this);
+            if (confirm('Are you sure to continue ?')) {
+                $.ajax({
+                    url:"<?php echo Router::url(array('controller'=>'Orders','action'=>'admin_changeShowStatus'));?>/"+orderId + '/' + orderShowStatus,
+                    dataType: 'json',
+                    success:function(data){
+                        console.log(data);
+                        if (data.success) {
+                            if (data.msg == 'show_order') {
+                                ref.removeClass('hide_order');
+                                ref.addClass('show_order');
+                                ref.attr('order-show-status','hide_order');
+                                ref.attr('title','Hide Order');
+                            } else if (data.msg == 'hide_order') {
+                                ref.removeClass('show_order');
+                                ref.addClass('hide_order');
+                                ref.attr('order-show-status','show_order');
+                                ref.attr('title','Show Order');
+                            }
                         } else {
                             alert('Error Occured!!');
                         }

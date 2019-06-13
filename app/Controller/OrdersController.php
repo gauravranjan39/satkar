@@ -655,6 +655,14 @@ class OrdersController extends AppController {
             }
         }
 
+        if(!empty($criteria['Order']['is_show'])) {
+            if ($criteria['Order']['is_show'] == 'hide') {
+                $conditions = array_merge($conditions,array('Order.is_show'=>'0'));
+            } else {
+                $conditions = array_merge($conditions,array('Order.is_show'=>$criteria['Order']['is_show']));
+            }
+        }
+
         if(!empty($criteria['Order']['start_date']) && !empty($criteria['Order']['end_date'])) {
             $dateTo = $criteria['Order']['start_date'];
             $dateFrom = $criteria['Order']['end_date'].' 23:59:59';

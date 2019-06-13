@@ -73,20 +73,26 @@
                     ?>
                     
                     <div class="form-group col-md-12">
-                        <div class="form-group col-md-4">
+                        <div class="form-group col-md-3">
                             <label>Order Number</label>
                             <?php echo $this->Form->input("Order.order_number",array('placeholder'=>'Enter order number','class'=>'form-control input-sm allowOnlyNumber','autocomplete'=>'off','label'=>false,'value'=>isset($criteria['Order']['order_number'])? $criteria['Order']['order_number']:''));?>
                         </div>
 
-                        <div class="form-group col-md-4">
+                        <div class="form-group col-md-3">
                             <label>Order Status</label>
                             <?php echo $this->Form->input("Order.status",array('class'=>'form-control input-sm','options'=>array('draft'=>'Draft','1'=>'Confirm','2'=>'Cancelled','3'=>'Partial Cancelled'),'empty'=>'--Select--','label'=>false,'default' =>isset($criteria['Order']['status'])? $criteria['Order']['status']:''));?>
                         </div>
 
-                        <div class="form-group col-md-4">
+                        <div class="form-group col-md-3">
                             <label>Payment Status</label>
                             <?php echo $this->Form->input("Order.payment_status",array('class'=>'form-control input-sm','options'=>array('completed'=>'Completed','1'=>'Pending'),'empty'=>'--Select--','label'=>false,'default' =>isset($criteria['Order']['payment_status'])? $criteria['Order']['payment_status']:''));?>
                         </div>
+
+                        <div class="form-group col-md-3">
+                            <label>Order Show Status</label>
+                            <?php echo $this->Form->input("Order.is_show",array('class'=>'form-control input-sm','options'=>array('hide'=>'Hide','1'=>'show'),'empty'=>'--Select--','label'=>false,'default' =>isset($criteria['Order']['is_show'])? $criteria['Order']['is_show']:''));?>
+                        </div>
+
                     </div>
 
                     <div class="form-group col-md-12">

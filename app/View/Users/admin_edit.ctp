@@ -38,7 +38,7 @@
                 <div class="row xs-pt-15">
                     <div class="col-xs-6">
                     <?php echo $this->Form->button('Submit',array('class'=>'btn btn-space btn-primary','type'=>'submit'));?>
-					<?php echo $this->Html->link('cancel', array('controller' => 'users','action' => 'index'),array('class'=>'btn btn-space btn-default',));?>
+					<?php echo $this->Html->link('cancel', array('controller' => 'Users','action' => 'admin_index'),array('class'=>'btn btn-space btn-default',));?>
                     </div>
                 </div>
                 <?php echo $this->Form->end();?>

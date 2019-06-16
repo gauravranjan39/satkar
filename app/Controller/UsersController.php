@@ -152,4 +152,22 @@ class UsersController extends AppController {
 		$options = array('conditions' => array('User.' . $this->User->primaryKey => $id));
 		$this->set('user', $this->User->find('first', $options));
 	}
+
+	public function admin_changeUserType() {
+		$this->autoRender = false;
+		$this->layout = false;
+		if ($this->request->is(array('post', 'put'))) {
+			$this->loadModel('User');
+			$userType = $this->request->data['userType'];
+			$userId = $this->request->data['userId'];
+			$this->User->id=$userId;
+			if ($userType == 'admin') {
+				$this->User->saveField("type","user");
+				echo 'user';
+			} else {
+				$this->User->saveField("type","admin");
+				echo 'admin';
+			}
+		}
+	}
 }

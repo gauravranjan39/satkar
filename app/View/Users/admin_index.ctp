@@ -4,11 +4,10 @@
             <div class="col-sm-12">
               <div class="panel panel-default panel-table">
                 <div class="panel-heading">Users
+				<div class="icon-container" style="text-align: right;padding:0px;">
+					<?php echo $this->Html->link('<div class="icon"><span class="mdi mdi-account-add"></span></div>',array('controller'=>'Users','action'=>'admin_add'),array('title'=>'Add User','escape'=>false)); ?>
+				</div>
                     <div class="tools">
-                        <!-- <span class="icon mdi mdi-download"></span>
-                        <span class="icon mdi mdi-more-vert"></span> -->
-						<?php echo $this->Html->link('<div class="icon"><span class="mdi mdi-account-add"></span></div>',array('controller'=>'Users','action'=>'admin_add'),array('escape'=>false)); ?>
-                        
                     </div>
                 </div>
                 <div class="panel-body">
@@ -16,6 +15,7 @@
                     <thead>
                       <tr>
                         <th>Name</th>
+						<th>UserName</th>
 						<th>Address</th>
                         <th>Email</th>
                         <th>Mobile</th>
@@ -30,6 +30,7 @@
 					<?php foreach ($userLists as $userList) { ?>
                       <tr class="odd gradeX">
                         <td><?php echo $userList['User']['name']; ?></td>
+						<td><?php echo $userList['User']['username']; ?></td>
                         <td><?php echo $userList['User']['address']; ?></td>
                         <td><?php echo $userList['User']['email']; ?></td>
                         <td><?php echo $userList['User']['mobile']; ?></td>
@@ -39,7 +40,7 @@
 						} else {
 							echo $this->Html->link($this->Html->image('circle_red.png',array('alt'=>'deactive','class'=>'status','value'=>$userList['User']['id'])),'javascript:void(0)', array('escape' => false));
 						} ?></td>
-						<td class="center"><?php echo $userList['User']['created']; ?></td>
+						<td class="center"><?php echo date('d-M-Y', strtotime($userList['User']['created'])); ?></td>
 						<td class="center"><?php echo $this->Html->link('<span class="mdi mdi-edit"></span>',array('controller'=>'users','action'=>'edit',$userList['User']['id']),array('escape'=>false)); ?></td>
                       </tr>
 					<?php } ?>

@@ -11,6 +11,10 @@
                     <?php echo $this->Form->input("User.name",array('placeholder'=>'Enter Name','required'=>'required','class'=>'form-control input-sm','label'=>false));?>
                 </div>
                 <div class="form-group">
+                    <label>UserName</label>
+                    <?php echo $this->Form->input("User.username",array('type'=>'text','placeholder'=>'Enter username','required'=>'required','class'=>'form-control input-sm','label'=>false));?>
+                </div>
+                <div class="form-group">
                     <label>Address</label>
                     <?php echo $this->Form->input("User.address",array('type'=>'text','placeholder'=>'Enter Address','required'=>'required','class'=>'form-control input-sm','label'=>false));?>
                 </div>
@@ -30,7 +34,7 @@
                 <div class="row xs-pt-15">
                     <div class="col-xs-6">
                     <?php echo $this->Form->button('Submit',array('class'=>'btn btn-space btn-primary','id'=>'registerUser','type'=>'submit'));?>
-					<?php echo $this->Form->button('cancel', array('class'=>'btn btn-space btn-default','div'=>false,'label'=>false,'onclick'=>"window.location.href = '../users/index'"));?> 
+					<?php echo $this->Form->button('cancel', array('class'=>'btn btn-space btn-default','div'=>false,'label'=>false,'onclick'=>"window.location.href = '../Users/index'"));?> 
                     </div>
                 </div>
                 <?php echo $this->Form->end();?>

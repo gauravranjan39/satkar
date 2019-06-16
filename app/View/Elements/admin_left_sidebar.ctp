@@ -12,7 +12,7 @@ $activeClass = 'class="active"';
 				<?php echo $this->Html->link('<i class="icon mdi mdi-home"></i><span>Dashboard</span>',array('controller'=>'Admins','action'=>'admin_dashboard'),array('escape'=>false)); ?>
 			</li>
 			 <li <?=($controller == 'users')?$activeClass:null?>>
-			 <?php echo $this->Html->link('<i class="icon mdi mdi-face"></i><span>User</span>',array('controller'=>'Users','action'=>'admin_index'),array('escape'=>false)); ?>
+			 <?php echo $this->Html->link('<i class="icon mdi mdi-face"></i><span>Users</span>',array('controller'=>'Users','action'=>'admin_index'),array('escape'=>false)); ?>
 			</li>
             <li <?=($controller == 'suppliers')?$activeClass:null?>>
 				<?php echo $this->Html->link('<i class="icon mdi mdi-face"></i><span>Suppliers</span>',array('controller'=>'Suppliers','action'=>'admin_index'),array('escape'=>false)); ?>

@@ -7,7 +7,7 @@
                     <div class="tools">
                         <!-- <span class="icon mdi mdi-download"></span>
                         <span class="icon mdi mdi-more-vert"></span> -->
-						<?php echo $this->Html->link('<div class="icon"><span class="mdi mdi-account-add"></span></div>',array('controller'=>'users','action'=>'add'),array('escape'=>false)); ?>
+						<?php echo $this->Html->link('<div class="icon"><span class="mdi mdi-account-add"></span></div>',array('controller'=>'Users','action'=>'admin_add'),array('escape'=>false)); ?>
                         
                     </div>
                 </div>

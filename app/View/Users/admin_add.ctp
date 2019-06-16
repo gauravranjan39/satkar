@@ -5,7 +5,7 @@
         <div class="col-sm-12">
             <div class="panel panel-default panel-border-color panel-border-color-primary">
             <div class="panel-body">
-            <?php echo $this->Form->create('User',array('url'=> array('controller' => 'Users', 'action' => 'add'),'method'=>'POST')); ?>
+            <?php echo $this->Form->create('User',array('url'=> array('controller' => 'Users', 'action' => 'admin_add'),'method'=>'POST')); ?>
                 <div class="form-group xs-pt-10">
                     <label>Name</label>
                     <?php echo $this->Form->input("User.name",array('placeholder'=>'Enter Name','required'=>'required','class'=>'form-control input-sm','label'=>false));?>
@@ -22,6 +22,10 @@
                     <label>Email</label>
                     <?php echo $this->Form->input("User.email",array('type'=>'email','placeholder'=>'Enter Email','required'=>'required','class'=>'form-control input-sm','label'=>false));?>
 					<span style="color:red;" id="userEmailAjaxMsg"></span>
+				</div>
+                <div class="form-group">
+                    <label>Type</label>
+                    <?php echo $this->Form->input("User.type",array('class'=>'form-control input-sm','options'=>array('admin'=>'Admin','user'=>'User'),'label'=>false));?>
 				</div>
                 <div class="row xs-pt-15">
                     <div class="col-xs-6">

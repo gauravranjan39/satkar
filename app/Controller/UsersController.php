@@ -83,8 +83,8 @@ class UsersController extends AppController {
 		$this->set('userLists',$userLists);
 	}
 
-	public function add() {
-		$this->layout = "my_layout";
+	public function admin_add() {
+		$this->layout = "admin_layout";
 		if ($this->request->is('post')) {
 			$this->request->data['User']['status'] = 1;
 			$this->request->data['User']['role'] = 1;

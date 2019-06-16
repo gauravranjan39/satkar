@@ -16,11 +16,12 @@
                       <tr>
                         <th>Name</th>
 						<th>UserName</th>
-						<th>Address</th>
+						<!-- <th>Address</th> -->
                         <th>Email</th>
                         <th>Mobile</th>
                         <th>Token</th>
 						<th>Status</th>
+						<th>Type</th>
 						<th>Created</th>
 						<th>Action</th>
                       </tr>
@@ -31,7 +32,7 @@
                       <tr class="odd gradeX">
                         <td><?php echo $userList['User']['name']; ?></td>
 						<td><?php echo $userList['User']['username']; ?></td>
-                        <td><?php echo $userList['User']['address']; ?></td>
+                        <!-- <td><?php //echo $userList['User']['address']; ?></td> -->
                         <td><?php echo $userList['User']['email']; ?></td>
                         <td><?php echo $userList['User']['mobile']; ?></td>
                         <td class="center"><?php echo $userList['User']['hash_token']; ?></td>
@@ -40,8 +41,18 @@
 						} else {
 							echo $this->Html->link($this->Html->image('circle_red.png',array('alt'=>'deactive','class'=>'status','value'=>$userList['User']['id'])),'javascript:void(0)', array('escape' => false));
 						} ?></td>
+						<td><?php echo $userList['User']['type']; ?></td>
 						<td class="center"><?php echo date('d-M-Y', strtotime($userList['User']['created'])); ?></td>
-						<td class="center"><?php echo $this->Html->link('<span class="mdi mdi-edit"></span>',array('controller'=>'users','action'=>'edit',$userList['User']['id']),array('escape'=>false)); ?></td>
+						<td class="center">
+							<div class="btn-group btn-hspace">
+								<button type="button" data-toggle="dropdown" class="btn btn-default dropdown-toggle" aria-expanded="false">Open <span class="icon-dropdown mdi mdi-chevron-down"></span></button>
+								<ul role="menu" class="dropdown-menu pull-right">
+									<?php //$encodedCustomerId = $Encryption->encode($customerList['c1']['id']);?>
+									<li><?php echo $this->Html->link('Edit', array('controller' => 'Users','action' => 'admin_edit',$userList['User']['id']),array('class'=>''));?></li>
+								</ul>
+							</div>
+						</td>
+						<!-- <td class="center"><?php //echo $this->Html->link('<span class="mdi mdi-edit"></span>',array('controller'=>'users','action'=>'edit',$userList['User']['id']),array('escape'=>false)); ?></td> -->
                       </tr>
 					<?php } ?>
                     </tbody>

@@ -5,11 +5,15 @@
         <div class="col-sm-12">
             <div class="panel panel-default panel-border-color panel-border-color-primary">
             <div class="panel-body">
-            <?php echo $this->Form->create('User',array('url'=> array('controller' => 'Users', 'action' => 'edit'),'method'=>'POST')); ?>
+            <?php echo $this->Form->create('User',array('url'=> array('controller' => 'Users', 'action' => 'admin_edit'),'method'=>'POST')); ?>
 			<?php echo $this->Form->input('id');?>
 				<div class="form-group xs-pt-10">
                     <label>Name</label>
                     <?php echo $this->Form->input("User.name",array('placeholder'=>'Enter Name','required'=>'required','class'=>'form-control','label'=>false));?>
+                </div>
+                <div class="form-group">
+                    <label>UserName</label>
+                    <?php echo $this->Form->input("User.username",array('type'=>'text','placeholder'=>'Enter username','required'=>'required','class'=>'form-control input-sm','label'=>false));?>
                 </div>
                 <div class="form-group">
                     <label>Address</label>
@@ -22,6 +26,10 @@
 				<div class="form-group">
                     <label>Email</label>
                     <?php echo $this->Form->input("User.email",array('type'=>'email','placeholder'=>'Enter Email','readonly'=>'readonly','required'=>'required','class'=>'form-control','label'=>false));?>
+				</div>
+                <div class="form-group">
+                    <label>Type</label>
+                    <?php echo $this->Form->input("User.type",array('class'=>'form-control input-sm','options'=>array('admin'=>'Admin','user'=>'User'),'label'=>false));?>
 				</div>
 				<div class="form-group">
                     <label>Token</label>

@@ -101,16 +101,16 @@ class UsersController extends AppController {
 		}
 	}
 
-	public function edit($id = null) {
+	public function admin_edit($id = null) {
 		//$id = base64_decode($id);
-		$this->layout = "my_layout";
+		$this->layout = "admin_layout";
 		if (!$this->User->exists($id)) {
 			throw new NotFoundException(__('Invalid user'));
 		}
 		if ($this->request->is(array('post', 'put'))) {
 				$this->request->data['User']['password'] = AuthComponent::password($this->request->data['User']['hash_token']);
 			if ($this->User->save($this->request->data)) {
-				return $this->redirect(array('action' => 'index'));
+				return $this->redirect(array('action' => 'admin_index'));
 			} else {
 				$this->Session->SetFlash('The user could not be saved. Please, try again.', 'error');
 			}

@@ -21,7 +21,7 @@
                           <div id="spark2" class="chart sparkline"></div>
                           <div class="data-info">
                             <div class="desc">Monthly Sales</div>
-                            <div class="value"><span class="indicator indicator-positive mdi mdi-chevron-up"></span><span data-toggle="counter" data-end="<?php echo  $grand_total; ?>" data-prefix="&#8377;" class="number">0</span>
+                            <div class="value"><span class="indicator indicator-positive mdi mdi-chevron-up"></span><span style="font-size: 18px;" data-toggle="counter" data-end="<?php echo  $grand_total; ?>" data-prefix="&#8377;" class="number">0</span>
                             </div>
                           </div>
                         </div>
@@ -30,7 +30,7 @@
                         <div class="widget widget-tile">
                           <div id="spark3" class="chart sparkline"></div>
                           <div class="data-info">
-                            <div class="desc">Impressions</div>
+                            <div class="desc">Total Payment</div>
                             <div class="value"><span class="indicator indicator-positive mdi mdi-chevron-up"></span><span data-toggle="counter" data-end="532" class="number">0</span>
                             </div>
                           </div>

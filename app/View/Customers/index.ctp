@@ -8,6 +8,7 @@
 					<?php echo $this->Html->link('<div class="icon"><span class="mdi mdi-account-add"></span></div>',array('controller'=>'Customers','action'=>'add'),array('title'=>'Add Customer','escape'=>false)); ?>
 				</div>
 			</div>
+			<?php $userType = $this->Session->read('Auth.User.type'); ?>
 			<div class="panel-body">
 				<table id="table1" class="table table-striped table-hover table-fw-widget">
 					<thead>
@@ -48,8 +49,9 @@
 									<li><?php echo $this->Html->link('Edit', array('controller' => 'Customers','action' => 'edit',$customerList['c1']['id']),array('class'=>''));?></li>
 									<li><?php echo $this->Html->link('Add Ledger', array('controller' => 'Orders','action' => 'add',$encodedCustomerId),array('class'=>''));?></li>
 									<li><?php echo $this->Html->link('Orders', array('controller' => 'Orders','action' => 'index',$encodedCustomerId),array('class'=>''));?></li>
-									<li><?php echo $this->Html->link('Passbook', array('controller' => 'Wallets','action' => 'index',$encodedCustomerId),array('class'=>''));?></li>
-									<!-- <li><?php //echo $this->Html->link('Passbook', array('controller' => 'Wallets','action' => 'index','?'  => array('custId' =>$encodedCustomerId)),array('class'=>''));?></li> -->
+									<?php if ($userType != 'user') { ?>
+										<li><?php echo $this->Html->link('Passbook', array('controller' => 'Wallets','action' => 'index',$encodedCustomerId),array('class'=>''));?></li>
+									<?php } ?>
 								</ul>
 							</div>
 						</td>

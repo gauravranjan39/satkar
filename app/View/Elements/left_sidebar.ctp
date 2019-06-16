@@ -8,12 +8,12 @@ $activeClass = 'class="active"';
         <div class="left-sidebar-content">
           <ul class="sidebar-elements">
             <li class="divider">Menu</li>
-            <li <?=($controller == 'users')?$activeClass:null?>>
-				<?php echo $this->Html->link('<i class="icon mdi mdi-home"></i><span>Dashboard</span>',array('controller'=>'users','action'=>'index'),array('escape'=>false)); ?>
-			</li>
-            <li <?=($controller == 'suppliers')?$activeClass:null?>>
-				<?php echo $this->Html->link('<i class="icon mdi mdi-face"></i><span>Suppliers</span>',array('controller'=>'suppliers','action'=>'index'),array('escape'=>false)); ?>
-			</li>
+            <!-- <li <?=($controller == 'users')?$activeClass:null?>>
+				<?php //echo $this->Html->link('<i class="icon mdi mdi-home"></i><span>Dashboard</span>',array('controller'=>'users','action'=>'index'),array('escape'=>false)); ?>
+			</li> -->
+            <!-- <li <?=($controller == 'suppliers')?$activeClass:null?>>
+				<?php //echo $this->Html->link('<i class="icon mdi mdi-face"></i><span>Suppliers</span>',array('controller'=>'suppliers','action'=>'index'),array('escape'=>false)); ?>
+			</li> -->
 			<li <?=($controller == 'customers' || $controller == 'wallets')?$activeClass:null?>>
 				<?php echo $this->Html->link('<i class="icon mdi mdi-face"></i><span>Customers</span>',array('controller'=>'customers','action'=>'index'),array('escape'=>false)); ?>
 			</li>
@@ -23,23 +23,6 @@ $activeClass = 'class="active"';
 			<li <?=($controller == 'orders')?$activeClass:null?>>
 				<?php echo $this->Html->link('<i class="icon mdi mdi-chart-donut"></i><span>Orders</span>',array('controller'=>'Orders','action'=>'index'),array('escape'=>false)); ?>
 			</li>
-
-			<!-- <li>
-				<?php //echo $this->Html->link('<i class="icon mdi mdi-email"></i><span>Manage Email</span>',array('controller'=>'EmailTemplates','action'=>'index'),array('escape'=>false)); ?>
-			</li> -->
-
-			<li>
-				<?php echo $this->Html->link('<i class="icon mdi mdi-card-membership"></i><span>Coupon Code</span>',array('controller'=>'','action'=>''),array('escape'=>false)); ?>
-			</li>
-
-			<li class="parent"><a href="#"><i class="icon mdi mdi-email"></i><span>Email</span></a>
-              <ul class="sub-menu">
-                <li><a href="tables-general.html">General</a>
-                </li>
-                <li><a href="tables-datatables.html">Data Tables</a>
-                </li>
-              </ul>
-            </li>
             
           <!-- </ul> -->
         </div>

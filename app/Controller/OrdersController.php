@@ -92,7 +92,12 @@ class OrdersController extends AppController {
             $dateFrom = $criteria['Order']['end_date'].' 23:59:59';
             $conditions = array_merge($conditions,array('Order.created BETWEEN ? AND ?'=>array($dateTo,$dateFrom)));  
         }
-
+        // pr($this->Auth->User('type')); die;
+        $userType = $this->Auth->User('type');
+        
+        if ($userType == 'user') {
+            $conditions = array_merge($conditions,array('Order.is_show'=>'1'));
+        }
         $this->paginate = array('conditions' =>  $conditions,'order'=>'Order.id DESC','limit'=>20);
         $orderLists = $this->Paginator->paginate();
         $this->set('criteria', $criteria);

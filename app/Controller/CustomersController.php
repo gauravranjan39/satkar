@@ -13,6 +13,7 @@ class CustomersController extends AppController {
 
 	public function index() {
 		$this->layout = "my_layout";
+		// pr($this->Auth->User()); die;
 		$Encryption=$this->Encryption;
 		$customerLists = $this->Customer->query('SELECT c1.*,c2.id,c2.name,c2.mobile FROM
 		customers c1 LEFT JOIN customers c2 ON c2.id = c1.reference_id');

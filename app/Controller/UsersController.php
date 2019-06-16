@@ -32,31 +32,27 @@ class UsersController extends AppController {
 		// }
 	}
 
-	public function register() {
-	    if (!empty($this->request->data)) {
-			$this->request->data['User']['status'] = 1;
-			$this->request->data['User']['role'] = 1;
-			$username = $this->data['User']['username'];
-			$password = $this->data['User']['password'];
-			$confirmPassword = $this->data['User']['confirm_passowrd'];
-			$isUserExist = $this->User->find('first',array('conditions'=>array('User.username'=>$username)));
-			if(!empty($isUserExist)) {
-				$this->Session->SetFlash('User already exists!!', 'error');
-			}
-			else if($password != $confirmPassword){
-				$this->Session->SetFlash('Password does not match', 'error');
-			} else {
-				unset($this->request->data['User']['confirm_passowrd']);
-				$this->request->data['User']['password'] = AuthComponent::password($password);
-				if($this->User->save($this->request->data)) {
-					$this->redirect(array('controller'=>'users','action'=>'login'));
-				}
-			}
-		}
-	}
-
-	// public function admin_login() {
-	// 	$this->redirect(array('controller'=>'Admins','action'=>'login'));
+	// public function register() {
+	//     if (!empty($this->request->data)) {
+	// 		$this->request->data['User']['status'] = 1;
+	// 		$this->request->data['User']['role'] = 1;
+	// 		$username = $this->data['User']['username'];
+	// 		$password = $this->data['User']['password'];
+	// 		$confirmPassword = $this->data['User']['confirm_passowrd'];
+	// 		$isUserExist = $this->User->find('first',array('conditions'=>array('User.username'=>$username)));
+	// 		if(!empty($isUserExist)) {
+	// 			$this->Session->SetFlash('User already exists!!', 'error');
+	// 		}
+	// 		else if($password != $confirmPassword){
+	// 			$this->Session->SetFlash('Password does not match', 'error');
+	// 		} else {
+	// 			unset($this->request->data['User']['confirm_passowrd']);
+	// 			$this->request->data['User']['password'] = AuthComponent::password($password);
+	// 			if($this->User->save($this->request->data)) {
+	// 				$this->redirect(array('controller'=>'users','action'=>'login'));
+	// 			}
+	// 		}
+	// 	}
 	// }
 	
 	public function login() {
@@ -81,8 +77,8 @@ class UsersController extends AppController {
 		$this->redirect($this->Auth->logout());
 	}
 
-	public function index() {
-		$this->layout = "my_layout";
+	public function admin_index() {
+		$this->layout = "admin_layout";
 		$userLists = $this->User->find('all');
 		$this->set('userLists',$userLists);
 	}

@@ -18,8 +18,8 @@
           <ul role="menu" class="dropdown-menu">
             <li>
               <div class="user-info">
-                <?php //$log = $this->Session->read('login'); ?>
-                <div class="user-name">UserName</div>
+			  
+                <div class="user-name"><?php echo $this->Session->read('Auth.User.name'); ?></div>
                 <div class="user-position online">Available</div>
               </div>
             </li>

@@ -33,7 +33,7 @@ class CustomersController extends AppController {
 
 	public function add() {
 		$this->layout = "my_layout";
-		$customerLists = $this->Customer->find('all',array('fields'=>array('id','name','mobile')));
+		//$customerLists = $this->Customer->find('all',array('fields'=>array('id','name','mobile')));
 		if ($this->request->is('post')) {
 			unset($this->request->data['search_param']);
 			unset($this->request->data['Customer']['referenceBy']);
@@ -174,7 +174,7 @@ class CustomersController extends AppController {
 
 	public function admin_add() {
 		$this->layout = "admin_layout";
-		$customerLists = $this->Customer->find('all',array('fields'=>array('id','name','mobile')));
+		//$customerLists = $this->Customer->find('all',array('fields'=>array('id','name','mobile')));
 		if ($this->request->is('post')) {
 			unset($this->request->data['search_param']);
 			unset($this->request->data['Customer']['referenceBy']);

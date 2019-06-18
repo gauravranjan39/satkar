@@ -18,7 +18,7 @@
 						<th>Email</th>
 						<th>Mobile</th>
 						<th>Reference</th>
-						<th>Status</th>
+						<!-- <th>Status</th> -->
 						<th>Created</th>
 						<th>Action</th>
 						</tr>
@@ -35,12 +35,12 @@
 						<?php } else { ?>
 							<td></td>
 						<?php } ?>
-						<td class="center"><?php if($customerList['c1']['status'] == 1) {
-							echo $this->Html->link($this->Html->image('circle_green.png',array('alt'=>'active', 'class'=>'status','value'=>$customerList['c1']['id'] )),'javascript:void(0)', array('escape' => false));
-						} else {
-							echo $this->Html->link($this->Html->image('circle_red.png',array('alt'=>'deactive','class'=>'status','value'=>$customerList['c1']['id'])),'javascript:void(0)', array('escape' => false));
-						} ?></td>
-						<td class="center"><?php echo $customerList['c1']['created']; ?></td>
+						<!-- <td class="center"><?php //if($customerList['c1']['status'] == 1) {
+							// echo $this->Html->link($this->Html->image('circle_green.png',array('alt'=>'active', 'class'=>'status','value'=>$customerList['c1']['id'] )),'javascript:void(0)', array('escape' => false));
+						// } else {
+							// echo $this->Html->link($this->Html->image('circle_red.png',array('alt'=>'deactive','class'=>'status','value'=>$customerList['c1']['id'])),'javascript:void(0)', array('escape' => false));
+						//} ?></td> -->
+						<td class="center"><?php echo date('d-M-Y', strtotime($customerList['c1']['created'])); ?></td>
 						<td class="center">
 							<div class="btn-group btn-hspace">
 								<button type="button" data-toggle="dropdown" class="btn btn-default dropdown-toggle" aria-expanded="false">Open <span class="icon-dropdown mdi mdi-chevron-down"></span></button>

@@ -1,7 +1,7 @@
 <?php echo $this->Html->script('vue.min');?>
 <?php echo $this->Html->css('bootstrap-datetimepicker.min');?>
 <?php echo $this->Html->script('bootstrap-datetimepicker.min');?>
-
+<?php $userType = $this->Session->read('Auth.User.type'); ?>
 <div class="be-content" id="cust-order-details">
     <div class="main-content container-fluid">
         <div class="row">
@@ -297,12 +297,17 @@
                     <div class="col-md-3"><b>Dues:</b></div>
                     <div class="col-md-9"><span class="text-danger">&#8377;<?php echo number_format($dues,2); ?></span></div>
                 </div>
-                
+                <?php if ($userType == 'user') { 
+                        $paymentModeArr = array('cash'=>'Cash','metal'=>'Metal','cheque'=>'Cheque','net-banking'=>'Net-Banking','credit-card'=>'Credit Card','debit-card'=>'Debit Card');
+                    } else {
+                        $paymentModeArr = array('cash'=>'Cash','metal'=>'Metal','wallet'=>'Wallet','cheque'=>'Cheque','net-banking'=>'Net-Banking','credit-card'=>'Credit Card','debit-card'=>'Debit Card');
+                    }
+                ?>
                 
                 <div class="form-group col-md-12">
                     <div class="col-md-3"><b>Payment:</b></div>
                     <div class="col-md-9">
-                        <?php echo $this->Form->input("OrderTransaction.type",array('type'=>'select','options'=>array('cash'=>'Cash','metal'=>'Metal','wallet'=>'Wallet','cheque'=>'Cheque','net-banking'=>'Net-Banking','credit-card'=>'Credit Card','debit-card'=>'Debit Card'),'placeholder'=>'Enter category','required'=>'required','class'=>'form-control input-sm','label'=>false));?>
+                        <?php echo $this->Form->input("OrderTransaction.type",array('type'=>'select','options'=>$paymentModeArr,'placeholder'=>'Enter category','required'=>'required','class'=>'form-control input-sm','label'=>false));?>
                     </div>
                 </div>
 

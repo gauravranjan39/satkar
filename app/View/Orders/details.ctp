@@ -222,8 +222,11 @@
                             <div class="form-group col-sm-10">
                             </div>
                             <div class="form-group col-sm-2">
+                                <?php if ($userType != 'user') { ?> 
                                 <label>Wallet:</label>
-                                
+                                <?php } else { ?>
+                                    <label>Return:</label>
+                                <?php } ?>
                                 <span class="text-success">&#8377;<?php echo number_format($advance,2); ?></span>
                             </div>
                         </div>
@@ -242,8 +245,9 @@
                         if ($orderDetails['Order']['status'] != 2) { ?>
                         <button class="btn btn-rounded btn-space btn-danger" id="cancel_order">Cancel Order</button>
                         <?php } ?>
-                        
-                        <button class="btn btn-rounded btn-space btn" style="background-color:#FC8E39;border-color:#FC8E39;" id="customer_wallet">Wallet Money</button>
+                        <?php if ($userType != 'user') { ?> 
+                            <button class="btn btn-rounded btn-space btn" style="background-color:#FC8E39;border-color:#FC8E39;" id="customer_wallet">Wallet Money</button>
+                        <?php } ?>
                         <?php if (!empty($orderDetails['OrderTransaction'])) { ?>
                             <button class="btn btn-rounded btn-space btn-warning" id="payment_history">Payment History</button>
                             <button class="btn btn-rounded btn-space btn-default" id="payment_receipt">Payment Receipt</button>

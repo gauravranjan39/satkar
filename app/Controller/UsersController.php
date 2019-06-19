@@ -25,7 +25,7 @@ class UsersController extends AppController {
                                                                 'userModel'=>'User' 
                                                             )                                  
             );
-		$this->Auth->allow('login','register');
+		$this->Auth->allow('login');
 		// if(!isset($_SERVER['HTTP_REFERER'])){
 		// 	$this->redirect(array('controller'=>'Customers','action'=>'index'));
 		// 	exit;
@@ -70,6 +70,18 @@ class UsersController extends AppController {
 					$this->request->data = array();
 				}
 			}
+		}
+	}
+
+	public function changePassword() {
+		$this->autoRender = false;
+		$this->layout = false;
+		if ($this->request->is('post')) {
+			pr($this->request->data);
+			$postDataPassword = $this->request->data['User']['current_password'];
+			echo $postDataPassword;
+			$userPassword = AuthComponent::password($postDataPassword);
+			echo "<br/>";echo $userPassword;die;
 		}
 	}
 	  

@@ -50,10 +50,16 @@ class AppController extends Controller {
     
    
     
-    $this->Auth->allow('admin_login','admin_register','login','register');
+    $this->Auth->allow('admin_login','admin_register','login');
     
    }
 	function beforeRender(){
 		$this->set('base_url', 'http://'.$_SERVER['SERVER_NAME'].Router::url('/'));
-	}
+  }
+  // public function appError($error) {
+  //   echo "@@@@@@@@@@@@@@@@@@@@@@";
+  //   // custom logic goes here. Here I am redirecting to a custom page
+  //     header("Location : /pages/error");
+  // $this->redirect('/');
+  // }
 }

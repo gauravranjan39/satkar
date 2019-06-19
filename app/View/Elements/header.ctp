@@ -24,7 +24,7 @@
               </div>
             </li>
             <li><a href="#"><span class="icon mdi mdi-face"></span> Account</a></li>
-            <li><a href="#"><span class="icon mdi mdi-settings"></span> Settings</a></li>
+            <li><?php echo $this->Html->link('<span class="icon mdi mdi-settings"></span> Change Password','javascript:void(0);',array('escape'=>false,'id'=>'user-change-password')); ?></li>
             <li>
             <?php echo $this->Html->link('<span class="icon mdi mdi-power"></span> Logout',array('controller'=>'Users','action'=>'logout'),array('escape'=>false)); ?>
           </ul>
@@ -92,3 +92,70 @@
     </div>
   </div>
 </nav>
+
+<div class="modal animated fadeIn" id="UserChangePassword" tabindex="-1" role="dialog" aria-labelledby="smallModalHead" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header" style="text-align: center;height:70px !important;">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h3 class="modal-title" style="line-height:1;">Change Password</h3><hr>
+            </div>
+            
+            <div class="modal-body" >
+            
+                <?php echo $this->Form->create('User',array('url'=> array('controller' => 'Users', 'action' => 'changePassword'),'method'=>'POST')); ?>
+                <div class="form-group col-md-12">
+                    <div class="col-md-3"><b>Current Password:</b></div>
+                    <div class="col-md-9"><?php echo $this->Form->input("User.current_password",array('placeholder'=>'Enter current password','type'=>'password','autocomplete'=>'off','class'=>'form-control input-sm','label'=>false));?></div>
+                </div>
+                
+                <div class="form-group col-md-12">
+                    <div class="col-md-3"><b>New Password:</b></div>
+                    <div class="col-md-9"><?php echo $this->Form->input("User.new_password",array('placeholder'=>'Enter new password','type'=>'password','autocomplete'=>'off','class'=>'form-control input-sm','label'=>false));?></div>
+                </div>
+
+                <div class="form-group col-md-12">
+                    <div class="col-md-3"><b>Confirm Password:</b></div>
+                    <div class="col-md-9"><?php echo $this->Form->input("User.confirm_password",array('placeholder'=>'Re-enter new password','type'=>'password','autocomplete'=>'off','class'=>'form-control input-sm','label'=>false));?></div>
+                </div>
+                
+                <div class="">
+                    <div class="">
+                        <div class="form-group col-md-12">
+                            <?php echo $this->Form->button('Submit',array('type'=>'submit','class'=>'btn btn-rounded btn-primary','escape'=>false));?>
+                        </div>
+                    </div>
+                </div>
+                <?php echo $this->Form->end();?>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('#user-change-password').click(function(){
+			$('#UserChangePassword').modal('show');
+		});
+
+		$('#UserChangePasswordForm').submit(function(event){
+            event.preventDefault();
+            $.ajax({
+                url:"<?php echo Router::url(array('controller'=>'Users','action'=>'changePassword'));?>",
+                type: 'POST',
+                data: $('#UserChangePasswordForm').serialize(),
+                success:function(data){
+					console.log(data);return false;
+                    if (data == 1) {
+                        location.reload();
+                    } else {
+                        alert('Error Occured!!');
+                    }
+                }
+            });
+        });
+
+	});
+</script>

@@ -76,12 +76,37 @@ class UsersController extends AppController {
 	public function changePassword() {
 		$this->autoRender = false;
 		$this->layout = false;
+		$userId = $this->Auth->user('id');
 		if ($this->request->is('post')) {
-			pr($this->request->data);
+			$userSavedPassword = $this->User->find('first',array('conditions'=>array('User.id'=>$userId),'fields'=>array('password')));
+			$userSavedPassword = $userSavedPassword['User']['password'];
+			// pr($userSavedPassword);echo "<br/>";
+			// pr($this->request->data);echo "<br/>";
 			$postDataPassword = $this->request->data['User']['current_password'];
-			echo $postDataPassword;
+			$newPassword = $this->request->data['User']['new_password'];
+			$confirmPassword = $this->request->data['User']['confirm_password'];
+			// echo $postDataPassword;echo "<br/>";
 			$userPassword = AuthComponent::password($postDataPassword);
-			echo "<br/>";echo $userPassword;die;
+			
+			if ($userSavedPassword == $userPassword) {
+				if ($newPassword == $confirmPassword) {
+					$userNewPassword = AuthComponent::password($newPassword);
+					
+					$this->User->id=$userId;
+					$this->User->saveField("password",$userNewPassword);
+
+					//$this->User->updateAll(array('User.password' =>$userNewPassword),array('User.id'=>$userId));
+					echo '2';
+					exit;
+				} else {
+					echo '1';
+					exit;
+				}
+			} else {
+				echo '0';
+				exit;
+			}
+			
 		}
 	}
 	  

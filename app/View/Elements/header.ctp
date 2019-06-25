@@ -97,27 +97,29 @@
     <div class="modal-dialog modal-lg">
         <!-- Modal content-->
         <div class="modal-content">
-            <div class="modal-header" style="text-align: center;height:70px !important;">
+            <div class="modal-header" style="text-align: center;">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h3 class="modal-title" style="line-height:1;">Change Password</h3><hr>
             </div>
             
             <div class="modal-body" >
+				<div id="message_block"></div>
+			
             
                 <?php echo $this->Form->create('User',array('url'=> array('controller' => 'Users', 'action' => 'changePassword'),'method'=>'POST')); ?>
                 <div class="form-group col-md-12">
                     <div class="col-md-3"><b>Current Password:</b></div>
-                    <div class="col-md-9"><?php echo $this->Form->input("User.current_password",array('placeholder'=>'Enter current password','type'=>'password','autocomplete'=>'off','class'=>'form-control input-sm','label'=>false));?></div>
+                    <div class="col-md-9"><?php echo $this->Form->input("User.current_password",array('placeholder'=>'Enter current password','type'=>'password','autocomplete'=>'off','required'=>'required','class'=>'form-control input-sm','label'=>false));?></div>
                 </div>
                 
                 <div class="form-group col-md-12">
                     <div class="col-md-3"><b>New Password:</b></div>
-                    <div class="col-md-9"><?php echo $this->Form->input("User.new_password",array('placeholder'=>'Enter new password','type'=>'password','autocomplete'=>'off','class'=>'form-control input-sm','label'=>false));?></div>
+                    <div class="col-md-9"><?php echo $this->Form->input("User.new_password",array('placeholder'=>'Enter new password','type'=>'password','autocomplete'=>'off','required'=>'required','class'=>'form-control input-sm','label'=>false));?></div>
                 </div>
 
                 <div class="form-group col-md-12">
                     <div class="col-md-3"><b>Confirm Password:</b></div>
-                    <div class="col-md-9"><?php echo $this->Form->input("User.confirm_password",array('placeholder'=>'Re-enter new password','type'=>'password','autocomplete'=>'off','class'=>'form-control input-sm','label'=>false));?></div>
+                    <div class="col-md-9"><?php echo $this->Form->input("User.confirm_password",array('placeholder'=>'Re-enter new password','type'=>'password','autocomplete'=>'off','required'=>'required','class'=>'form-control input-sm','label'=>false));?></div>
                 </div>
                 
                 <div class="">
@@ -137,6 +139,7 @@
 <script type="text/javascript">
 	$(document).ready(function() {
 		$('#user-change-password').click(function(){
+			$('#UserChangePasswordForm').find('.input-sm').val('');   
 			$('#UserChangePassword').modal('show');
 		});
 
@@ -147,10 +150,17 @@
                 type: 'POST',
                 data: $('#UserChangePasswordForm').serialize(),
                 success:function(data){
-					console.log(data);return false;
-                    if (data == 1) {
-                        location.reload();
-                    } else {
+					console.log(data);
+                    if (data == 0) {
+						console.log('@@@@@@@@@@@');
+                        $('#message_block').html('<div role="alert" class="alert alert-danger alert-dismissible"><button type="button" data-dismiss="alert" aria-label="Close" class="close"><span aria-hidden="true" class="mdi mdi-close"></span></button><span class="icon mdi mdi-close-circle-o"></span>Please enter correct password</div>');
+                    } else if (data == 1) {
+						$('#message_block').html('<div role="alert" class="alert alert-danger alert-dismissible"><button type="button" data-dismiss="alert" aria-label="Close" class="close"><span aria-hidden="true" class="mdi mdi-close"></span></button><span class="icon mdi mdi-close-circle-o"></span>New password and confirm password didnot matched !</div>');
+					} else if (data == 2) {
+						alert('Password change successfully.');
+						$('#UserChangePassword').modal('hide');
+						// $('#messgae_block').html('<div role="alert" class="alert alert-success alert-dismissible"><button type="button" data-dismiss="alert" aria-label="Close" class="close"><span aria-hidden="true" class="mdi mdi-close"></span></button><span class="icon mdi mdi-check"></span><strong>Good!</strong>Password change successfully.</div>');
+					} else {
                         alert('Error Occured!!');
                     }
                 }

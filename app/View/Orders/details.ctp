@@ -40,7 +40,12 @@
                                     </div><br/>
                                     <div class="tools" style="font-size:15px;">
                                         <span style="font-size:18px;">Status: </span><span class="<?php echo $orderStatusClass ?>"><?php echo $status; ?></span>
-                                    </div>
+                                    </div><br/>
+                                    <?php if ($orderDetails['Order']['status'] == 2) { ?>
+                                        <div class="tools" style="font-size:15px;">
+                                            <span class="text-danger" style="font-size:18px;">Cancelled Date: </span><?php echo date('d-M-Y h:i A', strtotime($orderDetails['Order']['cancel_date'])); ?>
+                                        </div>
+                                    <?php } ?>
                                 </div>
                             </div><br/><br/><br/>
                         </div>
@@ -102,7 +107,7 @@
                                         ?>
                                     <tr class="odd gradeX">
                                         <td><span class="<?php echo $statusClass ?>"><?php echo $orderDetail['Category']['name']; ?></span></td>
-                                        <td  data-container="body" data-toggle="popover" data-placement="top" data-content="<?php echo $orderDetail['comments']; ?>" data-original-title="Comments"><span class="<?php echo $statusClass ?>"><?php echo $orderDetail['name']; ?></span></td>
+                                        <td data-container="body" data-toggle="popover" data-placement="top" data-content="<?php echo $orderDetail['comments']; ?>" data-original-title="Comments"><span class="<?php echo $statusClass ?>"><?php echo $orderDetail['name']; ?></span></td>
                                         <?php if(isset($orderDetail['rate']) && !empty($orderDetail['rate'])) { ?>
                                             <td><span class="<?php echo $statusClass ?>">&#8377;<?php echo $orderDetail['rate']; ?></span></td>
                                         <?php } else { ?>
@@ -137,7 +142,7 @@
                                         <?php } ?>
                                         <td><span class="<?php echo $statusClass ?>">&#8377;<?php echo  number_format($orderDetail['grand_total'],2); ?></span></td>
                                         <?php if($orderDetail['status'] == 1) { ?>
-                                            <td><span class="text-danger">Cancel</span></td>
+                                            <td data-container="body" data-toggle="popover" data-placement="top" data-content="<?php echo date('d-M-Y h:i A', strtotime($orderDetail['cancel_date'])); ?>" data-original-title="Cancel Date"><span class="text-danger">Cancel</span></td>
                                         <?php } else { ?>
                                                 <td><span class="text-success"><?php echo $this->Html->link('Confirm', 'javascript:void(0);',  array("class" => "text-success return_item", "escape" => false,'order_item_id'=>$orderDetail['id'],'item_grand_total'=>$orderDetail['grand_total'],'title'=>'Return this item')); ?></span></td>
                                         <?php } ?>

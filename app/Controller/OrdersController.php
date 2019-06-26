@@ -444,9 +444,10 @@ class OrdersController extends AppController {
         }
         $itemsGrandTotal = round($itemTotal);
         $this->OrderItem->updateAll(array('OrderItem.status' =>1,'Order.status' =>2,'Order.payment_status' =>0,'Order.grand_total'=>'0.00'),array('OrderItem.order_id'=>$orderId));
-        
+        $this->Order->id=$orderId;
+		$this->Order->saveField("cancel_date",date('Y-m-d H:i:s'));
         // $this->OrderItem->updateAll(array('OrderItem.status' =>1),array('OrderItem.order_id'=>$orderId));
-        // $this->Order->updateAll(array('Order.status' =>2),array('Order.id'=>$orderId));
+        // $this->Order->updateAll(array('Order.cancel_date'=>date('Y-m-d H:i:s')),array('Order.id'=>$orderId));
         
         if (empty($dues)) {
             //credit item total amt in wallet
@@ -484,6 +485,10 @@ class OrdersController extends AppController {
         $newGrandTotal = round($newGrandTotal);
         $this->loadModel('OrderItem');
         $this->OrderItem->updateAll(array('OrderItem.status' =>1,'Order.grand_total'=>$newGrandTotal),array('OrderItem.id'=>$orderItemId));
+        //Need to check again
+        $this->OrderItem->id=$orderItemId;
+        $this->OrderItem->saveField("cancel_date",date('Y-m-d H:i:s'));
+        
         if ($confirmItemCount == 1) {
             $this->loadModel('Order');
             $this->Order->updateAll(array('Order.status' =>2),array('Order.id'=>$orderId));

@@ -160,9 +160,9 @@ class UsersController extends AppController {
 	public function admin_check_email_unique() {
 		$this->autoRender = false;
 		if ($this->request->is('post')) {
-			if (isset($this->request->data['get_customerId']) && $this->request->data['get_customerId'] !='' ) {
-				$user_email = trim($this->request->data['get_customerEmail']);
-				$chk_email = $this->User->find('first',array('conditions'=>array('email LIKE'=>$user_email,'id !='=>$this->request->data['get_customerId'])));
+			if (isset($this->request->data['get_userId']) && $this->request->data['get_userId'] !='' ) {
+				$user_email = trim($this->request->data['get_userEmail']);
+				$chk_email = $this->User->find('first',array('conditions'=>array('email LIKE'=>$user_email,'id !='=>$this->request->data['get_userId'])));
 			} else {
 				$user_email = trim($this->request->data);
 				$chk_email = $this->User->find('first',array('conditions'=>array('email LIKE'=>$user_email)));
@@ -178,9 +178,9 @@ class UsersController extends AppController {
 	public function admin_check_unique_mobile() {
 		$this->autoRender = false;
 		if ($this->request->is('post')) {
-			if (isset($this->request->data['get_customerId']) && $this->request->data['get_customerId'] !='' ) {
-				$user_mobile = trim($this->request->data['get_customerMobile']);
-				$chk_number = $this->User->find('first',array('conditions'=>array('mobile LIKE'=>$user_mobile,'id !='=>$this->request->data['get_customerId'])));
+			if (isset($this->request->data['get_userId']) && $this->request->data['get_userId'] !='' ) {
+				$user_mobile = trim($this->request->data['get_userMobile']);
+				$chk_number = $this->User->find('first',array('conditions'=>array('mobile LIKE'=>$user_mobile,'id !='=>$this->request->data['get_userId'])));
 			} else {
 				$user_mobile = trim($this->request->data);
 				$chk_number = $this->User->find('first',array('conditions'=>array('mobile LIKE'=>$user_mobile)));

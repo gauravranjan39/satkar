@@ -127,10 +127,11 @@
                 $("#customerEditRegister").attr('disabled','disabled');
             } else {
 				var customerMobile = $(this).val();
+                var customerId = $('#CustomerId').val();
 				$.ajax({
                     type: "POST",
                     url:"<?php echo Router::url(array('controller'=>'customers','action'=>'check_unique_mobile'));?>",
-                    data:({data:customerMobile}),
+                    data:({get_customerMobile:customerMobile,get_customerId:customerId}),
                     success: function(data) {
                         if(data==0) {
                             $("#customerMobileAjaxMsg").text("This number is already registerd!");

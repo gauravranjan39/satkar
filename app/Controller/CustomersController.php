@@ -107,13 +107,30 @@ class CustomersController extends AppController {
 
 	public function check_unique_mobile() {
 		$this->autoRender = false;
-		$customerMobile = trim($_POST['data']);
-		$chk_mobile = $this->Customer->find('all',array('conditions'=>array('mobile LIKE'=>$customerMobile)));
-		if ($chk_mobile) {
-		  echo 0;
-		} else {
-	   		echo 1;
-		} die;
+		if ($this->request->is('post')) {
+			if (isset($this->request->data['get_customerId']) && $this->request->data['get_customerId'] !='' ) {
+				$customer_mobile = trim($this->request->data['get_customerMobile']);
+				$chk_number = $this->Customer->find('first',array('conditions'=>array('mobile LIKE'=>$customer_mobile,'id !='=>$this->request->data['get_customerId'])));
+			} else {
+				$customer_mobile = trim($this->request->data);
+				$chk_number = $this->Customer->find('first',array('conditions'=>array('mobile LIKE'=>$customer_mobile)));
+			}
+			if ($chk_number) {
+			  echo 0;
+			} else {
+				echo 1;
+			}
+		}
+
+
+
+		// $customerMobile = trim($_POST['data']);
+		// $chk_mobile = $this->Customer->find('all',array('conditions'=>array('mobile LIKE'=>$customerMobile)));
+		// if ($chk_mobile) {
+		//   echo 0;
+		// } else {
+	   	// 	echo 1;
+		// } die;
 	}
 
 	public function check_customer() {

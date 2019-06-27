@@ -21,10 +21,11 @@
                 <div class="form-group">
                     <label>Mobile</label>
                     <?php echo $this->Form->input("User.mobile",array('type'=>'text','max'=>10,'placeholder'=>'Enter Mobile Number','required'=>'required','class'=>'form-control input-sm','label'=>false));?>
+                    <span style="color:red;" id="userMobileAjaxMsg"></span>
                 </div>
 				<div class="form-group">
                     <label>Email</label>
-                    <?php echo $this->Form->input("User.email",array('type'=>'email','placeholder'=>'Enter Email','required'=>'required','class'=>'form-control input-sm','label'=>false));?>
+                    <?php echo $this->Form->input("User.email",array('type'=>'email','placeholder'=>'Enter Email','class'=>'form-control input-sm','label'=>false));?>
 					<span style="color:red;" id="userEmailAjaxMsg"></span>
 				</div>
                 <div class="form-group">
@@ -46,23 +47,36 @@
 </div>
 <script type="text/javascript">
       $(document).ready(function() {
-      	$('#UserEmail').blur(function() {
+        
+        $('#UserEmail').keyup(function() {
             var userEmail = $(this).val();
-            $.ajax({
-                type: "POST",
-                url:"<?php echo Router::url(array('controller'=>'Users','action'=>'check_email_unique'));?>",
-                data:({data:userEmail}),
-                success: function(data) {
-                    if(data==0) {
-                        $("#userEmailAjaxMsg").text(userEmail+" already exists");
-                        $("#userEmailAjaxMsg").show();
-                        $("#registerUser").attr('disabled','disabled');
-                    } else {
-                        $("#userEmailAjaxMsg").hide();
-                        $("#registerUser").removeAttr('disabled');
-                    }
+            var pattern = new RegExp(/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i);
+            if (userEmail != '') {
+                if(pattern.test(userEmail)) {
+                    $.ajax({
+                        type: "POST",
+                        url:"<?php echo Router::url(array('controller'=>'Users','action'=>'admin_check_email_unique'));?>",
+                        data:({data:userEmail}),
+                        success: function(data) {
+                            if(data==0) {
+                                $("#userEmailAjaxMsg").text(userEmail+" already exists");
+                                $("#userEmailAjaxMsg").show();
+                                $("#registerUser").attr('disabled','disabled');
+                            } else {
+                                $("#userEmailAjaxMsg").hide();
+                                $("#registerUser").removeAttr('disabled');
+                            }
+                        }
+                    });
+                } else {
+                    $("#userEmailAjaxMsg").show();
+                    $("#userEmailAjaxMsg").text("Please enter valid email address!");
+                    $("#registerUser").attr('disabled','disabled');
                 }
-            });
+            } else {
+                $("#userEmailAjaxMsg").hide();
+                $("#registerUser").removeAttr('disabled');
+            }
         });
 
         $('#UserMobile').keydown(function(e) {
@@ -80,6 +94,33 @@
             e.preventDefault();
             return false;
         });
+
+        $('#UserMobile').keyup(function(e) {
+            if($(this).val().length < 10) {
+                $("#userMobileAjaxMsg").show();
+                $("#userMobileAjaxMsg").text("Mobile Number must be of 10 digit");
+                $("#registerUser").attr('disabled','disabled');
+            } else {
+				var userMobile = $(this).val();
+				$.ajax({
+                    type: "POST",
+                    url:"<?php echo Router::url(array('controller'=>'Users','action'=>'admin_check_unique_mobile'));?>",
+                    data:({data:userMobile}),
+                    success: function(data) {
+                        if(data==0) {
+                            $("#userMobileAjaxMsg").text("This number is already registerd!");
+                            $("#userMobileAjaxMsg").show();
+                            $("#registerUser").attr('disabled','disabled');
+                        } else {
+                            $("#userMobileAjaxMsg").hide();
+                            $("#registerUser").removeAttr('disabled');
+                        }
+                    }
+                });
+            }
+        });
+
+
       });
       
 </script>

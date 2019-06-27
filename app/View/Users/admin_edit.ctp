@@ -9,7 +9,7 @@
 			<?php echo $this->Form->input('id');?>
 				<div class="form-group xs-pt-10">
                     <label>Name</label>
-                    <?php echo $this->Form->input("User.name",array('placeholder'=>'Enter Name','required'=>'required','class'=>'form-control','label'=>false));?>
+                    <?php echo $this->Form->input("User.name",array('placeholder'=>'Enter Name','required'=>'required','class'=>'form-control input-sm','label'=>false));?>
                 </div>
                 <div class="form-group">
                     <label>UserName</label>
@@ -17,15 +17,15 @@
                 </div>
                 <div class="form-group">
                     <label>Address</label>
-                    <?php echo $this->Form->input("User.address",array('type'=>'text','placeholder'=>'Enter Address','required'=>'required','class'=>'form-control','label'=>false));?>
+                    <?php echo $this->Form->input("User.address",array('type'=>'text','placeholder'=>'Enter Address','required'=>'required','class'=>'form-control input-sm','label'=>false));?>
                 </div>
                 <div class="form-group">
                     <label>Mobile</label>
-                    <?php echo $this->Form->input("User.mobile",array('type'=>'text','max'=>10,'placeholder'=>'Enter Mobile Number','required'=>'required','class'=>'form-control','label'=>false));?>
+                    <?php echo $this->Form->input("User.mobile",array('type'=>'text','max'=>10,'placeholder'=>'Enter Mobile Number','required'=>'required','class'=>'form-control input-sm','label'=>false));?>
                 </div>
 				<div class="form-group">
                     <label>Email</label>
-                    <?php echo $this->Form->input("User.email",array('type'=>'email','placeholder'=>'Enter Email','readonly'=>'readonly','required'=>'required','class'=>'form-control','label'=>false));?>
+                    <?php echo $this->Form->input("User.email",array('type'=>'email','placeholder'=>'Enter Email','required'=>'required','class'=>'form-control input-sm','label'=>false));?>
 				</div>
                 <div class="form-group">
                     <label>Type</label>
@@ -33,7 +33,7 @@
 				</div>
 				<div class="form-group">
                     <label>Token</label>
-                    <?php echo $this->Form->input("User.hash_token",array('type'=>'text','placeholder'=>'Enter Token','required'=>'required','class'=>'form-control','label'=>false));?>
+                    <?php echo $this->Form->input("User.hash_token",array('type'=>'text','placeholder'=>'Enter Token','class'=>'form-control input-sm','label'=>false));?>
                 </div>
                 <div class="row xs-pt-15">
                     <div class="col-xs-6">

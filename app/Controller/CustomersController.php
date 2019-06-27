@@ -121,16 +121,6 @@ class CustomersController extends AppController {
 				echo 1;
 			}
 		}
-
-
-
-		// $customerMobile = trim($_POST['data']);
-		// $chk_mobile = $this->Customer->find('all',array('conditions'=>array('mobile LIKE'=>$customerMobile)));
-		// if ($chk_mobile) {
-		//   echo 0;
-		// } else {
-	   	// 	echo 1;
-		// } die;
 	}
 
 	public function check_customer() {

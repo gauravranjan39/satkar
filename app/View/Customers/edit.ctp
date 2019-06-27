@@ -72,27 +72,39 @@
 </div>
 <script type="text/javascript">
       $(document).ready(function() {
-		$('#CustomerEmail').blur(function() {
+		$('#CustomerEmail').keyup(function() {
             var customerEmail = $(this).val();
-			var customerId = $('#CustomerId').val();
-            $.ajax({
-                type: "POST",
-                url:"<?php echo Router::url(array('controller'=>'customers','action'=>'check_email_unique'));?>",
-                data:({get_customerEmail:customerEmail,get_customerId:customerId}),
-                success: function(data) {
-                    if(data==0) {
-                        $("#customerEmailAjaxMsg").text(customerEmail+" already exists");
-                        $("#customerEmailAjaxMsg").show();
-                        $("#customerEditRegister").attr('disabled','disabled');
-                    } else {
-                        $("#customerEmailAjaxMsg").hide();
-                        $("#customerEditRegister").removeAttr('disabled');
-                    }
+            var customerId = $('#CustomerId').val();
+            var pattern = new RegExp(/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i);
+            if (customerEmail != '') {
+                if(pattern.test(customerEmail)) {
+                    $.ajax({
+                        type: "POST",
+                        url:"<?php echo Router::url(array('controller'=>'customers','action'=>'check_email_unique'));?>",
+                        data:({get_customerEmail:customerEmail,get_customerId:customerId}),
+                        success: function(data) {
+                            if(data==0) {
+                                $("#customerEmailAjaxMsg").text(customerEmail+" already exists");
+                                $("#customerEmailAjaxMsg").show();
+                                $("#customerEditRegister").attr('disabled','disabled');
+                            } else {
+                                $("#customerEmailAjaxMsg").hide();
+                                $("#customerEditRegister").removeAttr('disabled');
+                            }
+                        }
+                    });
+                } else {
+                    $("#customerEmailAjaxMsg").show();
+                    $("#customerEmailAjaxMsg").text("Please enter valid email address!");
+                    $("#customerEditRegister").attr('disabled','disabled');
                 }
-            });
+            } else {
+                $("#customerEmailAjaxMsg").hide();
+                $("#customerEditRegister").removeAttr('disabled');
+            }
         });
 
-        $('#UserMobile').keydown(function(e) {
+        $('#CustomerMobile').keydown(function(e) {
             if (e.which>=96 && e.which<=105) {
                 return true;
             } else if (e.shiftKey || e.ctrlKey || e.altKey) {
@@ -108,13 +120,28 @@
             return false;
         });
 
-        $('#SupplierMobile').blur(function(e) {
+        $('#CustomerMobile').keyup(function(e) {
             if($(this).val().length < 10) {
-                $("#supplierMobileAjaxMsg").text("Mobile Number must be of 10 digit");
-                $("#registerSupplier").attr('disabled','disabled');
+                $("#customerMobileAjaxMsg").show();
+                $("#customerMobileAjaxMsg").text("Mobile Number must be of 10 digit");
+                $("#customerEditRegister").attr('disabled','disabled');
             } else {
-                $("#supplierMobileAjaxMsg").hide();
-                $("#registerSupplier").removeAttr('disabled');
+				var customerMobile = $(this).val();
+				$.ajax({
+                    type: "POST",
+                    url:"<?php echo Router::url(array('controller'=>'customers','action'=>'check_unique_mobile'));?>",
+                    data:({data:customerMobile}),
+                    success: function(data) {
+                        if(data==0) {
+                            $("#customerMobileAjaxMsg").text("This number is already registerd!");
+                            $("#customerMobileAjaxMsg").show();
+                            $("#customerEditRegister").attr('disabled','disabled');
+                        } else {
+                            $("#customerMobileAjaxMsg").hide();
+                            $("#customerEditRegister").removeAttr('disabled');
+                        }
+                    }
+                });
             }
         });
 

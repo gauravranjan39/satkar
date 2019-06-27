@@ -444,6 +444,7 @@ class OrdersController extends AppController {
         }
         $itemsGrandTotal = round($itemTotal);
         $this->OrderItem->updateAll(array('OrderItem.status' =>1,'Order.status' =>2,'Order.payment_status' =>0,'Order.grand_total'=>'0.00'),array('OrderItem.order_id'=>$orderId));
+        //Need to check
         $this->Order->id=$orderId;
 		$this->Order->saveField("cancel_date",date('Y-m-d H:i:s'));
         // $this->OrderItem->updateAll(array('OrderItem.status' =>1),array('OrderItem.order_id'=>$orderId));

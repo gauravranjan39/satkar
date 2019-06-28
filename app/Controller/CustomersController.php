@@ -263,13 +263,20 @@ class CustomersController extends AppController {
 
 	public function admin_check_unique_mobile() {
 		$this->autoRender = false;
-		$customerMobile = trim($_POST['data']);
-		$chk_email = $this->Customer->find('all',array('conditions'=>array('mobile LIKE'=>$customerMobile)));
-		if ($chk_email) {
-		  echo 0;
-		} else {
-	   		echo 1;
-		} die;
+		if ($this->request->is('post')) {
+			if (isset($this->request->data['get_customerId']) && $this->request->data['get_customerId'] !='' ) {
+				$customer_mobile = trim($this->request->data['get_customerMobile']);
+				$chk_number = $this->Customer->find('first',array('conditions'=>array('mobile LIKE'=>$customer_mobile,'id !='=>$this->request->data['get_customerId'])));
+			} else {
+				$customer_mobile = trim($this->request->data);
+				$chk_number = $this->Customer->find('first',array('conditions'=>array('mobile LIKE'=>$customer_mobile)));
+			}
+			if ($chk_number) {
+			  echo 0;
+			} else {
+				echo 1;
+			}
+		}
 	}
 
 	public function admin_edit($id = null) {

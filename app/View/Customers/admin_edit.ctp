@@ -18,13 +18,13 @@
 				</div>
 				<div class="form-group">
 					<label>Mobile</label>
-					<?php echo $this->Form->input("Customer.mobile",array('type'=>'text','max'=>10,'placeholder'=>'Enter Mobile Number','required'=>'required','class'=>'form-control input-sm','label'=>false));?>
+					<?php echo $this->Form->input("Customer.mobile",array('type'=>'text','max'=>10,'placeholder'=>'Enter Mobile Number','autocomplete'=>'off','required'=>'required','class'=>'form-control input-sm','label'=>false));?>
 					<span style="color:red;" id="customerMobileAjaxMsg"></span>
 				</div>
 
 				<div class="form-group">
 					<label>Email</label>
-					<?php echo $this->Form->input("Customer.email",array('type'=>'email','placeholder'=>'Enter Email','class'=>'form-control input-sm','label'=>false));?>
+					<?php echo $this->Form->input("Customer.email",array('type'=>'email','placeholder'=>'Enter Email','autocomplete'=>'off','class'=>'form-control input-sm','label'=>false));?>
 					<span style="color:red;" id="customerEmailAjaxMsg"></span>
 				</div>
                 <div class="row xs-pt-15">
@@ -42,24 +42,37 @@
 </div>
 <script type="text/javascript">
       $(document).ready(function() {
-		$('#CustomerEmail').blur(function() {
+
+        $('#CustomerEmail').keyup(function() {
             var customerEmail = $(this).val();
-			var customerId = $('#CustomerId').val();
-            $.ajax({
-                type: "POST",
-                url:"<?php echo Router::url(array('controller'=>'customers','action'=>'admin_check_email_unique'));?>",
-                data:({get_customerEmail:customerEmail,get_customerId:customerId}),
-                success: function(data) {
-                    if(data==0) {
-                        $("#customerEmailAjaxMsg").text(customerEmail+" already exists");
-                        $("#customerEmailAjaxMsg").show();
-                        $("#customerEditRegister").attr('disabled','disabled');
-                    } else {
-                        $("#customerEmailAjaxMsg").hide();
-                        $("#customerEditRegister").removeAttr('disabled');
-                    }
+            var customerId = $('#CustomerId').val();
+            var pattern = new RegExp(/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i);
+            if (customerEmail != '') {
+                if(pattern.test(customerEmail)) {
+                    $.ajax({
+                        type: "POST",
+                        url:"<?php echo Router::url(array('controller'=>'customers','action'=>'admin_check_email_unique'));?>",
+                        data:({get_customerEmail:customerEmail,get_customerId:customerId}),
+                        success: function(data) {
+                            if(data==0) {
+                                $("#customerEmailAjaxMsg").text(customerEmail+" already exists");
+                                $("#customerEmailAjaxMsg").show();
+                                $("#customerEditRegister").attr('disabled','disabled');
+                            } else {
+                                $("#customerEmailAjaxMsg").hide();
+                                $("#customerEditRegister").removeAttr('disabled');
+                            }
+                        }
+                    });
+                } else {
+                    $("#customerEmailAjaxMsg").show();
+                    $("#customerEmailAjaxMsg").text("Please enter valid email address!");
+                    $("#customerEditRegister").attr('disabled','disabled');
                 }
-            });
+            } else {
+                $("#customerEmailAjaxMsg").hide();
+                $("#customerEditRegister").removeAttr('disabled');
+            }
         });
 
         
@@ -83,7 +96,7 @@
             if($(this).val().length < 10) {
                 $("#customerMobileAjaxMsg").show();
                 $("#customerMobileAjaxMsg").text("Mobile Number must be of 10 digit");
-                $("#registerCustomer").attr('disabled','disabled');
+                $("#customerEditRegister").attr('disabled','disabled');
             } else {
 				var customerMobile = $(this).val();
 				$.ajax({
@@ -94,10 +107,36 @@
                         if(data==0) {
                             $("#customerMobileAjaxMsg").text("This number is already registerd!");
                             $("#customerMobileAjaxMsg").show();
-                            $("#registerCustomer").attr('disabled','disabled');
+                            $("#customerEditRegister").attr('disabled','disabled');
                         } else {
                             $("#customerMobileAjaxMsg").hide();
-                            $("#registerCustomer").removeAttr('disabled');
+                            $("#customerEditRegister").removeAttr('disabled');
+                        }
+                    }
+                });
+            }
+        });
+
+        $('#CustomerMobile').keyup(function(e) {
+            if($(this).val().length < 10) {
+                $("#customerMobileAjaxMsg").show();
+                $("#customerMobileAjaxMsg").text("Mobile Number must be of 10 digit");
+                $("#registerCustomer").attr('disabled','disabled');
+            } else {
+				var customerMobile = $(this).val();
+                var customerId = $('#CustomerId').val();
+				$.ajax({
+                    type: "POST",
+                    url:"<?php echo Router::url(array('controller'=>'customers','action'=>'admin_check_unique_mobile'));?>",
+                    data:({get_customerMobile:customerMobile,get_customerId:customerId}),
+                    success: function(data) {
+                        if(data==0) {
+                            $("#customerMobileAjaxMsg").text("This number is already registerd!");
+                            $("#customerMobileAjaxMsg").show();
+                            $("#customerEditRegister").attr('disabled','disabled');
+                        } else {
+                            $("#customerMobileAjaxMsg").hide();
+                            $("#customerEditRegister").removeAttr('disabled');
                         }
                     }
                 });

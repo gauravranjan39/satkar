@@ -21,7 +21,7 @@
                 </div>
                 <div class="form-group">
                     <label>Mobile</label>
-                    <?php echo $this->Form->input("User.mobile",array('type'=>'text','max'=>10,'placeholder'=>'Enter Mobile Number','required'=>'required','class'=>'form-control input-sm','label'=>false));?>
+                    <?php echo $this->Form->input("User.mobile",array('type'=>'text','max'=>10,'placeholder'=>'Enter Mobile Number','autocomplete'=>'off','required'=>'required','class'=>'form-control input-sm','label'=>false));?>
                     <span style="color:red;" id="userMobileAjaxMsg"></span>
                 </div>
 				<div class="form-group">

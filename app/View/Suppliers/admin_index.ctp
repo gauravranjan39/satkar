@@ -4,10 +4,10 @@
 		<div class="col-sm-12">
 			<div class="panel panel-default panel-table">
 			<div class="panel-heading">Suppliers
+				<div class="icon-container" style="text-align: right;padding:0px;">
+					<?php echo $this->Html->link('<div class="icon"><span class="mdi mdi-account-add"></span></div>',array('controller'=>'Suppliers','action'=>'admin_add'),array('title'=>'Add Supplier','escape'=>false)); ?>
+				</div>
 				<div class="tools">
-					<!-- <span class="icon mdi mdi-download"></span>
-					<span class="icon mdi mdi-more-vert"></span> -->
-					<?php echo $this->Html->link('<div class="icon"><span class="mdi mdi-account-add"></span></div>',array('controller'=>'Suppliers','action'=>'add'),array('escape'=>false)); ?>
 				</div>
 			</div>
 			<div class="panel-body">

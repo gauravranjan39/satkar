@@ -16,12 +16,12 @@
                 </div>
                 <div class="form-group">
                     <label>Mobile</label>
-                    <?php echo $this->Form->input("Supplier.mobile",array('type'=>'text','max'=>10,'placeholder'=>'Enter Mobile Number','required'=>'required','class'=>'form-control input-sm','label'=>false));?>
+                    <?php echo $this->Form->input("Supplier.mobile",array('type'=>'text','max'=>10,'placeholder'=>'Enter Mobile Number','autocomplete'=>'off','required'=>'required','class'=>'form-control input-sm','label'=>false));?>
                     <span style="color:red;" id="supplierMobileAjaxMsg"></span>
                 </div>
 				<div class="form-group">
                     <label>Email</label>
-                    <?php echo $this->Form->input("Supplier.email",array('type'=>'email','placeholder'=>'Enter Email','class'=>'form-control input-sm','label'=>false));?>
+                    <?php echo $this->Form->input("Supplier.email",array('type'=>'email','placeholder'=>'Enter Email','autocomplete'=>'off','class'=>'form-control input-sm','label'=>false));?>
 					<span style="color:red;" id="supplierEmailAjaxMsg"></span>
 				</div>
                 <div class="form-group">
@@ -43,7 +43,7 @@
 <script type="text/javascript">
 
       $(document).ready(function() {
-      	$('#SupplierEmail').blur(function() {
+      	$('#SupplierEmail').keyup(function() {
             var supplierEmail = $(this).val();
             var pattern = new RegExp(/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i);
             if (supplierEmail != '') {
@@ -66,7 +66,7 @@
                 } else {
                     $("#supplierEmailAjaxMsg").show();
                     $("#supplierEmailAjaxMsg").text("Please enter valid email address!");
-                    $("#registerSupplier").removeAttr('disabled');
+                    $("#registerSupplier").attr('disabled','disabled');
                 }
         } else {
             $("#supplierEmailAjaxMsg").hide();
@@ -90,7 +90,7 @@
             return false;
         });
 
-        $('#SupplierMobile').blur(function(e) {
+        $('#SupplierMobile').keyup(function(e) {
             if($(this).val().length < 10) {
                 $("#supplierMobileAjaxMsg").show();
                 $("#supplierMobileAjaxMsg").text("Mobile Number must be of 10 digit");

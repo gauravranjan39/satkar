@@ -91,10 +91,8 @@ class UsersController extends AppController {
 			if ($userSavedPassword == $userPassword) {
 				if ($newPassword == $confirmPassword) {
 					$userNewPassword = AuthComponent::password($newPassword);
-					
 					$this->User->id=$userId;
 					$this->User->saveField("password",$userNewPassword);
-
 					//$this->User->updateAll(array('User.password' =>$userNewPassword),array('User.id'=>$userId));
 					echo '2';
 					exit;

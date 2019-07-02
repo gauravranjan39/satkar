@@ -34,28 +34,32 @@ App::uses('Sanitize', 'Utility');
 class AppController extends Controller {
     public $helpers = array('Html', 'Form');
     public $components = array('Session','Auth');
-    //public $uses = array('User');
-  //   public $components = array(
-	// 		  'Session',
-	// 			'RequestHandler',
-	// 			'Email',
-  //       'Auth' => array(
-  //       'loginRedirect' => array('controller' => 'users', 'action' => 'index'),
-  //       'logoutRedirect' => array('controller' => 'users', 'action' => 'login'),
-  //       )
-  // );
+    
   
   public function beforeFilter() {
-    //Configure::load('app_config');
-    
-   
-    
-    $this->Auth->allow('admin_login','admin_register','login');
+	// $this->Auth->allow('admin_login','admin_register','login');
+
+	$userDetails = $this->Auth->user();
+	
+	if (isset($this->request->params['prefix']) && !empty($this->request->params['prefix'])) {
+		$urlPrefix = $this->request->params['prefix'];
+	}
+	if (isset($userDetails) && $userDetails['type'] != 'super_admin') {
+		if (isset($urlPrefix) && !empty($urlPrefix)) {
+			if ($urlPrefix == 'admin') {
+				$this->Session->destroy();
+				$this->redirect(array('controller'=>'Users','action'=>'login','admin'=>false));
+			}
+		}
+	}
     
    }
+
+
 	function beforeRender(){
 		$this->set('base_url', 'http://'.$_SERVER['SERVER_NAME'].Router::url('/'));
-  }
+	}
+	  
   // public function appError($error) {
   //   echo "@@@@@@@@@@@@@@@@@@@@@@";
   //   // custom logic goes here. Here I am redirecting to a custom page

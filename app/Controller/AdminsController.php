@@ -34,6 +34,10 @@ class AdminsController extends AppController {
 		// 	$this->redirect(array('controller'=>'Customers','action'=>'index'));
 		// 	exit;
 		// }
+
+		
+
+
 	}
 
 	public function admin_register() {

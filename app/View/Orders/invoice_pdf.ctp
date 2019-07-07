@@ -1572,29 +1572,30 @@ table {
 <div><?php echo $this->Html->image('logo-xx.png',array('height'=>'60','width'=>'70','class'=>'logo-img','style'=>'margin-left:45%;margin-top:-50px;')) ?></div>
 
 <div class="col-xs-12 parent-div" style="margin-top:7px;">
-    <div class="col-xs-4 " style="height: 225px;font-family:Palatino Linotype;border-right:none !important;">
+    <div class="col-xs-4 " style="height: 230px;font-family:Palatino Linotype;border-right:none !important;">
 		<div class="col-md-12">
-			<p style="margin-top: 2%;font-size:10px;"><b>SATKAR JEWELLERS</b></p><br/>
+			<p style="margin-top: 2%;font-size:10px;"><b>SATKAR JEWELLERS</b></p>
 			<p style="font-family: monospace;font-weight: bold;"> Purani Bazar, Sabji Mandi, Infront Of Central Bank Of India, Muzaffarpur, Bihar </p>
 			<p style="font-family: monospace;font-weight: bold;">Pin: 842001</p>
-			<p style="font-family: monospace;font-weight: bold;"><strong>Email:</strong> jewellerssatkar@gmail.com</p>
 			<p style="font-family: monospace;font-weight: bold;"><strong>Mb:</strong> +91-9934669155</p>
+			<p style="font-family: monospace;font-weight: bold;"><strong>Email:</strong> jewellerssatkar@gmail.com</p>
+			<p style="font-family: monospace;font-weight: bold;"><strong>Website:</strong> www.satkarjewellers.com</p>
 		</div>
     </div>
     <div class="border" style="font-family:Palatino Linotype;">
-        <div class=" border" style="height: 230px;width:360px;float:left;border-right: none !important;border-top: none !important;border-bottom: none !important;">
+        <div class=" border" style="height: 235px;width:360px;float:left;border-right: none !important;border-top: none !important;border-bottom: none !important;">
             <div class="col-xs-9" style="">
-                <p style="margin-top: 2%;font-size:10px;"><b><?php echo strtoupper($orderDetails['Customer']['name']); ?></b></p><br/>
+                <p style="margin-top: 1%;font-size:10px;"><b><?php echo strtoupper($orderDetails['Customer']['name']); ?></b></p><br/>
                 <p style="font-family: monospace;font-weight: bold;"><?php echo $orderDetails['Customer']['address']; ?></p>
-                <p style="font-family: monospace;font-weight: bold;"><strong>Email:</strong><?php echo $orderDetails['Customer']['email']; ?></p>
                 <p style="font-family: monospace;font-weight: bold;"><strong>Mb:</strong> +91-<?php echo $orderDetails['Customer']['mobile']; ?></p>
+                <p style="font-family: monospace;font-weight: bold;"><strong>Email:</strong><?php echo $orderDetails['Customer']['email']; ?></p>
             </div>
 	    </div>
         <div class="" style="float:left;">
             <div class=" border" style="height: 50px;border-right: none !important;border-top: none !important;">
-		        <p style="font-family: monospace;font-weight: bold;margin-top: 10px;margin-left:10px;"><strong>Order ID: </strong><?php echo 'OD' .$orderNumber; ?></p>
+		        <p style="font-family: monospace;font-weight: bold;margin-top: 15px;margin-left:10px;"><strong>Order ID: </strong><?php echo 'OD' .$orderNumber; ?></p>
 			</div>
-           <div class="border" style="height: 175px;border-right: none !important;border-bottom: none !important;border-top: none !important;">
+           <div class="border" style="height: 185px;border-right: none !important;border-bottom: none !important;border-top: none !important;">
 		   		<?=$this->QrCode->text($orderNumber,['size'=>'280x180'])?>
 		   </div>
         </div>
@@ -1603,7 +1604,7 @@ table {
 				<img style="margin-left:30px;margin-top: 14px;" width="300" height="30"  src="data:image/png;base64,<?=base64_encode($barcodeGenerator->getBarcode($orderNumber, $barcodeGenerator::TYPE_CODE_128)) ?>">
 			</div>
 			<div class=" " style="width:275px;height:57px;float:left;">
-				<p style="font-family: monospace;font-weight: bold;margin-top: 14px;margin-left:20px;"><strong>Date:</strong><?php echo date('d-M-Y h:i A', strtotime($orderDetails['Order']['created'])); ?></p>
+				<p style="font-family: monospace;font-weight: bold;margin-top: 18px;margin-left:30px;"><strong>Date:</strong><?php echo date('d-M-Y h:i A', strtotime($orderDetails['Order']['created'])); ?></p>
 			</div>
 		</div>
   </div>

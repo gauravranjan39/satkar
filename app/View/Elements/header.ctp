@@ -6,8 +6,8 @@
 	</div>
     <div class="be-right-navbar">
 	<?php if(strpos($_SERVER['HTTP_USER_AGENT'], 'Chrome') !== FALSE) { ?>
-		<div class="icon-container" style="float:left;padding:4px;">
-			<div class="icon"><span class="mdi mdi-mic helbutton"></span></div>
+		<div class="icon-container helbutton" style="float:left;padding:4px;cursor:pointer;" title="Speak what you want to type">
+			<div class="icon"><span class="mdi mdi-mic"></span></div>
 		</div>
 	<?php } ?>
 	

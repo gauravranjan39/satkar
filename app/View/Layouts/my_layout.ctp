@@ -80,7 +80,7 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 			return false;
 		});
 
-		$('.allowOnlyNumber').bind('copy paste cut',function(e) {
+		$('.pasteNotAllowed').bind('copy paste cut',function(e) {
 			e.preventDefault();
 			alert('Sorry, pasting is not allowed. Please type in.');	
 		});

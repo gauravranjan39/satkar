@@ -18,7 +18,7 @@
 				</div>
 				<div class="form-group">
 					<label>Mobile</label>
-					<?php echo $this->Form->input("Customer.mobile",array('type'=>'text','max'=>10,'placeholder'=>'Enter Mobile Number','required'=>'required','class'=>'form-control input-sm','label'=>false));?>
+					<?php echo $this->Form->input("Customer.mobile",array('type'=>'text','max'=>10,'placeholder'=>'Enter Mobile Number','required'=>'required','class'=>'form-control input-sm pasteNotAllowed','label'=>false));?>
 					<span style="color:red;" id="customerMobileAjaxMsg"></span>
 				</div>
 

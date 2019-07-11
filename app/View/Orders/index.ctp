@@ -67,7 +67,7 @@
                     <div class="form-group col-md-12">
                         <div class="form-group col-md-4">
                             <label>Order Number</label>
-                            <?php echo $this->Form->input("Order.order_number",array('placeholder'=>'Enter order number','class'=>'form-control input-sm allowOnlyNumber','autocomplete'=>'off','label'=>false,'value'=>isset($criteria['Order']['order_number'])? $criteria['Order']['order_number']:''));?>
+                            <?php echo $this->Form->input("Order.order_number",array('placeholder'=>'Enter order number','class'=>'form-control input-sm allowOnlyNumber pasteNotAllowed','autocomplete'=>'off','label'=>false,'value'=>isset($criteria['Order']['order_number'])? $criteria['Order']['order_number']:''));?>
                         </div>
 
                         <div class="form-group col-md-4">
@@ -84,12 +84,12 @@
                     <div class="form-group col-md-12">
                         <div class="form-group col-md-4">
                             <label>Order start date</label>
-                            <?php echo $this->Form->input("Order.start_date",array('placeholder'=>'Enter start date','id'=>'start_date','class'=>'form-control input-sm date datetimepicker','data-min-view' =>'2','data-date-format'=>'yyyy-mm-dd','autocomplete'=>'off','label'=>false,'value'=>isset($criteria['Order']['start_date'])? $criteria['Order']['start_date']:''));?>
+                            <?php echo $this->Form->input("Order.start_date",array('placeholder'=>'Enter start date','id'=>'start_date','class'=>'form-control input-sm date datetimepicker pasteNotAllowed','data-min-view' =>'2','data-date-format'=>'yyyy-mm-dd','autocomplete'=>'off','label'=>false,'value'=>isset($criteria['Order']['start_date'])? $criteria['Order']['start_date']:''));?>
                         </div>
 
                         <div class="form-group col-md-4">
                             <label>Order end date</label>
-                            <?php echo $this->Form->input("Order.end_date",array('placeholder'=>'Enter end date','id'=>'end_date','class'=>'form-control input-sm date datetimepicker','data-min-view' =>'2','data-date-format'=>'yyyy-mm-dd','autocomplete'=>'off','label'=>false,'value'=>isset($criteria['Order']['end_date'])? $criteria['Order']['end_date']:''));?>
+                            <?php echo $this->Form->input("Order.end_date",array('placeholder'=>'Enter end date','id'=>'end_date','class'=>'form-control input-sm date datetimepicker pasteNotAllowed','data-min-view' =>'2','data-date-format'=>'yyyy-mm-dd','autocomplete'=>'off','label'=>false,'value'=>isset($criteria['Order']['end_date'])? $criteria['Order']['end_date']:''));?>
                         </div>
 
                         <div class="form-group col-md-4">

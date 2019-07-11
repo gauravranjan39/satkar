@@ -1596,7 +1596,7 @@ table {
 		        <p style="font-family: monospace;font-weight: bold;margin-top: 15px;margin-left:10px;"><strong>Order ID: </strong><?php echo 'OD' .$orderNumber; ?></p>
 			</div>
            <div class="border" style="height: 185px;border-right: none !important;border-bottom: none !important;border-top: none !important;">
-		   		<?=$this->QrCode->text($orderNumber,['size'=>'280x180'])?>
+		   		<?php echo $this->QrCode->text($orderNumber,['size'=>'280x180'])?>
 		   </div>
         </div>
 		<div class="border" style="border-right: none !important;border-bottom: none !important;border-left: none !important;">

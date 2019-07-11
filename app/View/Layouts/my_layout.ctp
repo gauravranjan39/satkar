@@ -108,7 +108,13 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 		/**  Callback to be called after starting SPEECH RECOGNIZATION*/
 		function callBackCalledAfterUpdate(voice) {
 			// What you say, will be console here
-			//console.log(voice);
+			console.log(voice);
+			
+			if ($(".speechText").is(":focus")) {
+				var $focused = $(':focus');
+				$($focused).val(voice);
+			}
+
 			if (voice == 'go back') {
 				window.history.back();
 			} else if (voice == 'kill you' || voice == 'logout') {

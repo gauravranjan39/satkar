@@ -38,7 +38,6 @@ class OrdersController extends AppController {
 
     public function index($customerId=null) {
         $this->layout = "my_layout";
-        // pr($this->Auth->user());die;
         $Encryption=$this->Encryption;
         $customerId=$this->Encryption->decode($customerId);
         $this->loadModel('Order');
@@ -92,7 +91,7 @@ class OrdersController extends AppController {
             $dateFrom = $criteria['Order']['end_date'].' 23:59:59';
             $conditions = array_merge($conditions,array('Order.created BETWEEN ? AND ?'=>array($dateTo,$dateFrom)));  
         }
-        // pr($this->Auth->User('type')); die;
+        
         $userType = $this->Auth->User('type');
         
         if ($userType == 'user') {

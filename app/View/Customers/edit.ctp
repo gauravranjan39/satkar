@@ -10,11 +10,11 @@
 			<?php echo $this->Form->input('id');?>
 				<div class="form-group xs-pt-10">
 				<label>Name</label>
-				<?php echo $this->Form->input("Customer.name",array('placeholder'=>'Enter Name','required'=>'required','class'=>'form-control input-sm','label'=>false));?>
+				<?php echo $this->Form->input("Customer.name",array('placeholder'=>'Enter Name','required'=>'required','class'=>'form-control input-sm speechText','label'=>false));?>
 				</div>
 				<div class="form-group">
 					<label>Address</label>
-					<?php echo $this->Form->input("Customer.address",array('type'=>'text','placeholder'=>'Enter Address','required'=>'required','class'=>'form-control input-sm','label'=>false));?>
+					<?php echo $this->Form->input("Customer.address",array('type'=>'text','placeholder'=>'Enter Address','required'=>'required','class'=>'form-control input-sm speechText','label'=>false));?>
 				</div>
 				<div class="form-group">
 					<label>Mobile</label>

@@ -628,6 +628,11 @@
                     }
                 }
             });
+
+            $('.item_extra_discount').bind('copy paste cut',function(e) {
+                e.preventDefault();
+                alert('Sorry, pasting is not allowed. Please type in.');	
+            });
             
         });
 

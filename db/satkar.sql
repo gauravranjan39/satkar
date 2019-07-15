@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 15, 2019 at 07:53 PM
+-- Generation Time: Jul 15, 2019 at 08:41 PM
 -- Server version: 10.1.34-MariaDB
 -- PHP Version: 5.6.37
 
@@ -231,7 +231,7 @@ CREATE TABLE `order_items` (
   `grand_total` decimal(10,2) NOT NULL,
   `comments` text,
   `status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0=confirm,1=cancelled',
-  `cancel_date` datetime NOT NULL,
+  `cancel_date` datetime DEFAULT NULL,
   `created` timestamp NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 

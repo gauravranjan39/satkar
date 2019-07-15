@@ -92,13 +92,16 @@ class WalletsController extends AppController {
         $this->layout = false;
         $this->autoRender = false;
         if ($this->request->is(array('post','put'))) {
+            // pr($this->request->data);die;
             $this->Wallet->recursive = -1;
-            $walletBal = $this->Wallet->find('first',array('conditions' => array('Wallet.customer_id' => $this->request->data['Wallet']['customer_id']),'fields'=>array('Wallet.balance'),'order' => array('Wallet.id' => 'DESC')));
+            $walletBal = $this->Wallet->find('first',array('conditions' => array('Wallet.customer_id' => $this->request->data['Wallet']['customerId']),'fields'=>array('Wallet.balance'),'order' => array('Wallet.id' => 'DESC')));
             
             if (empty($walletBal)) {
                 $walletBal['Wallet']['balance'] = '0.00';
             } 
             
+            $this->request->data['Wallet']['customer_id'] = $this->request->data['Wallet']['customerId'];
+
             $transactionType = $this->request->data['Wallet']['transaction_type'];
             if ($transactionType == 'credit') {
                 unset($this->request->data['Wallet']['transaction_type']);

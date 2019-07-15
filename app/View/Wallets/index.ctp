@@ -104,7 +104,7 @@
             
             <div class="modal-body" style="padding-top:0px !important;">
                 <?php echo $this->Form->create('Wallet',array('url'=> array('controller' => 'Wallets', 'action' => 'wallet_transaction'),'id'=>'walletMoneyTransaction','method'=>'POST')); ?>
-                <?php echo $this->Form->input('Wallet.customer_id',array('type'=>'hidden','value'=>$customerId)); ?>
+                <?php echo $this->Form->input('Wallet.customerId',array('type'=>'hidden','value'=>$customerId,'id'=>'wallet_customer_id')); ?>
                 
 
                 <div class="form-group col-md-12">
@@ -162,7 +162,7 @@
 
                 <div class="row cash_payment">
                     <div class="form-group col-md-12">
-                        <div class="col-md-4"><?php echo $this->Form->input("Wallet.amount_paid",array('id'=>'dues_payment','placeholder'=>'Enter amount','type'=>'text','autocomplete'=>'off','required'=>'required','class'=>'form-control input-sm allowOnlyNumber','maxlength'=>'7','label'=>false));?></div>
+                        <div class="col-md-4"><?php echo $this->Form->input("Wallet.amount_paid",array('id'=>'dues_payment','placeholder'=>'Enter amount','type'=>'text','autocomplete'=>'off','required'=>'required','class'=>'form-control input-sm allowOnlyNumber pasteNotAllowed','maxlength'=>'7','label'=>false));?></div>
                         <div class="col-md-8"><?php echo $this->Form->input("Wallet.comments",array('placeholder'=>'Enter comments','type'=>'text','autocomplete'=>'off','class'=>'form-control input-sm payment-input','label'=>false));?></div>
                     </div>
                 </div>

@@ -10,15 +10,15 @@
 			<?php echo $this->Form->input('id');?>
 				<div class="form-group xs-pt-10">
 				<label>Name</label>
-				<?php echo $this->Form->input("Customer.name",array('placeholder'=>'Enter Name','required'=>'required','class'=>'form-control input-sm speechText','label'=>false));?>
+				<?php echo $this->Form->input("Customer.name",array('placeholder'=>'Enter Name','required'=>'required','class'=>'form-control input-sm speechText','autocomplete'=>'off','label'=>false));?>
 				</div>
 				<div class="form-group">
 					<label>Address</label>
-					<?php echo $this->Form->input("Customer.address",array('type'=>'text','placeholder'=>'Enter Address','required'=>'required','class'=>'form-control input-sm speechText','label'=>false));?>
+					<?php echo $this->Form->input("Customer.address",array('type'=>'text','placeholder'=>'Enter Address','required'=>'required','class'=>'form-control input-sm speechText','autocomplete'=>'off','label'=>false));?>
 				</div>
 				<div class="form-group">
 					<label>Mobile</label>
-					<?php echo $this->Form->input("Customer.mobile",array('type'=>'text','max'=>10,'placeholder'=>'Enter Mobile Number','required'=>'required','class'=>'form-control input-sm pasteNotAllowed','label'=>false));?>
+					<?php echo $this->Form->input("Customer.mobile",array('type'=>'text','max'=>10,'placeholder'=>'Enter Mobile Number','required'=>'required','class'=>'form-control input-sm pasteNotAllowed','autocomplete'=>'off','label'=>false));?>
 					<span style="color:red;" id="customerMobileAjaxMsg"></span>
 				</div>
 
@@ -54,7 +54,7 @@
 
 				<div class="form-group">
 					<label>Email</label>
-					<?php echo $this->Form->input("Customer.email",array('type'=>'email','placeholder'=>'Enter Email','class'=>'form-control input-sm','label'=>false));?>
+					<?php echo $this->Form->input("Customer.email",array('type'=>'email','placeholder'=>'Enter Email','class'=>'form-control input-sm','autocomplete'=>'off','label'=>false));?>
 					<span style="color:red;" id="customerEmailAjaxMsg"></span>
 				</div>
                 <div class="row xs-pt-15">

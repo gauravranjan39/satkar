@@ -1575,7 +1575,7 @@ table {
     <div class="col-xs-4 " style="height: 230px;font-family:Palatino Linotype;border-right:none !important;">
 		<div class="col-md-12">
 			<p style="margin-top: 2%;font-size:10px;"><b>SATKAR JEWELLERS</b></p>
-			<p style="font-family: monospace;font-weight: bold;"> Purani Bazar, Sabji Mandi, Infront Of Central Bank Of India, Muzaffarpur, Bihar </p>
+			<p style="font-family: monospace;font-weight: bold;"> Purani Bazar, Sabji Mandi, Opp. Of Central Bank Of India, Muzaffarpur, Bihar </p>
 			<p style="font-family: monospace;font-weight: bold;">Pin: 842001</p>
 			<p style="font-family: monospace;font-weight: bold;"><strong>Mb:</strong> +91-9934669155</p>
 			<p style="font-family: monospace;font-weight: bold;"><strong>Email:</strong> jewellerssatkar@gmail.com</p>

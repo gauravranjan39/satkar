@@ -149,7 +149,7 @@
 							<div class="row xs-pt-12">
 								<div class="form-group col-sm-6">
 									<label>Comments</label>
-									<?php echo $this->Form->input("Order.comments",array('placeholder'=>'Comments','autocomplete'=>'off','class'=>'form-control input-sm','label'=>false));?>
+									<?php echo $this->Form->input("Order.comments",array('placeholder'=>'Comments','autocomplete'=>'off','class'=>'form-control input-sm speechText','label'=>false));?>
 								</div>
 								<!-- <div class="form-group col-sm-6">
 									<label>Dues</label>

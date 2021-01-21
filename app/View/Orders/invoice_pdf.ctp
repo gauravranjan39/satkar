@@ -1575,8 +1575,8 @@ table {
     <div class="col-xs-4 border" style="border-right: none !important;">
 		<div class="col-md-12">
 			<p style="margin-top: 2%;"><strong>SATKAR JEWELLERS</strong></p>
-			<p> Purani Bazar, Sabji Mandi, Opp. Of Central Bank Of India, Muzaffarpur, Bihar </p>
-			<!-- <p>Pin: 842001</p> -->
+			<p> Purani Bazar, Sabji Mandi, Opp. Of Central Bank Of India, Muzaffarpur, Bihar, <small>842001</small></p>
+			
 			<p>Mb: +91-9934669155</p>
 			<p>Email: jewellerssatkar@gmail.com</p>
 			<p>Website: www.satkarjewellers.com</p><br/>

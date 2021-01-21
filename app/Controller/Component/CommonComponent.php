@@ -31,7 +31,7 @@ class CommonComponent extends Component {
             $insertQuery = $tempInsertQuery = $rowInsertQuery = "";
 
             //list of field types where we need to add single quotes
-            $stringTypesArr = array('string','varchar','char','enum','text','longtext','timestamp','datetime','date');
+            $stringTypesArr = array('string','varchar','char','enum','text','longtext','timestamp','datetime','date','decimal');
 
             //list of field types where we DOESN'T need to any single quotes
             $numberTypeArr = array('int','float','double','bigint','smallint','tinyint','boolean');

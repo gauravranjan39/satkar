@@ -1572,39 +1572,41 @@ table {
 <div><?php echo $this->Html->image('logo-xx.png',array('height'=>'60','width'=>'70','class'=>'logo-img','style'=>'margin-left:45%;margin-top:-50px;')) ?></div>
 
 <div class="col-xs-12 parent-div" style="margin-top:7px;">
-    <div class="col-xs-4 " style="height: 230px;font-family:Palatino Linotype;border-right:none !important;">
+    <div class="col-xs-4 border" style="border-right: none !important;">
 		<div class="col-md-12">
-			<p style="margin-top: 2%;font-size:10px;"><b>SATKAR JEWELLERS</b></p>
-			<p style="font-family: monospace;font-weight: bold;"> Purani Bazar, Sabji Mandi, Opp. Of Central Bank Of India, Muzaffarpur, Bihar </p>
-			<p style="font-family: monospace;font-weight: bold;">Pin: 842001</p>
-			<p style="font-family: monospace;font-weight: bold;"><strong>Mb:</strong> +91-9934669155</p>
-			<p style="font-family: monospace;font-weight: bold;"><strong>Email:</strong> jewellerssatkar@gmail.com</p>
-			<p style="font-family: monospace;font-weight: bold;"><strong>Website:</strong> www.satkarjewellers.com</p>
+			<p style="margin-top: 2%;"><strong>SATKAR JEWELLERS</strong></p>
+			<p> Purani Bazar, Sabji Mandi, Opp. Of Central Bank Of India, Muzaffarpur, Bihar </p>
+			<!-- <p>Pin: 842001</p> -->
+			<p>Mb: +91-9934669155</p>
+			<p>Email: jewellerssatkar@gmail.com</p>
+			<p>Website: www.satkarjewellers.com</p><br/>
 		</div>
     </div>
-    <div class="border" style="font-family:Palatino Linotype;">
-        <div class=" border" style="height: 235px;width:360px;float:left;border-right: none !important;border-top: none !important;border-bottom: none !important;">
+    <div class="border" style="float:left;width:53%;">
+        <div class=" border" style="width:325px;float:left;border-right: none !important;border-top: none !important;border-left: none !important;border-bottom: none !important;">
             <div class="col-xs-9" style="">
-                <p style="margin-top: 1%;font-size:10px;"><b><?php echo strtoupper($orderDetails['Customer']['name']); ?></b></p><br/>
-                <p style="font-family: monospace;font-weight: bold;"><?php echo $orderDetails['Customer']['address']; ?></p>
-                <p style="font-family: monospace;font-weight: bold;"><strong>Mb:</strong> +91-<?php echo $orderDetails['Customer']['mobile']; ?></p>
-                <p style="font-family: monospace;font-weight: bold;"><strong>Email:</strong><?php echo $orderDetails['Customer']['email']; ?></p>
+                <p style="margin-top: 1%;"><strong><?php echo strtoupper($orderDetails['Customer']['name']); ?></strong></p>
+                <p><?php echo $orderDetails['Customer']['address']; ?></p>
+                <small>Mb: +91-<?php echo $orderDetails['Customer']['mobile']; ?></small><p></p>
+				<?php if (!empty($orderDetails['Customer']['email'])) { ?>
+                	<small>email: <?php echo $orderDetails['Customer']['email']; ?></small>
+				<?php } ?>
             </div>
 	    </div>
         <div class="" style="float:left;">
-            <div class=" border" style="height: 50px;border-right: none !important;border-top: none !important;">
-		        <p style="font-family: monospace;font-weight: bold;margin-top: 15px;margin-left:10px;"><strong>Order ID: </strong><?php echo 'OD' .$orderNumber; ?></p>
+            <div class=" border" style="border-right: none !important;border-top: none !important;">
+		        <p style="margin-top: 15px;margin-left:1%;"><?php echo ' OD' .$orderNumber; ?></p>
 			</div>
-           <div class="border" style="height: 185px;border-right: none !important;border-bottom: none !important;border-top: none !important;">
-		   		<?php echo $this->QrCode->text($orderNumber,['size'=>'280x180'])?>
+           <div class="border" style="float:left;border-right: none !important;border-bottom: none !important;border-top: none !important;">
+		   		<?php echo $this->QrCode->text($orderNumber,['size'=>'200x100'])?>
 		   </div>
         </div>
-		<div class="border" style="border-right: none !important;border-bottom: none !important;border-left: none !important;">
-			<div class="border" style="width:360px;height:57px;float:left;border-top: none !important;border-bottom: none !important;">
-				<img style="margin-left:30px;margin-top: 14px;" width="300" height="30"  src="data:image/png;base64,<?=base64_encode($barcodeGenerator->getBarcode($orderNumber, $barcodeGenerator::TYPE_CODE_128)) ?>">
+		<div class="border" style="float:left;border-right: none !important;border-bottom: none !important;border-left: none !important;">
+			<div class="border" style="width:325px;height:49px;float:left;border-bottom: none !important;margin-top: 0px;border-top: none !important;border-left: none !important;">
+				<img style="margin-left:30px;margin-top: 10px;" width="250" height="30"  src="data:image/png;base64,<?=base64_encode($barcodeGenerator->getBarcode($orderNumber, $barcodeGenerator::TYPE_CODE_128)) ?>">
 			</div>
-			<div class=" " style="width:275px;height:57px;float:left;">
-				<p style="font-family: monospace;font-weight: bold;margin-top: 18px;margin-left:30px;"><strong>Date:</strong><?php echo date('d-M-Y h:i A', strtotime($orderDetails['Order']['created'])); ?></p>
+			<div class="border" style="width:200px;float:left;border-right: none !important;border-left: none !important;border-top: none !important;border-bottom: none !important;">
+				<p style="margin-top: 18px;margin-left:30px;"><?php echo date('d-M-Y h:i A', strtotime($orderDetails['Order']['created'])); ?></p>
 			</div>
 		</div>
   </div>
@@ -1616,38 +1618,50 @@ table {
   <table class="table">
     <thead>
       <tr>
-        <th style="text-align:left;">Item</th>
-        <th style="text-align:left;">Rate</th>
-        <th style="text-align:left;">Making</th>
-		<th style="text-align:left;">Weight</th>
-		<th style="text-align:left;">Total</th>
+        <th style="text-align:left;font-weight:revert;">Item</th>
+        <th style="text-align:left;font-weight:revert;">Rate</th>
+        <th style="text-align:left;font-weight:revert;">Making</th>
+		<th style="text-align:left;font-weight:revert;">Weight</th>
+		<th style="text-align:left;font-weight:revert;">Total</th>
       </tr>
     </thead>
     <tbody>
-    <?php foreach ($orderDetails['OrderItem'] as $OrderItem) {
+	<?php //pr($orderDetails);die;
+	 foreach ($orderDetails['OrderItem'] as $OrderItem) {
         if (empty($OrderItem['status'])) {
     ?>
     <tr>
-        <td><?php echo $OrderItem['name']; ?></td>
+        <td>
+			<small><?php echo $OrderItem['name']; ?></small><br/>
+			<?php if (!empty($OrderItem['purity'])) { 
+				if ($OrderItem['purity'] == 18){ ?>
+					<sub><?php echo '750/18ct'; ?></sub>
+				<?php } else if ($OrderItem['purity'] == 22) { ?>
+					<sub><?php echo '916/22ct'; ?></sub>
+				<?php } ?>
+				
+			<?php } ?>
+			
+		</td>
 
 		<?php if (!empty($OrderItem['rate'])) { ?>
-        	<td>&#8377;<?php echo $OrderItem['rate']; ?></td>
+        	<td>&#8377;<small><?php echo $OrderItem['rate']; ?></small></td>
         <?php } else  { ?>
         	<td></td>
         <?php } ?>
 
 		<?php if (!empty($OrderItem['making_charge'])) { ?>
-        	<td>&#8377;<?php echo $OrderItem['making_charge']; ?></td>
+        	<td>&#8377;<small><?php echo $OrderItem['making_charge']; ?></small></td>
         <?php } else  { ?>
         	<td></td>
         <?php } ?>
 
         <?php if (!empty($OrderItem['weight'])) { ?>
-        	<td><?php echo $OrderItem['weight'] . ' gm'; ?></td>
+        	<td><small><?php echo $OrderItem['weight'] . ' gm'; ?></small></td>
         <?php } else  { ?>
         	<td></td>
         <?php } ?>
-        <td>&#8377;<?php echo number_format($OrderItem['grand_total'],2); ?></td>
+        <td>&#8377;<small><?php echo number_format($OrderItem['grand_total'],2); ?></small></td>
     </tr>
     <?php } } ?>
         
@@ -1659,16 +1673,17 @@ table {
     <table class="table table-borderless">
         <thead>
             <tr>
-                <th style="width:190px;font-size:20px;">Grand Total:</th><td style="font-size:20px;">&#8377;<?php echo $grandTotal; ?></td>
+                <th style="width:190px;font-size:16px;"><strong>Grand Total:</strong></th><td>&#8377;<?php echo $grandTotal; ?></td>
+            </tr>
+
+			<tr>
+                <th style="width:190px;font-size:16px;"><strong>Payment:</strong></th><td>&#8377;<?php echo $payment; ?></td>
             </tr>
 
             <?php if (!empty((float)$dues)) { ?>
 			
 			<tr>
-                <th style="width:190px;font-size:20px;">Payment:</th><td style="font-size:20px;">&#8377;<?php echo $payment; ?></td>
-            </tr>
-			<tr>
-                <th style="width:190px;font-size:20px;">Dues:</th><td style="font-size:20px;">&#8377;<?php echo $dues; ?></td>
+                <th style="width:190px;font-size:16px;color:red;"><strong>Dues:</strong></th><td style="color:red;">&#8377;<?php echo $dues; ?></td>
             </tr>
             <?php } ?>
         </thead>

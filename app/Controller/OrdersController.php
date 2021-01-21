@@ -7,7 +7,7 @@ App::import('Vendor', 'barcode', array('file' => 'barcode/vendor/autoload.php'))
 class OrdersController extends AppController {
 
     public $helpers = array('Barcode','QrCode');
-    public $components = array('Paginator','Encryption');
+    public $components = array('Paginator','Encryption','Common');
 
     private function redirectToIndexPage($criteria) {
         if (isset($criteria['Order']['customer_id']) && !empty($criteria['Order']['customer_id'])) {
@@ -115,6 +115,11 @@ class OrdersController extends AppController {
 		$this->set('categoryLists',$categoryLists);
 		
 		if ($this->request->is('post')) {
+            // pr($this->request->data);die;
+            // $transactionsObj = $this->Order->getDataSource();
+            // $transactionsObj->begin();
+            // $saveFlag = true;
+            
             $customerId=$this->Encryption->decode($customerId);
             $orderNumber = $customerId. rand() . time();
             $this->loadModel('Order');
@@ -125,15 +130,43 @@ class OrdersController extends AppController {
             $this->request->data['Order']['order_number'] = $orderNumber;
             $this->request->data['Order']['total'] = $this->request->data['Order']['grand_total'];
             $grandTotal = floatval($this->request->data['Order']['grand_total']);
-            $this->Order->save($this->request->data['Order']);
-            $orderId = $this->Order->getLastInsertID();
-            
-            $orderItems = $this->request->data['OrderItem'];
-            foreach ($orderItems as $orderItem) {
-                $orderItem['order_id'] = $orderId;
-                $this->OrderItem->create();
-                $this->OrderItem->save($orderItem);
+            if ($this->Order->save($this->request->data['Order'])) {
+                $orderId = $this->Order->getLastInsertID();
+                $orderItems = $this->request->data['OrderItem'];
+                $orderItemFieldList = array(
+                    array('name' => 'order_id','type' => 'int'),
+                    array('name' => 'category_id','type' => 'int'),
+                    array('name' => 'name','type' => 'varchar'),
+                    array('name' => 'weight','type' => 'varchar'),
+                    array('name' => 'rate','type' => 'varchar'),
+                    array('name' => 'making_charge','type' => 'varchar'),
+                    array('name' => 'purity','type' => 'varchar'),
+                    array('name' => 'gems_name','type' => 'varchar'),
+                    array('name' => 'gems_rate','type' => 'varchar'),
+                    array('name' => 'gems_weight','type' => 'varchar'),
+                    array('name' => 'gems_price','type' => 'decimal'),
+                    array('name' => 'total','type' => 'decimal'),
+                    array('name' => 'discount','type' => 'decimal'),
+                    array('name' => 'grand_total','type' => 'decimal'),
+                    array('name' => 'comments','type' => 'text')
+                );
+
+                $orderItemData = array();
+                // prepare $taskHistoryData array to save record into vi_task_history table
+                foreach ($orderItems as $orderItem) {
+                    $orderItemData[] = array($orderId,$orderItem['category_id'],$orderItem['name'],isset($orderItem['weight'])?$orderItem['weight']:NULL,isset($orderItem['rate'])?$orderItem['rate']:NULL,isset($orderItem['making_charge'])?$orderItem['making_charge']:NULL,isset($orderItem['purity'])?$orderItem['purity']:NULL,isset($orderItem['gems_name'])?$orderItem['gems_name']:NULL,isset($orderItem['gems_rate'])?$orderItem['gems_rate']:NULL,isset($orderItem['gems_weight'])?$orderItem['gems_weight']:NULL,isset($orderItem['gems_price'])?$orderItem['gems_price']:NULL,$orderItem['total'],isset($orderItem['discount'])?$orderItem['discount']:NULL,$orderItem['grand_total'],isset($orderItem['comments'])?$orderItem['comments']:NULL);
+                }
+
+                $orderItemQuery = $this->Common->bulkInsert($orderItemFieldList,$orderItemData,"order_items");
+                $this->OrderItem->query($orderItemQuery);
+
+                // foreach ($orderItems as $orderItem) {
+                //     $orderItem['order_id'] = $orderId;
+                //     $this->OrderItem->create();
+                //     $this->OrderItem->save($orderItem);
+                // }
             }
+            
             $encodedOrderId=$this->Encryption->encode($orderId);
             $this->redirect(array('controller'=>'Orders','action'=>'summary',$encodedOrderId));
 		}

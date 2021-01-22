@@ -1669,26 +1669,33 @@ table {
   </table>
 </div>
 
-<div class="table-total" style="margin-left:800px;">
-    <table class="table table-borderless">
-        <thead>
-            <tr>
-                <th style="width:190px;font-size:16px;"><strong>Grand Total:</strong></th><td>&#8377;<?php echo $grandTotal; ?></td>
-            </tr>
+<div class="col-xs-12">
+	<div class="col-xs-9"><strong style="font-size:10px">Amount in words:</strong> <small><?php echo ucfirst($paymentAmtToWords); ?></small></div>
+	<div class="col-xs-3"  style="float:right;">
+		<div class="table-total">
+			<table class="table table-borderless">
+				<thead>
+					<tr>
+						<th style="width:190px;font-size:10px;"><strong>Grand Total:</strong></th><td>&#8377;<?php echo $grandTotal; ?></td>
+					</tr>
 
-			<tr>
-                <th style="width:190px;font-size:16px;"><strong>Payment:</strong></th><td>&#8377;<?php echo $payment; ?></td>
-            </tr>
+					<tr>
+						<th style="width:190px;font-size:10px;"><strong>Payment:</strong></th><td>&#8377;<?php echo $payment; ?></td>
+					</tr>
 
-            <?php if (!empty((float)$dues)) { ?>
-			
-			<tr>
-                <th style="width:190px;font-size:16px;color:red;"><strong>Dues:</strong></th><td style="color:red;">&#8377;<?php echo $dues; ?></td>
-            </tr>
-            <?php } ?>
-        </thead>
-    </table>
+					<?php if (!empty((float)$dues)) { ?>
+					
+					<tr>
+						<th style="width:190px;font-size:10px;color:red;"><strong>Dues:</strong></th><td style="color:red;">&#8377;<?php echo $dues; ?></td>
+					</tr>
+					<?php } ?>
+				</thead>
+			</table>
+		</div>
+	</div>
 </div>
+
+
 <?php //die; ?>
 </body>
 </html>

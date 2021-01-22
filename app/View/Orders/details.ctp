@@ -195,6 +195,7 @@
                             foreach ($orderDetails['OrderTransaction'] as $orderTransaction) {
                                 $payment+= $orderTransaction['amount_paid'];
                             }
+                            // echo $paymentAmtToWords;die;
                             echo number_format($payment,2); ?>
                     </div>
                 </div>
@@ -533,14 +534,15 @@
             var grandTotal = '<?php echo number_format($orderDetails['Order']['grand_total'],2); ?>';
             var payment = '<?php echo number_format($payment,2); ?>';
             var dues = '<?php echo number_format($dues,2); ?>';
-            //alert(orderDate);
+            var paymentForWords = '<?php echo $payment ?>';
+            
             <?php if ($orderDetails['Order']['payment_status'] == 1) { ?>
                 if (confirm('Payment is pending are you sure to print the order invoice ?')) {
-                    var base_url = "<?php echo Router::url(array('controller'=>'Orders','action'=>'generateOrderInvoice'));?>/" + orderId + '/' + orderNumber + '/' + grandTotal + '/' + payment + '/' + dues;
+                    var base_url = "<?php echo Router::url(array('controller'=>'Orders','action'=>'generateOrderInvoice'));?>/" + orderId + '/' + orderNumber + '/' + grandTotal + '/' + payment + '/' + dues + '/' + paymentForWords;
                     window.open(base_url,'_blank');
                 }
             <?php } else { ?>
-                var base_url = "<?php echo Router::url(array('controller'=>'Orders','action'=>'generateOrderInvoice'));?>/" + orderId + '/' + orderNumber + '/' + grandTotal + '/' + payment + '/' + dues;
+                var base_url = "<?php echo Router::url(array('controller'=>'Orders','action'=>'generateOrderInvoice'));?>/" + orderId + '/' + orderNumber + '/' + grandTotal + '/' + payment + '/' + dues + '/' + paymentForWords;
                 window.open(base_url,'_blank');
             <?php } ?>
         });
